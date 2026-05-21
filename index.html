@@ -10,10 +10,10 @@
 <link href="/css/components.css" rel="stylesheet">
 <link href="/css/animations.css" rel="stylesheet">
 </head>
-<body>
+<body class="viewing-hub">
 
-<!-- SVG Sprite — injected via fetch -->
-<div id="svg-sprite"></div>
+<!-- SVG Sprite -->
+<div id="svg-sprite" style="display:none"></div>
 <script>
   fetch('/assets/sprite.svg').then(r=>r.text()).then(svg=>{
     document.getElementById('svg-sprite').innerHTML = svg;
@@ -21,80 +21,147 @@
 </script>
 
 <!-- ============================================================
-     HUB L4 DESIGN SYSTEM — splash inicial com lista de produtos
+     NAV
+     ============================================================ -->
+<nav class="hub-nav">
+  <div class="hub-nav__brand">
+    <!-- L4 geometric mark -->
+    <svg class="hub-nav__mark" width="28" height="24" viewBox="0 0 28 24" fill="none" aria-hidden="true">
+      <path d="M2 2 L2 18 L11 18" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M26 2 L17 14 L27 14" stroke="#F39208" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <line x1="24" y1="14" x2="24" y2="22" stroke="#F39208" stroke-width="2.5" stroke-linecap="round"/>
+    </svg>
+    <span class="hub-nav__name">L4 <em>Design System</em></span>
+  </div>
+  <div class="hub-nav__chip" aria-label="Hub de produtos, atualizado em {{GIT_DATE}}">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    HUB DE PRODUTOS · {{GIT_DATE}}
+  </div>
+</nav>
+
+<!-- ============================================================
+     HUB
      ============================================================ -->
 <section class="hub" id="hub">
   <div class="hub__inner">
-    <header class="hub__head">
-      <div class="hub__wordmark">L4 <em>Design System</em></div>
-      <span class="hub__tag">Hub de Produtos · {{GIT_DATE}}</span>
-    </header>
 
-    <div class="hub__intro">
-      <h1 class="hub__title">Onde cada produto encontra sua <em>identidade.</em></h1>
-      <p class="hub__lead">O L4 Design System é o hub central que centraliza tokens, componentes e guidelines visuais de todos os produtos da plataforma L4. Cada produto tem seu próprio design system documentado, versionado e consultável aqui — garantindo consistência entre times e velocidade de entrega.</p>
-    </div>
+    <!-- HERO: texto + visual L4 -->
+    <div class="hub__hero">
 
-    <span class="hub__section-label">Produtos implementados</span>
-
-    <div class="hub__clients">
-
-      <!-- PayPix + HiperXCAP — produto ativo -->
-      <div class="client-card client-card--active" onclick="window.location.href='hiperxcap/'" role="link" tabindex="0" onkeydown="if(event.key==='Enter')window.location.href='hiperxcap/'" aria-label="Abrir design system PayPix + HiperXCAP">
-        <span class="client-card__chip client-card__chip--live">● Ativo</span>
-        <div class="client-card__brand">PayPix <span style="font-size:0.55em;opacity:0.55;font-style:normal">+</span> <em>HiperXCAP</em></div>
-        <p class="client-card__desc">Infraestrutura Pix aplicada ao Título de Capitalização Filantropia Premiável. Sorteios semanais ao vivo na RedeTV!.</p>
-        <div class="client-card__meta">
-          <span>Emissor · CAIXA Capitalização</span>
-          <span>Causa · Hospital de Amor</span>
-        </div>
-        <div class="client-card__actions">
-          <a href="hiperxcap/" class="client-card__cta">Abrir design system →</a>
-          <a href="/downloads/hiperxcap.md" download="hiperxcap-design-system.md" class="client-card__download" onclick="event.stopPropagation()">⬇ .md</a>
-        </div>
+      <!-- Coluna esquerda: texto -->
+      <div class="hub__content">
+        <div class="hub__accent"></div>
+        <h1 class="hub__title">Onde cada produto<br>encontra sua <em>identidade.</em></h1>
+        <p class="hub__lead">O L4 Design System é o hub central que reúne tokens, componentes e guidelines visuais de todos os produtos da plataforma — garantindo consistência entre times e velocidade de entrega.</p>
       </div>
 
-      <!-- iAdm — produto ativo -->
-      <div class="client-card client-card--active" role="link" tabindex="0" aria-label="Design system iAdm">
-        <span class="client-card__chip client-card__chip--live">● Ativo</span>
-        <div class="client-card__brand"><em>iAdm</em></div>
-        <p class="client-card__desc">Painel administrativo do L4 OS — tokens, componentes e guidelines cross-app para os 4 produtos da plataforma.</p>
-        <div class="client-card__meta">
-          <span>Stack · React + Tailwind</span>
-          <span>v0.1 · Style Guide draft</span>
-        </div>
-        <div class="client-card__actions">
-          <a href="iadm/" class="client-card__cta" style="opacity:0.55;pointer-events:none">Em construção →</a>
-          <a href="/downloads/iadm-style-guide.md" download="iadm-style-guide.md" class="client-card__download" onclick="event.stopPropagation()">⬇ .md</a>
-        </div>
-      </div>
-
-      <!-- Placeholders -->
-      <div class="client-card client-card--soon">
-        <span class="client-card__chip client-card__chip--soon">Em breve</span>
-        <div class="client-card__brand">Cria.Aí</div>
-        <p class="client-card__desc">Plataforma de criação de conteúdo com IA para os produtos L4.</p>
-        <div class="client-card__meta">
-          <span>Design em andamento</span>
-        </div>
-      </div>
-
-      <div class="client-card client-card--soon">
-        <span class="client-card__chip client-card__chip--soon">Em breve</span>
-        <div class="client-card__brand">Reporta+Aí</div>
-        <p class="client-card__desc">Ferramenta de relatórios e dashboards analíticos da plataforma.</p>
-        <div class="client-card__meta">
-          <span>Prospecção</span>
-        </div>
+      <!-- Coluna direita: marca L4 com órbitas -->
+      <div class="hub__visual" aria-hidden="true">
+        <span class="hub__l4-mark">L4</span>
+        <div class="hub__orbit hub__orbit--1"></div>
+        <div class="hub__orbit hub__orbit--2"></div>
+        <div class="hub__orbit hub__orbit--3"></div>
+        <div class="hub__orbit-dot"></div>
+        <div class="hub__orbit-dot hub__orbit-dot--2"></div>
       </div>
 
     </div>
 
+    <!-- PRODUTOS -->
+    <div class="hub__products">
+      <span class="hub__section-label">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+        Produtos implementados
+      </span>
+
+      <div class="hub__clients">
+
+        <!-- PayPix + HiperXCAP -->
+        <div class="client-card client-card--active"
+             onclick="window.location.href='hiperxcap/'"
+             role="link" tabindex="0"
+             onkeydown="if(event.key==='Enter')window.location.href='hiperxcap/'"
+             aria-label="Abrir design system PayPix + HiperXCAP">
+          <span class="client-card__chip client-card__chip--live">● Ativo</span>
+          <div class="client-card__header">
+            <div class="client-card__logo client-card__logo--paypix">
+              <svg width="28" height="28" viewBox="0 0 1749.41 596.91" aria-label="PayPix"><use href="/assets/sprite.svg#paypix-mono"/></svg>
+            </div>
+            <div class="client-card__brand">PayPix + <em>HiperXCAP</em></div>
+          </div>
+          <p class="client-card__desc">Infraestrutura Pix aplicada ao Título de Capitalização Filantropia Premiável. Sorteios semanais ao vivo na RedeTV!.</p>
+          <div class="client-card__meta">
+            <span>Emissor · CAIXA Capitalização</span>
+            <span>Causa · Hospital de Amor</span>
+          </div>
+          <div class="client-card__actions">
+            <a href="hiperxcap/" class="client-card__cta">Abrir design system →</a>
+            <a href="/downloads/hiperxcap.md" download="hiperxcap-design-system.md" class="client-card__download" onclick="event.stopPropagation()">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              .md
+            </a>
+          </div>
+        </div>
+
+        <!-- iAdm -->
+        <div class="client-card client-card--active"
+             role="link" tabindex="0"
+             aria-label="Design system iAdm — em construção">
+          <span class="client-card__chip client-card__chip--live">● Ativo</span>
+          <div class="client-card__header">
+            <div class="client-card__logo client-card__logo--iadm">i</div>
+            <div class="client-card__brand"><em>iAdm</em></div>
+          </div>
+          <p class="client-card__desc">Painel administrativo do L4 OS — tokens, componentes e guidelines cross-app para os 4 produtos da plataforma.</p>
+          <div class="client-card__meta">
+            <span>Stack · React + Tailwind</span>
+            <span>v0.1 · Style Guide draft</span>
+          </div>
+          <div class="client-card__actions">
+            <a href="iadm/" class="client-card__cta" style="opacity:0.50;pointer-events:none">Em construção →</a>
+            <a href="/downloads/iadm-style-guide.md" download="iadm-style-guide.md" class="client-card__download" onclick="event.stopPropagation()">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              .md
+            </a>
+          </div>
+        </div>
+
+        <!-- Cria.Aí -->
+        <div class="client-card client-card--soon">
+          <span class="client-card__chip client-card__chip--soon">Em breve</span>
+          <div class="client-card__header">
+            <div class="client-card__logo client-card__logo--cria">C.</div>
+            <div class="client-card__brand">Cria.<em>Aí</em></div>
+          </div>
+          <p class="client-card__desc">Plataforma de criação de conteúdo com IA para os produtos L4.</p>
+          <div class="client-card__meta">
+            <span>Design em andamento</span>
+          </div>
+        </div>
+
+        <!-- Reporta+Aí -->
+        <div class="client-card client-card--soon">
+          <span class="client-card__chip client-card__chip--soon">Em breve</span>
+          <div class="client-card__header">
+            <div class="client-card__logo client-card__logo--reporta">R+</div>
+            <div class="client-card__brand">Reporta+<em>Aí</em></div>
+          </div>
+          <p class="client-card__desc">Ferramenta de relatórios e dashboards analíticos da plataforma.</p>
+          <div class="client-card__meta">
+            <span>Prospecção</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- FOOTER -->
     <div class="hub__footer">
       <span>Tokens · Componentes · Guidelines</span>
       <span>L4 Design System · Plataforma de produtos</span>
       <span>Maio · 2026</span>
     </div>
+
   </div>
 </section>
 

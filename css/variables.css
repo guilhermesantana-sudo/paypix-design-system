@@ -34,13 +34,13 @@
   --fb-special: #EF7E5A;
   --fb-special-bg: rgba(239, 126, 90, 0.14);
 
-  /* Glows controlados */
-  --glow-orange: 0 0 24px rgba(243, 146, 8, 0.55), 0 0 48px rgba(243, 146, 8, 0.20);
-  --glow-orange-sm: 0 0 12px rgba(243, 146, 8, 0.40);
-  --glow-blue: 0 0 16px rgba(1, 102, 179, 0.55);
-  --glow-coral: 0 0 16px rgba(239, 126, 90, 0.50);
-  --glow-green: 0 0 14px rgba(167, 201, 69, 0.50);
-  --glow-purple: 0 0 16px rgba(178, 111, 154, 0.50);
+  /* Glows */
+  --glow-orange: 0 0 20px rgba(243, 146, 8, 0.70), 0 0 44px rgba(243, 146, 8, 0.35), 0 0 72px rgba(243, 146, 8, 0.15);
+  --glow-orange-sm: 0 0 14px rgba(243, 146, 8, 0.60), 0 0 28px rgba(243, 146, 8, 0.20);
+  --glow-blue: 0 0 18px rgba(1, 102, 179, 0.65), 0 0 36px rgba(1, 102, 179, 0.25);
+  --glow-coral: 0 0 18px rgba(239, 126, 90, 0.65), 0 0 36px rgba(239, 126, 90, 0.25);
+  --glow-green: 0 0 18px rgba(167, 201, 69, 0.65), 0 0 36px rgba(167, 201, 69, 0.25);
+  --glow-purple: 0 0 18px rgba(178, 111, 154, 0.65), 0 0 36px rgba(178, 111, 154, 0.25);
 
   /* Gradientes (sempre da paleta) */
   --grad-blue: linear-gradient(135deg, #0166B3 0%, #1A2F51 100%);
@@ -152,6 +152,25 @@
   from { opacity: 0; transform: translateY(8px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+@keyframes surface-shine {
+  0%, 18%  { transform: translateX(-200%) skewX(-18deg); opacity: 0; }
+  22%       { opacity: 1; }
+  42%, 100% { transform: translateX(300%) skewX(-18deg); opacity: 0; }
+}
+@keyframes glow-pulse-border {
+  0%, 100% {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      0 0 10px rgba(243, 146, 8, 0.28),
+      0 0 22px rgba(243, 146, 8, 0.10);
+  }
+  50% {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.12),
+      0 0 22px rgba(243, 146, 8, 0.60),
+      0 0 44px rgba(243, 146, 8, 0.28);
+  }
+}
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
@@ -165,7 +184,7 @@ body {
   font-size: 16px;
   line-height: 1.6;
   color: var(--blue-900);
-  background: var(--blue-500); /* AZUL como fundo principal */
+  background: var(--blue-900);
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
 }

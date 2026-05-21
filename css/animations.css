@@ -12,7 +12,7 @@
 }
 .anim-card {
   background: var(--blue-900);
-  border: 1px solid rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: var(--r-md);
   padding: 24px;
   min-height: 280px;
@@ -20,6 +20,19 @@
   flex-direction: column;
   position: relative;
   overflow: hidden;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.10),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.25),
+    0 4px 16px rgba(0, 0, 0, 0.30);
+}
+.anim-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(108deg, transparent 28%, rgba(255, 255, 255, 0.04) 50%, transparent 72%);
+  animation: surface-shine 9s ease-in-out infinite;
+  pointer-events: none;
+  border-radius: inherit;
 }
 .anim-card__label {
   font-size: 11px;

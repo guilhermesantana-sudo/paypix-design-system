@@ -1881,3 +1881,113 @@
   letter-spacing: 0.10em;
   color: rgba(26, 47, 81, 0.55);
 }
+
+/* ============================================================
+   APP MOCKUPS — phone frames para demos de produto
+   ============================================================ */
+.app-screens {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+.phone-frame {
+  background: #090F1C;
+  border-radius: 40px;
+  padding: 10px;
+  box-shadow:
+    0 0 0 1.5px rgba(255, 255, 255, 0.09),
+    0 0 0 4px #040810,
+    0 28px 80px rgba(0, 0, 0, 0.85),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  position: relative;
+}
+.phone-frame__notch {
+  width: 90px;
+  height: 24px;
+  margin: 0 auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+.phone-frame__notch::before {
+  content: '';
+  width: 9px; height: 9px;
+  background: #111D30;
+  border-radius: 50%;
+  box-shadow: 0 0 5px rgba(158, 215, 235, 0.20), inset 0 1px 0 rgba(255,255,255,0.07);
+}
+.phone-frame__notch::after {
+  content: '';
+  width: 44px; height: 5px;
+  background: #111D30;
+  border-radius: 3px;
+}
+.phone-frame__screen {
+  background: var(--blue-900);
+  border-radius: 32px;
+  overflow: hidden;
+  min-height: 580px;
+  display: flex;
+  flex-direction: column;
+}
+.phone-frame__caption {
+  text-align: center;
+  margin-top: 14px;
+}
+.phone-frame__cap-num {
+  display: block;
+  font-family: 'SF Mono', monospace;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.30);
+  margin-bottom: 3px;
+}
+.phone-frame__cap-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--orange-300);
+}
+
+/* Status bar (inside phone) */
+.pf-statusbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px 16px 0;
+  font-size: 10px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.55);
+}
+/* Bottom nav inside phone */
+.pf-nav {
+  margin-top: auto;
+  padding: 10px 6px 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+.pf-nav__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+.pf-nav__item--active svg { color: var(--orange-500); }
+.pf-nav__item--active span { color: var(--orange-500); }
+.pf-nav__label {
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+@media (max-width: 1200px) {
+  .app-screens { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 800px) {
+  .app-screens { grid-template-columns: repeat(2, 1fr); }
+}

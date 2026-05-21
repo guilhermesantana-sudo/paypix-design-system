@@ -40,7 +40,7 @@
     <div class="hub__clients">
 
       <!-- HiperXCAP — cliente ativo -->
-      <div class="client-card client-card--active">
+      <div class="client-card client-card--active" onclick="window.location.href='hiperxcap/'" role="link" tabindex="0" onkeydown="if(event.key==='Enter')window.location.href='hiperxcap/'"  aria-label="Abrir design system HiperXCAP">
         <span class="client-card__chip client-card__chip--live">● Ativo</span>
         <div class="client-card__brand">Hiper<em>XCAP</em></div>
         <p class="client-card__desc">Título de Capitalização da Modalidade Filantropia Premiável. Sorteios semanais ao vivo na RedeTV!.</p>
@@ -50,7 +50,7 @@
         </div>
         <div class="client-card__actions">
           <a href="hiperxcap/" class="client-card__cta">Abrir design system →</a>
-          <a href="/downloads/hiperxcap.md" download="hiperxcap-design-system.md" class="client-card__download">⬇ .md</a>
+          <a href="/downloads/hiperxcap.md" download="hiperxcap-design-system.md" class="client-card__download" onclick="event.stopPropagation()">⬇ .md</a>
         </div>
       </div>
 

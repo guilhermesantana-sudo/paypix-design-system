@@ -1,5 +1,5 @@
 /* ============================================================
-   animations.js: confete, ripple, shake, flip, IntersectionObserver, cópia de hex
+   animations.js: confete, ripple, shake, flip, loop automático
    ============================================================ */
 
 const CONFETTI_COLORS = ['#F39208', '#F8AF4F', '#EF7E5A', '#A7C945', '#9ED7EB', '#B26F9A'];
@@ -25,9 +25,8 @@ function spawnConfetti(stage, count) {
 function replaySuccess() {
   const stage = document.getElementById('stage-success');
   if (!stage) return;
-  // Remove e recria checkmark + text pra reiniciar animação
   const check = stage.querySelector('.success-check');
-  const text = stage.querySelector('.success-text');
+  const text  = stage.querySelector('.success-text');
   if (check) { const c = check.cloneNode(true); check.replaceWith(c); }
   if (text)  { const t = text.cloneNode(true);  text.replaceWith(t); }
   spawnConfetti(stage, 18);
@@ -56,14 +55,14 @@ function replayShake() {
 function replayRipple() {
   const btn = document.getElementById('stage-ripple');
   if (!btn) return;
-  // Dispara ripple no centro
   const rect = btn.getBoundingClientRect();
+  if (!rect.width) return;
   const ripple = document.createElement('span');
   ripple.className = 'ripple-effect';
   const size = Math.max(rect.width, rect.height) * 0.5;
   ripple.style.width = ripple.style.height = size + 'px';
-  ripple.style.left = (rect.width / 2 - size / 2) + 'px';
-  ripple.style.top = (rect.height / 2 - size / 2) + 'px';
+  ripple.style.left = (rect.width  / 2 - size / 2) + 'px';
+  ripple.style.top  = (rect.height / 2 - size / 2) + 'px';
   btn.appendChild(ripple);
   setTimeout(() => ripple.remove(), 700);
 }
@@ -87,7 +86,7 @@ document.querySelectorAll('.ripple-btn').forEach(btn => {
     const size = Math.max(rect.width, rect.height) * 0.5;
     ripple.style.width = ripple.style.height = size + 'px';
     ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
-    ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+    ripple.style.top  = (e.clientY - rect.top  - size / 2) + 'px';
     this.appendChild(ripple);
     setTimeout(() => ripple.remove(), 700);
   });
@@ -106,23 +105,37 @@ document.querySelectorAll('[data-replay]').forEach(btn => {
   });
 });
 
-// Auto-fire quando entra no viewport pela primeira vez
+// ---- Auto-loop: inicia quando a seção entra no viewport ----
+const _timers = {};
+function _loop(key, fn, ms) {
+  if (_timers[key]) return;
+  fn();
+  _timers[key] = setInterval(fn, ms);
+}
+
 const successCard   = document.querySelector('[data-anim="success"]');
 const confettiCard  = document.querySelector('[data-anim="confetti"]');
+const flipCard      = document.querySelector('[data-anim="flip"]');
+const shakeCard     = document.querySelector('[data-anim="shake"]');
+const rippleCard    = document.querySelector('[data-anim="ripple"]');
 const payPixPayCard = document.querySelector('[data-anim="paypix-pay"]');
+
 if ('IntersectionObserver' in window) {
-  const triggeredEls = new WeakSet();
   const io = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      if (entry.isIntersecting && !triggeredEls.has(entry.target)) {
-        triggeredEls.add(entry.target);
-        if (entry.target === successCard)   replaySuccess();
-        if (entry.target === confettiCard)  setTimeout(replayConfetti, 300);
-        if (entry.target === payPixPayCard) setTimeout(replayPaypixPay, 200);
-      }
+      if (!entry.isIntersecting) return;
+      if (entry.target === successCard)   _loop('success',   replaySuccess,   4200);
+      if (entry.target === confettiCard)  _loop('confetti',  replayConfetti,  3200);
+      if (entry.target === flipCard)      _loop('flip',      replayFlip,      4000);
+      if (entry.target === shakeCard)     _loop('shake',     replayShake,     2800);
+      if (entry.target === rippleCard)    _loop('ripple',    replayRipple,    2200);
+      if (entry.target === payPixPayCard) _loop('paypixpay', replayPaypixPay, 4200);
     });
   }, { threshold: 0.5 });
   if (successCard)   io.observe(successCard);
   if (confettiCard)  io.observe(confettiCard);
+  if (flipCard)      io.observe(flipCard);
+  if (shakeCard)     io.observe(shakeCard);
+  if (rippleCard)    io.observe(rippleCard);
   if (payPixPayCard) io.observe(payPixPayCard);
 }

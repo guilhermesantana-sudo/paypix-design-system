@@ -503,6 +503,8 @@
   gap: 14px;
   flex: 1;
   min-height: 0;
+  align-content: center;
+  align-items: start;
 }
 
 .client-card {
@@ -519,7 +521,6 @@
   transition: all 220ms ease;
   position: relative;
   cursor: default;
-  height: 100%;
 }
 .client-card--active {
   cursor: pointer;
@@ -782,10 +783,9 @@
   .cartela__last-ball-num { font-size: 18px; }
   .paypix-sizes { padding: 24px; gap: 22px; }
   .paypix-size--lg .paypix-size__logo { width: 180px; }
-  .paypix-clear { padding: 38px; }
+  .paypix-clear { padding: 20px; }
+  .paypix-clear__zone { padding: 26px; }
   .paypix-clear__logo { width: 160px; }
-  .paypix-clear__guide--t, .paypix-clear__guide--b { left: 38px; right: 38px; }
-  .paypix-clear__guide--l, .paypix-clear__guide--r { top: 38px; bottom: 38px; }
   .paypix-mock-footer { padding: 22px 18px; }
   .hub { padding: 40px 22px 60px; }
   .hub__logo { width: 240px; }

@@ -147,10 +147,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-display);
-  font-style: italic;
-  font-weight: 800;
-  font-size: 24px;
   margin-bottom: 14px;
   color: var(--white);
 }
@@ -753,15 +749,11 @@
 }
 .alert__icon {
   flex-shrink: 0;
-  width: 28px; height: 28px;
+  width: 32px; height: 32px;
   border-radius: var(--r-sm);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-display);
-  font-style: italic;
-  font-weight: 800;
-  font-size: 16px;
   color: var(--white);
 }
 .alert__content { flex: 1; }
@@ -1667,28 +1659,21 @@
 
 /* Clear space / área de proteção */
 .paypix-clear {
-  position: relative;
-  display: inline-block;
-  padding: 50px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px;
   background: var(--white);
   border-radius: var(--r-md);
   border: 1px solid rgba(26, 47, 81, 0.08);
 }
+.paypix-clear__zone {
+  position: relative;
+  padding: 34px;
+  border: 1.5px dashed rgba(243, 146, 8, 0.80);
+  border-radius: 4px;
+}
 .paypix-clear__logo { width: 200px; display: block; }
-.paypix-clear__guides {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-.paypix-clear__guide {
-  position: absolute;
-  background: var(--orange-500);
-  opacity: 0.30;
-}
-.paypix-clear__guide--t { top: 0; left: 50px; right: 50px; height: 1px; }
-.paypix-clear__guide--b { bottom: 0; left: 50px; right: 50px; height: 1px; }
-.paypix-clear__guide--l { left: 0; top: 50px; bottom: 50px; width: 1px; }
-.paypix-clear__guide--r { right: 0; top: 50px; bottom: 50px; width: 1px; }
 .paypix-clear__measure {
   position: absolute;
   font-size: 10px;
@@ -1699,9 +1684,20 @@
   padding: 2px 6px;
   border: 1px solid rgba(243, 146, 8, 0.30);
   border-radius: 3px;
+  white-space: nowrap;
+  pointer-events: none;
 }
-.paypix-clear__measure--top { top: 22px; left: 50%; transform: translateX(-50%); }
-.paypix-clear__measure--side { top: 50%; left: 22px; transform: translateY(-50%) rotate(-90deg); transform-origin: center; }
+.paypix-clear__measure--top {
+  top: 9px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.paypix-clear__measure--side {
+  top: 50%;
+  left: 9px;
+  transform: translateY(-50%) rotate(-90deg);
+  transform-origin: center;
+}
 
 /* Usage examples */
 .paypix-usage-grid {

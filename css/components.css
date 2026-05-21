@@ -2335,9 +2335,9 @@
   align-items: start;
 }
 .phone-frame {
-  width: 210px;
+  width: 260px;
   flex-shrink: 0;
-  min-width: 210px;
+  min-width: 260px;
   background: #090F1C;
   border-radius: 40px;
   padding: 10px;

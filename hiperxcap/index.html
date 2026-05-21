@@ -89,7 +89,7 @@
       <div class="hero__inner">
         <span class="hero__chip">
           <span class="hero__chip-dot"></span>
-          Atualizado · maio 2026
+          Atualizado · {{GIT_DATE}}
         </span>
         <h1 class="hero__title">
           Mais ritmo. Mais <em>energia.</em><br>Mesma marca.
@@ -152,7 +152,6 @@
               </div>
               <!-- próximo sorteio -->
               <div style="margin:12px 12px 0;background:linear-gradient(135deg,rgba(243,146,8,0.14) 0%,rgba(255,255,255,0.03) 100%);border:1px solid rgba(243,146,8,0.40);border-radius:14px;padding:14px;position:relative;overflow:hidden;box-shadow:inset 0 1px 0 rgba(255,255,255,0.10),0 0 24px rgba(243,146,8,0.10);">
-                <div style="position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.06) 3px,rgba(0,0,0,0.06) 4px);pointer-events:none;border-radius:inherit;"></div>
                 <div style="display:flex;align-items:center;gap:5px;margin-bottom:6px;position:relative;">
                   <span style="width:6px;height:6px;border-radius:50%;background:var(--coral-500);box-shadow:0 0 6px var(--coral-500);display:inline-block;"></span>
                   <span style="font-size:8px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--coral-500);">Próximo sorteio</span>
@@ -237,7 +236,6 @@
               </div>
               <!-- product card -->
               <div style="margin:12px 12px 0;background:var(--grad-deep);border:1px solid rgba(255,255,255,0.12);border-radius:14px;padding:16px;position:relative;overflow:hidden;box-shadow:inset 0 1px 0 rgba(255,255,255,0.12),0 4px 16px rgba(0,0,0,0.35);">
-                <div style="position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.06) 3px,rgba(0,0,0,0.06) 4px);pointer-events:none;border-radius:inherit;"></div>
                 <div style="position:absolute;top:-20px;right:-20px;width:80px;height:80px;background:radial-gradient(circle,rgba(243,146,8,0.25) 0%,transparent 70%);pointer-events:none;"></div>
                 <div style="font-size:8px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--orange-300);margin-bottom:6px;position:relative;">HiperXCAP · Série A</div>
                 <div style="font-family:var(--font-display);font-style:italic;font-weight:800;font-size:22px;color:var(--white);line-height:1.1;text-transform:uppercase;letter-spacing:-0.01em;position:relative;text-shadow:0 2px 0 rgba(0,0,0,0.50);">Título de<br>Capitalização</div>
@@ -303,7 +301,6 @@
             <div class="phone-frame__screen" style="background:linear-gradient(180deg,#0D1E38 0%,var(--blue-900) 60%);justify-content:center;align-items:center;gap:0;padding:24px 18px;">
               <!-- glow bg -->
               <div style="position:absolute;top:20%;left:50%;transform:translateX(-50%);width:200px;height:200px;background:radial-gradient(circle,rgba(167,201,69,0.18) 0%,transparent 65%);pointer-events:none;"></div>
-              <div style="position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.06) 3px,rgba(0,0,0,0.06) 4px);pointer-events:none;border-radius:inherit;"></div>
               <!-- ring + check -->
               <div style="position:relative;width:100px;height:100px;margin-bottom:18px;">
                 <svg width="100" height="100" viewBox="0 0 110 110" fill="none" style="display:block;">
@@ -433,41 +430,41 @@
         <div>
           <div class="phone-frame">
             <div class="phone-frame__notch"></div>
-            <div class="phone-frame__screen" style="background:linear-gradient(180deg,#1A0D00 0%,#2A1500 30%,var(--blue-900) 100%);align-items:center;justify-content:center;padding:20px 16px;gap:0;position:relative;overflow:hidden;">
-              <!-- scanlines -->
-              <div style="position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.07) 3px,rgba(0,0,0,0.07) 4px);pointer-events:none;border-radius:inherit;"></div>
-              <!-- glow bg -->
-              <div style="position:absolute;top:10%;left:50%;transform:translateX(-50%);width:220px;height:220px;background:radial-gradient(circle,rgba(243,146,8,0.28) 0%,transparent 65%);pointer-events:none;"></div>
-              <!-- confetti dots -->
+            <div class="phone-frame__screen" style="background:linear-gradient(180deg,#0D1E0A 0%,#142410 35%,var(--blue-900) 100%);align-items:center;justify-content:center;padding:20px 16px;gap:0;position:relative;overflow:hidden;">
+              <!-- orb verde grande -->
+              <div style="position:absolute;top:5%;left:50%;transform:translateX(-50%);width:240px;height:240px;background:radial-gradient(circle,rgba(167,201,69,0.30) 0%,transparent 65%);pointer-events:none;"></div>
+              <!-- orb secundário menor canto -->
+              <div style="position:absolute;bottom:20%;right:-10%;width:150px;height:150px;background:radial-gradient(circle,rgba(167,201,69,0.12) 0%,transparent 65%);pointer-events:none;"></div>
+              <!-- confetti -->
               <div style="position:absolute;top:0;left:0;right:0;height:180px;overflow:hidden;pointer-events:none;">
-                <div style="position:absolute;top:20px;left:15%;width:8px;height:14px;background:var(--orange-500);border-radius:2px;transform:rotate(25deg);opacity:0.9;"></div>
-                <div style="position:absolute;top:35px;left:30%;width:6px;height:10px;background:var(--green-500);border-radius:2px;transform:rotate(-15deg);opacity:0.85;"></div>
-                <div style="position:absolute;top:15px;left:55%;width:8px;height:12px;background:var(--coral-500);border-radius:2px;transform:rotate(40deg);opacity:0.80;"></div>
-                <div style="position:absolute;top:50px;left:72%;width:6px;height:10px;background:var(--skyblue-500);border-radius:2px;transform:rotate(-30deg);opacity:0.75;"></div>
-                <div style="position:absolute;top:28px;left:85%;width:8px;height:14px;background:var(--purple-500);border-radius:2px;transform:rotate(10deg);opacity:0.70;"></div>
-                <div style="position:absolute;top:65px;left:8%;width:6px;height:10px;background:var(--yellow-500);border-radius:2px;transform:rotate(-20deg);opacity:0.80;"></div>
-                <div style="position:absolute;top:80px;left:42%;width:5px;height:9px;background:var(--teal-500);border-radius:2px;transform:rotate(35deg);opacity:0.65;"></div>
-                <div style="position:absolute;top:45px;left:62%;width:7px;height:12px;background:var(--orange-300);border-radius:2px;transform:rotate(-45deg);opacity:0.75;"></div>
+                <div style="position:absolute;top:22px;left:14%;width:8px;height:14px;background:var(--green-500);border-radius:2px;transform:rotate(25deg);opacity:0.9;"></div>
+                <div style="position:absolute;top:38px;left:30%;width:6px;height:10px;background:var(--orange-500);border-radius:2px;transform:rotate(-15deg);opacity:0.85;"></div>
+                <div style="position:absolute;top:16px;left:54%;width:8px;height:12px;background:var(--green-300);border-radius:2px;transform:rotate(40deg);opacity:0.80;"></div>
+                <div style="position:absolute;top:52px;left:72%;width:6px;height:10px;background:var(--teal-500);border-radius:2px;transform:rotate(-30deg);opacity:0.75;"></div>
+                <div style="position:absolute;top:30px;left:85%;width:8px;height:14px;background:var(--yellow-500);border-radius:2px;transform:rotate(10deg);opacity:0.70;"></div>
+                <div style="position:absolute;top:66px;left:8%;width:6px;height:10px;background:var(--orange-300);border-radius:2px;transform:rotate(-20deg);opacity:0.80;"></div>
+                <div style="position:absolute;top:82px;left:42%;width:5px;height:9px;background:var(--skyblue-500);border-radius:2px;transform:rotate(35deg);opacity:0.65;"></div>
+                <div style="position:absolute;top:46px;left:62%;width:7px;height:12px;background:var(--coral-500);border-radius:2px;transform:rotate(-45deg);opacity:0.75;"></div>
               </div>
-              <!-- trophy -->
-              <div style="width:64px;height:64px;background:var(--grad-orange);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:var(--glow-orange);margin-bottom:12px;position:relative;z-index:1;">
+              <!-- trophy verde -->
+              <div style="width:64px;height:64px;background:linear-gradient(135deg,var(--green-500) 0%,var(--green-300) 100%);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:var(--glow-green);margin-bottom:12px;position:relative;z-index:1;">
                 <svg width="34" height="34" viewBox="0 0 24 24" fill="var(--blue-900)" stroke="none"><path d="M12 2C9 2 7 4 7 7v1H4v2c0 2.2 1.5 4.1 3.7 4.8.6 1.5 1.8 2.7 3.3 3.1V20H9v2h6v-2h-2v-2.1c1.5-.4 2.7-1.6 3.3-3.1C18.5 14.1 20 12.2 20 10V8h-3V7c0-3-2-5-5-5zM6 10V9.5h1V11c0 .3 0 .5.1.7C6.4 11.3 6 10.7 6 10zm12 0c0 .7-.4 1.3-1.1 1.7.1-.2.1-.4.1-.7V9.5h1V10z"/></svg>
               </div>
               <!-- você ganhou -->
-              <div style="font-family:var(--font-display);font-style:italic;font-weight:800;font-size:11px;text-transform:uppercase;letter-spacing:0.16em;color:var(--orange-300);margin-bottom:6px;position:relative;z-index:1;">Parabéns!</div>
+              <div style="font-family:var(--font-display);font-style:italic;font-weight:800;font-size:11px;text-transform:uppercase;letter-spacing:0.16em;color:var(--green-300);margin-bottom:6px;position:relative;z-index:1;">Parabéns!</div>
               <div style="font-family:var(--font-display);font-style:italic;font-weight:800;font-size:32px;text-transform:uppercase;color:var(--white);letter-spacing:-0.02em;line-height:1;text-align:center;text-shadow:0 2px 0 rgba(0,0,0,0.55),0 4px 20px rgba(0,0,0,0.45);position:relative;z-index:1;margin-bottom:4px;">Você<br>Ganhou!</div>
-              <!-- valor prêmio -->
-              <div style="font-family:var(--font-display);font-style:italic;font-weight:800;font-size:36px;color:var(--orange-500);letter-spacing:-0.02em;line-height:1;text-shadow:0 0 10px rgba(243,146,8,0.80),0 0 28px rgba(243,146,8,0.45),0 2px 0 rgba(110,48,0,0.60);position:relative;z-index:1;margin-bottom:10px;">R$ 10.000</div>
-              <!-- badge do prêmio -->
-              <div style="background:rgba(243,146,8,0.15);border:1px solid rgba(243,146,8,0.45);border-radius:6px;padding:5px 14px;font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--orange-300);margin-bottom:20px;position:relative;z-index:1;">Prêmio lateral · Série A</div>
+              <!-- valor prêmio verde -->
+              <div style="font-family:var(--font-display);font-style:italic;font-weight:800;font-size:36px;color:var(--green-500);letter-spacing:-0.02em;line-height:1;text-shadow:0 0 10px rgba(167,201,69,0.80),0 0 28px rgba(167,201,69,0.45),0 2px 0 rgba(30,60,0,0.55);position:relative;z-index:1;margin-bottom:10px;">R$ 10.000</div>
+              <!-- badge verde -->
+              <div style="background:rgba(167,201,69,0.15);border:1px solid rgba(167,201,69,0.45);border-radius:6px;padding:5px 14px;font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--green-300);margin-bottom:20px;position:relative;z-index:1;">Prêmio lateral · Série A</div>
               <!-- receipt mini -->
-              <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:12px 14px;width:100%;margin-bottom:16px;position:relative;z-index:1;box-shadow:inset 0 1px 0 rgba(255,255,255,0.10);">
+              <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(167,201,69,0.18);border-radius:12px;padding:12px 14px;width:100%;margin-bottom:16px;position:relative;z-index:1;box-shadow:inset 0 1px 0 rgba(167,201,69,0.10);">
                 <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="font-size:9px;color:rgba(255,255,255,0.50);">Sorteio</span><span style="font-size:9px;font-weight:700;color:var(--white);">#247 · Qui 19h00</span></div>
-                <div style="display:flex;justify-content:space-between;"><span style="font-size:9px;color:rgba(255,255,255,0.50);">Título</span><span style="font-family:'SF Mono',monospace;font-size:9px;font-weight:700;color:var(--orange-300);">A-00247-2026</span></div>
+                <div style="display:flex;justify-content:space-between;"><span style="font-size:9px;color:rgba(255,255,255,0.50);">Título</span><span style="font-family:'SF Mono',monospace;font-size:9px;font-weight:700;color:var(--green-300);">A-00247-2026</span></div>
               </div>
-              <!-- CTAs -->
+              <!-- CTAs verde -->
               <div style="display:flex;flex-direction:column;gap:8px;width:100%;position:relative;z-index:1;">
-                <div style="background:var(--grad-orange);border-radius:10px;padding:13px;text-align:center;font-family:var(--font-display);font-style:italic;font-weight:800;font-size:13px;color:var(--blue-900);text-transform:uppercase;letter-spacing:0.02em;box-shadow:inset 0 1px 0 rgba(255,255,255,0.30),0 4px 0 rgba(110,48,0,0.60),var(--glow-orange-sm);cursor:pointer;">Sacar agora</div>
+                <div style="background:linear-gradient(135deg,var(--green-500) 0%,var(--green-300) 100%);border-radius:10px;padding:13px;text-align:center;font-family:var(--font-display);font-style:italic;font-weight:800;font-size:13px;color:var(--blue-900);text-transform:uppercase;letter-spacing:0.02em;box-shadow:inset 0 1px 0 rgba(255,255,255,0.25),0 4px 0 rgba(30,60,0,0.50),var(--glow-green);cursor:pointer;">Sacar agora</div>
                 <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14);border-radius:10px;padding:11px;text-align:center;font-size:11px;font-weight:600;color:rgba(255,255,255,0.75);cursor:pointer;">Compartilhar resultado</div>
               </div>
             </div>

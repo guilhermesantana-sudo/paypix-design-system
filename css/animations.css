@@ -371,7 +371,6 @@
 .ppa__badge svg {
   width: 14px;
   height: 14px;
-  overflow: visible;
 }
 .ppa__badge svg path {
   fill: none;
@@ -379,9 +378,6 @@
   stroke-width: 2.5;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-dasharray: 20;
-  stroke-dashoffset: 20;
-  animation: check-draw 300ms 950ms ease-out forwards;
 }
 .ppa__text {
   font-family: var(--font-display);

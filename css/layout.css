@@ -13,8 +13,8 @@
 
 /* --- Sidebar dark (sobre o azul) --- */
 .sidebar {
-  background: var(--blue-900);
-  border-right: 1px solid rgba(255, 255, 255, 0.10);
+  background: var(--blue-950);
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
   position: sticky;
   top: 0;
   height: 100vh;

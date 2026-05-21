@@ -1176,6 +1176,13 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 22px;
+  overflow: visible;
+  padding-top: 12px;
+}
+.coupon-wrap {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
 }
 .coupon {
   position: relative;
@@ -1288,8 +1295,8 @@
 /* Selo / status */
 .coupon__seal {
   position: absolute;
-  top: -8px;
-  right: -8px;
+  top: -10px;
+  right: 12px;
   background: var(--coral-500);
   color: var(--white);
   font-size: 10px;
@@ -2321,12 +2328,16 @@
    APP MOCKUPS — phone frames para demos de produto
    ============================================================ */
 .app-screens {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  display: flex;
   gap: 24px;
+  overflow-x: auto;
+  padding-bottom: 20px;
   align-items: start;
 }
 .phone-frame {
+  width: 210px;
+  flex-shrink: 0;
+  min-width: 210px;
   background: #090F1C;
   border-radius: 40px;
   padding: 10px;
@@ -2363,7 +2374,7 @@
   background: var(--blue-900);
   border-radius: 32px;
   overflow: hidden;
-  min-height: 580px;
+  min-height: 560px;
   display: flex;
   flex-direction: column;
 }
@@ -2421,8 +2432,8 @@
 }
 
 @media (max-width: 1200px) {
-  .app-screens { grid-template-columns: repeat(3, 1fr); }
+  /* .app-screens now uses flex with fixed width phones — no grid override needed */
 }
 @media (max-width: 800px) {
-  .app-screens { grid-template-columns: repeat(2, 1fr); }
+  /* .app-screens now uses flex with fixed width phones — no grid override needed */
 }

@@ -113,7 +113,7 @@
   position: relative;
   padding: 80px 64px 96px;
   background:
-    radial-gradient(ellipse at 80% 20%, rgba(243, 146, 8, 0.18) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(1, 102, 179, 0.25) 0%, transparent 50%),
     radial-gradient(ellipse at 20% 80%, rgba(178, 111, 154, 0.12) 0%, transparent 50%),
     var(--blue-900);
   overflow: hidden;
@@ -124,7 +124,7 @@
   position: absolute;
   inset: 0;
   background-image:
-    radial-gradient(circle, rgba(243, 146, 8, 0.45) 1px, transparent 1.5px),
+    radial-gradient(circle, rgba(255, 255, 255, 0.15) 1px, transparent 1.5px),
     radial-gradient(circle, rgba(158, 215, 235, 0.35) 1px, transparent 1.5px),
     radial-gradient(circle, rgba(255, 255, 255, 0.25) 1px, transparent 1.5px);
   background-size: 90px 90px, 130px 130px, 60px 60px;
@@ -467,7 +467,7 @@
   display: flex;
   flex-direction: column;
   background:
-    radial-gradient(ellipse 65% 55% at 75% 15%, rgba(243, 146, 8, 0.14) 0%, transparent 55%),
+    radial-gradient(ellipse 65% 55% at 75% 15%, rgba(255, 255, 255, 0.06) 0%, transparent 55%),
     radial-gradient(ellipse 55% 45% at 15% 85%, rgba(158, 215, 235, 0.10) 0%, transparent 50%),
     var(--blue-900);
   color: var(--white);

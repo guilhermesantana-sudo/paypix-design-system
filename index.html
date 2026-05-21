@@ -5,17 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PayPix · Design Systems</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500;1,800&display=swap" rel="stylesheet">
-<link href="css/variables.css" rel="stylesheet">
-<link href="css/layout.css" rel="stylesheet">
-<link href="css/components.css" rel="stylesheet">
-<link href="css/animations.css" rel="stylesheet">
+<link href="/css/variables.css" rel="stylesheet">
+<link href="/css/layout.css" rel="stylesheet">
+<link href="/css/components.css" rel="stylesheet">
+<link href="/css/animations.css" rel="stylesheet">
 </head>
 <body>
 
 <!-- SVG Sprite — injected via fetch -->
 <div id="svg-sprite"></div>
 <script>
-  fetch('assets/sprite.svg').then(r=>r.text()).then(svg=>{
+  fetch('/assets/sprite.svg').then(r=>r.text()).then(svg=>{
     document.getElementById('svg-sprite').innerHTML = svg;
   });
 </script>
@@ -26,7 +26,7 @@
 <section class="hub" id="hub">
   <div class="hub__inner">
     <header class="hub__head">
-      <svg class="hub__logo" viewBox="0 0 1749.41 596.91" aria-label="PayPix"><use href="assets/sprite.svg#paypix-mono"/></svg>
+      <svg class="hub__logo" viewBox="0 0 1749.41 596.91" aria-label="PayPix"><use href="/assets/sprite.svg#paypix-mono"/></svg>
       <span class="hub__tag">Design Systems · Hub de Clientes</span>
     </header>
 

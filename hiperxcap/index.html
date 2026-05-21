@@ -5,17 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HiperXCAP · Design System · PayPix</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500;1,800&display=swap" rel="stylesheet">
-<link href="../css/variables.css" rel="stylesheet">
-<link href="../css/layout.css" rel="stylesheet">
-<link href="../css/components.css" rel="stylesheet">
-<link href="../css/animations.css" rel="stylesheet">
+<link href="/css/variables.css" rel="stylesheet">
+<link href="/css/layout.css" rel="stylesheet">
+<link href="/css/components.css" rel="stylesheet">
+<link href="/css/animations.css" rel="stylesheet">
 </head>
 <body>
 
 <!-- SVG Sprite — injected via fetch -->
 <div id="svg-sprite"></div>
 <script>
-  fetch('../assets/sprite.svg').then(r=>r.text()).then(svg=>{
+  fetch('/assets/sprite.svg').then(r=>r.text()).then(svg=>{
     document.getElementById('svg-sprite').innerHTML = svg;
   });
 </script>
@@ -28,7 +28,7 @@
 
   <aside class="sidebar" id="sidebar">
     <div class="sidebar__brand">
-      <svg class="sidebar__paypix" viewBox="0 0 1749.41 596.91" aria-label="PayPix"><use href="../assets/sprite.svg#paypix-mono"/></svg>
+      <svg class="sidebar__paypix" viewBox="0 0 1749.41 596.91" aria-label="PayPix"><use href="/assets/sprite.svg#paypix-mono"/></svg>
       <span class="sidebar__system-label">Design Systems</span>
       <div class="sidebar__client">
         <span class="sidebar__client-mark">HXC</span>
@@ -1246,7 +1246,7 @@
         <div class="paypix-grid">
 
           <div class="paypix-card paypix-card--white">
-            <svg class="paypix-card__logo" viewBox="0 0 1749.41 596.91"><use href="../assets/sprite.svg#paypix-original"/></svg>
+            <svg class="paypix-card__logo" viewBox="0 0 1749.41 596.91"><use href="/assets/sprite.svg#paypix-original"/></svg>
             <div>
               <div class="paypix-card__label">Original · sobre branco</div>
               <div class="paypix-card__sub">#paypix-original</div>
@@ -1254,7 +1254,7 @@
           </div>
 
           <div class="paypix-card paypix-card--gray">
-            <svg class="paypix-card__logo" viewBox="0 0 1749.41 596.91"><use href="../assets/sprite.svg#paypix-original"/></svg>
+            <svg class="paypix-card__logo" viewBox="0 0 1749.41 596.91"><use href="/assets/sprite.svg#paypix-original"/></svg>
             <div>
               <div class="paypix-card__label">Original · sobre cinza-100</div>
               <div class="paypix-card__sub">#paypix-original</div>
@@ -1262,7 +1262,7 @@
           </div>
 
           <div class="paypix-card paypix-card--black">
-            <svg class="paypix-card__logo" viewBox="0 0 1749.41 596.91"><use href="../assets/sprite.svg#paypix-original"/></svg>
+            <svg class="paypix-card__logo" viewBox="0 0 1749.41 596.91"><use href="/assets/sprite.svg#paypix-original"/></svg>
             <div>
               <div class="paypix-card__label">Original · sobre preto</div>
               <div class="paypix-card__sub">#paypix-original</div>
@@ -1270,7 +1270,7 @@
           </div>
 
           <div class="paypix-card paypix-card--blue">
-            <svg class="paypix-card__logo paypix-card__logo--mono-white" viewBox="0 0 1749.41 596.91"><use href="../assets/sprite.svg#paypix-mono"/></svg>
+            <svg class="paypix-card__logo paypix-card__logo--mono-white" viewBox="0 0 1749.41 596.91"><use href="/assets/sprite.svg#paypix-mono"/></svg>
             <div>
               <div class="paypix-card__label">Mono branca · sobre azul</div>
               <div class="paypix-card__sub">#paypix-mono · color: white</div>
@@ -1278,7 +1278,7 @@
           </div>
 
           <div class="paypix-card paypix-card--dark">
-            <svg class="paypix-card__logo paypix-card__logo--mono-white" viewBox="0 0 1749.41 596.91"><use href="../assets/sprite.svg#paypix-mono"/></svg>
+            <svg class="paypix-card__logo paypix-card__logo--mono-white" viewBox="0 0 1749.41 596.91"><use href="/assets/sprite.svg#paypix-mono"/></svg>
             <div>
               <div class="paypix-card__label">Mono branca · sobre azul-900</div>
               <div class="paypix-card__sub">#paypix-mono · color: white</div>
@@ -1286,7 +1286,7 @@
           </div>
 
           <div class="paypix-card paypix-card--white">
-            <svg class="paypix-card__logo paypix-card__logo--mono-black" viewBox="0 0 1749.41 596.91"><use href="../assets/sprite.svg#paypix-mono"/></svg>
+            <svg class="paypix-card__logo paypix-card__logo--mono-black" viewBox="0 0 1749.41 596.91"><use href="/assets/sprite.svg#paypix-mono"/></svg>
             <div>
               <div class="paypix-card__label">Mono preta · sobre branco</div>
               <div class="paypix-card__sub">#paypix-mono · color: black</div>
@@ -1294,7 +1294,7 @@
           </div>
 
           <div class="paypix-card paypix-card--gray">
-            <svg class="paypix-card__logo paypix-card__logo--mono-black" viewBox="0 0 1749.41 596.91"><use href="../assets/sprite.svg#paypix-mono"/></svg>
+            <svg class="paypix-card__logo paypix-card__logo--mono-black" viewBox="0 0 1749.41 596.91"><use href="/assets/sprite.svg#paypix-mono"/></svg>
             <div>
               <div class="paypix-card__label">Mono preta · sobre cinza</div>
               <div class="paypix-card__sub">#paypix-mono · color: black</div>
@@ -1302,7 +1302,7 @@
           </div>
 
           <div class="paypix-card paypix-card--white">
-            <svg class="paypix-card__logo paypix-card__logo--mono-dark" viewBox="0 0 1749.41 596.91"><use href="../assets/sprite.svg#paypix-mono"/></svg>
+            <svg class="paypix-card__logo paypix-card__logo--mono-dark" viewBox="0 0 1749.41 596.91"><use href="/assets/sprite.svg#paypix-mono"/></svg>
             <div>
               <div class="paypix-card__label">Mono azul-900 · sobre branco</div>
               <div class="paypix-card__sub">#paypix-mono · blue-900</div>
@@ -1319,22 +1319,22 @@
 
         <div class="paypix-sizes">
           <div class="paypix-size paypix-size--xs">
-            <svg class="paypix-size__logo paypix-card__logo--mono-dark" viewBox="0 0 1749.41 596.91" style="width:80px;"><use href="../assets/sprite.svg#paypix-mono"/></svg>
+            <svg class="paypix-size__logo paypix-card__logo--mono-dark" viewBox="0 0 1749.41 596.91" style="width:80px;"><use href="/assets/sprite.svg#paypix-mono"/></svg>
             <span class="paypix-size__label">XS · Mínimo</span>
             <span class="paypix-size__caption">80px</span>
           </div>
           <div class="paypix-size paypix-size--sm">
-            <svg class="paypix-size__logo paypix-card__logo--mono-dark" viewBox="0 0 1749.41 596.91" style="width:120px;"><use href="../assets/sprite.svg#paypix-mono"/></svg>
+            <svg class="paypix-size__logo paypix-card__logo--mono-dark" viewBox="0 0 1749.41 596.91" style="width:120px;"><use href="/assets/sprite.svg#paypix-mono"/></svg>
             <span class="paypix-size__label">SM · Rodapé</span>
             <span class="paypix-size__caption">120px</span>
           </div>
           <div class="paypix-size paypix-size--md">
-            <svg class="paypix-size__logo paypix-card__logo--mono-dark" viewBox="0 0 1749.41 596.91" style="width:160px;"><use href="../assets/sprite.svg#paypix-mono"/></svg>
+            <svg class="paypix-size__logo paypix-card__logo--mono-dark" viewBox="0 0 1749.41 596.91" style="width:160px;"><use href="/assets/sprite.svg#paypix-mono"/></svg>
             <span class="paypix-size__label">MD · Padrão</span>
             <span class="paypix-size__caption">160px</span>
           </div>
           <div class="paypix-size paypix-size--lg">
-            <svg class="paypix-size__logo paypix-card__logo--mono-dark" viewBox="0 0 1749.41 596.91" style="width:240px;"><use href="../assets/sprite.svg#paypix-mono"/></svg>
+            <svg class="paypix-size__logo paypix-card__logo--mono-dark" viewBox="0 0 1749.41 596.91" style="width:240px;"><use href="/assets/sprite.svg#paypix-mono"/></svg>
             <span class="paypix-size__label">LG · B2B</span>
             <span class="paypix-size__caption">240px</span>
           </div>
@@ -1347,7 +1347,7 @@
         <p class="subsection__desc">Mantenha pelo menos <strong>50% da altura do logo</strong> de espaço livre em volta. Nenhum outro elemento (texto, imagem, borda) deve invadir essa região. Linhas laranjas na demo abaixo indicam o limite da área de proteção.</p>
 
         <div class="paypix-clear">
-          <svg class="paypix-clear__logo paypix-card__logo--mono-dark" viewBox="0 0 1749.41 596.91"><use href="../assets/sprite.svg#paypix-mono"/></svg>
+          <svg class="paypix-clear__logo paypix-card__logo--mono-dark" viewBox="0 0 1749.41 596.91"><use href="/assets/sprite.svg#paypix-mono"/></svg>
           <div class="paypix-clear__guides">
             <div class="paypix-clear__guide paypix-clear__guide--t"></div>
             <div class="paypix-clear__guide paypix-clear__guide--b"></div>
@@ -1423,7 +1423,7 @@
             </div>
             <div class="paypix-mock-footer__brand">
               <small>Tecnologia</small>
-              <svg class="paypix-mock-footer__logo paypix-card__logo--mono-white" viewBox="0 0 1749.41 596.91"><use href="../assets/sprite.svg#paypix-mono"/></svg>
+              <svg class="paypix-mock-footer__logo paypix-card__logo--mono-white" viewBox="0 0 1749.41 596.91"><use href="/assets/sprite.svg#paypix-mono"/></svg>
             </div>
           </div>
 
@@ -1438,7 +1438,7 @@
             <div class="paypix-mock-receipt__row"><span>Status</span><strong style="color:#A7C945">Confirmado</strong></div>
             <div class="paypix-mock-receipt__footer">
               <small>Processado via</small>
-              <svg class="paypix-card__logo--mono-dark" viewBox="0 0 1749.41 596.91" style="width:80px;display:block;"><use href="../assets/sprite.svg#paypix-mono"/></svg>
+              <svg class="paypix-card__logo--mono-dark" viewBox="0 0 1749.41 596.91" style="width:80px;display:block;"><use href="/assets/sprite.svg#paypix-mono"/></svg>
             </div>
           </div>
 
@@ -1448,7 +1448,7 @@
             <button class="btn btn-primary btn--lg">Confirmar pagamento</button>
             <div style="display:flex;align-items:center;gap:8px;color:rgba(26,47,81,0.65);font-size:11px;font-weight:500;">
               <span>🔒 Pagamento processado por</span>
-              <svg class="paypix-card__logo--mono-dark" viewBox="0 0 1749.41 596.91" style="width:70px;display:inline-block;vertical-align:middle;"><use href="../assets/sprite.svg#paypix-mono"/></svg>
+              <svg class="paypix-card__logo--mono-dark" viewBox="0 0 1749.41 596.91" style="width:70px;display:inline-block;vertical-align:middle;"><use href="/assets/sprite.svg#paypix-mono"/></svg>
             </div>
           </div>
 
@@ -1545,8 +1545,8 @@
   </main>
 </div>
 
-<script src="../js/nav.js"></script>
-<script src="../js/animations.js"></script>
+<script src="/js/nav.js"></script>
+<script src="/js/animations.js"></script>
 
 </body>
 </html>

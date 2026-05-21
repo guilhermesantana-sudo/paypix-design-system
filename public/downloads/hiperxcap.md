@@ -22,7 +22,8 @@
 ```css
 /* Primárias */
 --blue-500:     #0166B3   /* fundo principal da interface */
---blue-900:     #1A2F51   /* seções premium, sidebar, surfaces escuras */
+--blue-900:     #1A2F51   /* seções premium, surfaces escuras */
+--blue-950:     #0C1628   /* sidebar navigation — mais escuro para criar contraste com seções */
 --orange-500:   #F39208   /* CTA principal, destaques, glow */
 --orange-300:   #F8AF4F   /* hover do laranja, textos em fundo escuro */
 --gray-100:     #EEEEEE   /* fundo de seções claras alternadas */
@@ -313,23 +314,163 @@ Variantes: `.coupon` (claro) · `.coupon--dark` · `.coupon--gradient` · Selos:
 
 ---
 
+## Componentes de gamificação
+
+Componentes específicos para fluxos de sorteio, compra de títulos e premiação. Todos usam exclusivamente os tokens do design system — nenhuma cor nova.
+
+---
+
+### Stack de prêmios (`.premio-stack`)
+
+Hierarquia visual de prêmios com tiers `--gold`, `--silver` e `--base`.
+
+```html
+<div class="premio-stack">
+  <div class="premio-row premio-row--gold">
+    <div class="premio-row__icon"> <!-- ícone SVG --> </div>
+    <div class="premio-row__info">
+      <span class="premio-row__cat">1º Prêmio</span>
+      <div class="premio-row__value">R$ 10.000</div>
+    </div>
+    <span class="premio-row__badge premio-row__badge--new">Novo</span>
+  </div>
+  <!-- premio-row--silver, premio-row--base -->
+</div>
+```
+
+**Badges de estado:**
+
+| Classe | Cor | Uso |
+|--------|-----|-----|
+| `--new` | coral | Prêmio novo neste sorteio |
+| `--acum` | skyblue | Prêmio acumulado |
+| `--multi` | orange | Multiplicador ativo (2×, 3×…) |
+
+---
+
+### Seletor de quantidade (`.qty-picker`) e Stepper
+
+```html
+<!-- Grade de opções pré-definidas -->
+<div class="qty-picker">
+  <div class="qty-option">          <!-- padrão -->
+  <div class="qty-option qty-option--active">  <!-- selecionado -->
+</div>
+
+<!-- Chips sobre a opção -->
+<span class="qty-chip qty-chip--popular">Popular</span>
+<span class="qty-chip qty-chip--top">Melhor</span>
+
+<!-- Stepper manual -->
+<div class="stepper">
+  <button class="stepper__btn">−</button>
+  <div class="stepper__val">7</div>
+  <button class="stepper__btn">+</button>
+</div>
+```
+
+---
+
+### Número do título (`.titulo-num`)
+
+Série em `--orange-500` · Sequência em `--skyblue-500` · Fonte monospaced.
+
+```html
+<div class="titulo-num">                  <!-- tamanho padrão -->
+<div class="titulo-num titulo-num--lg">   <!-- destaque principal -->
+<div class="titulo-num titulo-num--sm">   <!-- tabela / inline -->
+
+<!-- Estrutura interna -->
+<span class="titulo-num__part titulo-num__part--serie">001</span>
+<span>.</span>
+<span class="titulo-num__part titulo-num__part--seq">048271</span>
+```
+
+---
+
+### Causa social (`.causa-card`)
+
+Usa `var(--grad-special)` como background. Sempre com barra de progresso indicando % da meta.
+
+```html
+<div class="causa-card">
+  <!-- título, descrição, ícone da causa -->
+  <div class="causa-stat"> <!-- stat individual --> </div>
+  <!-- barra de progresso -->
+</div>
+```
+
+---
+
+### Live broadcast chip (`.live-broadcast`)
+
+```html
+<!-- Ao vivo -->
+<div class="live-broadcast">
+  <span class="live-broadcast__dot"></span>  <!-- anima com blink -->
+  <span>Ao vivo agora</span>
+</div>
+```
+
+O `.live-broadcast__dot` usa `background: var(--coral-500)` e `animation: blink`.
+
+---
+
+### Countdown (`.countdown__num`)
+
+```html
+<!-- Grande (seções de destaque) -->
+<div class="countdown__num">14</div>  <!-- h2 estilo, laranja com glow -->
+
+<!-- Inline pequeno -->
+<span class="countdown__num countdown__num--sm">37</span>
+```
+
+Separador `:` deve ter `color: var(--orange-400); font-weight: 700`.
+
+---
+
+### Reveal state (`.reveal-card`)
+
+Três estados para revelar resultado do sorteio:
+
+| Classe | Estado | Visual |
+|--------|--------|--------|
+| `.reveal-card--locked` | Bloqueado | Borda laranja tracejada, cadeado |
+| `.reveal-card--open` | Ganhou | Fundo verde sutil, check verde |
+| *(sem modificador)* | Não premiado | Fundo neutro, X branco opaco |
+
+```html
+<div class="reveal-card reveal-card--locked"> <!-- aguardando -->
+<div class="reveal-card reveal-card--open">   <!-- premiado -->
+```
+
+---
+
 ## Logo PayPix
 
 O SVG sprite está em `/assets/sprite.svg` com dois símbolos:
 
-| ID | Uso |
-|----|-----|
-| `#paypix-original` | Versão colorida oficial (gradient azul→verde no checkmark) |
-| `#paypix-mono` | Versão monocromática — cor controlada via CSS `color:` |
+| ID | Fundo permitido | Uso |
+|----|-----------------|-----|
+| `#paypix-original` | Branco ou cinza claro **apenas** | Versão colorida oficial |
+| `#paypix-mono` | Azul, escuro — qualquer cor via CSS | Versão monocromática |
+
+> ⚠️ **`#paypix-original` NÃO pode ser aplicada sobre fundo escuro ou preto.** Use sempre `#paypix-mono` em fundos azul-900, azul-500 ou qualquer superfície escura.
 
 ```html
-<!-- Original — sobre branco ou cinza -->
+<!-- Original — APENAS sobre branco ou cinza-100 -->
 <svg viewBox="0 0 1749.41 596.91" style="width:160px">
   <use href="/assets/sprite.svg#paypix-original"/>
 </svg>
 
 <!-- Mono branca — sobre azul ou escuro -->
 <svg viewBox="0 0 1749.41 596.91" style="width:160px; color: white">
+  <use href="/assets/sprite.svg#paypix-mono"/>
+</svg>
+
+<!-- Mono preta — sobre branco -->
+<svg viewBox="0 0 1749.41 596.91" style="width:160px; color: black">
   <use href="/assets/sprite.svg#paypix-mono"/>
 </svg>
 ```
@@ -429,7 +570,7 @@ SAC CAIXA: 0800 030 1508. Ouvidoria CAIXA: 0800 030 1508.
 ```
 paypix-design-system/
 ├── hiperxcap/
-│   └── index.html          ← design system completo (22 seções)
+│   └── index.html          ← design system completo (27 seções)
 ├── css/
 │   ├── variables.css       ← :root tokens, @keyframes, reset
 │   ├── layout.css          ← sidebar, hero, sections, hub
@@ -444,4 +585,4 @@ paypix-design-system/
 
 ---
 
-*Mantido em sincronia com o design system em [paypix-design-system.vercel.app](https://paypix-design-system.vercel.app) · PayPix · maio 2026*
+*Mantido em sincronia com o design system em [paypix-design-system.vercel.app](https://paypix-design-system.vercel.app) · L4 Design System · maio 2026*

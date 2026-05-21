@@ -514,6 +514,8 @@
 }
 .client-card--active {
   cursor: pointer;
+  text-decoration: none;
+  color: var(--white);
   background: linear-gradient(135deg, rgba(243, 146, 8, 0.10) 0%, rgba(255, 255, 255, 0.06) 100%);
   border-color: rgba(243, 146, 8, 0.35);
   box-shadow: var(--glow-orange-sm);
@@ -523,6 +525,7 @@
   border-color: var(--orange-500);
   box-shadow: var(--glow-orange);
   background: linear-gradient(135deg, rgba(243, 146, 8, 0.15) 0%, rgba(255, 255, 255, 0.08) 100%);
+  text-decoration: none;
 }
 .client-card--soon {
   opacity: 0.55;

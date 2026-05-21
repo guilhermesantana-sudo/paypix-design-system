@@ -455,7 +455,7 @@
 
 .hub__intro {
   max-width: 860px;
-  margin: 0 0 14px;
+  margin: 0 0 20px;
   flex-shrink: 0;
 }
 .hub__title {
@@ -501,10 +501,7 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 14px;
-  flex: 1;
-  min-height: 0;
-  align-content: center;
-  align-items: start;
+  flex-shrink: 0;
 }
 
 .client-card {
@@ -637,7 +634,7 @@
 }
 
 .hub__footer {
-  margin-top: 14px;
+  margin-top: auto;
   padding-top: 12px;
   border-top: 1px solid rgba(255, 255, 255, 0.10);
   display: flex;

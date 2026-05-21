@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PayPix · Design Systems</title>
+<title>L4 Design System · Hub</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500;1,800&display=swap" rel="stylesheet">
 <link href="/css/variables.css" rel="stylesheet">
 <link href="/css/layout.css" rel="stylesheet">
@@ -21,29 +21,29 @@
 </script>
 
 <!-- ============================================================
-     HUB PAYPIX — splash inicial com lista de clientes
+     HUB L4 DESIGN SYSTEM — splash inicial com lista de produtos
      ============================================================ -->
 <section class="hub" id="hub">
   <div class="hub__inner">
     <header class="hub__head">
-      <svg class="hub__logo" viewBox="0 0 1749.41 596.91" aria-label="PayPix"><use href="/assets/sprite.svg#paypix-mono"/></svg>
-      <span class="hub__tag">Design Systems · Hub de Clientes</span>
+      <div class="hub__wordmark">L4 <em>Design System</em></div>
+      <span class="hub__tag">Hub de Produtos · {{GIT_DATE}}</span>
     </header>
 
     <div class="hub__intro">
-      <h1 class="hub__title">Tecnologia que <em>conecta</em> o físico ao digital.</h1>
-      <p class="hub__lead">A PayPix é a infraestrutura de pagamentos via Pix por trás dos produtos parceiros — QR Codes exclusivos, validação automática, rastreabilidade e antifraude. Cada cliente tem seu próprio design system documentado abaixo.</p>
+      <h1 class="hub__title">Onde cada produto encontra sua <em>identidade.</em></h1>
+      <p class="hub__lead">O L4 Design System é o hub central que centraliza tokens, componentes e guidelines visuais de todos os produtos da plataforma L4. Cada produto tem seu próprio design system documentado, versionado e consultável aqui — garantindo consistência entre times e velocidade de entrega.</p>
     </div>
 
-    <span class="hub__section-label">Clientes ativos</span>
+    <span class="hub__section-label">Produtos implementados</span>
 
     <div class="hub__clients">
 
-      <!-- HiperXCAP — cliente ativo -->
-      <div class="client-card client-card--active" onclick="window.location.href='hiperxcap/'" role="link" tabindex="0" onkeydown="if(event.key==='Enter')window.location.href='hiperxcap/'"  aria-label="Abrir design system HiperXCAP">
+      <!-- PayPix + HiperXCAP — produto ativo -->
+      <div class="client-card client-card--active" onclick="window.location.href='hiperxcap/'" role="link" tabindex="0" onkeydown="if(event.key==='Enter')window.location.href='hiperxcap/'" aria-label="Abrir design system PayPix + HiperXCAP">
         <span class="client-card__chip client-card__chip--live">● Ativo</span>
-        <div class="client-card__brand">Hiper<em>XCAP</em></div>
-        <p class="client-card__desc">Título de Capitalização da Modalidade Filantropia Premiável. Sorteios semanais ao vivo na RedeTV!.</p>
+        <div class="client-card__brand">PayPix <span style="font-size:0.55em;opacity:0.55;font-style:normal">+</span> <em>HiperXCAP</em></div>
+        <p class="client-card__desc">Infraestrutura Pix aplicada ao Título de Capitalização Filantropia Premiável. Sorteios semanais ao vivo na RedeTV!.</p>
         <div class="client-card__meta">
           <span>Emissor · CAIXA Capitalização</span>
           <span>Causa · Hospital de Amor</span>
@@ -54,39 +54,45 @@
         </div>
       </div>
 
+      <!-- iAdm — produto ativo -->
+      <div class="client-card client-card--active" role="link" tabindex="0" aria-label="Design system iAdm">
+        <span class="client-card__chip client-card__chip--live">● Ativo</span>
+        <div class="client-card__brand"><em>iAdm</em></div>
+        <p class="client-card__desc">Painel administrativo do L4 OS — tokens, componentes e guidelines cross-app para os 4 produtos da plataforma.</p>
+        <div class="client-card__meta">
+          <span>Stack · React + Tailwind</span>
+          <span>v0.1 · Style Guide draft</span>
+        </div>
+        <div class="client-card__actions">
+          <a href="iadm/" class="client-card__cta" style="opacity:0.55;pointer-events:none">Em construção →</a>
+          <a href="/downloads/iadm-style-guide.md" download="iadm-style-guide.md" class="client-card__download" onclick="event.stopPropagation()">⬇ .md</a>
+        </div>
+      </div>
+
       <!-- Placeholders -->
       <div class="client-card client-card--soon">
         <span class="client-card__chip client-card__chip--soon">Em breve</span>
-        <div class="client-card__brand">Cliente 02</div>
-        <p class="client-card__desc">Próximo produto a integrar a plataforma PayPix.</p>
+        <div class="client-card__brand">Cria.Aí</div>
+        <p class="client-card__desc">Plataforma de criação de conteúdo com IA para os produtos L4.</p>
         <div class="client-card__meta">
-          <span>Onboarding em andamento</span>
+          <span>Design em andamento</span>
         </div>
       </div>
 
       <div class="client-card client-card--soon">
         <span class="client-card__chip client-card__chip--soon">Em breve</span>
-        <div class="client-card__brand">Cliente 03</div>
-        <p class="client-card__desc">Reservado para o próximo cliente a entrar no ecossistema.</p>
+        <div class="client-card__brand">Reporta+Aí</div>
+        <p class="client-card__desc">Ferramenta de relatórios e dashboards analíticos da plataforma.</p>
         <div class="client-card__meta">
           <span>Prospecção</span>
-        </div>
-      </div>
-
-      <div class="client-card client-card--soon">
-        <span class="client-card__chip client-card__chip--soon">Em breve</span>
-        <div class="client-card__brand">+ Novo</div>
-        <p class="client-card__desc">Slot disponível para futuros parceiros integrarem.</p>
-        <div class="client-card__meta">
-          <span>Slot aberto</span>
         </div>
       </div>
 
     </div>
 
     <div class="hub__footer">
-      <span>Simples · Rápido · Seguro</span>
-      <span>PayPix · Plataforma de pagamentos</span>
+      <span>Tokens · Componentes · Guidelines</span>
+      <span>L4 Design System · Plataforma de produtos</span>
       <span>Maio · 2026</span>
     </div>
   </div>

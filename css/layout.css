@@ -458,6 +458,24 @@
   color: var(--white);
   filter: drop-shadow(0 0 16px rgba(0, 198, 250, 0.25));
 }
+.hub__wordmark {
+  font-family: var(--font-display);
+  font-style: normal;
+  font-weight: 800;
+  font-size: 28px;
+  letter-spacing: -0.03em;
+  color: var(--white);
+  line-height: 1;
+  text-shadow: 0 2px 0 rgba(0,0,0,0.50), 0 0 20px rgba(0,198,250,0.20);
+}
+.hub__wordmark em {
+  font-style: italic;
+  color: var(--orange-400);
+  text-shadow:
+    0 0 8px rgba(243,146,8,0.80),
+    0 0 18px rgba(243,146,8,0.45),
+    0 2px 0 rgba(110,48,0,0.70);
+}
 .hub__tag {
   display: inline-flex;
   align-items: center;

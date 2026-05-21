@@ -48,7 +48,7 @@
   justify-content: center;
   padding: 20px;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   min-height: 160px;
 }
 .anim-card__replay {
@@ -306,4 +306,92 @@
   border-radius: 50%;
   background: var(--orange-500);
   animation: pulse-glow 1.6s ease-in-out infinite;
+}
+
+/* --- 9. PayPix — Pago! (ring + logo + badge + texto) --- */
+.ppa {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.ppa__ring-wrap {
+  position: relative;
+  width: 110px;
+  height: 110px;
+}
+.ppa__svg {
+  width: 110px;
+  height: 110px;
+  display: block;
+}
+.ppa__circle {
+  fill: none;
+  stroke: var(--orange-500);
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-dasharray: 327;
+  stroke-dashoffset: 327;
+  animation: circle-draw 800ms ease-out forwards;
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: rotate(-90deg);
+}
+.ppa__logo-wrap {
+  position: absolute;
+  inset: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  animation: scale-pop 600ms 250ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+.ppa__logo {
+  width: 68px;
+  height: 23px;
+  color: var(--white);
+  overflow: visible;
+}
+.ppa__badge {
+  position: absolute;
+  bottom: 1px;
+  right: 1px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--green-500);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  animation: scale-pop 400ms 750ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  box-shadow: var(--glow-green);
+  border: 2px solid var(--blue-900);
+}
+.ppa__badge svg {
+  width: 14px;
+  height: 14px;
+  overflow: visible;
+}
+.ppa__badge svg path {
+  fill: none;
+  stroke: var(--blue-900);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 20;
+  stroke-dashoffset: 20;
+  animation: check-draw 300ms 950ms ease-out forwards;
+}
+.ppa__text {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 800;
+  font-size: 14px;
+  text-transform: uppercase;
+  color: var(--green-500);
+  letter-spacing: 0.04em;
+  opacity: 0;
+  transform: translateY(8px);
+  animation: ppa-text-in 400ms 950ms ease-out forwards;
 }

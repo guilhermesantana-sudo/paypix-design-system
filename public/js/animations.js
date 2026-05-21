@@ -68,6 +68,16 @@ function replayRipple() {
   setTimeout(() => ripple.remove(), 700);
 }
 
+function replayPaypixPay() {
+  const stage = document.getElementById('stage-paypix-pay');
+  if (!stage) return;
+  const root = stage.querySelector('#ppa-root');
+  if (!root) return;
+  const clone = root.cloneNode(true);
+  clone.id = 'ppa-root';
+  root.replaceWith(clone);
+}
+
 // Ripple no clique real do botão
 document.querySelectorAll('.ripple-btn').forEach(btn => {
   btn.addEventListener('click', function (e) {
@@ -87,28 +97,32 @@ document.querySelectorAll('.ripple-btn').forEach(btn => {
 document.querySelectorAll('[data-replay]').forEach(btn => {
   btn.addEventListener('click', () => {
     const kind = btn.getAttribute('data-replay');
-    if (kind === 'success')  replaySuccess();
-    if (kind === 'confetti') replayConfetti();
-    if (kind === 'flip')     replayFlip();
-    if (kind === 'shake')    replayShake();
-    if (kind === 'ripple')   replayRipple();
+    if (kind === 'success')    replaySuccess();
+    if (kind === 'confetti')   replayConfetti();
+    if (kind === 'flip')       replayFlip();
+    if (kind === 'shake')      replayShake();
+    if (kind === 'ripple')     replayRipple();
+    if (kind === 'paypix-pay') replayPaypixPay();
   });
 });
 
-// Auto-fire success na primeira vez que entra no viewport
-const successCard = document.querySelector('[data-anim="success"]');
-const confettiCard = document.querySelector('[data-anim="confetti"]');
+// Auto-fire quando entra no viewport pela primeira vez
+const successCard   = document.querySelector('[data-anim="success"]');
+const confettiCard  = document.querySelector('[data-anim="confetti"]');
+const payPixPayCard = document.querySelector('[data-anim="paypix-pay"]');
 if ('IntersectionObserver' in window) {
   const triggeredEls = new WeakSet();
   const io = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting && !triggeredEls.has(entry.target)) {
         triggeredEls.add(entry.target);
-        if (entry.target === successCard) replaySuccess();
-        if (entry.target === confettiCard) setTimeout(replayConfetti, 300);
+        if (entry.target === successCard)   replaySuccess();
+        if (entry.target === confettiCard)  setTimeout(replayConfetti, 300);
+        if (entry.target === payPixPayCard) setTimeout(replayPaypixPay, 200);
       }
     });
   }, { threshold: 0.5 });
-  if (successCard) io.observe(successCard);
-  if (confettiCard) io.observe(confettiCard);
+  if (successCard)   io.observe(successCard);
+  if (confettiCard)  io.observe(confettiCard);
+  if (payPixPayCard) io.observe(payPixPayCard);
 }

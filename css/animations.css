@@ -1,0 +1,309 @@
+/* ============================================================
+   animations.css: .anim-card, .anim-grid, .confetti-piece,
+   .flip-card, .ripple, .coin-3d, .shake-card, .badge-shine-demo,
+   .pulse-orb, .btn-neon-trace, .success-check
+   ============================================================ */
+
+/* --- Grid de demonstração --- */
+.anim-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 18px;
+}
+.anim-card {
+  background: var(--blue-900);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: var(--r-md);
+  padding: 24px;
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+.anim-card__label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--orange-300);
+  margin-bottom: 4px;
+}
+.anim-card__title {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 800;
+  font-size: 18px;
+  text-transform: uppercase;
+  color: var(--white);
+  margin-bottom: 14px;
+  letter-spacing: -0.01em;
+}
+.anim-card__stage {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.30);
+  border-radius: var(--r-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+  min-height: 160px;
+}
+.anim-card__replay {
+  position: absolute;
+  bottom: 14px;
+  right: 14px;
+  background: rgba(243, 146, 8, 0.18);
+  border: 1px solid rgba(243, 146, 8, 0.40);
+  color: var(--orange-300);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+.anim-card__replay:hover {
+  background: var(--orange-500);
+  color: var(--blue-900);
+  border-color: var(--orange-500);
+}
+
+/* --- 1. Sucesso de compra (checkmark + confete) --- */
+.success-stage {
+  flex-direction: column;
+  gap: 14px;
+  text-align: center;
+}
+.success-check {
+  width: 90px;
+  height: 90px;
+  background: var(--green-500);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--glow-green);
+  animation: scale-pop 600ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  position: relative;
+}
+.success-check svg { width: 50px; height: 50px; }
+.success-check svg path {
+  fill: none;
+  stroke: var(--blue-900);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 40;
+  stroke-dashoffset: 40;
+  animation: check-draw 400ms 500ms ease-out forwards;
+}
+.success-text {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 800;
+  font-size: 16px;
+  text-transform: uppercase;
+  color: var(--white);
+  letter-spacing: 0.02em;
+  opacity: 0;
+  animation: scale-pop 400ms 800ms ease-out forwards;
+}
+
+/* Confetes */
+.confetti-piece {
+  position: absolute;
+  width: 8px;
+  height: 14px;
+  top: -20px;
+  pointer-events: none;
+  animation: confetti-fall 1.8s ease-out forwards;
+}
+
+/* --- 2. Flip de cards (revelar número/prêmio) --- */
+.flip-card {
+  width: 140px;
+  height: 180px;
+  perspective: 1000px;
+  cursor: pointer;
+}
+.flip-card__inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+  transform-style: preserve-3d;
+}
+.flip-card.is-flipped .flip-card__inner { transform: rotateY(180deg); }
+.flip-card__face {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--r-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+.flip-card__front {
+  background: var(--grad-deep);
+  border: 1px solid rgba(243, 146, 8, 0.40);
+  box-shadow: var(--glow-orange-sm);
+  color: var(--orange-300);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 800;
+  font-size: 48px;
+}
+.flip-card__back {
+  background: var(--grad-orange);
+  color: var(--blue-900);
+  transform: rotateY(180deg);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 800;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px;
+  text-align: center;
+}
+.flip-card__back small {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-style: normal;
+  opacity: 0.85;
+}
+.flip-card__back strong {
+  font-size: 28px;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+/* --- 3. Botão com ripple ao clicar --- */
+.ripple-btn {
+  position: relative;
+  overflow: hidden;
+}
+.ripple-effect {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.45);
+  pointer-events: none;
+  transform: scale(0);
+  animation: ripple 600ms ease-out forwards;
+}
+
+/* --- 4. Botão neon piscante (atenção) --- */
+.btn-neon-trace {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 28px;
+  background: var(--blue-900);
+  color: var(--white);
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  border: none;
+  border-radius: var(--r-md);
+  cursor: pointer;
+  z-index: 0;
+}
+.btn-neon-trace::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: var(--r-md);
+  background: linear-gradient(90deg, #F39208, #EF7E5A, #B26F9A, #F39208);
+  background-size: 200% 100%;
+  z-index: -1;
+  animation: border-trace 3s linear infinite;
+}
+.btn-neon-trace::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--r-md);
+  background: var(--blue-900);
+  z-index: -1;
+}
+
+/* --- 5. Coin flip 3D --- */
+.coin-3d {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--grad-orange);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 800;
+  font-size: 28px;
+  color: var(--blue-900);
+  box-shadow: var(--glow-orange);
+  animation: coin-flip 1.5s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  transform-style: preserve-3d;
+}
+
+/* --- 6. Shake (erro) --- */
+.shake-card {
+  background: var(--purple-500);
+  color: var(--white);
+  padding: 18px 22px;
+  border-radius: var(--r-md);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  font-size: 14px;
+  animation: shake 500ms cubic-bezier(0.36, 0.07, 0.19, 0.97);
+  box-shadow: var(--glow-purple);
+}
+
+/* --- 7. Badge com shine passando --- */
+.badge-shine-demo {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  background: var(--grad-orange);
+  color: var(--blue-900);
+  border-radius: var(--r-sm);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  overflow: hidden;
+  box-shadow: var(--glow-orange-sm);
+}
+.badge-shine-demo::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+  animation: badge-shine 2.5s ease-in-out infinite;
+}
+
+/* --- 8. Pulse glow simples (já temos, mas demo) --- */
+.pulse-orb {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--orange-500);
+  animation: pulse-glow 1.6s ease-in-out infinite;
+}

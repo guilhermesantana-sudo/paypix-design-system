@@ -1,0 +1,1552 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HiperXCAP · Design System · PayPix</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500;1,800&display=swap" rel="stylesheet">
+<link href="../css/variables.css" rel="stylesheet">
+<link href="../css/layout.css" rel="stylesheet">
+<link href="../css/components.css" rel="stylesheet">
+<link href="../css/animations.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- SVG Sprite — injected via fetch -->
+<div id="svg-sprite"></div>
+<script>
+  fetch('../assets/sprite.svg').then(r=>r.text()).then(svg=>{
+    document.getElementById('svg-sprite').innerHTML = svg;
+  });
+</script>
+
+<button class="menu-toggle" id="menuToggle" aria-label="Abrir menu">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+</button>
+
+<div class="layout" id="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar__brand">
+      <svg class="sidebar__paypix" viewBox="0 0 1749.41 596.91" aria-label="PayPix"><use href="../assets/sprite.svg#paypix-mono"/></svg>
+      <span class="sidebar__system-label">Design Systems</span>
+      <div class="sidebar__client">
+        <span class="sidebar__client-mark">HXC</span>
+        <div class="sidebar__client-info">
+          <span class="sidebar__client-label">Cliente</span>
+          <span class="sidebar__client-name">Hiper<em>XCAP</em></span>
+        </div>
+      </div>
+      <a href="../" class="sidebar__back">← Voltar ao hub</a>
+    </div>
+
+    <nav class="sidebar__nav">
+      <div class="sidebar__group">
+        <div class="sidebar__group-label">Fundamentos</div>
+        <a href="#paleta" class="sidebar__link">01 · Paleta</a>
+        <a href="#distrib" class="sidebar__link">02 · Distribuição</a>
+        <a href="#feedback" class="sidebar__link">03 · Feedback</a>
+        <a href="#tipo" class="sidebar__link">04 · Tipografia</a>
+        <a href="#space" class="sidebar__link">05 · Espaçamento</a>
+        <a href="#raios" class="sidebar__link">06 · Raios</a>
+        <a href="#sombras" class="sidebar__link">07 · Sombras &amp; Glows</a>
+      </div>
+      <div class="sidebar__group">
+        <div class="sidebar__group-label">Componentes</div>
+        <a href="#botoes" class="sidebar__link">08 · Botões</a>
+        <a href="#inputs" class="sidebar__link">09 · Inputs</a>
+        <a href="#cards" class="sidebar__link">10 · Cards</a>
+        <a href="#badges" class="sidebar__link">11 · Badges</a>
+        <a href="#loadings" class="sidebar__link">12 · Loadings</a>
+        <a href="#toasts" class="sidebar__link">13 · Toasts</a>
+      </div>
+      <div class="sidebar__group">
+        <div class="sidebar__group-label">Aplicação</div>
+        <a href="#mockup" class="sidebar__link">14 · Tela exemplo</a>
+        <a href="#animacoes" class="sidebar__link">15 · Animações</a>
+        <a href="#cupons" class="sidebar__link">16 · Cupons</a>
+        <a href="#cartela" class="sidebar__link">17 · Cartela</a>
+        <a href="#hierarquia" class="sidebar__link">18 · Hierarquia</a>
+        <a href="#dodont" class="sidebar__link">19 · Do / Don't</a>
+        <a href="#copy" class="sidebar__link">20 · Copy</a>
+        <a href="#paypix" class="sidebar__link">21 · Marca PayPix</a>
+      </div>
+      <div class="sidebar__group">
+        <div class="sidebar__group-label">Regras</div>
+        <a href="#compliance" class="sidebar__link">22 · Compliance</a>
+      </div>
+    </nav>
+  </aside>
+
+  <main class="main">
+
+    <!-- HERO (azul-900 escuro com toques arcade) -->
+    <header class="hero">
+      <div class="hero__inner">
+        <span class="hero__chip">
+          <span class="hero__chip-dot"></span>
+          Atualizado · maio 2026
+        </span>
+        <h1 class="hero__title">
+          Mais ritmo. Mais <em>energia.</em><br>Mesma marca.
+        </h1>
+        <p class="hero__lead">
+          Design System HiperXCAP com mais dinamismo visual: glow controlado no laranja, botões com efeito de pressão, ticker de campanha, animações sutis nas transições. Bitner e Poppins continuam sendo as fontes oficiais. Toda a paleta de marca é respeitada — nenhuma cor nova.
+        </p>
+        <div class="hero__actions">
+          <button class="btn btn-primary btn--lg btn--pulsing">Garanta seu título</button>
+          <button class="btn btn-outline btn--lg">Como funciona</button>
+        </div>
+        <div class="hero__meta">
+          <div><span class="hero__meta-label">Produto</span><span class="hero__meta-value">Título de Capitalização</span></div>
+          <div><span class="hero__meta-label">Modalidade</span><span class="hero__meta-value">Filantropia Premiável</span></div>
+          <div><span class="hero__meta-label">Emissor</span><span class="hero__meta-value">CAIXA Capitalização</span></div>
+          <div><span class="hero__meta-label">Causa</span><span class="hero__meta-value">Hospital de Amor</span></div>
+        </div>
+      </div>
+
+      <div class="ticker">
+        <span class="ticker__track">
+          R$ 1.000.000 nesta quinta <span class="ticker__sep"></span>
+          Sorteio ao vivo na RedeTV! <span class="ticker__sep"></span>
+          Cada título apoia o Hospital de Amor <span class="ticker__sep"></span>
+          Um novo milionário toda semana <span class="ticker__sep"></span>
+          R$ 1.000.000 nesta quinta <span class="ticker__sep"></span>
+          Sorteio ao vivo na RedeTV! <span class="ticker__sep"></span>
+          Cada título apoia o Hospital de Amor <span class="ticker__sep"></span>
+          Um novo milionário toda semana <span class="ticker__sep"></span>
+        </span>
+      </div>
+    </header>
+
+    <!-- PALETA (claro) -->
+    <section class="section section--light" id="paleta">
+      <div class="section__header">
+        <span class="section__number">01 · Fundamentos</span>
+        <h2 class="section__title">Paleta oficial</h2>
+        <p class="section__lead">A energia do sistema vem do <em>uso</em> da paleta — não de cores novas. 15 cores oficiais + preto puro e branco puro são suficientes.</p>
+      </div>
+
+      <div class="callout">
+        <span class="callout__icon">⚡</span>
+        <div><strong>Regra de ouro:</strong> as 15 cores do manual + <code>#000000</code> e <code>#FFFFFF</code> puros. A regra é o protagonismo do <strong>azul-500</strong> como fundo principal, do laranja como destaque com glow e do <strong>azul-900</strong> nas superfícies escuras "premium". Nada inventado.</div>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection__title">Primárias (5)</h3>
+        <div class="color-grid">
+          <div class="swatch" data-hex="#0166B3"><div class="swatch__color" style="background:#0166B3"></div><div class="swatch__info"><div class="swatch__name">Azul institucional</div><span class="swatch__token">--blue-500 · fundo principal</span><div class="swatch__hex">#0166B3</div></div></div>
+          <div class="swatch" data-hex="#1A2F51"><div class="swatch__color" style="background:#1A2F51"></div><div class="swatch__info"><div class="swatch__name">Azul profundo</div><span class="swatch__token">--blue-900 · seções premium</span><div class="swatch__hex">#1A2F51</div></div></div>
+          <div class="swatch" data-hex="#F39208"><div class="swatch__color" style="background:#F39208"></div><div class="swatch__info"><div class="swatch__name">Laranja CTA</div><span class="swatch__token">--orange-500 · ação + glow</span><div class="swatch__hex">#F39208</div></div></div>
+          <div class="swatch" data-hex="#F8AF4F"><div class="swatch__color" style="background:#F8AF4F"></div><div class="swatch__info"><div class="swatch__name">Laranja claro</div><span class="swatch__token">--orange-300 · hover</span><div class="swatch__hex">#F8AF4F</div></div></div>
+          <div class="swatch" data-hex="#EEEEEE"><div class="swatch__color" style="background:#EEEEEE"></div><div class="swatch__info"><div class="swatch__name">Cinza neutro</div><span class="swatch__token">--gray-100 · seções claras</span><div class="swatch__hex">#EEEEEE</div></div></div>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection__title">Secundárias (10)</h3>
+        <div class="color-grid">
+          <div class="swatch" data-hex="#EF7E5A"><div class="swatch__color" style="background:#EF7E5A;height:90px"></div><div class="swatch__info"><div class="swatch__name">Coral</div><span class="swatch__token">--coral-500 · ao vivo</span><div class="swatch__hex">#EF7E5A</div></div></div>
+          <div class="swatch" data-hex="#F4A495"><div class="swatch__color" style="background:#F4A495;height:90px"></div><div class="swatch__info"><div class="swatch__name">Coral claro</div><span class="swatch__token">--coral-300</span><div class="swatch__hex">#F4A495</div></div></div>
+          <div class="swatch" data-hex="#F0B909"><div class="swatch__color" style="background:#F0B909;height:90px"></div><div class="swatch__info"><div class="swatch__name">Amarelo gráfico</div><span class="swatch__token">--yellow-500 · NUNCA vestimentas</span><div class="swatch__hex">#F0B909</div></div></div>
+          <div class="swatch" data-hex="#DBC69E"><div class="swatch__color" style="background:#DBC69E;height:90px"></div><div class="swatch__info"><div class="swatch__name">Bege</div><span class="swatch__token">--beige-500</span><div class="swatch__hex">#DBC69E</div></div></div>
+          <div class="swatch" data-hex="#A7C945"><div class="swatch__color" style="background:#A7C945;height:90px"></div><div class="swatch__info"><div class="swatch__name">Verde</div><span class="swatch__token">--green-500 · sucesso</span><div class="swatch__hex">#A7C945</div></div></div>
+          <div class="swatch" data-hex="#B6D37B"><div class="swatch__color" style="background:#B6D37B;height:90px"></div><div class="swatch__info"><div class="swatch__name">Verde claro</div><span class="swatch__token">--green-300</span><div class="swatch__hex">#B6D37B</div></div></div>
+          <div class="swatch" data-hex="#54BBAB"><div class="swatch__color" style="background:#54BBAB;height:90px"></div><div class="swatch__info"><div class="swatch__name">Teal</div><span class="swatch__token">--teal-500</span><div class="swatch__hex">#54BBAB</div></div></div>
+          <div class="swatch" data-hex="#B4B3BC"><div class="swatch__color" style="background:#B4B3BC;height:90px"></div><div class="swatch__info"><div class="swatch__name">Lavanda</div><span class="swatch__token">--lavender-500 · bordas</span><div class="swatch__hex">#B4B3BC</div></div></div>
+          <div class="swatch" data-hex="#B26F9A"><div class="swatch__color" style="background:#B26F9A;height:90px"></div><div class="swatch__info"><div class="swatch__name">Roxo</div><span class="swatch__token">--purple-500 · erro / destaque</span><div class="swatch__hex">#B26F9A</div></div></div>
+          <div class="swatch" data-hex="#9ED7EB"><div class="swatch__color" style="background:#9ED7EB;height:90px"></div><div class="swatch__info"><div class="swatch__name">Azul céu</div><span class="swatch__token">--skyblue-500 · info</span><div class="swatch__hex">#9ED7EB</div></div></div>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection__title">Gradientes oficiais</h3>
+        <p class="subsection__desc">Sempre 2-3 cores da paleta. Nada de stops intermediários inventados.</p>
+        <div class="gradient-grid">
+          <div class="gradient-swatch"><div class="gradient-swatch__bar" style="background:linear-gradient(135deg,#0166B3,#1A2F51)"></div><div class="gradient-swatch__info"><div class="gradient-swatch__name">Grad blue</div><span class="gradient-swatch__token">blue-500 → blue-900</span></div></div>
+          <div class="gradient-swatch"><div class="gradient-swatch__bar" style="background:linear-gradient(135deg,#F39208,#F8AF4F)"></div><div class="gradient-swatch__info"><div class="gradient-swatch__name">Grad orange</div><span class="gradient-swatch__token">orange-500 → orange-300</span></div></div>
+          <div class="gradient-swatch"><div class="gradient-swatch__bar" style="background:linear-gradient(180deg,#1A2F51,#0166B3)"></div><div class="gradient-swatch__info"><div class="gradient-swatch__name">Grad deep</div><span class="gradient-swatch__token">blue-900 → blue-500</span></div></div>
+          <div class="gradient-swatch"><div class="gradient-swatch__bar" style="background:linear-gradient(135deg,#B26F9A,#EF7E5A)"></div><div class="gradient-swatch__info"><div class="gradient-swatch__name">Grad special</div><span class="gradient-swatch__token">purple → coral · destaques</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DISTRIBUIÇÃO (azul-500 — fundo principal) -->
+    <section class="section section--blue" id="distrib">
+      <div class="section__header">
+        <span class="section__number">02 · Fundamentos</span>
+        <h2 class="section__title">Distribuição 70/20/8/2</h2>
+        <p class="section__lead">A regra que mantém o sistema equilibrado. Azul é a estrutura, escuro cria profundidade, laranja é função, roxo é tempero raro.</p>
+      </div>
+
+      <div class="distribution">
+        <div class="dist dist--blue"><strong>70%</strong>Azul · estrutura</div>
+        <div class="dist dist--dark"><strong>20%</strong>Azul-900 · profundidade</div>
+        <div class="dist dist--orange"><strong>8%</strong>Laranja · ação</div>
+        <div class="dist dist--purple"><strong>2%</strong>Roxo · raro</div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:32px;" class="dodont">
+        <div class="dodont__col dodont__col--do">
+          <div class="dodont__title">Por que funciona</div>
+          <ul class="dodont__list">
+            <li class="dodont__item">Azul carrega a confiança bancária da CAIXA — sempre presente.</li>
+            <li class="dodont__item">Azul-900 dá sensação premium e cria contraste pra elementos de destaque.</li>
+            <li class="dodont__item">Laranja chama atenção sem cansar — máximo 1-2 elementos com glow por tela.</li>
+            <li class="dodont__item">Roxo é tempero — erro de UI, badge "Em destaque", evento especial.</li>
+          </ul>
+        </div>
+        <div class="dodont__col dodont__col--dont">
+          <div class="dodont__title">O que evitar</div>
+          <ul class="dodont__list">
+            <li class="dodont__item">Texto branco sobre azul claro (contraste fraco).</li>
+            <li class="dodont__item">Laranja sobre branco — quebra a assinatura visual da marca.</li>
+            <li class="dodont__item">Múltiplos elementos com glow simultâneo (poluição visual).</li>
+            <li class="dodont__item">Vermelho puro — proibido pela regra 11 do manual.</li>
+            <li class="dodont__item">Amarelo (#F0B909) em vestimentas/figuras humanas — cor de concorrente.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEEDBACK (cinza claro pra contraste com cores) -->
+    <section class="section section--gray" id="feedback">
+      <div class="section__header">
+        <span class="section__number">03 · Fundamentos</span>
+        <h2 class="section__title">Sistema de feedback</h2>
+        <p class="section__lead">5 estados de comunicação. Cada um com 3 tokens: cor principal, fundo tonalizado, glow controlado. Tudo mapeado para tokens da paleta.</p>
+      </div>
+
+      <div class="feedback-grid">
+        <div class="fb-card fb-success">
+          <div class="fb-card__icon">✓</div>
+          <h4 class="fb-card__title">Sucesso</h4>
+          <p class="fb-card__desc">Compra aprovada, saldo recebido, título emitido. Confirmações positivas.</p>
+          <div class="fb-card__token">--green-500 · #A7C945</div>
+        </div>
+        <div class="fb-card fb-danger">
+          <div class="fb-card__icon">✕</div>
+          <h4 class="fb-card__title">Erro</h4>
+          <p class="fb-card__desc">Pagamento recusado, falha de conexão, CPF inválido. Roxo substitui vermelho (regra 11).</p>
+          <div class="fb-card__token">--purple-500 · #B26F9A</div>
+        </div>
+        <div class="fb-card fb-warning">
+          <div class="fb-card__icon">!</div>
+          <h4 class="fb-card__title">Alerta</h4>
+          <p class="fb-card__desc">Atenção, ação pendente, prazo curto. Usa o próprio laranja da marca.</p>
+          <div class="fb-card__token">--orange-500 · #F39208</div>
+        </div>
+        <div class="fb-card fb-info">
+          <div class="fb-card__icon">i</div>
+          <h4 class="fb-card__title">Informação</h4>
+          <p class="fb-card__desc">Mensagens neutras, dicas, novidades, tutoriais.</p>
+          <div class="fb-card__token">--skyblue-500 · #9ED7EB</div>
+        </div>
+        <div class="fb-card fb-special">
+          <div class="fb-card__icon">★</div>
+          <h4 class="fb-card__title">Em destaque</h4>
+          <p class="fb-card__desc">Evento especial, banner promocional, onboarding. Uso raro.</p>
+          <div class="fb-card__token">--coral-500 · #EF7E5A</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TIPOGRAFIA (claro) -->
+    <section class="section section--light" id="tipo">
+      <div class="section__header">
+        <span class="section__number">04 · Fundamentos</span>
+        <h2 class="section__title">Tipografia</h2>
+        <p class="section__lead">Bitner e Poppins, as fontes oficiais do manual. A energia do sistema vem do uso (peso 800 itálico, gradiente nos números, glow no texto) — não da fonte.</p>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection__title">Famílias</h3>
+        <div class="font-cards">
+          <div class="font-card">
+            <div class="font-card__label">Display · CTAs · destaques</div>
+            <div class="font-card__name">Bitner</div>
+            <p class="font-card__use">Títulos curtos, headlines de campanha, valores de prêmio. Sempre Extra Bold Italic. Opcionalmente com gradient laranja no número do prêmio.</p>
+            <div class="font-card__sample font-card__sample--display" style="background:var(--grad-orange);-webkit-background-clip:text;background-clip:text;color:transparent;">A sorte girou.</div>
+            <div class="font-card__glyphs">Aa Bb Cc 0123 · Extra Bold Italic</div>
+          </div>
+          <div class="font-card">
+            <div class="font-card__label">Body · UI · leitura</div>
+            <div class="font-card__name" style="font-family:var(--font-body);font-weight:700;font-style:normal;color:var(--blue-500);">Poppins</div>
+            <p class="font-card__use">Texto corrido, parágrafos, microcopy, inputs, botões. Pesos 400/500/600/700. Mínimo 16px para body.</p>
+            <div class="font-card__sample font-card__sample--body">Concorra a até R$ 1 milhão toda quinta e ajude o Hospital de Amor.</div>
+            <div class="font-card__glyphs">Aa Bb Cc 0123 · Regular · Medium · SemiBold · Bold</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection__title">Escala tipográfica</h3>
+        <div class="type-stack">
+          <div class="type-row"><span class="type-row__token">text-xs</span><span class="type-row__size">12px</span><span class="type-row__sample" style="font-size:12px">Legal text e captions</span></div>
+          <div class="type-row"><span class="type-row__token">text-sm</span><span class="type-row__size">14px</span><span class="type-row__sample" style="font-size:14px">Texto auxiliar</span></div>
+          <div class="type-row"><span class="type-row__token">text-base</span><span class="type-row__size">16px</span><span class="type-row__sample" style="font-size:16px">Body padrão — texto principal de leitura</span></div>
+          <div class="type-row"><span class="type-row__token">text-lg</span><span class="type-row__size">18px</span><span class="type-row__sample" style="font-size:18px">Texto em destaque</span></div>
+          <div class="type-row"><span class="type-row__token">text-xl</span><span class="type-row__size">20px</span><span class="type-row__sample" style="font-size:20px;font-weight:600">Subtítulos pequenos</span></div>
+          <div class="type-row"><span class="type-row__token">text-2xl</span><span class="type-row__size">24px</span><span class="type-row__sample type-row__sample--display" style="font-size:24px">Títulos de card</span></div>
+          <div class="type-row"><span class="type-row__token">text-3xl</span><span class="type-row__size">32px</span><span class="type-row__sample type-row__sample--display" style="font-size:32px">Títulos de seção</span></div>
+          <div class="type-row"><span class="type-row__token">text-4xl</span><span class="type-row__size">44px</span><span class="type-row__sample type-row__sample--display" style="font-size:44px">Títulos de página</span></div>
+          <div class="type-row"><span class="type-row__token">text-5xl</span><span class="type-row__size">60px</span><span class="type-row__sample type-row__sample--display" style="font-size:60px">Hero principal</span></div>
+          <div class="type-row"><span class="type-row__token">text-6xl</span><span class="type-row__size">80px</span><span class="type-row__sample type-row__sample--display" style="font-size:80px;background:var(--grad-orange);-webkit-background-clip:text;background-clip:text;color:transparent;">R$ 1.000.000</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ESPAÇAMENTO (cinza) -->
+    <section class="section section--gray" id="space">
+      <div class="section__header">
+        <span class="section__number">05 · Fundamentos</span>
+        <h2 class="section__title">Espaçamento 8pt</h2>
+        <p class="section__lead">Múltiplos de 8 com meio-passo de 4 pra micro-ajustes. Apenas tokens — nunca valores soltos.</p>
+      </div>
+      <div class="spacing-list">
+        <div class="space-row"><span class="space-row__token">--space-1</span><span class="space-row__value">4px</span><div class="space-row__bar" style="width:4px"></div></div>
+        <div class="space-row"><span class="space-row__token">--space-2</span><span class="space-row__value">8px</span><div class="space-row__bar" style="width:8px"></div></div>
+        <div class="space-row"><span class="space-row__token">--space-3</span><span class="space-row__value">12px</span><div class="space-row__bar" style="width:12px"></div></div>
+        <div class="space-row"><span class="space-row__token">--space-4</span><span class="space-row__value">16px</span><div class="space-row__bar" style="width:16px"></div></div>
+        <div class="space-row"><span class="space-row__token">--space-5</span><span class="space-row__value">20px</span><div class="space-row__bar" style="width:20px"></div></div>
+        <div class="space-row"><span class="space-row__token">--space-6</span><span class="space-row__value">24px</span><div class="space-row__bar" style="width:24px"></div></div>
+        <div class="space-row"><span class="space-row__token">--space-8</span><span class="space-row__value">32px</span><div class="space-row__bar" style="width:32px"></div></div>
+        <div class="space-row"><span class="space-row__token">--space-10</span><span class="space-row__value">40px</span><div class="space-row__bar" style="width:40px"></div></div>
+        <div class="space-row"><span class="space-row__token">--space-12</span><span class="space-row__value">48px</span><div class="space-row__bar" style="width:48px"></div></div>
+        <div class="space-row"><span class="space-row__token">--space-16</span><span class="space-row__value">64px</span><div class="space-row__bar" style="width:64px"></div></div>
+      </div>
+    </section>
+
+    <!-- RAIOS (claro) -->
+    <section class="section section--light" id="raios">
+      <div class="section__header">
+        <span class="section__number">06 · Fundamentos</span>
+        <h2 class="section__title">Raios de borda</h2>
+        <p class="section__lead">Cantos <strong>sutis</strong>. Botões, inputs e cards entre 6 e 14px. Nada de pílulas extremas — a marca é institucional.</p>
+      </div>
+      <div class="radius-grid">
+        <div class="radius-card"><div class="radius-card__box" style="border-radius:6px"></div><div class="radius-card__token">--r-sm</div><div class="radius-card__value">6px · chips, badges</div></div>
+        <div class="radius-card"><div class="radius-card__box" style="border-radius:10px"></div><div class="radius-card__token">--r-md</div><div class="radius-card__value">10px · botões, inputs, cards</div></div>
+        <div class="radius-card"><div class="radius-card__box" style="border-radius:14px"></div><div class="radius-card__token">--r-lg</div><div class="radius-card__value">14px · mockups, modais</div></div>
+        <div class="radius-card"><div class="radius-card__box" style="border-radius:20px"></div><div class="radius-card__token">--r-xl</div><div class="radius-card__value">20px · destaques especiais</div></div>
+      </div>
+    </section>
+
+    <!-- SOMBRAS (cinza) -->
+    <section class="section section--gray" id="sombras">
+      <div class="section__header">
+        <span class="section__number">07 · Fundamentos</span>
+        <h2 class="section__title">Sombras &amp; glows</h2>
+        <p class="section__lead"><em>Glow é recurso escasso.</em> Máximo 1 elemento por viewport. Sombras padrão usam preto puro com alpha — nada inventado.</p>
+      </div>
+      <div class="shadow-grid">
+        <div class="shadow-card shadow-card--sm"><span class="shadow-card__token">--shadow-sm</span><span class="shadow-card__name">Subtle</span></div>
+        <div class="shadow-card shadow-card--md"><span class="shadow-card__token">--shadow-md</span><span class="shadow-card__name">Card</span></div>
+        <div class="shadow-card shadow-card--lg"><span class="shadow-card__token">--shadow-lg</span><span class="shadow-card__name">Hover</span></div>
+        <div class="shadow-card shadow-card--orange"><span class="shadow-card__token">--glow-orange</span><span class="shadow-card__name">CTA</span></div>
+        <div class="shadow-card shadow-card--blue"><span class="shadow-card__token">--glow-blue</span><span class="shadow-card__name">Info</span></div>
+        <div class="shadow-card shadow-card--green"><span class="shadow-card__token">--glow-green</span><span class="shadow-card__name">Sucesso</span></div>
+        <div class="shadow-card shadow-card--coral"><span class="shadow-card__token">--glow-coral</span><span class="shadow-card__name">Ao vivo</span></div>
+        <div class="shadow-card shadow-card--purple"><span class="shadow-card__token">--glow-purple</span><span class="shadow-card__name">Em destaque</span></div>
+      </div>
+    </section>
+
+    <!-- BOTÕES (azul-900 escuro pra mostrar contraste) -->
+    <section class="section section--dark" id="botoes">
+      <div class="section__header">
+        <span class="section__number">08 · Componentes</span>
+        <h2 class="section__title">Botões</h2>
+        <p class="section__lead">Cantos suaves (10px). Sempre 1 texto — sem subtítulos. Altura mínima 48px (WCAG AAA). Hierarquia: 1 primário por viewport.</p>
+      </div>
+
+      <div class="demo-block">
+        <div class="demo-block__label">Primário · laranja sólido com pressão 3D</div>
+        <div class="demo-block__row">
+          <button class="btn btn-primary btn--sm">Garanta seu título</button>
+          <button class="btn btn-primary">Garanta seu título</button>
+          <button class="btn btn-primary btn--lg">Garanta seu título</button>
+          <button class="btn btn-primary btn--xl">Garanta seu título</button>
+          <button class="btn btn-primary" disabled>Desabilitado</button>
+        </div>
+      </div>
+
+      <div class="demo-block">
+        <div class="demo-block__label">Secundário · azul institucional</div>
+        <div class="demo-block__row">
+          <button class="btn btn-secondary">Entrar</button>
+          <button class="btn btn-secondary btn--lg">Criar conta</button>
+        </div>
+      </div>
+
+      <div class="demo-block">
+        <div class="demo-block__label">Outline · ação alternativa</div>
+        <div class="demo-block__row">
+          <button class="btn btn-outline">Como funciona</button>
+          <button class="btn btn-outline btn--lg">Conhecer ganhadores</button>
+        </div>
+      </div>
+
+      <div class="demo-block">
+        <div class="demo-block__label">Sucesso · confirmação positiva</div>
+        <div class="demo-block__row">
+          <button class="btn btn-success">Confirmar pagamento</button>
+          <button class="btn btn-success btn--lg">Finalizar compra</button>
+        </div>
+      </div>
+
+      <div class="demo-block">
+        <div class="demo-block__label">Crítico · roxo da paleta (vermelho é proibido)</div>
+        <div class="demo-block__row">
+          <button class="btn btn-danger">Cancelar pedido</button>
+          <button class="btn btn-danger btn--lg">Excluir conta</button>
+        </div>
+      </div>
+
+      <div class="demo-block">
+        <div class="demo-block__label">Ghost &amp; link · ações terciárias</div>
+        <div class="demo-block__row">
+          <button class="btn btn-ghost">Voltar</button>
+          <button class="btn btn-ghost btn--lg">Pular esta etapa</button>
+          <button class="btn btn-link">Ler regulamento completo</button>
+        </div>
+      </div>
+
+      <div class="demo-block">
+        <div class="demo-block__label">Modificador pulsing · atenção máxima (uso raro)</div>
+        <div class="demo-block__row">
+          <button class="btn btn-primary btn--lg btn--pulsing">Concorrer agora</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- INPUTS (claro) -->
+    <section class="section section--light" id="inputs">
+      <div class="section__header">
+        <span class="section__number">09 · Componentes</span>
+        <h2 class="section__title">Inputs</h2>
+        <p class="section__lead">Borda em lavanda no estado normal. Borda + glow laranja no foco. Erro em roxo. Altura 52px, fonte 16px (evita zoom no iOS).</p>
+      </div>
+
+      <div class="demo-block">
+        <div class="input-stack">
+          <div class="field">
+            <label class="field__label">Nome completo</label>
+            <input class="field__input" type="text" placeholder="Como aparece no seu documento" />
+          </div>
+          <div class="field">
+            <label class="field__label">E-mail</label>
+            <input class="field__input" type="email" value="guilherme@l4digital.com.br" />
+            <span class="field__hint">Vamos usar pra te avisar do sorteio</span>
+          </div>
+          <div class="field">
+            <label class="field__label">CPF</label>
+            <input class="field__input field__input--error" type="text" value="000.000.000-00" />
+            <span class="field__error">⚠ CPF inválido. Confira os números e tente novamente.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CARDS (cinza) -->
+    <section class="section section--gray" id="cards">
+      <div class="section__header">
+        <span class="section__number">10 · Componentes</span>
+        <h2 class="section__title">Cards</h2>
+        <p class="section__lead">Várias superfícies pra contextos diferentes: branco (padrão), azul-900 (destaque escuro), laranja (prêmio), coral (ao vivo), verde (impacto social), azul-céu (info), teal (institucional alternativo), bege (educativo), gradient (premium e especial). Texto sempre em azul-900 sobre cores claras, branco sobre escuras.</p>
+      </div>
+
+      <div class="cards-demo">
+
+        <!-- 1. Branco padrão -->
+        <div class="demo-card">
+          <div class="demo-card__eyebrow">Card padrão</div>
+          <h4 class="demo-card__title">Como funciona</h4>
+          <p class="demo-card__body">São 4 sorteios principais por semana, conhecidos como Globos da Sorte, com prêmios que podem chegar a R$ 1 milhão.</p>
+        </div>
+
+        <!-- 2. Azul-900 escuro -->
+        <div class="demo-card demo-card--dark">
+          <div class="demo-card__eyebrow">Seu título</div>
+          <h4 class="demo-card__title">Nº 10.760.046</h4>
+          <p class="demo-card__body">Ativo e concorrendo aos próximos sorteios desta semana.</p>
+        </div>
+
+        <!-- 3. Azul-900 com glow laranja (destaque escuro) -->
+        <div class="demo-card demo-card--neon">
+          <div class="demo-card__eyebrow">Card destaque</div>
+          <h4 class="demo-card__title">Sua próxima cartela</h4>
+          <p class="demo-card__body">6 dezenas confirmadas pro sorteio de quinta-feira às 21h30.</p>
+        </div>
+
+        <!-- 4. Gradient azul premium -->
+        <div class="demo-card demo-card--premium">
+          <div class="demo-card__eyebrow">Institucional</div>
+          <h4 class="demo-card__title">É da CAIXA Capitalização</h4>
+          <p class="demo-card__body">Título emitido pela CAIXA Capitalização. Parte do valor contribui com o Hospital de Amor.</p>
+        </div>
+
+        <!-- 5. Laranja sólido com glow -->
+        <div class="demo-card demo-card--prize">
+          <div class="demo-card__eyebrow">Esta semana</div>
+          <div class="demo-card__value">R$ 1.000.000</div>
+          <p class="demo-card__body">Mais de R$ 1 milhão em prêmios toda semana.</p>
+        </div>
+
+        <!-- 6. Laranja sólido sem glow (variante secundária) -->
+        <div class="demo-card demo-card--orange">
+          <div class="demo-card__eyebrow">Recompra</div>
+          <h4 class="demo-card__title">+1 título</h4>
+          <p class="demo-card__body">Aumente suas chances no sorteio desta semana.</p>
+        </div>
+
+        <!-- 7. Gradient especial (roxo→coral) -->
+        <div class="demo-card demo-card--featured">
+          <div class="demo-card__eyebrow">Em destaque</div>
+          <h4 class="demo-card__title">Sorteio especial mensal</h4>
+          <p class="demo-card__body" style="opacity:0.92">Inscrições abertas até o último dia útil do mês.</p>
+        </div>
+
+        <!-- 8. Coral (ao vivo) -->
+        <div class="demo-card demo-card--coral">
+          <div class="demo-card__eyebrow">Ao vivo agora</div>
+          <h4 class="demo-card__title">Sorteio em andamento</h4>
+          <p class="demo-card__body">Transmissão começou às 21h30. Acompanhe pela RedeTV! ou pelo app.</p>
+        </div>
+
+        <!-- 9. Verde (impacto social) -->
+        <div class="demo-card demo-card--green">
+          <div class="demo-card__eyebrow">Impacto social</div>
+          <h4 class="demo-card__title">+R$ 12 milhões já doados</h4>
+          <p class="demo-card__body">Valor cedido ao Hospital de Amor desde o início do programa.</p>
+        </div>
+
+        <!-- 10. Azul-céu (lembrete) -->
+        <div class="demo-card demo-card--skyblue">
+          <div class="demo-card__eyebrow">Lembrete</div>
+          <h4 class="demo-card__title">Falta 1 dia</h4>
+          <p class="demo-card__body">A transmissão começa amanhã às 21h30. Confirme seus títulos.</p>
+        </div>
+
+        <!-- 11. Teal (histórico) -->
+        <div class="demo-card demo-card--teal">
+          <div class="demo-card__eyebrow">Histórico</div>
+          <h4 class="demo-card__title">238 sorteios realizados</h4>
+          <p class="demo-card__body">Mais de 800 ganhadores desde o início. Auditoria pública disponível.</p>
+        </div>
+
+        <!-- 12. Bege (educativo) -->
+        <div class="demo-card demo-card--beige">
+          <div class="demo-card__eyebrow">Educativo</div>
+          <h4 class="demo-card__title">Como funciona o resgate</h4>
+          <p class="demo-card__body">Ao adquirir o título, você cede o direito de resgate ao Hospital de Amor.</p>
+        </div>
+
+        <!-- 13. Outline tracejada (estado vazio) -->
+        <div class="demo-card demo-card--outline-dashed">
+          <div class="demo-card__eyebrow">Estado vazio</div>
+          <h4 class="demo-card__title">Sem títulos ainda</h4>
+          <p class="demo-card__body">Você ainda não tem títulos. Garanta o primeiro e comece a concorrer.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- BADGES (claro) -->
+    <section class="section section--light" id="badges">
+      <div class="section__header">
+        <span class="section__number">11 · Componentes</span>
+        <h2 class="section__title">Badges &amp; tags</h2>
+        <p class="section__lead">Marcadores curtos. Cantos sutis (6px). Texto em uppercase com peso 700.</p>
+      </div>
+
+      <div class="demo-block">
+        <div class="badges-row">
+          <span class="badge badge--prize">Prêmio</span>
+          <span class="badge badge--featured">Em destaque</span>
+          <span class="badge badge--live"><span class="badge-dot"></span> Ao vivo</span>
+          <span class="badge badge--new">Novo</span>
+          <span class="badge badge--social">Hospital de Amor</span>
+          <span class="badge badge--outline">Institucional</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- LOADINGS (cinza) -->
+    <section class="section section--gray" id="loadings">
+      <div class="section__header">
+        <span class="section__number">12 · Componentes</span>
+        <h2 class="section__title">Loadings</h2>
+        <p class="section__lead">Sempre nas cores da marca. Spinner pra ações curtas, dots pra processamento, skeleton pra carregamento longo.</p>
+      </div>
+
+      <div class="loadings-grid">
+        <div class="loader-cell">
+          <div class="spinner"></div>
+          <div class="loader-cell__token">spinner<br>laranja (default)</div>
+        </div>
+        <div class="loader-cell">
+          <div class="spinner spinner--blue"></div>
+          <div class="loader-cell__token">spinner<br>--blue</div>
+        </div>
+        <div class="loader-cell">
+          <div class="spinner spinner--purple"></div>
+          <div class="loader-cell__token">spinner<br>--purple</div>
+        </div>
+        <div class="loader-cell">
+          <div class="loading-dots"><span></span><span></span><span></span></div>
+          <div class="loader-cell__token">loading-dots<br>processando</div>
+        </div>
+        <div class="loader-cell" style="align-items:stretch;justify-content:flex-start;">
+          <div class="skeleton"></div>
+          <div class="skeleton skeleton--short"></div>
+          <div class="skeleton"></div>
+          <div class="loader-cell__token" style="margin-top:auto;text-align:center">skeleton</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOASTS (claro) -->
+    <section class="section section--light" id="toasts">
+      <div class="section__header">
+        <span class="section__number">13 · Componentes</span>
+        <h2 class="section__title">Toasts &amp; alerts</h2>
+        <p class="section__lead">Ícone à esquerda em quadrado arredondado (6px). Borda lateral 4px na cor do estado. Padrão consistente em fundos claros e escuros.</p>
+      </div>
+
+      <div class="demo-block">
+        <div class="alert alert--success">
+          <div class="alert__icon">✓</div>
+          <div class="alert__content">
+            <div class="alert__title">Pagamento confirmado</div>
+            <div class="alert__body">Seu título nº 10.760.046 está ativo e concorrendo aos próximos sorteios.</div>
+          </div>
+        </div>
+        <div class="alert alert--info">
+          <div class="alert__icon">i</div>
+          <div class="alert__content">
+            <div class="alert__title">Próximo sorteio hoje</div>
+            <div class="alert__body">Quinta-feira, 21h30 ao vivo na RedeTV!. Concorra a R$ 1.000.000,00.</div>
+          </div>
+        </div>
+        <div class="alert alert--warning">
+          <div class="alert__icon">!</div>
+          <div class="alert__content">
+            <div class="alert__title">Faltam poucas horas</div>
+            <div class="alert__body">Garanta seu título antes do sorteio desta noite.</div>
+          </div>
+        </div>
+        <div class="alert alert--danger">
+          <div class="alert__icon">✕</div>
+          <div class="alert__content">
+            <div class="alert__title">Não foi possível processar</div>
+            <div class="alert__body">Tente novamente ou use outra forma de pagamento.</div>
+          </div>
+        </div>
+        <div class="alert alert--special">
+          <div class="alert__icon">★</div>
+          <div class="alert__content">
+            <div class="alert__title">Você ganhou um benefício</div>
+            <div class="alert__body">Acumulou 5 títulos no mês — ganhe um título extra no próximo sorteio.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MOCKUP REAL — TELA EXEMPLO -->
+    <section class="section section--gray" id="mockup">
+      <div class="section__header">
+        <span class="section__number">14 · Aplicação</span>
+        <h2 class="section__title">Tela exemplo</h2>
+        <p class="section__lead">Como esses componentes ficam juntos numa tela real do produto. Card em branco, fundo cinza, hero em azul-900, badges e botões cumprindo seus papéis.</p>
+      </div>
+
+      <div class="mockup">
+        <div class="mockup__bar">
+          <div class="mockup__bar-title">Minha conta</div>
+          <div class="badges-row" style="gap:6px;">
+            <span class="badge badge--new">Novo</span>
+            <span class="badge badge--social">Hospital de Amor</span>
+          </div>
+        </div>
+
+        <div class="mockup__grid">
+          <div class="mockup__hero">
+            <div class="mockup__hero-label">Próximo sorteio · quinta 21h30</div>
+            <div class="mockup__hero-value">R$ 1.000.000</div>
+            <p class="mockup__hero-caption">Você está concorrendo com 3 títulos ativos.</p>
+            <button class="btn btn-primary">Garanta mais 1 título</button>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div class="demo-card" style="padding:18px">
+              <div class="demo-card__eyebrow" style="margin-bottom:4px">Saldo de títulos</div>
+              <div style="font-family:var(--font-display);font-style:italic;font-weight:800;font-size:32px;line-height:1;color:var(--blue-900);">3</div>
+            </div>
+            <div class="demo-card" style="padding:18px">
+              <div class="demo-card__eyebrow" style="margin-bottom:4px">Apoiou</div>
+              <div style="font-family:var(--font-display);font-style:italic;font-weight:800;font-size:24px;line-height:1.1;color:var(--blue-900);">R$ 45,00</div>
+              <div style="font-size:11px;color:rgba(26,47,81,0.6);margin-top:4px">ao Hospital de Amor</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:24px;">
+          <div class="alert alert--info" style="margin-bottom:0">
+            <div class="alert__icon">i</div>
+            <div class="alert__content">
+              <div class="alert__title">Lembrete</div>
+              <div class="alert__body">A transmissão começa em 4 horas. Adicione na sua agenda pra não perder.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ANIMAÇÕES & MICRO-INTERAÇÕES -->
+    <section class="section section--dark" id="animacoes">
+      <div class="section__header">
+        <span class="section__number">15 · Aplicação</span>
+        <h2 class="section__title">Animações &amp; micro-interações</h2>
+        <p class="section__lead">Padrões de movimento para celebrar (compra confirmada, prêmio), revelar (cards, números) e dar feedback (clique, erro). Todas respeitam <code>prefers-reduced-motion</code>. Clique em <em>Repetir</em> em qualquer card pra ver de novo.</p>
+      </div>
+
+      <div class="anim-grid">
+
+        <!-- 1. Sucesso de compra -->
+        <div class="anim-card" data-anim="success">
+          <div class="anim-card__label">Compra confirmada</div>
+          <div class="anim-card__title">Checkmark + confete</div>
+          <div class="anim-card__stage success-stage" id="stage-success">
+            <div class="success-check">
+              <svg viewBox="0 0 60 60"><path d="M14 30 L26 42 L46 18"/></svg>
+            </div>
+            <div class="success-text">Pagamento confirmado!</div>
+          </div>
+          <button class="anim-card__replay" data-replay="success">↻ Repetir</button>
+        </div>
+
+        <!-- 2. Confete grande (celebração) -->
+        <div class="anim-card" data-anim="confetti">
+          <div class="anim-card__label">Celebração maior</div>
+          <div class="anim-card__title">Chuva de confete</div>
+          <div class="anim-card__stage" id="stage-confetti">
+            <div class="success-text" style="opacity:1;animation:none;font-size:18px;text-align:center;line-height:1.2;">
+              Mais 1 título<br>concorrendo!
+            </div>
+          </div>
+          <button class="anim-card__replay" data-replay="confetti">↻ Repetir</button>
+        </div>
+
+        <!-- 3. Flip de card -->
+        <div class="anim-card" data-anim="flip">
+          <div class="anim-card__label">Revelar resultado</div>
+          <div class="anim-card__title">Flip de card</div>
+          <div class="anim-card__stage">
+            <div class="flip-card" id="stage-flip" onclick="this.classList.toggle('is-flipped')">
+              <div class="flip-card__inner">
+                <div class="flip-card__face flip-card__front">?</div>
+                <div class="flip-card__face flip-card__back">
+                  <small>Você ganhou</small>
+                  <strong>R$ 50</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="anim-card__replay" data-replay="flip">↻ Virar</button>
+        </div>
+
+        <!-- 4. Botão com ripple -->
+        <div class="anim-card" data-anim="ripple">
+          <div class="anim-card__label">Feedback de toque</div>
+          <div class="anim-card__title">Ripple ao clicar</div>
+          <div class="anim-card__stage">
+            <button class="btn btn-primary ripple-btn" id="stage-ripple">Toque aqui</button>
+          </div>
+          <button class="anim-card__replay" data-replay="ripple">↻ Auto</button>
+        </div>
+
+        <!-- 5. Botão neon com borda animada -->
+        <div class="anim-card" data-anim="neon">
+          <div class="anim-card__label">Atenção sutil</div>
+          <div class="anim-card__title">Borda neon animada</div>
+          <div class="anim-card__stage">
+            <button class="btn-neon-trace">Concorrer agora</button>
+          </div>
+        </div>
+
+        <!-- 6. Coin flip -->
+        <div class="anim-card" data-anim="coin">
+          <div class="anim-card__label">Processando pagamento</div>
+          <div class="anim-card__title">Moeda girando 3D</div>
+          <div class="anim-card__stage">
+            <div class="coin-3d">R$</div>
+          </div>
+        </div>
+
+        <!-- 7. Shake (erro) -->
+        <div class="anim-card" data-anim="shake">
+          <div class="anim-card__label">Erro de validação</div>
+          <div class="anim-card__title">Shake</div>
+          <div class="anim-card__stage">
+            <div class="shake-card" id="stage-shake">⚠ CPF inválido</div>
+          </div>
+          <button class="anim-card__replay" data-replay="shake">↻ Repetir</button>
+        </div>
+
+        <!-- 8. Badge shine -->
+        <div class="anim-card" data-anim="shine">
+          <div class="anim-card__label">Destaque sutil</div>
+          <div class="anim-card__title">Brilho passando</div>
+          <div class="anim-card__stage">
+            <span class="badge-shine-demo">Em destaque</span>
+          </div>
+        </div>
+
+        <!-- 9. Pulse glow -->
+        <div class="anim-card" data-anim="pulse">
+          <div class="anim-card__label">CTA principal</div>
+          <div class="anim-card__title">Pulse glow</div>
+          <div class="anim-card__stage">
+            <div class="pulse-orb"></div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="callout" style="margin-top:32px;">
+        <span class="callout__icon">⏱️</span>
+        <div><strong>Duração padrão:</strong> 120-200ms para micro-interações (hover, ripple); 400-700ms para revelações (flip, pop); 1.5-2s para animações infinitas (pulse, coin, ticker). Evitar animações entre 1-1.5s — caem no "vale do desconforto" (rápido demais pra apreciar, lento demais pra ser fluido).</div>
+      </div>
+    </section>
+
+    <!-- CUPONS -->
+    <section class="section section--gray" id="cupons">
+      <div class="section__header">
+        <span class="section__number">16 · Aplicação</span>
+        <h2 class="section__title">Cupons &amp; bilhetes</h2>
+        <p class="section__lead">Componente visual de cupom/bilhete pra representar títulos comprados, comprovantes de sorteio e benefícios ganhos. Formato característico com recorte lateral pra reforçar a metáfora de "bilhete físico".</p>
+      </div>
+
+      <div class="coupons-grid">
+
+        <!-- Cupom claro padrão -->
+        <div class="coupon">
+          <div class="coupon__stub">
+            <span class="coupon__stub-label">Nº</span>
+            <span class="coupon__stub-num">046</span>
+          </div>
+          <div class="coupon__divider" style="color:#1A2F51"></div>
+          <div class="coupon__body">
+            <div class="coupon__brand">Hiper<em style="font-style:normal">XCAP</em> · Título</div>
+            <div class="coupon__value">R$ 15,00</div>
+            <div class="coupon__meta">
+              <div class="coupon__meta-item">
+                <span class="coupon__meta-label">Sorteio</span>
+                <span>Qui · 21h30</span>
+              </div>
+              <div class="coupon__meta-item">
+                <span class="coupon__meta-label">Validade</span>
+                <span>22/05/2026</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cupom escuro com selo "Novo" -->
+        <div class="coupon coupon--dark">
+          <span class="coupon__seal coupon__seal--new">Novo</span>
+          <div class="coupon__stub">
+            <span class="coupon__stub-label">Nº</span>
+            <span class="coupon__stub-num">047</span>
+          </div>
+          <div class="coupon__divider" style="color:#FFFFFF"></div>
+          <div class="coupon__body">
+            <div class="coupon__brand">Hiper<em style="font-style:normal">XCAP</em> · Título</div>
+            <div class="coupon__value">R$ 25,00</div>
+            <div class="coupon__meta">
+              <div class="coupon__meta-item">
+                <span class="coupon__meta-label">Sorteio</span>
+                <span>Qui · 21h30</span>
+              </div>
+              <div class="coupon__meta-item">
+                <span class="coupon__meta-label">Status</span>
+                <span>Concorrendo</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cupom premium gradient com shine -->
+        <div class="coupon coupon--gradient coupon--shine">
+          <span class="coupon__seal coupon__seal--featured">Em destaque</span>
+          <div class="coupon__stub">
+            <span class="coupon__stub-label">Nº</span>
+            <span class="coupon__stub-num">048</span>
+          </div>
+          <div class="coupon__divider" style="color:#FFFFFF"></div>
+          <div class="coupon__body">
+            <div class="coupon__brand">Sorteio especial · maio</div>
+            <div class="coupon__value">R$ 50,00</div>
+            <div class="coupon__meta">
+              <div class="coupon__meta-item">
+                <span class="coupon__meta-label">Prêmio</span>
+                <span>Até R$ 5 milhões</span>
+              </div>
+              <div class="coupon__meta-item">
+                <span class="coupon__meta-label">Sorteio</span>
+                <span>30/05 · 21h30</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cupom benefício (ao vivo) -->
+        <div class="coupon coupon--dark">
+          <span class="coupon__seal">Ao vivo</span>
+          <div class="coupon__stub">
+            <span class="coupon__stub-label">Bônus</span>
+            <span class="coupon__stub-num">+1</span>
+          </div>
+          <div class="coupon__divider" style="color:#FFFFFF"></div>
+          <div class="coupon__body">
+            <div class="coupon__brand">Benefício recorrente</div>
+            <div class="coupon__value" style="font-size:20px;line-height:1.2;">Título extra grátis</div>
+            <div class="coupon__meta">
+              <div class="coupon__meta-item">
+                <span class="coupon__meta-label">Resgate até</span>
+                <span>Quinta 20h</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="callout" style="margin-top:28px;">
+        <span class="callout__icon">🎟️</span>
+        <div><strong>Quando usar cupom vs card padrão:</strong> use cupom sempre que o item representar uma "unidade colecionável" (título comprado, bônus ganho, vale-prêmio). Use card padrão para conteúdo descritivo, institucional ou informações de conta.</div>
+      </div>
+    </section>
+
+    <!-- CARTELA DE DEZENAS -->
+    <section class="section section--blue" id="cartela">
+      <div class="section__header">
+        <span class="section__number">17 · Aplicação</span>
+        <h2 class="section__title">Cartela de dezenas</h2>
+        <p class="section__lead">Visual de cartela com dezenas de 1 a 20 para o usuário acompanhar dentro do app. Quatro estados oficiais: <strong>vazia</strong> (pré-escolha), <strong>com palpites</strong> (após o usuário escolher), <strong>ao vivo</strong> (durante a transmissão, dezenas saindo uma por uma) e <strong>resultado</strong> (acertos destacados em verde, erros em roxo).</p>
+      </div>
+
+      <div class="callout">
+        <span class="callout__icon">🎯</span>
+        <div><strong>Layout fixo:</strong> grid de <code>5 colunas × 4 linhas</code> = 20 dezenas, sempre nessa proporção. Cada dezena ocupa um quadrado de proporção 1:1 com cantos suaves (6px). Tamanho mínimo da dezena no mobile é 44×44px para respeitar alvo de toque (WCAG AAA).</div>
+      </div>
+
+      <div class="cartelas-grid">
+
+        <!-- 1. Cartela vazia (pré-escolha) -->
+        <div class="cartela">
+          <div class="cartela__head">
+            <div class="cartela__brand">
+              <span class="cartela__brand-mark">HXC</span>
+              <span class="cartela__brand-name">Cartela 001</span>
+            </div>
+            <span class="cartela__chip cartela__chip--idle">Escolha 6 dezenas</span>
+          </div>
+          <div class="cartela__title">Suas dezenas da sorte</div>
+          <div class="cartela__subtitle">Selecione de 6 a 10 números para o sorteio de quinta.</div>
+          <div class="cartela__grid">
+            <div class="dezena">1</div><div class="dezena">2</div><div class="dezena">3</div><div class="dezena">4</div><div class="dezena">5</div>
+            <div class="dezena">6</div><div class="dezena">7</div><div class="dezena">8</div><div class="dezena">9</div><div class="dezena">10</div>
+            <div class="dezena">11</div><div class="dezena">12</div><div class="dezena">13</div><div class="dezena">14</div><div class="dezena">15</div>
+            <div class="dezena">16</div><div class="dezena">17</div><div class="dezena">18</div><div class="dezena">19</div><div class="dezena">20</div>
+          </div>
+          <div class="cartela__stats">
+            <div class="cartela__stat">
+              <span class="cartela__stat-label">Escolhidas</span>
+              <span class="cartela__stat-value">0/6</span>
+            </div>
+            <div class="cartela__stat">
+              <span class="cartela__stat-label">Mín.</span>
+              <span class="cartela__stat-value">6</span>
+            </div>
+            <div class="cartela__stat">
+              <span class="cartela__stat-label">Máx.</span>
+              <span class="cartela__stat-value">10</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Cartela com palpites do usuário -->
+        <div class="cartela">
+          <div class="cartela__head">
+            <div class="cartela__brand">
+              <span class="cartela__brand-mark">HXC</span>
+              <span class="cartela__brand-name">Cartela 002</span>
+            </div>
+            <span class="cartela__chip cartela__chip--ready">Pronto pro sorteio</span>
+          </div>
+          <div class="cartela__title">Suas dezenas da sorte</div>
+          <div class="cartela__subtitle">6 dezenas confirmadas. Boa sorte na quinta!</div>
+          <div class="cartela__grid">
+            <div class="dezena">1</div><div class="dezena is-chosen">2</div><div class="dezena">3</div><div class="dezena">4</div><div class="dezena is-chosen">5</div>
+            <div class="dezena">6</div><div class="dezena">7</div><div class="dezena is-chosen">8</div><div class="dezena">9</div><div class="dezena">10</div>
+            <div class="dezena is-chosen">11</div><div class="dezena">12</div><div class="dezena">13</div><div class="dezena is-chosen">14</div><div class="dezena">15</div>
+            <div class="dezena">16</div><div class="dezena is-chosen">17</div><div class="dezena">18</div><div class="dezena">19</div><div class="dezena">20</div>
+          </div>
+          <div class="cartela__stats">
+            <div class="cartela__stat">
+              <span class="cartela__stat-label">Escolhidas</span>
+              <span class="cartela__stat-value cartela__stat-value--orange">6/6</span>
+            </div>
+            <div class="cartela__stat">
+              <span class="cartela__stat-label">Sorteio</span>
+              <span class="cartela__stat-value">Qui</span>
+            </div>
+            <div class="cartela__stat">
+              <span class="cartela__stat-label">Horário</span>
+              <span class="cartela__stat-value">21h30</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Cartela ao vivo (sorteio acontecendo) -->
+        <div class="cartela cartela--dark">
+          <div class="cartela__last-ball">
+            <span class="cartela__last-ball-label">Última</span>
+            <span class="cartela__last-ball-num">14</span>
+          </div>
+          <div class="cartela__head">
+            <div class="cartela__brand">
+              <span class="cartela__brand-mark">HXC</span>
+              <span class="cartela__brand-name">Hiper<em>XCAP</em></span>
+            </div>
+            <span class="cartela__chip cartela__chip--live">
+              <span class="badge-dot"></span> Ao vivo
+            </span>
+          </div>
+          <div class="cartela__title">Sorteio em andamento</div>
+          <div class="cartela__subtitle">As bolinhas que saírem são marcadas automaticamente.</div>
+          <div class="cartela__grid">
+            <div class="dezena">1</div><div class="dezena is-hit">2</div><div class="dezena">3</div><div class="dezena">4</div><div class="dezena is-chosen">5</div>
+            <div class="dezena">6</div><div class="dezena is-drawn">7</div><div class="dezena is-chosen">8</div><div class="dezena">9</div><div class="dezena">10</div>
+            <div class="dezena is-chosen">11</div><div class="dezena">12</div><div class="dezena">13</div><div class="dezena is-hit">14</div><div class="dezena">15</div>
+            <div class="dezena">16</div><div class="dezena is-chosen">17</div><div class="dezena">18</div><div class="dezena">19</div><div class="dezena">20</div>
+          </div>
+          <div class="cartela__stats">
+            <div class="cartela__stat">
+              <span class="cartela__stat-label">Sorteadas</span>
+              <span class="cartela__stat-value cartela__stat-value--orange">3</span>
+            </div>
+            <div class="cartela__stat">
+              <span class="cartela__stat-label">Acertos</span>
+              <span class="cartela__stat-value cartela__stat-value--green">2</span>
+            </div>
+            <div class="cartela__stat">
+              <span class="cartela__stat-label">Faltam</span>
+              <span class="cartela__stat-value">17</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Cartela com resultado final -->
+        <div class="cartela">
+          <div class="cartela__head">
+            <div class="cartela__brand">
+              <span class="cartela__brand-mark">HXC</span>
+              <span class="cartela__brand-name">Resultado · 16/05</span>
+            </div>
+            <span class="cartela__chip cartela__chip--result">5 acertos</span>
+          </div>
+          <div class="cartela__title">Sua cartela do sorteio</div>
+          <div class="cartela__subtitle">Você acertou 5 das 6 dezenas escolhidas.</div>
+          <div class="cartela__grid">
+            <div class="dezena">1</div><div class="dezena is-hit">2</div><div class="dezena">3</div><div class="dezena">4</div><div class="dezena is-hit">5</div>
+            <div class="dezena">6</div><div class="dezena">7</div><div class="dezena is-hit">8</div><div class="dezena">9</div><div class="dezena">10</div>
+            <div class="dezena is-hit">11</div><div class="dezena">12</div><div class="dezena">13</div><div class="dezena is-miss">14</div><div class="dezena">15</div>
+            <div class="dezena">16</div><div class="dezena is-hit">17</div><div class="dezena">18</div><div class="dezena">19</div><div class="dezena">20</div>
+          </div>
+          <div class="cartela__stats">
+            <div class="cartela__stat">
+              <span class="cartela__stat-label">Acertos</span>
+              <span class="cartela__stat-value cartela__stat-value--green">5/6</span>
+            </div>
+            <div class="cartela__stat">
+              <span class="cartela__stat-label">Erros</span>
+              <span class="cartela__stat-value cartela__stat-value--coral">1</span>
+            </div>
+            <div class="cartela__stat">
+              <span class="cartela__stat-label">Posição</span>
+              <span class="cartela__stat-value cartela__stat-value--orange">2º</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Legenda dos estados -->
+      <div class="callout" style="margin-top:32px;background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.18);">
+        <span class="callout__icon">🎨</span>
+        <div style="flex:1">
+          <strong style="display:block;margin-bottom:10px;color:var(--white);">Legenda dos estados</strong>
+          <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;font-size:13px;color:rgba(255,255,255,0.85);">
+            <span style="display:inline-flex;align-items:center;gap:8px;">
+              <span style="display:inline-flex;width:28px;height:28px;background:rgba(255,255,255,0.10);border:1.5px solid rgba(255,255,255,0.18);border-radius:6px;"></span>
+              Não escolhida
+            </span>
+            <span style="display:inline-flex;align-items:center;gap:8px;">
+              <span style="display:inline-flex;width:28px;height:28px;background:var(--orange-500);border-radius:6px;box-shadow:var(--glow-orange-sm);"></span>
+              Palpite do usuário
+            </span>
+            <span style="display:inline-flex;align-items:center;gap:8px;">
+              <span style="display:inline-flex;width:28px;height:28px;background:var(--blue-500);border-radius:6px;"></span>
+              Sorteada (não escolhida)
+            </span>
+            <span style="display:inline-flex;align-items:center;gap:8px;">
+              <span style="display:inline-flex;width:28px;height:28px;background:var(--green-500);border-radius:6px;"></span>
+              Acerto (escolhida + sorteada)
+            </span>
+            <span style="display:inline-flex;align-items:center;gap:8px;">
+              <span style="display:inline-flex;width:28px;height:28px;background:rgba(178,111,154,0.20);border:1.5px solid var(--purple-500);border-radius:6px;"></span>
+              Erro (escolhida + não sorteada)
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HIERARQUIA (azul-900) -->
+    <section class="section section--dark" id="hierarquia">
+      <div class="section__header">
+        <span class="section__number">18 · Aplicação</span>
+        <h2 class="section__title">Hierarquia visual</h2>
+        <p class="section__lead">Toda tela tem <strong>uma</strong> ação principal. Use o tratamento certo pro nível de prioridade — não inflacione tudo.</p>
+      </div>
+
+      <div class="hierarchy-list">
+        <div class="hier hier--high">
+          <div class="hier__level">Prioridade<br>alta</div>
+          <div class="hier__desc">Laranja + glow + pulsing. Ação principal da tela, valor de prêmio em destaque, último passo do checkout.</div>
+          <div class="hier__example">.btn-primary .btn--pulsing<br>.card--prize</div>
+        </div>
+        <div class="hier hier--mid">
+          <div class="hier__level">Prioridade<br>média</div>
+          <div class="hier__desc">Azul institucional ou azul-céu. Ações secundárias, navegação, informações importantes.</div>
+          <div class="hier__example">.btn-secondary<br>.badge--new</div>
+        </div>
+        <div class="hier hier--low">
+          <div class="hier__level">Prioridade<br>baixa</div>
+          <div class="hier__desc">Ghost, link, outline. Ações terciárias, links, "voltar", informações contextuais.</div>
+          <div class="hier__example">.btn-ghost<br>.btn-link</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DO/DONT (claro) -->
+    <section class="section section--light" id="dodont">
+      <div class="section__header">
+        <span class="section__number">19 · Aplicação</span>
+        <h2 class="section__title">Do / Don't</h2>
+        <p class="section__lead">Regras específicas que evitam o sistema virar bagunça visual.</p>
+      </div>
+
+      <div class="dodont">
+        <div class="dodont__col dodont__col--do">
+          <div class="dodont__title">Faça</div>
+          <ul class="dodont__list">
+            <li class="dodont__item">1 elemento com glow por viewport — o que importa mais.</li>
+            <li class="dodont__item">Botão primário sempre laranja, cantos suaves, mínimo 48px.</li>
+            <li class="dodont__item">Texto sempre com 1 frase só nos botões — sem subtítulos.</li>
+            <li class="dodont__item">Alterne fundos: branco / cinza / azul-500 / azul-900 entre seções.</li>
+            <li class="dodont__item">Animação pulsing só no CTA mais importante da tela.</li>
+            <li class="dodont__item">Mantenha o vocabulário do produto: título, sorteio, prêmio, ganhador.</li>
+          </ul>
+        </div>
+        <div class="dodont__col dodont__col--dont">
+          <div class="dodont__title">Não faça</div>
+          <ul class="dodont__list">
+            <li class="dodont__item">Vermelho — proibido pela regra 11.</li>
+            <li class="dodont__item">Amarelo (#F0B909) em pessoas/vestimentas — cor de concorrente.</li>
+            <li class="dodont__item">Múltiplos elementos pulsantes ao mesmo tempo.</li>
+            <li class="dodont__item">Botões em pílula extrema (radius:9999px) — usar máximo 14px.</li>
+            <li class="dodont__item">Botões com duas linhas de texto ou subtítulo abaixo.</li>
+            <li class="dodont__item">Termos: aposta, jogo, bet, loteria, bingo, "jackpot", "cassino".</li>
+            <li class="dodont__item">Fonte abaixo de 14px (16px é o body padrão).</li>
+            <li class="dodont__item">Cores fora das 15 oficiais — nem para "um detalhinho".</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- COPY (cinza) -->
+    <section class="section section--gray" id="copy">
+      <div class="section__header">
+        <span class="section__number">20 · Aplicação</span>
+        <h2 class="section__title">Copy</h2>
+        <p class="section__lead">Vocabulário 100% do produto. O sistema dá energia visual mas o tom segue as boas práticas do manual — clareza, sinceridade, sem jargão.</p>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection__title">CTAs e botões</h3>
+        <div class="copy-table">
+          <div class="copy-table__header">Contexto / Texto do botão (1 linha só)</div>
+          <div class="copy-table__row"><div class="copy-table__context">CTA principal</div><div class="copy-table__text copy-table__text--quote">Garanta seu título</div></div>
+          <div class="copy-table__row"><div class="copy-table__context">Compra direta</div><div class="copy-table__text copy-table__text--quote">Comprar agora</div></div>
+          <div class="copy-table__row"><div class="copy-table__context">Recompra</div><div class="copy-table__text copy-table__text--quote">Garanta mais 1 título</div></div>
+          <div class="copy-table__row"><div class="copy-table__context">Banner de sorteio</div><div class="copy-table__text copy-table__text--quote">Concorrer ao prêmio</div></div>
+          <div class="copy-table__row"><div class="copy-table__context">Pagamento</div><div class="copy-table__text copy-table__text--quote">Confirmar pagamento</div></div>
+          <div class="copy-table__row"><div class="copy-table__context">Conta</div><div class="copy-table__text copy-table__text--quote">Entrar</div></div>
+          <div class="copy-table__row"><div class="copy-table__context">Informação</div><div class="copy-table__text copy-table__text--quote">Como funciona</div></div>
+          <div class="copy-table__row"><div class="copy-table__context">Ganhadores</div><div class="copy-table__text copy-table__text--quote">Conhecer ganhadores</div></div>
+          <div class="copy-table__row"><div class="copy-table__context">Transmissão</div><div class="copy-table__text copy-table__text--quote">Assistir ao sorteio</div></div>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection__title">Headlines</h3>
+        <div class="copy-table">
+          <div class="copy-table__row"><div class="copy-table__context">Hero principal</div><div class="copy-table__text copy-table__text--quote">Concorra a até R$ 1.000.000,00 toda semana.</div></div>
+          <div class="copy-table__row"><div class="copy-table__context">Banner compacto</div><div class="copy-table__text copy-table__text--quote">R$ 1 milhão nesta quinta.</div></div>
+          <div class="copy-table__row"><div class="copy-table__context">Card de campanha</div><div class="copy-table__text copy-table__text--quote">Seu primeiro milhão pode estar aqui.</div></div>
+          <div class="copy-table__row"><div class="copy-table__context">Recompra</div><div class="copy-table__text copy-table__text--quote">Mais títulos, mais chances.</div></div>
+          <div class="copy-table__row"><div class="copy-table__context">Pós-sorteio</div><div class="copy-table__text copy-table__text--quote">O próximo milionário pode ser você.</div></div>
+          <div class="copy-table__row"><div class="copy-table__context">Programação</div><div class="copy-table__text copy-table__text--quote">Quinta · 21h30 · RedeTV!</div></div>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection__title">Microcopy</h3>
+        <div class="copy-table">
+          <div class="copy-table__row"><div class="copy-table__context">Sucesso</div><div class="copy-table__text copy-table__text--quote">Pagamento confirmado! Seu título está garantido.</div></div>
+          <div class="copy-table__row"><div class="copy-table__context">Loading pagamento</div><div class="copy-table__text copy-table__text--quote">Processando seu pagamento. Aguarde um instante.</div></div>
+          <div class="copy-table__row"><div class="copy-table__context">Erro</div><div class="copy-table__text copy-table__text--quote">Não foi possível processar. Tente novamente ou use outra forma de pagamento.</div></div>
+          <div class="copy-table__row"><div class="copy-table__context">Empty state</div><div class="copy-table__text copy-table__text--quote">Você ainda não tem títulos. Garanta o primeiro e comece a concorrer.</div></div>
+          <div class="copy-table__row"><div class="copy-table__context">Hospital de Amor</div><div class="copy-table__text copy-table__text--quote">Obrigado! Você acabou de concorrer aos prêmios e contribuir com o Hospital de Amor. 💙</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAYPIX — endossante de tecnologia -->
+    <section class="section section--light" id="paypix">
+      <div class="section__header">
+        <span class="section__number">21 · Marca · Endosso</span>
+        <h2 class="section__title">Marca PayPix</h2>
+        <p class="section__lead">A PayPix é a <strong>tecnologia de pagamento via Pix</strong> que viabiliza a venda do HiperXCAP por QR Codes exclusivos — não é app de consumidor final. Aparece como <em>assinatura de tecnologia</em> em rodapés, comprovantes, materiais B2B e documentação técnica. Nunca substitui a marca HiperXCAP.</p>
+      </div>
+
+      <div class="callout">
+        <span class="callout__icon">🔗</span>
+        <div><strong>Posicionamento:</strong> a PayPix é a camada de inteligência que conecta o físico ao digital. Em comunicações ao consumidor final, o protagonismo é sempre da marca HiperXCAP. A PayPix entra como endosso — "tecnologia PayPix", "pagamento via PayPix", ou no rodapé com seu logo discreto.</div>
+      </div>
+
+      <!-- Versões da marca -->
+      <div class="subsection">
+        <h3 class="subsection__title">Versões oficiais</h3>
+        <p class="subsection__desc">Três versões cobrem todos os contextos. Em <strong>SVG inline</strong> dentro do HTML — sem dependência de arquivos externos. As versões monocromáticas usam <code>currentColor</code>, então a cor é controlada via CSS conforme o contexto.</p>
+
+        <div class="paypix-grid">
+
+          <div class="paypix-card paypix-card--white">
+            <svg class="paypix-card__logo" viewBox="0 0 1749.41 596.91"><use href="../assets/sprite.svg#paypix-original"/></svg>
+            <div>
+              <div class="paypix-card__label">Original · sobre branco</div>
+              <div class="paypix-card__sub">#paypix-original</div>
+            </div>
+          </div>
+
+          <div class="paypix-card paypix-card--gray">
+            <svg class="paypix-card__logo" viewBox="0 0 1749.41 596.91"><use href="../assets/sprite.svg#paypix-original"/></svg>
+            <div>
+              <div class="paypix-card__label">Original · sobre cinza-100</div>
+              <div class="paypix-card__sub">#paypix-original</div>
+            </div>
+          </div>
+
+          <div class="paypix-card paypix-card--black">
+            <svg class="paypix-card__logo" viewBox="0 0 1749.41 596.91"><use href="../assets/sprite.svg#paypix-original"/></svg>
+            <div>
+              <div class="paypix-card__label">Original · sobre preto</div>
+              <div class="paypix-card__sub">#paypix-original</div>
+            </div>
+          </div>
+
+          <div class="paypix-card paypix-card--blue">
+            <svg class="paypix-card__logo paypix-card__logo--mono-white" viewBox="0 0 1749.41 596.91"><use href="../assets/sprite.svg#paypix-mono"/></svg>
+            <div>
+              <div class="paypix-card__label">Mono branca · sobre azul</div>
+              <div class="paypix-card__sub">#paypix-mono · color: white</div>
+            </div>
+          </div>
+
+          <div class="paypix-card paypix-card--dark">
+            <svg class="paypix-card__logo paypix-card__logo--mono-white" viewBox="0 0 1749.41 596.91"><use href="../assets/sprite.svg#paypix-mono"/></svg>
+            <div>
+              <div class="paypix-card__label">Mono branca · sobre azul-900</div>
+              <div class="paypix-card__sub">#paypix-mono · color: white</div>
+            </div>
+          </div>
+
+          <div class="paypix-card paypix-card--white">
+            <svg class="paypix-card__logo paypix-card__logo--mono-black" viewBox="0 0 1749.41 596.91"><use href="../assets/sprite.svg#paypix-mono"/></svg>
+            <div>
+              <div class="paypix-card__label">Mono preta · sobre branco</div>
+              <div class="paypix-card__sub">#paypix-mono · color: black</div>
+            </div>
+          </div>
+
+          <div class="paypix-card paypix-card--gray">
+            <svg class="paypix-card__logo paypix-card__logo--mono-black" viewBox="0 0 1749.41 596.91"><use href="../assets/sprite.svg#paypix-mono"/></svg>
+            <div>
+              <div class="paypix-card__label">Mono preta · sobre cinza</div>
+              <div class="paypix-card__sub">#paypix-mono · color: black</div>
+            </div>
+          </div>
+
+          <div class="paypix-card paypix-card--white">
+            <svg class="paypix-card__logo paypix-card__logo--mono-dark" viewBox="0 0 1749.41 596.91"><use href="../assets/sprite.svg#paypix-mono"/></svg>
+            <div>
+              <div class="paypix-card__label">Mono azul-900 · sobre branco</div>
+              <div class="paypix-card__sub">#paypix-mono · blue-900</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Tamanhos -->
+      <div class="subsection">
+        <h3 class="subsection__title">Tamanhos</h3>
+        <p class="subsection__desc">Tamanho mínimo legível é <strong>80px de largura</strong>. Em rodapés use 120–160px. Em B2B e apresentações, 200–280px. Nunca passe de 320px em peças digitais — a PayPix é endosso, não protagonista.</p>
+
+        <div class="paypix-sizes">
+          <div class="paypix-size paypix-size--xs">
+            <svg class="paypix-size__logo paypix-card__logo--mono-dark" viewBox="0 0 1749.41 596.91" style="width:80px;"><use href="../assets/sprite.svg#paypix-mono"/></svg>
+            <span class="paypix-size__label">XS · Mínimo</span>
+            <span class="paypix-size__caption">80px</span>
+          </div>
+          <div class="paypix-size paypix-size--sm">
+            <svg class="paypix-size__logo paypix-card__logo--mono-dark" viewBox="0 0 1749.41 596.91" style="width:120px;"><use href="../assets/sprite.svg#paypix-mono"/></svg>
+            <span class="paypix-size__label">SM · Rodapé</span>
+            <span class="paypix-size__caption">120px</span>
+          </div>
+          <div class="paypix-size paypix-size--md">
+            <svg class="paypix-size__logo paypix-card__logo--mono-dark" viewBox="0 0 1749.41 596.91" style="width:160px;"><use href="../assets/sprite.svg#paypix-mono"/></svg>
+            <span class="paypix-size__label">MD · Padrão</span>
+            <span class="paypix-size__caption">160px</span>
+          </div>
+          <div class="paypix-size paypix-size--lg">
+            <svg class="paypix-size__logo paypix-card__logo--mono-dark" viewBox="0 0 1749.41 596.91" style="width:240px;"><use href="../assets/sprite.svg#paypix-mono"/></svg>
+            <span class="paypix-size__label">LG · B2B</span>
+            <span class="paypix-size__caption">240px</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Área de proteção -->
+      <div class="subsection">
+        <h3 class="subsection__title">Área de proteção</h3>
+        <p class="subsection__desc">Mantenha pelo menos <strong>50% da altura do logo</strong> de espaço livre em volta. Nenhum outro elemento (texto, imagem, borda) deve invadir essa região. Linhas laranjas na demo abaixo indicam o limite da área de proteção.</p>
+
+        <div class="paypix-clear">
+          <svg class="paypix-clear__logo paypix-card__logo--mono-dark" viewBox="0 0 1749.41 596.91"><use href="../assets/sprite.svg#paypix-mono"/></svg>
+          <div class="paypix-clear__guides">
+            <div class="paypix-clear__guide paypix-clear__guide--t"></div>
+            <div class="paypix-clear__guide paypix-clear__guide--b"></div>
+            <div class="paypix-clear__guide paypix-clear__guide--l"></div>
+            <div class="paypix-clear__guide paypix-clear__guide--r"></div>
+            <span class="paypix-clear__measure paypix-clear__measure--top">≥ 50% h</span>
+            <span class="paypix-clear__measure paypix-clear__measure--side">≥ 50% h</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Onde usar -->
+      <div class="subsection">
+        <h3 class="subsection__title">Onde usar</h3>
+        <div class="paypix-usage-grid">
+          <div class="paypix-usage">
+            <div class="paypix-usage__icon">⚙</div>
+            <div>
+              <div class="paypix-usage__title">Rodapé de páginas</div>
+              <div class="paypix-usage__desc">Assinatura de tecnologia em landing pages e portais do produto. Versão branca em rodapé azul-900.</div>
+            </div>
+          </div>
+          <div class="paypix-usage">
+            <div class="paypix-usage__icon">📄</div>
+            <div>
+              <div class="paypix-usage__title">Comprovantes e recibos</div>
+              <div class="paypix-usage__desc">Assinatura discreta em PDFs de comprovação de pagamento, "Processado via PayPix".</div>
+            </div>
+          </div>
+          <div class="paypix-usage">
+            <div class="paypix-usage__icon">✉</div>
+            <div>
+              <div class="paypix-usage__title">E-mails transacionais</div>
+              <div class="paypix-usage__desc">Rodapé de confirmação de compra, atualização de pagamento, notificações de cobrança.</div>
+            </div>
+          </div>
+          <div class="paypix-usage">
+            <div class="paypix-usage__icon">💳</div>
+            <div>
+              <div class="paypix-usage__title">Tela de checkout</div>
+              <div class="paypix-usage__desc">Selo "Pagamento via PayPix" próximo ao botão de confirmar — pequeno, transmitindo segurança.</div>
+            </div>
+          </div>
+          <div class="paypix-usage">
+            <div class="paypix-usage__icon">📊</div>
+            <div>
+              <div class="paypix-usage__title">Materiais B2B</div>
+              <div class="paypix-usage__desc">Apresentações para PDVs, lotéricas e distribuidores. Aqui a PayPix pode ser protagonista.</div>
+            </div>
+          </div>
+          <div class="paypix-usage">
+            <div class="paypix-usage__icon">⚡</div>
+            <div>
+              <div class="paypix-usage__title">Documentação técnica</div>
+              <div class="paypix-usage__desc">API docs, integrações, manuais técnicos. Versão original sobre fundos claros.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Aplicações de exemplo -->
+      <div class="subsection">
+        <h3 class="subsection__title">Aplicações de exemplo</h3>
+        <p class="subsection__desc">Como o logo PayPix aparece em peças reais do produto. Sempre como endosso de tecnologia — nunca substituindo a marca HiperXCAP.</p>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+
+          <!-- Footer de página -->
+          <div class="paypix-mock paypix-mock-footer" style="grid-column:1/-1;padding-top:22px;">
+            <div class="paypix-mock-footer__txt">
+              Título de Capitalização da Modalidade Filantropia Premiável<br>
+              Emitido pela CAIXA Capitalização — Apoia o Hospital de Amor
+            </div>
+            <div class="paypix-mock-footer__brand">
+              <small>Tecnologia</small>
+              <svg class="paypix-mock-footer__logo paypix-card__logo--mono-white" viewBox="0 0 1749.41 596.91"><use href="../assets/sprite.svg#paypix-mono"/></svg>
+            </div>
+          </div>
+
+          <!-- Recibo -->
+          <div class="paypix-mock-receipt">
+            <div style="font-family:var(--font-display);font-style:italic;font-weight:800;font-size:14px;letter-spacing:-0.01em;color:var(--blue-900);margin-bottom:10px;text-transform:uppercase;">Comprovante de pagamento</div>
+            <div class="paypix-mock-receipt__row"><span>Título nº</span><strong>10.760.046</strong></div>
+            <div class="paypix-mock-receipt__row"><span>Valor</span><strong>R$ 5,00</strong></div>
+            <div class="paypix-mock-receipt__row"><span>Sorteio</span><strong>22/05/2026</strong></div>
+            <div class="paypix-mock-receipt__divider"></div>
+            <div class="paypix-mock-receipt__row"><span>Forma</span><strong>Pix</strong></div>
+            <div class="paypix-mock-receipt__row"><span>Status</span><strong style="color:#A7C945">Confirmado</strong></div>
+            <div class="paypix-mock-receipt__footer">
+              <small>Processado via</small>
+              <svg class="paypix-card__logo--mono-dark" viewBox="0 0 1749.41 596.91" style="width:80px;display:block;"><use href="../assets/sprite.svg#paypix-mono"/></svg>
+            </div>
+          </div>
+
+          <!-- Selo de checkout -->
+          <div class="paypix-mock" style="display:flex;align-items:center;justify-content:center;flex-direction:column;gap:18px;background:var(--gray-100);">
+            <span class="paypix-mock__label">Selo de checkout</span>
+            <button class="btn btn-primary btn--lg">Confirmar pagamento</button>
+            <div style="display:flex;align-items:center;gap:8px;color:rgba(26,47,81,0.65);font-size:11px;font-weight:500;">
+              <span>🔒 Pagamento processado por</span>
+              <svg class="paypix-card__logo--mono-dark" viewBox="0 0 1749.41 596.91" style="width:70px;display:inline-block;vertical-align:middle;"><use href="../assets/sprite.svg#paypix-mono"/></svg>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Do/Don't específico do PayPix -->
+      <div class="subsection">
+        <h3 class="subsection__title">Boas práticas</h3>
+        <div class="dodont">
+          <div class="dodont__col dodont__col--do">
+            <div class="dodont__title">Faça</div>
+            <ul class="dodont__list">
+              <li class="dodont__item">Use o logo original (gradient azul→verde) em fundos claros (branco, cinza-100).</li>
+              <li class="dodont__item">Use a versão branca monocromática em fundos azuis ou escuros.</li>
+              <li class="dodont__item">Use a versão azul-900 monocromática em fundos claros quando o gradient pode competir visualmente.</li>
+              <li class="dodont__item">Trate como endosso: "Tecnologia PayPix", "Processado via PayPix".</li>
+              <li class="dodont__item">Mantenha área de proteção mínima de 50% da altura do logo.</li>
+              <li class="dodont__item">Em B2B/apresentações para parceiros, a PayPix pode ser protagonista.</li>
+            </ul>
+          </div>
+          <div class="dodont__col dodont__col--dont">
+            <div class="dodont__title">Não faça</div>
+            <ul class="dodont__list">
+              <li class="dodont__item">Substituir o logo HiperXCAP pelo PayPix em comunicações ao consumidor.</li>
+              <li class="dodont__item">Aplicar filtros, sombras ou efeitos sobre o logo.</li>
+              <li class="dodont__item">Distorcer, esticar, comprimir ou rotacionar o logo.</li>
+              <li class="dodont__item">Trocar as cores do gradient ou redesenhar partes do símbolo.</li>
+              <li class="dodont__item">Usar em tamanho menor que 80px (perde legibilidade).</li>
+              <li class="dodont__item">Colocar sobre fundos com baixo contraste (azul-céu, bege, lavanda).</li>
+              <li class="dodont__item">Usar a versão original sobre azul-500 — o "Pay" some.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPLIANCE (claro) -->
+    <section class="section section--light" id="compliance">
+      <div class="section__header">
+        <span class="section__number">22 · Regras</span>
+        <h2 class="section__title">Compliance</h2>
+        <p class="section__lead">As 16 regras inegociáveis do manual. Este design system não abre exceção pra nenhuma.</p>
+      </div>
+
+      <div class="subsection">
+        <div class="rules-grid">
+          <div class="rule"><span class="rule__num">01</span><span class="rule__text">Texto legal em todas as comunicações.</span></div>
+          <div class="rule"><span class="rule__num">02</span><span class="rule__text">Marca sempre com "Título de Capitalização" (acima) e "Filantropia Premiável" (abaixo).</span></div>
+          <div class="rule"><span class="rule__num">03</span><span class="rule__text">Revisão ortográfica obrigatória.</span></div>
+          <div class="rule"><span class="rule__num">04</span><span class="rule__text">Apenas patterns aprovados. Paleta primária prioritária.</span></div>
+          <div class="rule"><span class="rule__num">05</span><span class="rule__text">Quantidade de sorteios realizados em destaque quando aplicável.</span></div>
+          <div class="rule"><span class="rule__num">06</span><span class="rule__text">Espaço para QR Code e número do título em impressos.</span></div>
+          <div class="rule"><span class="rule__num">07</span><span class="rule__text">Número de proposta visível em títulos físicos.</span></div>
+          <div class="rule"><span class="rule__num">08</span><span class="rule__text">Aviso "proibida a venda a menores de 18 anos".</span></div>
+          <div class="rule"><span class="rule__num">09</span><span class="rule__text">Mascotes apenas CAPzinha e Amora.</span></div>
+          <div class="rule"><span class="rule__num">10</span><span class="rule__text">Logo + textos próximos.</span></div>
+          <div class="rule"><span class="rule__num">11</span><span class="rule__text">Vestimentas: NUNCA vermelho ou amarelo.</span></div>
+          <div class="rule"><span class="rule__num">12</span><span class="rule__text">Não criar sub-marca com o logo HiperXCAP.</span></div>
+          <div class="rule"><span class="rule__num">13</span><span class="rule__text">Cessão do direito de resgate mencionada.</span></div>
+          <div class="rule"><span class="rule__num">14</span><span class="rule__text">Hospital de Amor em destaque.</span></div>
+          <div class="rule"><span class="rule__num">15</span><span class="rule__text">Premiação sempre em moeda corrente.</span></div>
+          <div class="rule"><span class="rule__num">16</span><span class="rule__text">Linguagem simples, clara, sem termos em outro idioma.</span></div>
+        </div>
+      </div>
+
+      <div class="subsection">
+        <h3 class="subsection__title">Texto legal padrão</h3>
+        <div class="legal-box">
+          <div class="legal-box__title">§ Cole no rodapé de toda peça</div>
+          Título de Capitalização da Modalidade Filantropia Premiável, de pagamento único, com sorteios realizados por meios próprios.<br>
+          Título emitido pela CAIXA Capitalização S.A. — CNPJ 33.135.804/0001-32, processo SUSEP nº [inserir conforme campanha].<br>
+          A aprovação deste título pela SUSEP não implica, por parte da Autarquia, em incentivo ou recomendação a sua aquisição, representando, exclusivamente, sua adequação às normas em vigor.<br>
+          Proibida a venda a menores de 18 anos. Antes de contratar, consulte previamente as Condições Gerais.<br>
+          O valor do resgate será destinado integralmente ao Hospital de Amor.<br>
+          SAC CAIXA: 0800 030 1508. Ouvidoria CAIXA: 0800 030 1508.
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer__brand">Hiper<em>XCAP</em> · Design System</div>
+      <p class="footer__text">
+        Design system do cliente HiperXCAP, rodando sobre a plataforma PayPix. Mantém Bitner e Poppins (fontes oficiais), todas as 15 cores da paleta + preto e branco puros. Alterna seções claras (branco e cinza-100), azul institucional e azul-900 escuro para criar ritmo. Compliance e cessão de direito de resgate seguem as regras do manual de marca CAIXA / SUSEP.
+      </p>
+      <div class="footer__meta">
+        <span>Cliente · HiperXCAP</span>
+        <span>Plataforma · PayPix</span>
+        <span>Emissor · CAIXA Capitalização</span>
+        <span>Causa · Hospital de Amor</span>
+      </div>
+    </footer>
+
+  </main>
+</div>
+
+<script src="../js/nav.js"></script>
+<script src="../js/animations.js"></script>
+
+</body>
+</html>

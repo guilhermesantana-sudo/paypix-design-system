@@ -1195,50 +1195,53 @@ body.viewing-hub .menu-toggle { display: none !important; }
 
 /* ============================================================
    PRINT (PDF A4) — usado quando a página é aberta com ?print=1
+   Preserva o tema escuro do DS (identidade visual no documento).
    ============================================================ */
 @media print {
-  @page { size: A4; margin: 14mm 12mm; }
-  html, body {
-    background: #fff !important;
-    color: #000 !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
+  @page { size: A4; margin: 12mm 10mm; }
+  /* Força browsers a respeitar cores de fundo */
+  *, *::before, *::after {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
-  body { font-size: 11pt; }
+  html, body {
+    background: var(--blue-900) !important;
+    color: var(--white) !important;
+  }
+  body { font-size: 10pt; }
   /* Esconde UI navegacional/ferramentas */
   .sidebar, .menu-toggle, .sidebar-overlay, .back-to-top { display: none !important; }
   /* Layout 1 coluna ocupando a página inteira */
   .layout { display: block !important; }
-  .main { display: block !important; background: #fff !important; }
-  /* Hero e seções preservam cor da marca mas em fundo claro */
+  .main { display: block !important; background: var(--blue-900) !important; }
+  /* Hero compacto */
   .hero {
-    background: #fff !important;
-    color: #000 !important;
-    padding: 0 0 18pt !important;
+    padding: 8pt 0 14pt !important;
     page-break-after: avoid;
   }
-  .hero__title { color: #000 !important; text-shadow: none !important; font-size: 22pt !important; }
-  .hero__title em { color: var(--orange-500) !important; text-shadow: none !important; }
-  .hero__lead, .hero__chip { color: #444 !important; }
+  .hero__title { font-size: 22pt !important; }
   .hero__actions, .ticker { display: none !important; }
+  /* Seções: tema escuro preservado */
   .section {
-    background: #fff !important;
-    color: #000 !important;
-    padding: 14pt 16pt !important;
-    margin-bottom: 12pt;
-    border: 1px solid #ccc !important;
-    border-radius: 4pt;
-    page-break-inside: avoid;
+    background: var(--blue-900) !important;
+    color: var(--white) !important;
+    padding: 12pt 14pt !important;
+    margin-bottom: 10pt;
+    border: 1px solid rgba(243, 146, 8, 0.20) !important;
+    border-radius: 6pt;
+    page-break-inside: auto;
   }
-  .section--light { background: #fff !important; }
-  .section__title, .section__lead, .subsection__title, .subsection__lead {
-    color: #000 !important; text-shadow: none !important;
+  .section--light {
+    background: var(--white) !important;
+    color: var(--blue-900) !important;
   }
-  /* Cards/swatches preservam cor pra docs visuais */
-  .swatch { break-inside: avoid; border: 1px solid #ccc !important; }
-  .swatch__hex, .swatch__token, .swatch__name { color: #000 !important; }
-  /* Esconde stuff puramente decorativo/animação */
+  .section__title, .section__header { page-break-after: avoid; }
+  /* Swatches preservam cor */
+  .swatch { break-inside: avoid; }
+  /* Esconde stuff puramente decorativo/animação infinita */
   .confetti-piece, .ds-loading, .ticker, .live-banner,
   [data-replay] { display: none !important; }
-  a { color: #000 !important; text-decoration: underline; }
+  /* Quebras */
+  .subsection, .doc-rule, .doc-code { page-break-inside: avoid; }
+  a { color: var(--orange-500) !important; text-decoration: none; }
 }

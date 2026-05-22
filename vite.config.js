@@ -63,10 +63,13 @@ function tokensPlugin() {
       if (!fs.existsSync(cssAbs)) return
       const css = fs.readFileSync(cssAbs, 'utf-8')
       const tokens = parseCssVars(css)
+      const updatedAt = new Date().toISOString()
+
+      // tokens.json — formato declarativo
       const json = {
         product: p.label,
         slug: p.slug,
-        updatedAt: new Date().toISOString(),
+        updatedAt,
         source: p.cssPath,
         count: Object.keys(tokens).length,
         tokens,
@@ -75,6 +78,24 @@ function tokensPlugin() {
         resolve(outDir, `${p.slug}.json`),
         JSON.stringify(json, null, 2)
       )
+
+      // tokens.css — só o :root { --* }, standalone, pronto pra colar
+      const cssOut = `/* ============================================================
+   ${p.label} — Design System tokens
+   ------------------------------------------------------------
+   Auto-gerado de ${p.cssPath}
+   Atualizado: ${updatedAt}
+   ${Object.keys(tokens).length} tokens
+   ------------------------------------------------------------
+   Uso: importe este arquivo antes dos seus styles globais.
+        @import './tokens.css';
+   ============================================================ */
+
+:root {
+${Object.entries(tokens).map(([k, v]) => `  ${k}: ${v};`).join('\n')}
+}
+`
+      fs.writeFileSync(resolve(outDir, `${p.slug}.css`), cssOut)
     })
   }
   return {

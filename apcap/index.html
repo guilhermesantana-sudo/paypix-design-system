@@ -969,78 +969,71 @@
 
   /* ============================================ PRINT (PDF A4) ============================================ */
   @media print {
-    @page { size: A4; margin: 14mm 12mm; }
-    html, body {
-      background: #fff !important;
-      color: #000 !important;
-      -webkit-print-color-adjust: exact;
-      print-color-adjust: exact;
+    @page { size: A4; margin: 12mm 10mm; }
+    /* Preserva o tema escuro do DS no PDF — identidade visual */
+    *, *::before, *::after {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
     }
-    body { font-size: 11pt; }
-    /* Esconde UI navegacional/ferramentas */
+    html, body {
+      background: var(--ds-color-brand-black) !important;
+      color: var(--ds-color-text-on-dark) !important;
+    }
+    body { font-size: 10pt; }
+    /* Esconde UI navegacional/ferramentas — não fazem sentido no PDF */
     .doc-sidebar,
     .doc-menu-toggle,
     .doc-sidebar-overlay,
     .back-to-top { display: none !important; }
     /* Layout 1 coluna ocupando a página inteira */
     .doc-layout { display: block !important; }
-    .doc-main { display: block !important; }
+    .doc-main { display: block !important; background: var(--ds-color-brand-black) !important; }
     .doc-shell {
       max-width: 100% !important;
       padding: 0 !important;
       margin: 0 !important;
     }
-    /* Cores claras para preservar tinta */
+    /* Seções preservam o estilo escuro original */
     .doc-section {
-      background: #fff !important;
-      border: 1px solid #ccc !important;
+      background: var(--ds-color-brand-black) !important;
+      border: 1px solid rgba(255, 214, 10, 0.18) !important;
       box-shadow: none !important;
-      page-break-inside: avoid;
-      margin-bottom: 12pt;
-      padding: 14pt 16pt !important;
-      border-radius: 4pt !important;
+      page-break-inside: auto;
+      margin-bottom: 10pt;
+      padding: 12pt 14pt !important;
+      border-radius: 6pt !important;
     }
     .doc-section h2 {
-      color: #000 !important;
-      text-shadow: none !important;
       font-size: 14pt;
       page-break-after: avoid;
     }
-    .doc-section__num {
-      background: #000 !important;
-      color: #fff !important;
-    }
-    .doc-section__lead, .doc-section p, .doc-section li, .doc-section span, .doc-section strong {
-      color: #222 !important;
-    }
+    /* Hero compacto pra não desperdiçar a primeira página */
     .doc-hero {
-      text-align: left !important;
-      padding: 0 0 18pt !important;
+      padding: 8pt 0 14pt !important;
       page-break-after: avoid;
+      text-align: left !important;
     }
     .doc-hero h1 {
-      color: #000 !important;
-      text-shadow: none !important;
       font-size: 22pt !important;
+      margin: 0 0 8pt !important;
     }
-    .doc-hero__chip, .doc-hero__tagline {
-      color: #555 !important;
+    .doc-hero p {
+      margin: 8pt 0 0 !important;
+      text-align: left !important;
     }
-    /* Esconde demos interativos pesados pra não estourar páginas */
-    .enter-stage, .anim-card-demo, .confetti-stage, .balao-stage, .confirm-demo,
-    .demo button, .modal-showcase .ds-btn {
-      page-break-inside: avoid;
-    }
+    /* Esconde animações infinitas / loadings que não fazem sentido em papel */
     .ds-spinner, .ds-loading-dots, .ds-skeleton,
-    .confetti-piece, .balao { display: none !important; }
-    /* Swatches preservam cor pra docs visuais */
-    .swatch { break-inside: avoid; border: 1px solid #ccc !important; }
-    .swatch__hex, .swatch__token, .swatch__name { color: #000 !important; }
-    .doc-code { background: #f4f4f4 !important; color: #000 !important; }
-    .doc-rule { background: #fff8d6 !important; color: #000 !important; border-left-color: #d4a300 !important; }
-    /* Quebras lógicas */
-    .doc-group { page-break-inside: avoid; }
-    a { color: #000 !important; text-decoration: underline; }
+    .confetti-piece, .balao,
+    .enter-replay, .demo__caption { display: none !important; }
+    /* Demos interativos: mantém visual mas evita corte */
+    .anim-card-demo, .confirm-demo, .modal-showcase,
+    .enter-stage, .swatch { page-break-inside: avoid; }
+    /* Code blocks e regras */
+    .doc-code { page-break-inside: avoid; }
+    .doc-rule { page-break-inside: avoid; }
+    .doc-group { page-break-inside: auto; }
+    /* Não força quebra antes/depois — deixa fluir */
+    a { color: var(--ds-color-brand-yellow) !important; text-decoration: none; }
   }
 
   /* Reduced motion */

@@ -36,15 +36,16 @@
     position: sticky;
     top: 0;
     height: 100vh;
-    overflow-y: auto;
+    overflow: hidden;
     z-index: 100;
+    display: flex;
+    flex-direction: column;
   }
-  .doc-sidebar::-webkit-scrollbar { width: 6px; }
-  .doc-sidebar::-webkit-scrollbar-thumb { background: rgba(255, 214, 10, 0.3); border-radius: 3px; }
 
   .doc-sidebar__brand {
     padding: 28px 24px 22px;
     border-bottom: 1px solid rgba(255, 214, 10, 0.18);
+    flex-shrink: 0;
   }
   .doc-sidebar__chip {
     display: inline-flex;
@@ -144,7 +145,14 @@
     color: var(--ds-color-brand-yellow);
   }
 
-  .doc-sidebar__nav { padding: 22px 12px 60px; }
+  .doc-sidebar__nav {
+    padding: 22px 12px 60px;
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+  }
+  .doc-sidebar__nav::-webkit-scrollbar { width: 6px; }
+  .doc-sidebar__nav::-webkit-scrollbar-thumb { background: rgba(255, 214, 10, 0.3); border-radius: 3px; }
   .doc-sidebar__group { margin-bottom: 26px; }
   .doc-sidebar__group-label {
     padding: 0 12px 8px;
@@ -2201,6 +2209,7 @@
   // Toggle sidebar mobile + scroll-spy nos links
   (function () {
     const sidebar = document.getElementById('docSidebar');
+    const sidebarNav = document.querySelector('.doc-sidebar__nav');
     const toggle = document.getElementById('docMenuToggle');
     const overlay = document.getElementById('docSidebarOverlay');
     const links = document.querySelectorAll('.doc-sidebar__link');
@@ -2234,17 +2243,17 @@
         if (isActive) activeLink = a;
       });
 
-      // Quando o link ativo muda, rola APENAS a sidebar (não a página)
-      // pra manter o link da seção atual visível
-      if (activeLink && activeLink !== lastActive && window.innerWidth > 900) {
-        const sb = sidebar.getBoundingClientRect();
+      // Quando o link ativo muda, rola APENAS a área de nav da sidebar
+      // (não a página, nem o bloco fixo da brand) pra manter o link visível
+      if (activeLink && activeLink !== lastActive && window.innerWidth > 900 && sidebarNav) {
+        const nv = sidebarNav.getBoundingClientRect();
         const lk = activeLink.getBoundingClientRect();
         const margin = 60;
-        const outOfView = lk.top < sb.top + margin || lk.bottom > sb.bottom - margin;
+        const outOfView = lk.top < nv.top + margin || lk.bottom > nv.bottom - margin;
         if (outOfView) {
-          const linkTopInSidebar = lk.top - sb.top + sidebar.scrollTop;
-          const target = linkTopInSidebar - sidebar.clientHeight / 2 + activeLink.offsetHeight / 2;
-          sidebar.scrollTo({ top: Math.max(0, target), behavior: 'smooth' });
+          const linkTopInNav = lk.top - nv.top + sidebarNav.scrollTop;
+          const target = linkTopInNav - sidebarNav.clientHeight / 2 + activeLink.offsetHeight / 2;
+          sidebarNav.scrollTo({ top: Math.max(0, target), behavior: 'smooth' });
         }
         lastActive = activeLink;
       }

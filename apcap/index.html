@@ -547,6 +547,45 @@
     color: rgba(255, 255, 255, 0.5);
   }
 
+  /* ============================================ MODAIS — showcase ============================================ */
+  .modal-showcase {
+    background: rgba(0, 0, 0, 0.4);
+    min-height: 16rem;
+    padding: var(--ds-space-4);
+    align-items: stretch;
+    justify-content: stretch;
+  }
+  .modal-showcase .ds-modal {
+    max-width: 100%;
+    width: 100%;
+    margin: 0;
+    padding: var(--ds-space-5) var(--ds-space-4);
+    animation: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--ds-space-3);
+  }
+  .modal-showcase .ds-title {
+    font-size: var(--ds-fs-lg);
+    line-height: 1.1;
+    text-align: center;
+    margin: 0;
+  }
+  .modal-showcase .ds-body {
+    font-size: var(--ds-fs-sm);
+    line-height: 1.5;
+    text-align: center;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.78);
+  }
+  .modal-showcase .ds-btn {
+    font-size: var(--ds-fs-sm);
+    padding: var(--ds-space-2) var(--ds-space-4);
+    min-height: 40px;
+    margin-top: var(--ds-space-1);
+  }
+
   /* ============================================ ANIMAÇÕES — demos ============================================ */
   .anim-card-demo {
     position: relative;
@@ -712,13 +751,158 @@
     50%      { transform: translateY(-22px) rotate(2deg); }
   }
 
+  /* ============================================ ANIMAÇÕES DE ENTRADA ============================================ */
+  .enter-stage {
+    min-height: 11rem;
+    cursor: pointer;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    gap: var(--ds-space-3);
+  }
+  .enter-stage > .enter-replay {
+    position: absolute;
+    top: 10px; right: 10px;
+    background: rgba(255, 214, 10, 0.10);
+    border: 1px solid rgba(255, 214, 10, 0.40);
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-family: var(--ds-font-display);
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    color: var(--ds-color-brand-yellow);
+    text-transform: uppercase;
+    cursor: pointer;
+    z-index: 2;
+  }
+
+  /* Tile genérico que recebe animações */
+  .enter-tile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 88px; height: 88px;
+    border-radius: var(--ds-radius-lg);
+    background: var(--ds-gradient-premium);
+    border: 1.5px solid rgba(255, 214, 10, 0.35);
+    font-family: var(--ds-font-display);
+    font-size: var(--ds-fs-md);
+    color: var(--ds-color-brand-yellow);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+  }
+
+  /* 1) Slide-down + fade */
+  .enter-stage.is-slidedown .enter-tile {
+    animation: enter-slidedown 700ms cubic-bezier(.34,1.56,.64,1) both;
+  }
+  @keyframes enter-slidedown {
+    0%   { opacity: 0; transform: translateY(-60px) scale(0.95); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* 2) Cascata (stagger) */
+  .enter-stage--stagger { gap: var(--ds-space-2); }
+  .enter-stage--stagger .enter-tile { width: 60px; height: 60px; font-size: var(--ds-fs-sm); }
+  .enter-stage.is-stagger .enter-tile {
+    animation: enter-stagger 600ms cubic-bezier(.34,1.56,.64,1) both;
+  }
+  .enter-stage.is-stagger .enter-tile:nth-child(1) { animation-delay: 0ms; }
+  .enter-stage.is-stagger .enter-tile:nth-child(2) { animation-delay: 90ms; }
+  .enter-stage.is-stagger .enter-tile:nth-child(3) { animation-delay: 180ms; }
+  .enter-stage.is-stagger .enter-tile:nth-child(4) { animation-delay: 270ms; }
+  .enter-stage.is-stagger .enter-tile:nth-child(5) { animation-delay: 360ms; }
+  @keyframes enter-stagger {
+    0%   { opacity: 0; transform: translateY(20px) scale(0.85); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* 3) Flip 3D */
+  .enter-stage--flip { perspective: 800px; }
+  .enter-stage--flip .enter-tile {
+    transform-style: preserve-3d;
+    background: linear-gradient(135deg, var(--ds-color-brand-pink) 0%, #c2185b 100%);
+    border-color: var(--ds-color-brand-pink);
+    color: #fff;
+  }
+  .enter-stage.is-flip .enter-tile {
+    animation: enter-flip 900ms cubic-bezier(.4, 0, .2, 1) both;
+  }
+  @keyframes enter-flip {
+    0%   { opacity: 0; transform: rotateY(-180deg) scale(0.5); }
+    60%  { opacity: 1; transform: rotateY(15deg) scale(1.05); }
+    100% { opacity: 1; transform: rotateY(0deg) scale(1); }
+  }
+
+  /* 4) Shine sweep — entrada + brilho passando */
+  .enter-stage--shine .enter-tile {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1795d4 0%, #0a3e63 100%);
+    border-color: var(--ds-color-brand-blue-light);
+    color: #fff;
+  }
+  .enter-stage.is-shine .enter-tile {
+    animation: enter-fadeup 500ms cubic-bezier(.4,0,.2,1) both;
+  }
+  .enter-stage.is-shine .enter-tile::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.55) 45%,
+      rgba(255, 255, 255, 0.55) 55%,
+      transparent 70%);
+    transform: translateX(-150%);
+    animation: enter-shine 1.4s ease 350ms both;
+  }
+  @keyframes enter-fadeup {
+    0%   { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes enter-shine {
+    0%   { transform: translateX(-150%); }
+    100% { transform: translateX(150%); }
+  }
+
+  /* 5) Scale-in com bounce (pop) */
+  .enter-stage--pop .enter-tile {
+    background: linear-gradient(180deg, #ffe44d 0%, #ffd60a 50%, #f9a825 100%);
+    border-color: #ffe44d;
+    color: var(--ds-color-brand-yellow-text);
+    box-shadow: 0 10px 24px rgba(0,0,0,0.4), 0 0 30px rgba(255, 214, 10, 0.45);
+  }
+  .enter-stage.is-pop .enter-tile {
+    animation: enter-pop 750ms cubic-bezier(.68,-.55,.27,1.55) both;
+  }
+  @keyframes enter-pop {
+    0%   { opacity: 0; transform: scale(0); }
+    60%  { opacity: 1; transform: scale(1.15); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+
+  /* 6) Rotate-in (giro entrando) */
+  .enter-stage--rotate .enter-tile {
+    background: linear-gradient(135deg, #19d97c 0%, #0f8a52 100%);
+    border-color: #19d97c;
+    color: #fff;
+  }
+  .enter-stage.is-rotate .enter-tile {
+    animation: enter-rotate 750ms cubic-bezier(.4,0,.2,1) both;
+  }
+  @keyframes enter-rotate {
+    0%   { opacity: 0; transform: rotate(-180deg) scale(0.3); }
+    100% { opacity: 1; transform: rotate(0deg) scale(1); }
+  }
+
   /* Reduced motion */
   @media (prefers-reduced-motion: reduce) {
     .anim-card-demo,
     .balao,
     .confirm-circle.is-active,
     .confirm-trophy,
-    .confetti-piece { animation: none !important; transition: none !important; }
+    .confetti-piece,
+    .enter-tile { animation: none !important; transition: none !important; }
   }
 
   @media (max-width: 900px) {
@@ -1407,56 +1591,56 @@
       glow controlado — o mesmo padrão dos toasts.
     </p>
 
-    <div class="doc-grid doc-grid--2">
-      <div class="demo" style="background: rgba(0,0,0,0.4); min-height: 14rem;">
-        <div class="ds-modal" style="max-width: 100%; animation: none;">
-          <div class="ds-title" style="color: var(--ds-color-brand-yellow); text-align: center;">CONFIRMAR</div>
-          <p class="ds-body" style="text-align: center;">Modal padrão premium dark.</p>
+    <div class="doc-grid doc-grid--3">
+      <div class="demo modal-showcase">
+        <div class="ds-modal">
+          <div class="ds-title" style="color: var(--ds-color-brand-yellow);">CONFIRMAR</div>
+          <p class="ds-body">Modal padrão premium dark.</p>
           <button class="ds-btn ds-btn--primary ds-btn--block">CONFIRMAR</button>
         </div>
         <div class="demo__caption">.ds-modal (default)</div>
       </div>
 
-      <div class="demo" style="background: rgba(0,0,0,0.4); min-height: 14rem;">
-        <div class="ds-modal ds-modal--success" style="max-width: 100%; animation: none;">
-          <div class="ds-title" style="color: var(--ds-color-success); text-align: center;">🎉 PRÊMIO GANHO</div>
-          <p class="ds-body" style="text-align: center;">Você ganhou R$ 5,00.</p>
+      <div class="demo modal-showcase">
+        <div class="ds-modal ds-modal--success">
+          <div class="ds-title" style="color: var(--ds-color-success);">🎉 PRÊMIO GANHO</div>
+          <p class="ds-body">Você ganhou R$ 5,00.</p>
           <button class="ds-btn ds-btn--success ds-btn--block">CONTINUAR</button>
         </div>
         <div class="demo__caption">.ds-modal--success</div>
       </div>
 
-      <div class="demo" style="background: rgba(0,0,0,0.4); min-height: 14rem;">
-        <div class="ds-modal ds-modal--danger" style="max-width: 100%; animation: none;">
-          <div class="ds-title" style="color: var(--ds-color-danger); text-align: center;">ERRO</div>
-          <p class="ds-body" style="text-align: center;">Não foi possível processar a compra.</p>
+      <div class="demo modal-showcase">
+        <div class="ds-modal ds-modal--danger">
+          <div class="ds-title" style="color: var(--ds-color-danger);">ERRO</div>
+          <p class="ds-body">Não foi possível processar a compra.</p>
           <button class="ds-btn ds-btn--danger ds-btn--block">TENTAR DE NOVO</button>
         </div>
         <div class="demo__caption">.ds-modal--danger</div>
       </div>
 
-      <div class="demo" style="background: rgba(0,0,0,0.4); min-height: 14rem;">
-        <div class="ds-modal ds-modal--warning" style="max-width: 100%; animation: none;">
-          <div class="ds-title" style="color: var(--ds-color-warning); text-align: center;">⚠️ ATENÇÃO</div>
-          <p class="ds-body" style="text-align: center;">Saldo insuficiente para continuar.</p>
+      <div class="demo modal-showcase">
+        <div class="ds-modal ds-modal--warning">
+          <div class="ds-title" style="color: var(--ds-color-warning);">⚠️ ATENÇÃO</div>
+          <p class="ds-body">Saldo insuficiente para continuar.</p>
           <button class="ds-btn ds-btn--accent ds-btn--block">ADICIONAR SALDO</button>
         </div>
         <div class="demo__caption">.ds-modal--warning</div>
       </div>
 
-      <div class="demo" style="background: rgba(0,0,0,0.4); min-height: 14rem;">
-        <div class="ds-modal ds-modal--info" style="max-width: 100%; animation: none;">
-          <div class="ds-title" style="color: var(--ds-color-info); text-align: center;">DICA</div>
-          <p class="ds-body" style="text-align: center;">Convide 5 amigos e ganhe R$ 10,00.</p>
+      <div class="demo modal-showcase">
+        <div class="ds-modal ds-modal--info">
+          <div class="ds-title" style="color: var(--ds-color-info);">DICA</div>
+          <p class="ds-body">Convide 5 amigos e ganhe R$ 10,00.</p>
           <button class="ds-btn ds-btn--accent ds-btn--block">ENTENDI</button>
         </div>
         <div class="demo__caption">.ds-modal--info</div>
       </div>
 
-      <div class="demo" style="background: rgba(0,0,0,0.4); min-height: 14rem;">
-        <div class="ds-modal ds-modal--special" style="max-width: 100%; animation: none;">
-          <div class="ds-title" style="color: var(--ds-color-special); text-align: center;">★ JACKPOT</div>
-          <p class="ds-body" style="text-align: center;">Você desbloqueou um evento especial!</p>
+      <div class="demo modal-showcase">
+        <div class="ds-modal ds-modal--special">
+          <div class="ds-title" style="color: var(--ds-color-special);">★ JACKPOT</div>
+          <p class="ds-body">Você desbloqueou um evento especial!</p>
           <button class="ds-btn ds-btn--special ds-btn--block">PARTICIPAR</button>
         </div>
         <div class="demo__caption">.ds-modal--special</div>
@@ -1676,7 +1860,87 @@
       </div>
     </div>
 
-    <!-- 15.9 Regras -->
+    <!-- 15.9 Animações de entrada -->
+    <div class="doc-group">
+      <h3>15.9 · Entrada de elementos (surgir, flip, brilho)</h3>
+      <p class="doc-section__lead" style="margin-bottom: var(--ds-space-3);">
+        Padrões usados quando um elemento aparece pela primeira vez —
+        em modais, cards de prêmio, telas de resultado, onboarding.
+        Clique em <strong>REPLAY</strong> em cada demo pra reanimar.
+      </p>
+
+      <div class="doc-grid doc-grid--3">
+
+        <!-- Slide-down -->
+        <div class="demo enter-stage is-slidedown" data-anim="slidedown" onclick="replayEnter(this)">
+          <span class="enter-replay">↻ Replay</span>
+          <div class="enter-tile">▼</div>
+          <div class="demo__caption">slide-down + spring</div>
+        </div>
+
+        <!-- Pop bounce -->
+        <div class="demo enter-stage enter-stage--pop is-pop" data-anim="pop" onclick="replayEnter(this)">
+          <span class="enter-replay">↻ Replay</span>
+          <div class="enter-tile">★</div>
+          <div class="demo__caption">scale-in (bounce)</div>
+        </div>
+
+        <!-- Flip -->
+        <div class="demo enter-stage enter-stage--flip is-flip" data-anim="flip" onclick="replayEnter(this)">
+          <span class="enter-replay">↻ Replay</span>
+          <div class="enter-tile">3D</div>
+          <div class="demo__caption">flip Y (180°)</div>
+        </div>
+
+        <!-- Shine -->
+        <div class="demo enter-stage enter-stage--shine is-shine" data-anim="shine" onclick="replayEnter(this)">
+          <span class="enter-replay">↻ Replay</span>
+          <div class="enter-tile">✨</div>
+          <div class="demo__caption">fade-up + brilho</div>
+        </div>
+
+        <!-- Rotate -->
+        <div class="demo enter-stage enter-stage--rotate is-rotate" data-anim="rotate" onclick="replayEnter(this)">
+          <span class="enter-replay">↻ Replay</span>
+          <div class="enter-tile">↻</div>
+          <div class="demo__caption">rotate-in (-180°)</div>
+        </div>
+
+        <!-- Stagger (último para ocupar a linha cheia se necessário) -->
+        <div class="demo enter-stage enter-stage--stagger is-stagger" data-anim="stagger" onclick="replayEnter(this)">
+          <span class="enter-replay">↻ Replay</span>
+          <div class="enter-tile">1</div>
+          <div class="enter-tile">2</div>
+          <div class="enter-tile">3</div>
+          <div class="enter-tile">4</div>
+          <div class="demo__caption">cascata · stagger 90ms</div>
+        </div>
+
+      </div>
+
+      <div class="doc-code"><span class="c">/* Slide-down */</span>
+<span class="k">@keyframes</span> enter-slidedown {
+  <span class="s">0%</span>   { opacity: <span class="s">0</span>; transform: translateY(-60px) scale(.95); }
+  <span class="s">100%</span> { opacity: <span class="s">1</span>; transform: translateY(0) scale(1); }
+}
+
+<span class="c">/* Stagger — delay incremental nos filhos */</span>
+.enter-tile:nth-child(<span class="s">n</span>) { animation-delay: calc(<span class="s">90ms</span> * n); }</div>
+
+      <div class="doc-rule">
+        <strong>Quando usar cada um —</strong>
+        <ol style="margin-top: var(--ds-space-2); padding-left: var(--ds-space-5); line-height: var(--ds-lh-relaxed);">
+          <li><strong>Slide-down</strong> — notificações, banners e toasts que descem do topo.</li>
+          <li><strong>Pop (bounce)</strong> — prêmios, conquistas, badges novos. Chama atenção.</li>
+          <li><strong>Flip 3D</strong> — revelar conteúdo "escondido" (raspadinha, carta, prêmio surpresa).</li>
+          <li><strong>Shine</strong> — destaque de prêmio, valor importante, item premium. Sutil mas brilhoso.</li>
+          <li><strong>Rotate-in</strong> — ícones de carga (selo, troféu, estrela) que surgem girando.</li>
+          <li><strong>Stagger (cascata)</strong> — listas, grids de cards, opções de menu — em vez de tudo aparecer junto.</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- 15.10 Regras -->
     <div class="doc-rule">
       <strong>Regras de motion —</strong>
       <ol style="margin-top: var(--ds-space-2); padding-left: var(--ds-space-5); line-height: var(--ds-lh-relaxed);">
@@ -1903,6 +2167,16 @@
 </div>
 
 <script>
+  // Reanima uma demo de entrada — remove a classe is-* e re-adiciona após reflow
+  function replayEnter(host) {
+    const anim = host.dataset.anim;
+    if (!anim) return;
+    const cls = 'is-' + anim;
+    host.classList.remove(cls);
+    void host.offsetWidth;
+    host.classList.add(cls);
+  }
+
   // Confete — dispara N peças coloridas a partir do elemento clicado
   function confetti(host) {
     const colors = ['#ffd60a', '#ff2d87', '#1795d4', '#3bb8ff', '#ffffff'];

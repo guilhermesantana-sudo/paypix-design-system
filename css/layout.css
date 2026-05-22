@@ -104,7 +104,7 @@
   box-shadow: 0 0 10px rgba(243, 146, 8, 0.95), 0 0 22px rgba(243, 146, 8, 0.50);
 }
 
-.main { min-width: 0; background: var(--blue-500); }
+.main { min-width: 0; background: var(--blue-500); overflow-x: hidden; }
 
 /* ============================================================
    HERO (azul-900 escuro)
@@ -241,6 +241,7 @@
 .section {
   padding: 88px 64px;
   position: relative;
+  overflow-x: hidden;
 }
 
 /* Tema CLARO — sobre fundo branco */

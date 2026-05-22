@@ -640,10 +640,10 @@
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: var(--r-md);
-  padding: 20px 20px 18px;
+  padding: 18px 20px 18px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 14px;
   text-align: left;
   font-family: inherit;
   color: inherit;
@@ -678,21 +678,36 @@
   opacity: 0.50;
   border-style: dashed;
 }
+.client-card__soon-label {
+  margin-top: auto;
+  font-family: 'SF Mono', monospace;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.50);
+  letter-spacing: 0.04em;
+}
 .client-card__chip {
   align-self: flex-start;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 4px 10px;
+  gap: 5px;
+  padding: 3px 8px;
   border-radius: var(--r-sm);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.10em;
   text-transform: uppercase;
 }
 .client-card__chip--live {
+  background: transparent;
+  border: 1px solid rgba(167, 201, 69, 0.45);
+  color: var(--green-300);
+}
+.client-card__chip--live::before {
+  content: '';
+  width: 5px; height: 5px;
+  border-radius: 50%;
   background: var(--green-500);
-  color: var(--blue-900);
+  box-shadow: 0 0 6px rgba(167, 201, 69, 0.75);
 }
 .client-card__chip--soon {
   background: rgba(255, 255, 255, 0.10);
@@ -711,6 +726,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
+}
+.client-card__logo img,
+.client-card__logo svg.client-card__logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
 }
 .client-card__logo--paypix {
   background: rgba(0,0,0,0.30);
@@ -778,21 +801,11 @@
   color: rgba(255, 255, 255, 0.75);
   flex: 1;
 }
-.client-card__meta {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  font-size: 11px;
-  font-family: 'SF Mono', monospace;
-  color: rgba(255, 255, 255, 0.50);
-  padding-top: 10px;
-  border-top: 1px dashed rgba(255, 255, 255, 0.15);
-}
 .client-card__actions {
   display: flex;
   gap: 8px;
   margin-top: auto;
-  padding-top: 6px;
+  padding-top: 4px;
 }
 .client-card__cta {
   flex: 1;

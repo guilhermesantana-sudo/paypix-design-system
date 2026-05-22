@@ -1194,12 +1194,62 @@
 body.viewing-hub .menu-toggle { display: none !important; }
 
 /* ============================================================
-   PRINT (PDF A4) — usado quando a página é aberta com ?print=1
+   MODO PDF — overlay de loading + esconde UI quando ?download=1
+   ============================================================ */
+.is-pdf-mode .sidebar,
+.is-pdf-mode .menu-toggle,
+.is-pdf-mode .sidebar-overlay,
+.is-pdf-mode .back-to-top { display: none !important; }
+.is-pdf-mode .layout { display: block !important; }
+
+#pdf-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.88);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+.pdf-loading {
+  text-align: center;
+  color: #fff;
+  font-family: var(--font-body);
+  padding: 24px;
+  max-width: 380px;
+}
+.pdf-loading-spinner {
+  width: 56px;
+  height: 56px;
+  border: 4px solid rgba(243, 146, 8, 0.20);
+  border-top-color: var(--orange-500);
+  border-radius: 50%;
+  animation: pdf-spin 0.9s linear infinite;
+  margin: 0 auto 20px;
+}
+.pdf-loading-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: var(--orange-500);
+  letter-spacing: 0.02em;
+  margin-bottom: 10px;
+}
+.pdf-loading-hint {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.5;
+}
+@keyframes pdf-spin { to { transform: rotate(360deg); } }
+
+/* ============================================================
+   PRINT (PDF A4) — usado em caso de fallback ?print=1
    Preserva o tema escuro do DS (identidade visual no documento).
    ============================================================ */
 @media print {
-  @page { size: A4; margin: 12mm 10mm; }
-  /* Força browsers a respeitar cores de fundo */
+  /* margin: 0 elimina a faixa branca do papel; padding no body
+     devolve o respiro e o background ocupa a página inteira */
+  @page { size: A4; margin: 0; }
   *, *::before, *::after {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
@@ -1208,7 +1258,10 @@ body.viewing-hub .menu-toggle { display: none !important; }
     background: var(--blue-900) !important;
     color: var(--white) !important;
   }
-  body { font-size: 10pt; }
+  body {
+    font-size: 10pt;
+    padding: 12mm 10mm !important;
+  }
   /* Esconde UI navegacional/ferramentas */
   .sidebar, .menu-toggle, .sidebar-overlay, .back-to-top { display: none !important; }
   /* Layout 1 coluna ocupando a página inteira */

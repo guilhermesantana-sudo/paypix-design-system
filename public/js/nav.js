@@ -2,11 +2,74 @@
    nav.js: scroll spy da sidebar + toggle menu mobile + copy hex
    ============================================================ */
 
-// Auto-print quando a página é aberta com ?print=1 (botão Baixar PDF do hub)
+// Download direto de PDF quando a página é aberta com ?download=1
+// (botão Baixar PDF do hub). Carrega html2pdf.js sob demanda.
 (function () {
-  if (new URLSearchParams(location.search).get('print') !== '1') return;
-  window.addEventListener('load', () => {
+  const params = new URLSearchParams(location.search);
+  const wantsDownload = params.get('download') === '1';
+  const wantsPrint    = params.get('print')    === '1';
+  if (!wantsDownload && !wantsPrint) return;
+
+  document.body.classList.add('is-pdf-mode');
+
+  const overlay = document.createElement('div');
+  overlay.id = 'pdf-overlay';
+  overlay.innerHTML =
+    '<div class="pdf-loading">' +
+      '<div class="pdf-loading-spinner"></div>' +
+      '<div class="pdf-loading-title">Gerando PDF do Design System…</div>' +
+      '<div class="pdf-loading-hint">Pode levar alguns segundos. Não feche esta aba.</div>' +
+    '</div>';
+  document.body.appendChild(overlay);
+
+  function runPrint() {
+    window.addEventListener('afterprint', () => window.close());
     setTimeout(() => window.print(), 400);
+  }
+
+  function generatePdf() {
+    const element = document.querySelector('.main') || document.body;
+    const opts = {
+      margin: [10, 8, 10, 8],
+      filename: 'hiperxcap-design-system.pdf',
+      image: { type: 'jpeg', quality: 0.95 },
+      html2canvas: {
+        scale: 2,
+        backgroundColor: '#1A2F51',
+        useCORS: true,
+        windowWidth: 1180,
+        logging: false,
+      },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait', compress: true },
+      pagebreak: { mode: ['css', 'legacy'] },
+    };
+    html2pdf().set(opts).from(element).save()
+      .then(() => {
+        overlay.querySelector('.pdf-loading-title').textContent = 'PDF gerado! Você pode fechar esta aba.';
+        overlay.querySelector('.pdf-loading-spinner').style.display = 'none';
+        overlay.querySelector('.pdf-loading-hint').textContent = 'O arquivo foi salvo na sua pasta de Downloads.';
+      })
+      .catch(err => {
+        console.error(err);
+        overlay.querySelector('.pdf-loading-title').textContent = 'Algo deu errado — abrindo diálogo de impressão.';
+        setTimeout(runPrint, 1200);
+      });
+  }
+
+  Promise.all([
+    document.fonts ? document.fonts.ready : Promise.resolve(),
+    new Promise(r => (document.readyState === 'complete') ? r() : window.addEventListener('load', r)),
+    new Promise(r => setTimeout(r, 800)),
+  ]).then(() => {
+    if (wantsPrint) { runPrint(); return; }
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+    s.onload = generatePdf;
+    s.onerror = () => {
+      overlay.querySelector('.pdf-loading-title').textContent = 'Não consegui carregar o gerador — abrindo impressão.';
+      setTimeout(runPrint, 1200);
+    };
+    document.head.appendChild(s);
   });
 })();
 

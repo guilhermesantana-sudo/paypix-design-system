@@ -967,10 +967,59 @@
     100% { opacity: 1; transform: rotate(0deg) scale(1); }
   }
 
+  /* ============================================ MODO PDF — overlay + esconde UI ============================================ */
+  .is-pdf-mode .doc-sidebar,
+  .is-pdf-mode .doc-menu-toggle,
+  .is-pdf-mode .doc-sidebar-overlay,
+  .is-pdf-mode .back-to-top { display: none !important; }
+  .is-pdf-mode .doc-layout { display: block !important; }
+
+  #pdf-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.88);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+  .pdf-loading {
+    text-align: center;
+    color: #fff;
+    font-family: var(--ds-font-body);
+    padding: var(--ds-space-6);
+    max-width: 380px;
+  }
+  .pdf-loading-spinner {
+    width: 56px;
+    height: 56px;
+    border: 4px solid rgba(255, 214, 10, 0.20);
+    border-top-color: var(--ds-color-brand-yellow);
+    border-radius: 50%;
+    animation: pdf-spin 0.9s linear infinite;
+    margin: 0 auto 20px;
+  }
+  .pdf-loading-title {
+    font-family: var(--ds-font-display);
+    font-size: var(--ds-fs-lg);
+    color: var(--ds-color-brand-yellow);
+    letter-spacing: var(--ds-tracking-wide);
+    margin-bottom: 10px;
+  }
+  .pdf-loading-hint {
+    font-size: var(--ds-fs-sm);
+    color: rgba(255, 255, 255, 0.65);
+    line-height: 1.5;
+  }
+  @keyframes pdf-spin { to { transform: rotate(360deg); } }
+
   /* ============================================ PRINT (PDF A4) ============================================ */
   @media print {
-    @page { size: A4; margin: 12mm 10mm; }
-    /* Preserva o tema escuro do DS no PDF — identidade visual */
+    /* margin: 0 elimina a faixa branca do papel; padding interno
+       no body devolve o respiro visual e o background do DS
+       ocupa a página inteira */
+    @page { size: A4; margin: 0; }
     *, *::before, *::after {
       -webkit-print-color-adjust: exact !important;
       print-color-adjust: exact !important;
@@ -979,7 +1028,10 @@
       background: var(--ds-color-brand-black) !important;
       color: var(--ds-color-text-on-dark) !important;
     }
-    body { font-size: 10pt; }
+    body {
+      font-size: 10pt;
+      padding: 12mm 10mm !important;
+    }
     /* Esconde UI navegacional/ferramentas — não fazem sentido no PDF */
     .doc-sidebar,
     .doc-menu-toggle,
@@ -2370,11 +2422,77 @@
 </script>
 
 <script>
-  // Auto-print quando a página é aberta com ?print=1 (botão Baixar PDF do hub)
+  // Download direto de PDF quando a página é aberta com ?download=1
+  // (botão Baixar PDF do hub). Usa html2pdf.js carregado on-demand.
   (function () {
-    if (new URLSearchParams(location.search).get('print') !== '1') return;
-    window.addEventListener('load', () => {
+    const params = new URLSearchParams(location.search);
+    const wantsDownload = params.get('download') === '1';
+    const wantsPrint    = params.get('print')    === '1';
+    if (!wantsDownload && !wantsPrint) return;
+
+    document.body.classList.add('is-pdf-mode');
+
+    // Overlay de progresso
+    const overlay = document.createElement('div');
+    overlay.id = 'pdf-overlay';
+    overlay.innerHTML = `
+      <div class="pdf-loading">
+        <div class="pdf-loading-spinner"></div>
+        <div class="pdf-loading-title">Gerando PDF do Design System…</div>
+        <div class="pdf-loading-hint">Pode levar alguns segundos. Não feche esta aba.</div>
+      </div>`;
+    document.body.appendChild(overlay);
+
+    function runPrint() {
+      window.addEventListener('afterprint', () => window.close());
       setTimeout(() => window.print(), 400);
+    }
+
+    function generatePdf() {
+      const element = document.querySelector('.doc-main') || document.body;
+      const opts = {
+        margin: [10, 8, 10, 8], // mm — top right bottom left
+        filename: 'apcap-da-sorte-design-system.pdf',
+        image: { type: 'jpeg', quality: 0.95 },
+        html2canvas: {
+          scale: 2,
+          backgroundColor: '#111111',
+          useCORS: true,
+          windowWidth: 1180,
+          logging: false,
+        },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait', compress: true },
+        pagebreak: { mode: ['css', 'legacy'] },
+      };
+      html2pdf().set(opts).from(element).save()
+        .then(() => {
+          overlay.querySelector('.pdf-loading-title').textContent = 'PDF gerado! Você pode fechar esta aba.';
+          overlay.querySelector('.pdf-loading-spinner').style.display = 'none';
+          overlay.querySelector('.pdf-loading-hint').textContent = 'O arquivo foi salvo na sua pasta de Downloads.';
+        })
+        .catch(err => {
+          console.error(err);
+          overlay.querySelector('.pdf-loading-title').textContent = 'Algo deu errado — abrindo diálogo de impressão.';
+          setTimeout(runPrint, 1200);
+        });
+    }
+
+    // Espera fontes + load + 800ms pra animações estabilizarem
+    Promise.all([
+      document.fonts ? document.fonts.ready : Promise.resolve(),
+      new Promise(r => (document.readyState === 'complete') ? r() : window.addEventListener('load', r)),
+      new Promise(r => setTimeout(r, 800)),
+    ]).then(() => {
+      if (wantsPrint) { runPrint(); return; }
+      // Carrega html2pdf.js on-demand (não pesa no acesso normal)
+      const s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+      s.onload = generatePdf;
+      s.onerror = () => {
+        overlay.querySelector('.pdf-loading-title').textContent = 'Não consegui carregar o gerador — abrindo impressão.';
+        setTimeout(runPrint, 1200);
+      };
+      document.head.appendChild(s);
     });
   })();
 

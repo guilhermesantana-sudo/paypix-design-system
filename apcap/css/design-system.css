@@ -1,0 +1,1624 @@
+/* ==========================================================================
+   CAÇADORES DE BALÕES — DESIGN SYSTEM
+   --------------------------------------------------------------------------
+   Versão: 1.0
+   Base: telas Splash + Login + Home
+   Princípios:
+     - Acessibilidade público C/D (mín. 16px body, alvo de toque ≥48px)
+     - Grid de 8pt para todos os espaçamentos
+     - Estética arcade + marca Caçadores de Balões (amarelo + rosa + azul céu)
+     - Bordas arredondadas (cantos suaves) | Botões em pílula (full radius)
+     - Cores semânticas para modais, loadings, feedback
+   Uso: importar APÓS styles.css. Prefixo .ds-* evita conflitos.
+   ========================================================================== */
+
+
+/* ==========================================================================
+   1. DESIGN TOKENS — variáveis CSS
+   ========================================================================== */
+:root {
+  /* ====================================================================
+     CONCEITO: "ARCADE PREMIUM POPULAR"
+     Distribuição da paleta: 70% azul · 20% preto · 8% amarelo · 2% rosa
+     ==================================================================== */
+
+  /* ---------- 1.1 CORES — paleta principal (5 cores oficiais) ----------- */
+  /* AMARELO MARCA — ação, recompensa, CTAs (8% da tela) */
+  --ds-color-brand-yellow:        #ffd60a;   /* (FFD60A) — alias #FFE44D no claro */
+  --ds-color-brand-yellow-light:  #ffe44d;
+  --ds-color-brand-yellow-dark:   #f9a825;
+  --ds-color-brand-yellow-text:   #4a3300;
+
+  /* ROSA ARCADE — diversão, eventos especiais, raridade (2% da tela) */
+  --ds-color-brand-pink:          #ff2d87;
+  --ds-color-brand-pink-light:    #ff5ba8;
+  --ds-color-brand-pink-dark:     #c2185b;
+
+  /* AZUL MARCA — base estrutural do app (70% da tela) */
+  --ds-color-brand-blue:          #1795d4;
+  --ds-color-brand-blue-light:    #3bb8ff;   /* azul neon (também usado em INFO) */
+  --ds-color-brand-blue-sky:      #1e9bd6;   /* fundo céu */
+  --ds-color-brand-blue-deep:     #0a3e63;   /* azul profundo: contraste/profundidade */
+
+  /* PRETO PREMIUM — cards, modais, overlays, menus (20% da tela) */
+  --ds-color-brand-black:         #111111;
+  --ds-color-brand-black-soft:    #1a1a1a;   /* gradiente superfícies */
+  --ds-color-brand-black-deep:    #0a0a0a;   /* gradiente superfícies */
+
+  /* Cores complementares (uso pontual) */
+  --ds-color-brand-purple:        #7209b7;
+  --ds-color-brand-cyan:          #00b4d8;
+  --ds-color-brand-green:         #19d97c;   /* atualizado para o verde de feedback */
+  --ds-color-brand-orange:        #ff9f1c;   /* atualizado para o laranja de feedback */
+
+  /* ---------- 1.2 CORES — gradientes oficiais ---------------------------- */
+  --ds-gradient-yellow:
+    linear-gradient(180deg, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0.15) 18%, transparent 40%),
+    linear-gradient(180deg, #ffe44d 0%, #ffd60a 50%, #f9a825 100%);
+
+  --ds-gradient-pink:
+    linear-gradient(135deg, #ff5ba8 0%, #ff2d87 50%, #c2185b 100%);
+
+  /* Azul claro → azul marca (gradiente principal de botões/info) */
+  --ds-gradient-blue:
+    linear-gradient(135deg, #3bb8ff 0%, #1795d4 100%);
+
+  /* Azul profundo → azul marca (gradiente estrutural) */
+  --ds-gradient-blue-deep:
+    linear-gradient(135deg, #0a3e63 0%, #1795d4 100%);
+
+  /* Preto → azul profundo (gradiente premium de superfície) */
+  --ds-gradient-premium:
+    linear-gradient(160deg, #111111 0%, #0a3e63 100%);
+
+  /* Superfície escura padrão para cards/modais (mais sutil) */
+  --ds-gradient-arcade-night:
+    linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%);
+
+  --ds-gradient-sky:
+    linear-gradient(180deg, rgba(0,30,60,0.32) 0%, rgba(0,30,60,0.12) 32%, rgba(0,30,60,0) 55%);
+
+  /* ---------- 1.3 CORES — semânticas (use estas, não as brutas) ---------- */
+  --ds-color-primary:             var(--ds-color-brand-yellow);
+  --ds-color-primary-contrast:    var(--ds-color-brand-yellow-text);
+  --ds-color-secondary:           var(--ds-color-brand-pink);
+  --ds-color-secondary-contrast:  #ffffff;
+  --ds-color-accent:              var(--ds-color-brand-blue);
+  --ds-color-accent-contrast:     #ffffff;
+
+  /* ----- FEEDBACK — cores arcade controladas (não saturadas demais) ----
+     Cada feedback tem 3 tokens: cor principal, fundo tonalizado escuro
+     (pra não brigar com a paleta da marca), e glow controlado.         */
+
+  /* SUCESSO — confirmação positiva, prêmio ganho */
+  --ds-color-success:             #19d97c;
+  --ds-color-success-bg:          #123d2a;
+  --ds-color-success-glow:        rgba(25, 217, 124, 0.25);
+  --ds-color-success-dark:        #0f8a52;
+
+  /* ERRO — coral arcade (NUNCA vermelho puro: briga com amarelo/rosa) */
+  --ds-color-danger:              #ff5a5f;
+  --ds-color-danger-bg:           #3b1c22;
+  --ds-color-danger-glow:         rgba(255, 90, 95, 0.18);
+  --ds-color-danger-dark:         #b71c1c;
+
+  /* AVISO — laranja quente (NUNCA reusar amarelo da marca para alertas) */
+  --ds-color-warning:             #ff9f1c;
+  --ds-color-warning-bg:          #3d2a12;
+  --ds-color-warning-glow:        rgba(255, 159, 28, 0.18);
+  --ds-color-warning-dark:        #c66600;
+
+  /* INFO — azul neon */
+  --ds-color-info:                #3bb8ff;
+  --ds-color-info-bg:             #132d42;
+  --ds-color-info-glow:           rgba(59, 184, 255, 0.18);
+  --ds-color-info-dark:           #0077a8;
+
+  /* ESPECIAL — rosa arcade para jackpot, evento raro, combo, super-ganho */
+  --ds-color-special:             #ff2d87;
+  --ds-color-special-bg:          #3a1326;
+  --ds-color-special-glow:        rgba(255, 45, 135, 0.25);
+  --ds-color-special-dark:        #c2185b;
+
+  /* ---------- 1.4 CORES — superfícies / texto ----------------------------
+     Princípio: priorize superfícies ESCURAS (estética premium arcade).
+     Use --ds-color-bg-surface-light apenas em contextos legíveis muito longos.  */
+  --ds-color-bg-app:              var(--ds-color-brand-blue-sky);
+  --ds-color-bg-premium:          var(--ds-color-brand-black);       /* PADRÃO p/ cards/modais */
+  --ds-color-bg-premium-soft:     #1a1a1a;
+  --ds-color-bg-deep:             var(--ds-color-brand-blue-deep);
+  --ds-color-bg-surface-light:    #ffffff;                            /* legível, usar com moderação */
+  --ds-color-bg-surface-soft:     #f5faff;                            /* inputs claros */
+  --ds-color-bg-overlay:          rgba(0, 0, 0, 0.65);
+
+  /* ──────────────────────────────────────────────────────────────────
+     🌥️ FUNDO PADRÃO DE TELA — Nuvens.svg sobre azul céu (--ds-color-brand-blue-sky).
+     REGRA: aplicar esse fundo nas 4 telas-âncora do app:
+       1. Splash  (overlaySplash)
+       2. Login   (popup-login)
+       3. Início  (popup-shopee-start) — a "home" do usuário logado
+       4. Jogo    (telas com .titulo-jogo / .area-baloes-jogo)
+     As demais telas (sorteios, pacotes, checkout, perfil, modais, etc.)
+     devem usar superfícies neutras (--ds-color-bg-premium ou
+     --ds-color-bg-surface-light) — Nuvens é assinatura de tela-âncora.
+     ────────────────────────────────────────────────────────────────── */
+  --ds-bg-nuvens:
+    url('../Assets/Nuvens.svg') top center / 100% auto repeat-y var(--ds-color-brand-blue-sky);
+
+  /* Aliases legados (mantidos por compatibilidade da migração anterior) */
+  --ds-color-bg-surface:          var(--ds-color-bg-surface-light);
+  --ds-color-bg-surface-dark:     var(--ds-color-bg-premium);
+
+  --ds-color-border-soft:         #bbdefb;
+  --ds-color-border-premium:      rgba(255, 214, 10, 0.25);          /* borda neon discreta amarela */
+  --ds-color-border-strong:       var(--ds-color-brand-yellow);
+  --ds-color-border-focus:        var(--ds-color-brand-blue-light);
+
+  /* @deprecated — REGRA DO SISTEMA: nunca fonte escura sobre fundo claro.
+     Mantidos só por compat. retro; não usar em código novo.            */
+  --ds-color-text-on-light:       #2c1810;
+  --ds-color-text-on-light-soft:  #5a7a8e;
+
+  --ds-color-text-on-dark:        #ffffff;
+  --ds-color-text-on-dark-soft:   rgba(255, 255, 255, 0.72);          /* texto secundário em fundo dark */
+  --ds-color-text-on-dark-muted:  rgba(255, 255, 255, 0.50);          /* texto terciário em fundo dark */
+  --ds-color-text-on-yellow:      var(--ds-color-brand-yellow-text);  /* exceção: dark-on-yellow é a assinatura da marca */
+  --ds-color-text-placeholder:    rgba(255, 255, 255, 0.42);
+  --ds-color-text-muted:          rgba(255, 255, 255, 0.65);
+
+  /* Sombra de texto padrão para legibilidade sobre fundo céu */
+  --ds-text-shadow-on-sky:
+    0 1px 0 rgba(0, 0, 0, 0.55),
+    0 2px 5px rgba(0, 0, 0, 0.65);
+
+  /* ---------- 1.5 TIPOGRAFIA — famílias ----------------------------------
+     Nunito = alta legibilidade (recomendada para baixa visão pelo BDA/ABNT),
+     grades amplas, formas redondas. Substituiu Fredoka por acessibilidade. */
+  --ds-font-display: 'Bungee', 'Impact', sans-serif;   /* CTAs, títulos, acentos arcade */
+  --ds-font-body:    'Nunito', system-ui, sans-serif;  /* texto corrido, inputs */
+  --ds-font-pixel:   'Bungee', 'Impact', sans-serif;   /* alias legado (= display) */
+
+  /* ---------- 1.6 TIPOGRAFIA — escala Minor Third (razão 1.200) ---------
+     Escala suave, mais confortável para hierarquia tipográfica sem saltos
+     visuais agressivos. Base 16px. Mínimo 14px para textos secundários.   */
+  --ds-fs-xs:   0.75rem;     /* 12px    — apenas tags */
+  --ds-fs-sm:   0.875rem;    /* 14px    — captions, hints */
+  --ds-fs-base: 1rem;        /* 16px    — body padrão (P) */
+  --ds-fs-md:   1.2rem;      /* 19.2px  — H6 / labels grandes */
+  --ds-fs-lg:   1.44rem;     /* 23.04px — H5 / subtítulos */
+  --ds-fs-xl:   1.728rem;    /* 27.65px — H4 */
+  --ds-fs-2xl:  2.074rem;    /* 33.18px — H3 / display */
+  --ds-fs-3xl:  2.488rem;    /* 39.81px — H2 / hero */
+  --ds-fs-4xl:  2.986rem;    /* 47.78px — H1 / display hero */
+
+  /* ---------- 1.7 TIPOGRAFIA — pesos e alturas --------------------------- */
+  --ds-fw-medium:   500;
+  --ds-fw-semibold: 600;
+  --ds-fw-bold:     700;
+
+  --ds-lh-tight:    1.15;   /* títulos */
+  --ds-lh-snug:     1.3;    /* labels/CTAs */
+  --ds-lh-normal:   1.5;    /* body */
+  --ds-lh-relaxed:  1.7;    /* parágrafos longos */
+
+  --ds-tracking-tight:  -0.01em;
+  --ds-tracking-normal: 0;
+  --ds-tracking-wide:   0.04em;
+  --ds-tracking-wider:  0.08em;   /* CTAs Bungee */
+
+  /* ---------- 1.8 ESPAÇAMENTO — grid de 8pt ------------------------------
+     Token: --ds-space-N onde N = múltiplo de 4px (8pt = 0.5rem)
+     Use space-0.5 e space-1 com moderação (apenas micro-ajustes)         */
+  --ds-space-0:    0;
+  --ds-space-0_5:  0.125rem;  /* 2px  — hairline */
+  --ds-space-1:    0.25rem;   /* 4px  — micro */
+  --ds-space-2:    0.5rem;    /* 8px  ← base 8pt */
+  --ds-space-3:    0.75rem;   /* 12px */
+  --ds-space-4:    1rem;      /* 16px */
+  --ds-space-5:    1.25rem;   /* 20px */
+  --ds-space-6:    1.5rem;    /* 24px */
+  --ds-space-8:    2rem;      /* 32px */
+  --ds-space-10:   2.5rem;    /* 40px */
+  --ds-space-12:   3rem;      /* 48px ← alvo de toque mín. */
+  --ds-space-16:   4rem;      /* 64px */
+  --ds-space-20:   5rem;      /* 80px */
+  --ds-space-24:   6rem;      /* 96px */
+
+  /* ---------- 1.9 RAIOS DE BORDA ----------------------------------------- */
+  --ds-radius-none:  0;
+  --ds-radius-sm:    0.5rem;    /* 8px  — chips, tags */
+  --ds-radius-md:    0.75rem;   /* 12px — inputs ("levemente arredondado") */
+  --ds-radius-lg:    1rem;      /* 16px — cards */
+  --ds-radius-xl:    1.5rem;    /* 24px — modais */
+  --ds-radius-2xl:   2rem;      /* 32px */
+  --ds-radius-pill:  999px;     /* botões redondos / pílulas */
+
+  /* ---------- 1.10 SOMBRAS ------------------------------------------------ */
+  --ds-shadow-xs:   0 1px 2px rgba(0, 0, 0, 0.08);
+  --ds-shadow-sm:   0 2px 6px rgba(0, 0, 0, 0.10);
+  --ds-shadow-md:   0 4px 12px rgba(0, 0, 0, 0.15);
+  --ds-shadow-lg:   0 8px 22px rgba(0, 0, 0, 0.18);
+  --ds-shadow-xl:   0 15px 50px rgba(0, 0, 0, 0.45);
+
+  /* Sombra arcade "press" (botão 3D com base sólida) */
+  --ds-shadow-press:
+    0 5px 0 rgba(0, 0, 0, 0.15),
+    0 8px 22px rgba(0, 0, 0, 0.18);
+
+  /* Glows da marca (uso restrito: CTAs, prêmios, eventos especiais) */
+  --ds-shadow-glow-yellow: 0 0 36px rgba(255, 214, 10, 0.45);
+  --ds-shadow-glow-pink:   0 0 36px rgba(255, 45, 135, 0.45);
+  --ds-shadow-glow-blue:   0 0 36px rgba(59, 184, 255, 0.45);
+  --ds-shadow-glow-green:  0 0 36px rgba(25, 217, 124, 0.45);
+
+  /* Glows de feedback (opacidade controlada para não brigar com a marca) */
+  --ds-shadow-glow-success: 0 0 24px var(--ds-color-success-glow);
+  --ds-shadow-glow-danger:  0 0 24px var(--ds-color-danger-glow);
+  --ds-shadow-glow-warning: 0 0 24px var(--ds-color-warning-glow);
+  --ds-shadow-glow-info:    0 0 24px var(--ds-color-info-glow);
+  --ds-shadow-glow-special: 0 0 24px var(--ds-color-special-glow);
+
+  /* Foco acessível */
+  --ds-shadow-focus-ring: 0 0 0 4px rgba(59, 184, 255, 0.35);
+
+  /* ---------- 1.11 MOTION ------------------------------------------------- */
+  --ds-duration-fast:    150ms;
+  --ds-duration-base:    250ms;
+  --ds-duration-slow:    400ms;
+  --ds-duration-slower:  600ms;
+
+  --ds-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ds-ease-out:      cubic-bezier(0, 0, 0.2, 1);
+  --ds-ease-in:       cubic-bezier(0.4, 0, 1, 1);
+  --ds-ease-spring:   cubic-bezier(0.34, 1.56, 0.64, 1);   /* pop em modais */
+
+  /* ---------- 1.12 Z-INDEX (camadas) ------------------------------------- */
+  --ds-z-base:      0;
+  --ds-z-raised:    10;
+  --ds-z-dropdown:  100;
+  --ds-z-sticky:    200;
+  --ds-z-overlay:   500;
+  --ds-z-modal:     600;
+  --ds-z-toast:     700;
+  --ds-z-tooltip:   800;
+
+  /* ---------- 1.13 BREAKPOINTS (sistema de grid gov.br DS) --------------- */
+  /* Mobile-first. Referência: https://www.gov.br/ds/fundamentos-visuais/grid
+     Use estes tokens em vez de números mágicos em @media queries.            */
+  --ds-bp-xs:  0;        /* < 576px  — phones */
+  --ds-bp-sm:  36rem;    /* ≥ 576px  — large phones / small tablets */
+  --ds-bp-md:  48rem;    /* ≥ 768px  — tablets */
+  --ds-bp-lg:  62rem;    /* ≥ 992px  — small desktops */
+  --ds-bp-xl:  75rem;    /* ≥ 1200px — desktops */
+
+  /* ---------- 1.13.1 GRID — colunas, gutters e margens ------------------ */
+  /* Sistema responsivo de 4/8/12 colunas baseado no padrão gov.br DS.
+     - Mobile (< sm): 4 colunas, gutter 16px, margem lateral 16px
+     - Tablet (sm-md): 8 colunas, gutter 24px, margem lateral 24px
+     - Desktop (≥ lg): 12 colunas, gutter 24px, margem lateral 24px
+     Container max-widths seguem o padrão Bootstrap (alinhado com gov.br). */
+  --ds-grid-cols-xs:        4;     /* mobile  — 4 colunas */
+  --ds-grid-cols-sm:        8;     /* tablet  — 8 colunas */
+  --ds-grid-cols-md:        12;    /* desktop — 12 colunas */
+  --ds-grid-gutter-xs:      1rem;     /* 16px — gutter mobile */
+  --ds-grid-gutter-sm:      1.5rem;   /* 24px — gutter tablet+desktop */
+  --ds-grid-margin-xs:      1rem;     /* 16px — margem lateral mobile */
+  --ds-grid-margin-sm:      1.5rem;   /* 24px — margem lateral tablet+desktop */
+  --ds-grid-container-sm:   33.75rem; /* 540px */
+  --ds-grid-container-md:   45rem;    /* 720px */
+  --ds-grid-container-lg:   60rem;    /* 960px */
+  --ds-grid-container-xl:   71.25rem; /* 1140px */
+
+  /* ---------- 1.14 ALVOS DE TOQUE (acessibilidade WCAG AAA) -------------- */
+  --ds-touch-min:     2.75rem;   /* 44px — mínimo absoluto WCAG */
+  --ds-touch-default: 3rem;      /* 48px — padrão do projeto    */
+  --ds-touch-large:   3.5rem;    /* 56px — CTAs primárias       */
+  --ds-touch-hero:    4rem;      /* 64px — hero CTA splash      */
+}
+
+
+/* ==========================================================================
+   2. RESET / BASE leve (sem brigar com styles.css)
+   --------------------------------------------------------------------------
+   REGRA ABSOLUTA: nunca fonte escura sobre fundo claro.
+   Texto padrão é BRANCO (sobre fundo dark premium da marca).
+   Exceções controladas: texto em botão amarelo (.ds-btn--primary)
+   e badges sólidos da marca — alto contraste yellow-on-dark do logo.
+   ========================================================================== */
+.ds-scope,
+.ds-scope * {
+  box-sizing: border-box;
+}
+
+.ds-scope {
+  font-family: var(--ds-font-body);
+  font-size: var(--ds-fs-base);
+  line-height: var(--ds-lh-normal);
+  color: var(--ds-color-text-on-dark);          /* branco sobre dark — default seguro */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+/* ==========================================================================
+   3. TIPOGRAFIA — classes utilitárias
+   ========================================================================== */
+/* H1 hero / display de splash */
+.ds-display {
+  font-family: var(--ds-font-display);
+  font-size: var(--ds-fs-4xl);
+  line-height: var(--ds-lh-tight);
+  letter-spacing: var(--ds-tracking-wider);
+  text-transform: uppercase;
+}
+
+/* H2 */
+.ds-title-xl {
+  font-family: var(--ds-font-display);
+  font-size: var(--ds-fs-3xl);
+  line-height: var(--ds-lh-tight);
+  letter-spacing: var(--ds-tracking-wide);
+}
+
+/* H3 / título de tela */
+.ds-title {
+  font-family: var(--ds-font-display);
+  font-size: var(--ds-fs-2xl);
+  line-height: var(--ds-lh-tight);
+  letter-spacing: var(--ds-tracking-wide);
+}
+
+.ds-subtitle {
+  font-family: var(--ds-font-body);
+  font-weight: var(--ds-fw-bold);
+  font-size: var(--ds-fs-md);
+  line-height: var(--ds-lh-snug);
+}
+
+.ds-body {
+  font-family: var(--ds-font-body);
+  font-weight: var(--ds-fw-medium);
+  font-size: var(--ds-fs-base);
+  line-height: var(--ds-lh-normal);
+}
+
+.ds-body-sm {
+  font-family: var(--ds-font-body);
+  font-weight: var(--ds-fw-medium);
+  font-size: var(--ds-fs-sm);
+  line-height: var(--ds-lh-normal);
+}
+
+.ds-label {
+  font-family: var(--ds-font-body);
+  font-weight: var(--ds-fw-bold);
+  font-size: var(--ds-fs-base);
+  line-height: var(--ds-lh-snug);
+  letter-spacing: var(--ds-tracking-normal);
+}
+
+.ds-caption {
+  font-family: var(--ds-font-body);
+  font-weight: var(--ds-fw-semibold);
+  font-size: var(--ds-fs-sm);
+  line-height: var(--ds-lh-snug);
+  color: var(--ds-color-text-on-dark-soft);     /* branco com transparência */
+}
+
+.ds-pixel {
+  font-family: var(--ds-font-pixel);
+  font-size: var(--ds-fs-sm);
+  line-height: var(--ds-lh-normal);
+  letter-spacing: var(--ds-tracking-wide);
+}
+
+/* Sombra para texto sobre fundo céu/imagem */
+.ds-text-on-sky {
+  color: var(--ds-color-text-on-dark);
+  text-shadow: var(--ds-text-shadow-on-sky);
+}
+
+
+/* ==========================================================================
+   3.5 FUNDO NUVENS — telas-âncora
+   --------------------------------------------------------------------------
+   REGRA OFICIAL DO SISTEMA: o fundo Nuvens.svg sobre azul céu é a
+   assinatura visual do app e é aplicado APENAS nas 4 telas-âncora
+   que orientam o usuário no fluxo principal:
+
+     1. SPLASH  (overlaySplash / .splash-container)
+     2. LOGIN   (overlayLogin / .popup-login)
+     3. INÍCIO  (overlayStart / .popup-shopee-start) — home logada
+     4. JOGO    (área de balões / .titulo-jogo, .area-baloes-jogo)
+
+   Como o body do app já carrega o fundo Nuvens via var(--ds-bg-nuvens),
+   as telas-âncora simplesmente NÃO devem sobrescrever esse fundo.
+   Telas secundárias (sorteios, pacotes, checkout, perfil, ajuda, modais)
+   DEVEM sobrescrever com superfícies neutras pra criar hierarquia:
+     - Modais/cards: --ds-color-bg-premium (preto premium)
+     - Telas longas de leitura: --ds-color-bg-surface-light (branco)
+
+   Use a classe utilitária .ds-bg-nuvens em wrappers que precisem
+   re-aplicar explicitamente (ex.: dentro de um overlay que herdou
+   um fundo diferente).
+   ========================================================================== */
+.ds-bg-nuvens {
+  background: var(--ds-bg-nuvens);
+  background-attachment: fixed;
+}
+
+
+/* ==========================================================================
+   4. BOTÕES — base + variantes + tamanhos
+   ========================================================================== */
+.ds-btn {
+  /* base */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ds-space-2);
+  font-family: var(--ds-font-display);
+  font-size: var(--ds-fs-base);
+  letter-spacing: var(--ds-tracking-wide);
+  line-height: 1;
+  padding: 0 var(--ds-space-6);
+  min-height: var(--ds-touch-default);
+  border: 3px solid transparent;
+  border-radius: var(--ds-radius-pill);   /* botões redondos por padrão */
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  text-decoration: none;
+  text-align: center;
+  transition:
+    transform var(--ds-duration-fast) var(--ds-ease-standard),
+    box-shadow var(--ds-duration-fast) var(--ds-ease-standard),
+    filter    var(--ds-duration-fast) var(--ds-ease-standard);
+  white-space: nowrap;
+}
+
+.ds-btn:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-shadow-focus-ring), var(--ds-shadow-press);
+}
+
+.ds-btn:disabled,
+.ds-btn[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: grayscale(0.4);
+  transform: none !important;
+}
+
+/* ---------- 4.1 Variantes ------------------------------------------------ */
+.ds-btn--primary {
+  background: var(--ds-gradient-yellow);
+  color: var(--ds-color-text-on-yellow);
+  border-color: #fff7c2;
+  box-shadow: var(--ds-shadow-press), var(--ds-shadow-glow-yellow);
+}
+.ds-btn--primary:hover  { transform: translateY(-2px); box-shadow: 0 7px 0 rgba(0,0,0,.15), 0 12px 26px rgba(0,0,0,.2), var(--ds-shadow-glow-yellow); }
+.ds-btn--primary:active { transform: translateY(2px);  box-shadow: 0 3px 0 rgba(0,0,0,.15), 0 4px 14px rgba(0,0,0,.22); }
+
+.ds-btn--secondary {
+  background: var(--ds-gradient-pink);
+  color: var(--ds-color-text-on-dark);
+  border-color: #ffb3d9;
+  box-shadow: var(--ds-shadow-press), var(--ds-shadow-glow-pink);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+.ds-btn--secondary:hover  { transform: translateY(-2px); }
+.ds-btn--secondary:active { transform: translateY(2px); }
+
+.ds-btn--accent {
+  background: var(--ds-gradient-blue);
+  color: var(--ds-color-text-on-dark);
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: var(--ds-shadow-press), var(--ds-shadow-glow-blue);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+.ds-btn--accent:hover  { transform: translateY(-2px); }
+.ds-btn--accent:active { transform: translateY(2px); }
+
+.ds-btn--success {
+  background: linear-gradient(135deg, #5fe9a4 0%, #19d97c 50%, #0f8a52 100%);
+  color: var(--ds-color-text-on-dark);
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: var(--ds-shadow-press), var(--ds-shadow-glow-green);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.ds-btn--danger {
+  background: linear-gradient(135deg, #ff8a8e 0%, #ff5a5f 50%, #c2393d 100%);
+  color: var(--ds-color-text-on-dark);
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: var(--ds-shadow-press);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.ds-btn--special {
+  background: var(--ds-gradient-pink);
+  color: var(--ds-color-text-on-dark);
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: var(--ds-shadow-press), var(--ds-shadow-glow-special);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.ds-btn--ghost {
+  background: transparent;
+  color: var(--ds-color-text-on-dark);
+  border-color: rgba(255, 255, 255, 0.65);
+  text-shadow: var(--ds-text-shadow-on-sky);
+  box-shadow: none;
+}
+.ds-btn--ghost:hover  { background: rgba(255, 255, 255, 0.1); }
+.ds-btn--ghost:active { transform: scale(0.98); }
+
+.ds-btn--link {
+  background: transparent;
+  color: var(--ds-color-brand-blue);
+  border: none;
+  min-height: auto;
+  padding: var(--ds-space-2) var(--ds-space-3);
+  font-family: var(--ds-font-body);
+  font-weight: var(--ds-fw-bold);
+  text-decoration: underline;
+  box-shadow: none;
+}
+
+/* ---------- 4.2 Tamanhos (sempre ≥ 48px alvo de toque) ------------------ */
+.ds-btn--sm  { min-height: var(--ds-touch-default); font-size: var(--ds-fs-sm);   padding: 0 var(--ds-space-4); }
+.ds-btn--md  { min-height: var(--ds-touch-large);   font-size: var(--ds-fs-base); padding: 0 var(--ds-space-6); }
+.ds-btn--lg  { min-height: var(--ds-touch-hero);    font-size: var(--ds-fs-md);   padding: 0 var(--ds-space-8); }
+.ds-btn--xl  { min-height: 4.5rem;                  font-size: var(--ds-fs-lg);   padding: 0 var(--ds-space-10); }
+
+/* ---------- 4.3 Modificadores ------------------------------------------- */
+.ds-btn--block   { width: 100%; }
+.ds-btn--round   { border-radius: 50%; padding: 0; width: var(--ds-touch-default); min-height: var(--ds-touch-default); }
+.ds-btn--pulsing { animation: ds-pulse 1.6s ease-in-out infinite; }
+
+@keyframes ds-pulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.04); }
+}
+
+/* ---------- 4.4 Botão CTA arcade (splash) — variante hero --------------- */
+.ds-btn--hero {
+  flex-direction: column;
+  gap: var(--ds-space-0_5);
+  min-height: var(--ds-touch-hero);
+  padding: var(--ds-space-3) var(--ds-space-6);
+  font-size: var(--ds-fs-md);
+  line-height: 1.1;
+}
+.ds-btn--hero .ds-btn-sub {
+  font-family: var(--ds-font-body);
+  font-weight: var(--ds-fw-semibold);
+  font-size: 0.7em;
+  opacity: 0.9;
+  letter-spacing: var(--ds-tracking-normal);
+}
+
+
+/* ==========================================================================
+   5. INPUTS / FORM FIELDS
+   ========================================================================== */
+.ds-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-2);
+  text-align: left;
+}
+
+.ds-field__label {
+  font-family: var(--ds-font-body);
+  font-weight: var(--ds-fw-bold);
+  font-size: var(--ds-fs-base);
+  line-height: var(--ds-lh-snug);
+  color: var(--ds-color-text-on-dark);
+  text-shadow: var(--ds-text-shadow-on-sky);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ds-space-1);
+}
+
+/* Modificador --on-light removido — regra do sistema proíbe texto escuro sobre fundo claro */
+
+.ds-field__required {
+  color: var(--ds-color-brand-yellow-light);
+  font-weight: var(--ds-fw-bold);
+  text-shadow: 0 1px 0 #6b4500, 0 2px 4px rgba(0,0,0,0.5);
+}
+
+/* Inputs DARK por padrão — texto branco sobre superfície premium soft.
+   Cumpre a regra "nunca fonte escura sobre fundo claro".              */
+.ds-input,
+.ds-textarea,
+.ds-select {
+  font-family: var(--ds-font-body);
+  font-size: var(--ds-fs-base);                       /* ≥16px evita zoom iOS */
+  line-height: var(--ds-lh-snug);
+  color: var(--ds-color-text-on-dark);                /* branco */
+  background: rgba(255, 255, 255, 0.06);              /* superfície dark sutil */
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  border-radius: var(--ds-radius-md);                 /* "levemente arredondado" */
+  padding: 0 var(--ds-space-4);
+  min-height: var(--ds-touch-default);                /* 48px alvo de toque */
+  width: 100%;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  transition:
+    border-color var(--ds-duration-fast) var(--ds-ease-standard),
+    background  var(--ds-duration-fast) var(--ds-ease-standard),
+    box-shadow  var(--ds-duration-fast) var(--ds-ease-standard);
+}
+
+.ds-textarea {
+  padding: var(--ds-space-3) var(--ds-space-4);
+  min-height: 6.5rem;
+  resize: vertical;
+}
+
+.ds-input::placeholder,
+.ds-textarea::placeholder {
+  color: rgba(255, 255, 255, 0.42);                   /* placeholder claro/translúcido */
+  opacity: 1;
+}
+
+.ds-input:hover,
+.ds-textarea:hover,
+.ds-select:hover {
+  border-color: rgba(255, 255, 255, 0.32);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.ds-input:focus,
+.ds-textarea:focus,
+.ds-select:focus {
+  border-color: var(--ds-color-brand-yellow);
+  background: rgba(255, 255, 255, 0.10);
+  box-shadow: 0 0 0 4px rgba(255, 214, 10, 0.20);
+}
+
+.ds-input[aria-invalid="true"],
+.ds-input:invalid:not(:placeholder-shown) {
+  border-color: var(--ds-color-danger);
+}
+
+.ds-field__hint {
+  font-family: var(--ds-font-body);
+  font-weight: var(--ds-fw-semibold);
+  font-size: var(--ds-fs-sm);
+  color: var(--ds-color-text-on-dark-soft);
+  line-height: var(--ds-lh-snug);
+}
+
+.ds-field__hint--error {
+  color: var(--ds-color-danger);
+}
+
+.ds-input-group {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+}
+
+.ds-input-group .ds-input { padding-right: 3rem; }
+
+.ds-input-group__addon {
+  position: absolute;
+  right: var(--ds-space-1);
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  width: var(--ds-touch-min);
+  height: var(--ds-touch-min);
+  border-radius: var(--ds-radius-sm);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ds-color-text-on-dark-soft);
+  font-size: var(--ds-fs-md);
+}
+
+.ds-input-group__addon:hover  { background: rgba(255, 255, 255, 0.08); color: var(--ds-color-text-on-dark); }
+.ds-input-group__addon:focus-visible {
+  outline: 2px solid var(--ds-color-brand-yellow);
+  outline-offset: 1px;
+}
+
+
+/* ==========================================================================
+   6. CARDS / SUPERFÍCIES
+   --------------------------------------------------------------------------
+   Padrão: .ds-card é PREMIUM DARK (preto premium #111, borda neon discreta).
+   Use .ds-card--light apenas em contextos com texto longo de leitura corrida.
+   ========================================================================== */
+.ds-card {
+  background: var(--ds-color-bg-premium);
+  color: var(--ds-color-text-on-dark);
+  border-radius: var(--ds-radius-lg);
+  padding: var(--ds-space-5);
+  border: 1.5px solid var(--ds-color-border-premium);
+  box-shadow:
+    0 4px 0 rgba(0, 0, 0, 0.45),
+    0 6px 14px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 214, 10, 0.08);
+}
+
+/* Variante "subtle" = superfície dark mais clara (para leitura longa).
+   NUNCA cor escura sobre claro — usamos #1a1a1a com texto branco.  */
+.ds-card--subtle {
+  background: var(--ds-color-bg-premium-soft);
+  color: var(--ds-color-text-on-dark);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  box-shadow: var(--ds-shadow-md);
+}
+
+.ds-card--arcade {
+  background: var(--ds-gradient-arcade-night);
+  color: var(--ds-color-text-on-dark);
+  border: 2.5px solid var(--ds-color-brand-yellow);
+  box-shadow:
+    0 4px 0 rgba(0, 0, 0, 0.5),
+    0 6px 14px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 214, 10, 0.12);
+}
+
+.ds-card--brand {
+  background: var(--ds-gradient-yellow);
+  color: var(--ds-color-text-on-yellow);
+  border: 3px solid #fff7c2;
+  box-shadow: var(--ds-shadow-lg), var(--ds-shadow-glow-yellow);
+}
+
+.ds-card--premium-glow-yellow {
+  background: var(--ds-color-bg-premium);
+  color: var(--ds-color-text-on-dark);
+  border: 2px solid var(--ds-color-brand-yellow);
+  box-shadow: var(--ds-shadow-md), var(--ds-shadow-glow-yellow);
+}
+
+.ds-card--premium-glow-blue {
+  background: var(--ds-color-bg-premium);
+  color: var(--ds-color-text-on-dark);
+  border: 2px solid var(--ds-color-brand-blue-light);
+  box-shadow: var(--ds-shadow-md), var(--ds-shadow-glow-blue);
+}
+
+.ds-card--premium-glow-pink {
+  background: var(--ds-color-bg-premium);
+  color: var(--ds-color-text-on-dark);
+  border: 2px solid var(--ds-color-brand-pink);
+  box-shadow: var(--ds-shadow-md), var(--ds-shadow-glow-pink);
+}
+
+.ds-card--interactive {
+  cursor: pointer;
+  transition: transform var(--ds-duration-fast) var(--ds-ease-standard),
+              box-shadow var(--ds-duration-fast) var(--ds-ease-standard);
+}
+.ds-card--interactive:hover  { transform: translateY(-2px); }
+.ds-card--interactive:active { transform: translateY(2px); }
+
+
+/* ==========================================================================
+   7. MODAIS / OVERLAY
+   ========================================================================== */
+.ds-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--ds-color-bg-overlay);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: var(--ds-space-4);
+  z-index: var(--ds-z-overlay);
+  animation: ds-fade-in var(--ds-duration-base) var(--ds-ease-standard);
+}
+.ds-overlay.is-open { display: flex; }
+
+@keyframes ds-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ---------- 7.1 Modal padrão (PREMIUM DARK — alinhado à marca) -------- */
+.ds-modal {
+  background: var(--ds-color-bg-premium);
+  color: var(--ds-color-text-on-dark);
+  border: 2px solid var(--ds-color-brand-yellow);
+  border-radius: var(--ds-radius-xl);
+  padding: var(--ds-space-6) var(--ds-space-5);
+  width: 100%;
+  max-width: 25rem;                 /* 400px */
+  max-height: calc(100dvh - var(--ds-space-16));
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  box-shadow: var(--ds-shadow-xl), var(--ds-shadow-glow-yellow);
+  animation: ds-pop-in var(--ds-duration-slow) var(--ds-ease-spring);
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-5);
+}
+
+/* Variante "subtle" para modais com conteúdo de leitura longa.
+   Mantém o sistema dark — apenas suaviza a superfície.            */
+.ds-modal--subtle {
+  background: var(--ds-color-bg-premium-soft);
+  color: var(--ds-color-text-on-dark);
+  border-width: 2px;
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+@keyframes ds-pop-in {
+  0%   { transform: scale(0.85) translateY(20px); opacity: 0; }
+  100% { transform: scale(1) translateY(0);       opacity: 1; }
+}
+
+/* ---------- 7.2 Modal arcade (céu da marca) --------------------------- */
+.ds-modal--sky {
+  background:
+    var(--ds-gradient-sky),
+    url('../Assets/Nuvens.svg') center top / cover no-repeat,
+    var(--ds-color-brand-blue-sky);
+  color: var(--ds-color-text-on-dark);
+}
+
+.ds-modal--arcade {
+  background: var(--ds-gradient-arcade-night);
+  color: var(--ds-color-text-on-dark);
+  border-color: var(--ds-color-brand-yellow);
+}
+
+/* ---------- 7.3 Variantes semânticas de modal -------------------------
+   Cada variante usa fundo tonalizado escuro + borda da cor de feedback
+   + glow controlado (não satura o app). */
+.ds-modal--success { background: var(--ds-color-success-bg); border-color: var(--ds-color-success); box-shadow: var(--ds-shadow-xl), var(--ds-shadow-glow-success); }
+.ds-modal--danger  { background: var(--ds-color-danger-bg);  border-color: var(--ds-color-danger);  box-shadow: var(--ds-shadow-xl), var(--ds-shadow-glow-danger);  }
+.ds-modal--warning { background: var(--ds-color-warning-bg); border-color: var(--ds-color-warning); box-shadow: var(--ds-shadow-xl), var(--ds-shadow-glow-warning); }
+.ds-modal--info    { background: var(--ds-color-info-bg);    border-color: var(--ds-color-info);    box-shadow: var(--ds-shadow-xl), var(--ds-shadow-glow-info);    }
+.ds-modal--special { background: var(--ds-color-special-bg); border-color: var(--ds-color-special); box-shadow: var(--ds-shadow-xl), var(--ds-shadow-glow-special); }
+
+.ds-modal__close {
+  position: absolute;
+  top: var(--ds-space-3);
+  right: var(--ds-space-3);
+  width: var(--ds-touch-default);
+  height: var(--ds-touch-default);
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.4);
+  color: #fff;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  font-size: var(--ds-fs-md);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ds-modal__close:hover { background: rgba(0, 0, 0, 0.6); }
+
+
+/* ==========================================================================
+   8. LOADING / SPINNERS
+   ========================================================================== */
+.ds-loading {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ds-space-3);
+}
+
+/* ---------- 8.1 Spinner circular ---------------------------------------- */
+.ds-spinner {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 4px solid rgba(255, 214, 10, 0.25);
+  border-top-color: var(--ds-color-brand-yellow);
+  border-radius: 50%;
+  animation: ds-spin 0.9s linear infinite;
+}
+
+.ds-spinner--sm { width: 1.5rem; height: 1.5rem; border-width: 3px; }
+.ds-spinner--lg { width: 4rem;   height: 4rem;   border-width: 5px; }
+
+.ds-spinner--pink  { border-color: rgba(255, 45, 135, 0.25); border-top-color: var(--ds-color-brand-pink); }
+.ds-spinner--blue  { border-color: rgba(23, 149, 212, 0.25); border-top-color: var(--ds-color-brand-blue); }
+.ds-spinner--white { border-color: rgba(255, 255, 255, 0.25); border-top-color: #fff; }
+
+@keyframes ds-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ---------- 8.2 Loading "balão arcade" — bouncing dots ----------------- */
+.ds-loading-dots {
+  display: inline-flex;
+  gap: var(--ds-space-2);
+}
+
+.ds-loading-dots span {
+  width: 0.9rem;
+  height: 0.9rem;
+  border-radius: 50%;
+  background: var(--ds-color-brand-yellow);
+  box-shadow: 0 0 10px rgba(255, 214, 10, 0.6);
+  animation: ds-bounce 0.9s ease-in-out infinite;
+}
+.ds-loading-dots span:nth-child(2) { background: var(--ds-color-brand-pink);  box-shadow: 0 0 10px rgba(255, 45, 135, 0.6);  animation-delay: 0.15s; }
+.ds-loading-dots span:nth-child(3) { background: var(--ds-color-brand-blue);  box-shadow: 0 0 10px rgba(23, 149, 212, 0.6);  animation-delay: 0.30s; }
+.ds-loading-dots span:nth-child(4) { background: var(--ds-color-brand-green); box-shadow: 0 0 10px rgba(6, 214, 160, 0.6);   animation-delay: 0.45s; }
+
+@keyframes ds-bounce {
+  0%, 80%, 100% { transform: translateY(0) scale(1);   opacity: 0.7; }
+  40%           { transform: translateY(-12px) scale(1.15); opacity: 1; }
+}
+
+/* ---------- 8.3 Loading inline (texto + spinner) ----------------------- */
+.ds-loading-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ds-space-2);
+  font-family: var(--ds-font-body);
+  font-weight: var(--ds-fw-bold);
+  font-size: var(--ds-fs-base);
+  color: var(--ds-color-text-on-dark);
+  text-shadow: var(--ds-text-shadow-on-sky);
+}
+
+/* ---------- 8.4 Skeleton loader ---------------------------------------- */
+.ds-skeleton {
+  display: block;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(255, 255, 255, 0.18) 50%,
+    rgba(255, 255, 255, 0.06) 100%
+  );
+  background-size: 200% 100%;
+  border-radius: var(--ds-radius-md);
+  animation: ds-shimmer 1.4s linear infinite;
+}
+
+@keyframes ds-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+
+/* ==========================================================================
+   9. TOASTS / FEEDBACK
+   ========================================================================== */
+.ds-toast {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ds-space-3);
+  padding: var(--ds-space-3) var(--ds-space-5);
+  border-radius: var(--ds-radius-pill);
+  font-family: var(--ds-font-body);
+  font-weight: var(--ds-fw-bold);
+  font-size: var(--ds-fs-base);
+  line-height: var(--ds-lh-snug);
+  box-shadow: var(--ds-shadow-lg);
+  min-height: var(--ds-touch-default);
+  border: 2px solid transparent;
+}
+
+/* Toasts seguem a regra arcade premium: fundo tonalizado escuro,
+   borda + ícone na cor de feedback, glow controlado. Sem saturação. */
+.ds-toast--success { background: var(--ds-color-success-bg); color: #fff; border-color: var(--ds-color-success); box-shadow: var(--ds-shadow-lg), var(--ds-shadow-glow-success); }
+.ds-toast--danger  { background: var(--ds-color-danger-bg);  color: #fff; border-color: var(--ds-color-danger);  box-shadow: var(--ds-shadow-lg), var(--ds-shadow-glow-danger);  }
+.ds-toast--warning { background: var(--ds-color-warning-bg); color: #fff; border-color: var(--ds-color-warning); box-shadow: var(--ds-shadow-lg), var(--ds-shadow-glow-warning); }
+.ds-toast--info    { background: var(--ds-color-info-bg);    color: #fff; border-color: var(--ds-color-info);    box-shadow: var(--ds-shadow-lg), var(--ds-shadow-glow-info);    }
+.ds-toast--special { background: var(--ds-color-special-bg); color: #fff; border-color: var(--ds-color-special); box-shadow: var(--ds-shadow-lg), var(--ds-shadow-glow-special); }
+
+/* Ícone do toast — cor da variante, destaque */
+.ds-toast__icon {
+  font-size: 1.5em;
+  line-height: 1;
+  flex-shrink: 0;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+}
+.ds-toast--success .ds-toast__icon { color: var(--ds-color-success); }
+.ds-toast--danger  .ds-toast__icon { color: var(--ds-color-danger);  }
+.ds-toast--warning .ds-toast__icon { color: var(--ds-color-warning); }
+.ds-toast--info    .ds-toast__icon { color: var(--ds-color-info);    }
+.ds-toast--special .ds-toast__icon { color: var(--ds-color-special); }
+
+
+/* ==========================================================================
+   10. BADGES / CHIPS / TAGS
+   ========================================================================== */
+.ds-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ds-space-1);
+  padding: var(--ds-space-1) var(--ds-space-3);
+  border-radius: var(--ds-radius-pill);
+  font-family: var(--ds-font-display);
+  font-size: var(--ds-fs-sm);
+  letter-spacing: var(--ds-tracking-wide);
+  background: var(--ds-color-brand-yellow);
+  color: var(--ds-color-text-on-yellow);
+  border: 1.5px solid rgba(0, 0, 0, 0.08);
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+
+.ds-badge--success { background: var(--ds-color-success); color: #fff; }
+.ds-badge--danger  { background: var(--ds-color-danger);  color: #fff; }
+.ds-badge--warning { background: var(--ds-color-warning); color: #fff; }
+.ds-badge--info    { background: var(--ds-color-info);    color: #fff; }
+.ds-badge--special { background: var(--ds-color-special); color: #fff; }
+.ds-badge--pink    { background: var(--ds-color-brand-pink); color: #fff; }
+.ds-badge--outline { background: transparent; border-color: currentColor; }
+
+
+/* ==========================================================================
+   11. PILLS / SEGMENTED TABS (estilo login)
+   ========================================================================== */
+.ds-tabs {
+  display: flex;
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: var(--ds-radius-pill);
+  padding: var(--ds-space-1);
+  border: 1.5px solid rgba(255, 255, 255, 0.15);
+  gap: var(--ds-space-1);
+}
+
+.ds-tab {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 0 var(--ds-space-4);
+  min-height: 2.5rem;                /* 40px — tabs internas */
+  font-family: var(--ds-font-display);
+  font-size: var(--ds-fs-sm);
+  letter-spacing: var(--ds-tracking-wide);
+  color: var(--ds-color-text-on-dark-soft);
+  border-radius: var(--ds-radius-pill);
+  cursor: pointer;
+  transition: all var(--ds-duration-base) var(--ds-ease-standard);
+}
+
+.ds-tab.is-active {
+  background: var(--ds-gradient-blue);
+  color: #fff;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.25);
+  box-shadow: 0 2px 8px rgba(23, 149, 212, 0.4);
+}
+
+
+/* ==========================================================================
+   12. DIVIDERS / HELPERS
+   ========================================================================== */
+.ds-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+  border: none;
+  margin: var(--ds-space-4) 0;
+}
+
+.ds-stack       { display: flex; flex-direction: column; gap: var(--ds-space-4); }
+.ds-stack-sm    { display: flex; flex-direction: column; gap: var(--ds-space-2); }
+.ds-stack-lg    { display: flex; flex-direction: column; gap: var(--ds-space-6); }
+.ds-row         { display: flex; align-items: center; gap: var(--ds-space-3); }
+.ds-row-between { display: flex; align-items: center; justify-content: space-between; gap: var(--ds-space-3); }
+.ds-center      { display: flex; align-items: center; justify-content: center; }
+
+
+/* ==========================================================================
+   13. COMPONENTES PADRONIZADOS — visual unificado entre telas
+   --------------------------------------------------------------------------
+   REGRA DO SISTEMA: componentes que se REPETEM em múltiplas telas devem ter
+   o MESMO visual em todo lugar. Ajuda o usuário com familiaridade e reduz
+   carga cognitiva.
+
+   Componentes nesta seção substituem as variações fragmentadas existentes
+   no código legado (.saldo-pill, .boas-vindas-saldo, .checkout-carteira-chip,
+   .saque-saldo-valor, .escolha-saldo-valor — todas para o mesmo conceito).
+   ========================================================================== */
+
+/* ---------- 13.1 CARTEIRA / SALDO — uma única implementação ------------ */
+.ds-wallet {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ds-space-3);
+  padding: var(--ds-space-2) var(--ds-space-4);
+  background: var(--ds-color-bg-premium-soft);
+  border: 1.5px solid var(--ds-color-border-premium);
+  border-radius: var(--ds-radius-pill);
+  color: var(--ds-color-text-on-dark);
+  font-family: var(--ds-font-body);
+  min-height: var(--ds-touch-default);
+  box-shadow: var(--ds-shadow-sm);
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform var(--ds-duration-fast) var(--ds-ease-standard),
+              box-shadow var(--ds-duration-fast) var(--ds-ease-standard);
+}
+.ds-wallet:hover  { transform: translateY(-1px); box-shadow: var(--ds-shadow-md), var(--ds-shadow-glow-yellow); }
+.ds-wallet:active { transform: translateY(1px); }
+
+.ds-wallet__icon {
+  font-size: 1.4em;
+  line-height: 1;
+  color: var(--ds-color-brand-yellow);
+  filter: drop-shadow(0 2px 4px rgba(255, 214, 10, 0.4));
+}
+
+.ds-wallet__body {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+  gap: 2px;
+}
+
+.ds-wallet__label {
+  font-family: var(--ds-font-display);
+  font-size: var(--ds-fs-xs);
+  letter-spacing: var(--ds-tracking-wide);
+  color: var(--ds-color-text-on-dark-soft);
+  text-transform: uppercase;
+}
+
+.ds-wallet__value {
+  font-family: var(--ds-font-display);
+  font-size: var(--ds-fs-md);
+  color: var(--ds-color-brand-yellow);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
+}
+
+.ds-wallet__value--negative { color: var(--ds-color-danger); }
+
+/* Tamanhos */
+.ds-wallet--sm .ds-wallet__icon  { font-size: 1.1em; }
+.ds-wallet--sm .ds-wallet__value { font-size: var(--ds-fs-base); }
+.ds-wallet--sm                   { padding: var(--ds-space-1) var(--ds-space-3); min-height: 2.5rem; gap: var(--ds-space-2); }
+
+.ds-wallet--lg .ds-wallet__icon  { font-size: 1.8em; }
+.ds-wallet--lg .ds-wallet__value { font-size: var(--ds-fs-lg); }
+.ds-wallet--lg                   { padding: var(--ds-space-3) var(--ds-space-5); }
+
+/* Variante destaque (com glow amarelo) — para topo da home */
+.ds-wallet--featured {
+  background: var(--ds-color-brand-black);
+  border-color: var(--ds-color-brand-yellow);
+  box-shadow: var(--ds-shadow-md), var(--ds-shadow-glow-yellow);
+}
+
+
+/* ---------- 13.2 HEADER DE TELA — voltar + título + ação à direita ----- */
+.ds-screen-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ds-space-3);
+  padding: var(--ds-space-3) var(--ds-space-4);
+  min-height: var(--ds-touch-large);
+  background: rgba(0, 0, 0, 0.35);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+  color: var(--ds-color-text-on-dark);
+}
+
+.ds-screen-header__back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--ds-touch-default);
+  height: var(--ds-touch-default);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1.5px solid rgba(255, 255, 255, 0.15);
+  color: var(--ds-color-text-on-dark);
+  font-size: var(--ds-fs-lg);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.ds-screen-header__back:hover { background: rgba(255, 255, 255, 0.12); }
+
+.ds-screen-header__title {
+  flex: 1;
+  font-family: var(--ds-font-display);
+  font-size: var(--ds-fs-md);
+  letter-spacing: var(--ds-tracking-wide);
+  color: var(--ds-color-brand-yellow);
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.ds-screen-header__action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--ds-touch-default);
+  height: var(--ds-touch-default);
+  flex-shrink: 0;
+}
+
+
+/* ---------- 13.3 BOTÃO FECHAR (×) — popups e modais ------------------- */
+.ds-close {
+  position: absolute;
+  top: var(--ds-space-3);
+  right: var(--ds-space-3);
+  width: var(--ds-touch-default);
+  height: var(--ds-touch-default);
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  font-size: var(--ds-fs-md);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  -webkit-tap-highlight-color: transparent;
+}
+.ds-close:hover { background: rgba(0, 0, 0, 0.7); transform: scale(1.05); }
+
+
+/* ---------- 13.4 SINO DE NOTIFICAÇÃO --------------------------------- */
+.ds-bell {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--ds-touch-default);
+  height: var(--ds-touch-default);
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1.5px solid rgba(255, 255, 255, 0.20);
+  color: var(--ds-color-brand-yellow);
+  font-size: var(--ds-fs-md);
+  cursor: pointer;
+}
+.ds-bell:hover { background: rgba(0, 0, 0, 0.5); }
+
+.ds-bell__count {
+  position: absolute;
+  top: -4px; right: -4px;
+  min-width: 1.25rem; height: 1.25rem;
+  padding: 0 var(--ds-space-1);
+  background: var(--ds-color-danger);
+  color: #fff;
+  border-radius: var(--ds-radius-pill);
+  font-family: var(--ds-font-display);
+  font-size: var(--ds-fs-xs);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--ds-color-brand-black);
+}
+
+
+/* ==========================================================================
+   14. ACESSIBILIDADE
+   ========================================================================== */
+.ds-sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0);
+  white-space: nowrap; border: 0;
+}
+
+/* Foco visível padronizado */
+.ds-focusable:focus-visible,
+.ds-btn:focus-visible {
+  outline: none;
+  box-shadow: var(--ds-shadow-focus-ring);
+}
+
+/* Respeita preferência de redução de movimento */
+@media (prefers-reduced-motion: reduce) {
+  .ds-spinner,
+  .ds-loading-dots span,
+  .ds-skeleton,
+  .ds-btn--pulsing {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+
+/* ==========================================================================
+   ☵ SISTEMA DE GRID — padrão gov.br DS (4 / 8 / 12 colunas)
+   --------------------------------------------------------------------------
+   Referência: https://www.gov.br/ds/fundamentos-visuais/grid
+
+   COMO USAR
+   ─────────
+   1. Envolva o conteúdo em um .ds-container (centraliza + max-width por bp)
+      OU .ds-container-fluid (largura total com margens responsivas).
+
+   2. Dentro, use uma .ds-row (linha do grid — flexbox com gutters).
+
+   3. Dentro da row, use .ds-col (auto) ou .ds-col-{N} (N colunas) para
+      definir a largura. Use variantes responsivas:
+        .ds-col-sm-{N}  — a partir de tablet (≥576px)
+        .ds-col-md-{N}  — a partir de tablet grande (≥768px)
+        .ds-col-lg-{N}  — a partir de desktop (≥992px)
+        .ds-col-xl-{N}  — a partir de desktop grande (≥1200px)
+
+   COMPORTAMENTO RESPONSIVO (mobile-first)
+   ─────────────────────────────────────────
+     xs  (<576px ):  4 colunas, gutter 16px, margem 16px
+     sm  (≥576px ):  8 colunas, gutter 24px, margem 24px, container 540px
+     md  (≥768px ):  8 colunas, gutter 24px, container 720px
+     lg  (≥992px ): 12 colunas, gutter 24px, container 960px
+     xl  (≥1200px): 12 colunas, gutter 24px, container 1140px
+
+   EXEMPLO
+   ─────────
+     <div class="ds-container">
+       <div class="ds-row">
+         <div class="ds-col-4 ds-col-md-6 ds-col-lg-8">Conteúdo principal</div>
+         <div class="ds-col-4 ds-col-md-2 ds-col-lg-4">Sidebar</div>
+       </div>
+     </div>
+   ========================================================================== */
+
+/* ── Containers ── */
+.ds-container,
+.ds-container-fluid {
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: var(--ds-grid-margin-xs);
+  padding-left: var(--ds-grid-margin-xs);
+}
+
+@media (min-width: 576px) {
+  .ds-container,
+  .ds-container-fluid {
+    padding-right: var(--ds-grid-margin-sm);
+    padding-left: var(--ds-grid-margin-sm);
+  }
+  .ds-container { max-width: var(--ds-grid-container-sm); }
+}
+@media (min-width: 768px) {
+  .ds-container { max-width: var(--ds-grid-container-md); }
+}
+@media (min-width: 992px) {
+  .ds-container { max-width: var(--ds-grid-container-lg); }
+}
+@media (min-width: 1200px) {
+  .ds-container { max-width: var(--ds-grid-container-xl); }
+}
+
+/* ── Row ── */
+.ds-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: calc(var(--ds-grid-gutter-xs) / -2);
+  margin-left:  calc(var(--ds-grid-gutter-xs) / -2);
+}
+
+@media (min-width: 576px) {
+  .ds-row {
+    margin-right: calc(var(--ds-grid-gutter-sm) / -2);
+    margin-left:  calc(var(--ds-grid-gutter-sm) / -2);
+  }
+}
+
+/* ── Coluna base (auto / fluid) ── */
+.ds-col,
+[class*="ds-col-"] {
+  position: relative;
+  width: 100%;
+  padding-right: calc(var(--ds-grid-gutter-xs) / 2);
+  padding-left:  calc(var(--ds-grid-gutter-xs) / 2);
+  box-sizing: border-box;
+}
+.ds-col { flex: 1 0 0%; max-width: 100%; }
+
+@media (min-width: 576px) {
+  .ds-col,
+  [class*="ds-col-"] {
+    padding-right: calc(var(--ds-grid-gutter-sm) / 2);
+    padding-left:  calc(var(--ds-grid-gutter-sm) / 2);
+  }
+}
+
+/* ── Larguras de coluna (xs = mobile, 4-col grid) ── */
+.ds-col-1  { flex: 0 0 25%;  max-width: 25%;  }
+.ds-col-2  { flex: 0 0 50%;  max-width: 50%;  }
+.ds-col-3  { flex: 0 0 75%;  max-width: 75%;  }
+.ds-col-4  { flex: 0 0 100%; max-width: 100%; }
+.ds-col-auto { flex: 0 0 auto; width: auto; max-width: 100%; }
+
+/* ── Tablet (≥576px) — 8 colunas ── */
+@media (min-width: 576px) {
+  .ds-col-sm-1 { flex: 0 0 12.5%; max-width: 12.5%; }
+  .ds-col-sm-2 { flex: 0 0 25%;   max-width: 25%;   }
+  .ds-col-sm-3 { flex: 0 0 37.5%; max-width: 37.5%; }
+  .ds-col-sm-4 { flex: 0 0 50%;   max-width: 50%;   }
+  .ds-col-sm-5 { flex: 0 0 62.5%; max-width: 62.5%; }
+  .ds-col-sm-6 { flex: 0 0 75%;   max-width: 75%;   }
+  .ds-col-sm-7 { flex: 0 0 87.5%; max-width: 87.5%; }
+  .ds-col-sm-8 { flex: 0 0 100%;  max-width: 100%;  }
+  .ds-col-sm-auto { flex: 0 0 auto; width: auto; max-width: 100%; }
+}
+
+/* ── Tablet grande (≥768px) — 8 colunas (mantém) ── */
+@media (min-width: 768px) {
+  .ds-col-md-1 { flex: 0 0 12.5%; max-width: 12.5%; }
+  .ds-col-md-2 { flex: 0 0 25%;   max-width: 25%;   }
+  .ds-col-md-3 { flex: 0 0 37.5%; max-width: 37.5%; }
+  .ds-col-md-4 { flex: 0 0 50%;   max-width: 50%;   }
+  .ds-col-md-5 { flex: 0 0 62.5%; max-width: 62.5%; }
+  .ds-col-md-6 { flex: 0 0 75%;   max-width: 75%;   }
+  .ds-col-md-7 { flex: 0 0 87.5%; max-width: 87.5%; }
+  .ds-col-md-8 { flex: 0 0 100%;  max-width: 100%;  }
+  .ds-col-md-auto { flex: 0 0 auto; width: auto; max-width: 100%; }
+}
+
+/* ── Desktop (≥992px) — 12 colunas ── */
+@media (min-width: 992px) {
+  .ds-col-lg-1  { flex: 0 0 8.3333%;  max-width: 8.3333%;  }
+  .ds-col-lg-2  { flex: 0 0 16.6666%; max-width: 16.6666%; }
+  .ds-col-lg-3  { flex: 0 0 25%;      max-width: 25%;      }
+  .ds-col-lg-4  { flex: 0 0 33.3333%; max-width: 33.3333%; }
+  .ds-col-lg-5  { flex: 0 0 41.6666%; max-width: 41.6666%; }
+  .ds-col-lg-6  { flex: 0 0 50%;      max-width: 50%;      }
+  .ds-col-lg-7  { flex: 0 0 58.3333%; max-width: 58.3333%; }
+  .ds-col-lg-8  { flex: 0 0 66.6666%; max-width: 66.6666%; }
+  .ds-col-lg-9  { flex: 0 0 75%;      max-width: 75%;      }
+  .ds-col-lg-10 { flex: 0 0 83.3333%; max-width: 83.3333%; }
+  .ds-col-lg-11 { flex: 0 0 91.6666%; max-width: 91.6666%; }
+  .ds-col-lg-12 { flex: 0 0 100%;     max-width: 100%;     }
+  .ds-col-lg-auto { flex: 0 0 auto; width: auto; max-width: 100%; }
+}
+
+/* ── Desktop grande (≥1200px) — 12 colunas (mantém) ── */
+@media (min-width: 1200px) {
+  .ds-col-xl-1  { flex: 0 0 8.3333%;  max-width: 8.3333%;  }
+  .ds-col-xl-2  { flex: 0 0 16.6666%; max-width: 16.6666%; }
+  .ds-col-xl-3  { flex: 0 0 25%;      max-width: 25%;      }
+  .ds-col-xl-4  { flex: 0 0 33.3333%; max-width: 33.3333%; }
+  .ds-col-xl-5  { flex: 0 0 41.6666%; max-width: 41.6666%; }
+  .ds-col-xl-6  { flex: 0 0 50%;      max-width: 50%;      }
+  .ds-col-xl-7  { flex: 0 0 58.3333%; max-width: 58.3333%; }
+  .ds-col-xl-8  { flex: 0 0 66.6666%; max-width: 66.6666%; }
+  .ds-col-xl-9  { flex: 0 0 75%;      max-width: 75%;      }
+  .ds-col-xl-10 { flex: 0 0 83.3333%; max-width: 83.3333%; }
+  .ds-col-xl-11 { flex: 0 0 91.6666%; max-width: 91.6666%; }
+  .ds-col-xl-12 { flex: 0 0 100%;     max-width: 100%;     }
+  .ds-col-xl-auto { flex: 0 0 auto; width: auto; max-width: 100%; }
+}
+
+/* ── Utilitários de alinhamento da row ── */
+.ds-row--start    { justify-content: flex-start; }
+.ds-row--center   { justify-content: center; }
+.ds-row--end      { justify-content: flex-end; }
+.ds-row--between  { justify-content: space-between; }
+.ds-row--around   { justify-content: space-around; }
+.ds-row--top      { align-items: flex-start; }
+.ds-row--middle   { align-items: center; }
+.ds-row--bottom   { align-items: flex-end; }
+
+/* ── Gutters customizados (use com moderação — quebra a consistência) ── */
+.ds-row--no-gutter         { margin-right: 0; margin-left: 0; }
+.ds-row--no-gutter > .ds-col,
+.ds-row--no-gutter > [class*="ds-col-"] { padding-right: 0; padding-left: 0; }
+
+/* ═══════════════════════════════════════════════════════════════════
+   STEPPER — indicador de progresso do checkout (Revisar → Pagar → Finalizar)
+   Uso:
+   <ol class="ds-stepper" aria-label="Progresso da compra">
+     <li class="ds-stepper-item ds-stepper-item--feito">
+       <span class="ds-stepper-bullet">1</span>
+       <span class="ds-stepper-label">Revisar</span>
+     </li>
+     <li class="ds-stepper-item ds-stepper-item--ativo">
+       <span class="ds-stepper-bullet">2</span>
+       <span class="ds-stepper-label">Pagamento</span>
+     </li>
+     <li class="ds-stepper-item">
+       <span class="ds-stepper-bullet">3</span>
+       <span class="ds-stepper-label">Finalizar</span>
+     </li>
+   </ol>
+   ═══════════════════════════════════════════════════════════════════ */
+.ds-stepper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  list-style: none;
+  margin: 0 0 var(--ds-space-4) 0;
+  padding: 0;
+  width: 100%;
+  counter-reset: ds-step;
+  gap: var(--ds-space-1);
+}
+
+.ds-stepper-item {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--ds-space-1);
+  font-family: var(--ds-font-body);
+}
+
+/* Linha conectora — fica atrás das bolinhas, ligando uma à outra */
+.ds-stepper-item:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 14px; /* metade da altura da bolinha (28px) */
+  left: 50%;
+  width: 100%;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.18);
+  z-index: 0;
+}
+
+/* Quando o passo está feito, a linha que sai dele fica verde */
+.ds-stepper-item--feito:not(:last-child)::after {
+  background: var(--ds-color-success, #19d97c);
+}
+
+.ds-stepper-bullet {
+  position: relative;
+  z-index: 1;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--ds-font-display);
+  font-weight: 900;
+  font-size: 0.85em;
+  background: rgba(255, 255, 255, 0.08);
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  color: rgba(255, 255, 255, 0.6);
+  transition: all 0.25s ease;
+}
+
+.ds-stepper-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  text-align: center;
+  line-height: 1.2;
+  transition: color 0.25s ease;
+}
+
+/* Estado: feito (passo já concluído) — verde */
+.ds-stepper-item--feito .ds-stepper-bullet {
+  background: var(--ds-color-success, #19d97c);
+  border-color: var(--ds-color-success, #19d97c);
+  color: #ffffff;
+}
+.ds-stepper-item--feito .ds-stepper-label {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* Estado: ativo (passo atual) — amarelo marca, com glow */
+.ds-stepper-item--ativo .ds-stepper-bullet {
+  background: var(--ds-color-brand-yellow);
+  border-color: var(--ds-color-brand-yellow);
+  color: #1a1a1a;
+  box-shadow: 0 0 0 4px rgba(255, 214, 10, 0.18), 0 2px 8px rgba(255, 214, 10, 0.4);
+}
+.ds-stepper-item--ativo .ds-stepper-label {
+  color: var(--ds-color-brand-yellow);
+}
+
+/* Compact: em telas muito estreitas a label some, fica só a bolinha */
+@media (max-width: 360px) {
+  .ds-stepper-label { font-size: 0.6rem; }
+}

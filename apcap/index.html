@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design System — Caçadores de Balões · Arcade Premium Popular</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/design-system.css?v=20260518">
+
+<style>
+  /* Estilos só desta página de documentação — NÃO fazem parte do DS */
+  html, body { margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--ds-font-body);
+    background:
+      radial-gradient(ellipse at top, rgba(23, 149, 212, 0.18) 0%, transparent 50%),
+      var(--ds-color-brand-black);
+    color: var(--ds-color-text-on-dark);
+    min-height: 100vh;
+    padding-bottom: var(--ds-space-16);
+  }
+
+  .doc-shell {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: var(--ds-space-8) var(--ds-space-5);
+  }
+
+  .doc-hero {
+    text-align: center;
+    padding: var(--ds-space-12) var(--ds-space-4) var(--ds-space-8);
+  }
+
+  .doc-hero__chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--ds-space-2);
+    padding: var(--ds-space-2) var(--ds-space-4);
+    background: rgba(255, 214, 10, 0.1);
+    border: 1.5px solid var(--ds-color-brand-yellow);
+    border-radius: var(--ds-radius-pill);
+    font-family: var(--ds-font-display);
+    font-size: var(--ds-fs-sm);
+    color: var(--ds-color-brand-yellow);
+    letter-spacing: var(--ds-tracking-wider);
+    margin-bottom: var(--ds-space-4);
+  }
+
+  .doc-hero h1 {
+    font-family: var(--ds-font-display);
+    font-size: clamp(2.2rem, 6vw, 3.8rem);
+    letter-spacing: var(--ds-tracking-wider);
+    color: var(--ds-color-brand-yellow);
+    text-shadow:
+      0 2px 0 #6b4500,
+      0 4px 0 #553700,
+      0 6px 0 #3d2700,
+      0 10px 30px rgba(255, 214, 10, 0.35);
+    margin: 0 0 var(--ds-space-4);
+    line-height: 1;
+  }
+
+  .doc-hero__tagline {
+    font-family: var(--ds-font-display);
+    font-size: var(--ds-fs-sm);
+    letter-spacing: var(--ds-tracking-wider);
+    color: var(--ds-color-brand-blue-light);
+    margin: 0 0 var(--ds-space-5);
+  }
+  .doc-hero__tagline span { color: var(--ds-color-brand-yellow); margin: 0 var(--ds-space-2); }
+
+  .doc-hero p {
+    font-size: var(--ds-fs-md);
+    font-weight: var(--ds-fw-semibold);
+    max-width: 38rem;
+    margin: 0 auto;
+    color: var(--ds-color-text-on-dark-soft);
+  }
+
+  /* Navegação flutuante */
+  .doc-nav {
+    position: sticky;
+    top: var(--ds-space-4);
+    z-index: 100;
+    background: rgba(10, 10, 10, 0.92);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1.5px solid rgba(255, 214, 10, 0.3);
+    border-radius: var(--ds-radius-pill);
+    padding: var(--ds-space-2);
+    margin: 0 auto var(--ds-space-8);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--ds-space-1);
+    justify-content: center;
+    max-width: max-content;
+  }
+  .doc-nav a {
+    font-family: var(--ds-font-display);
+    font-size: var(--ds-fs-sm);
+    letter-spacing: var(--ds-tracking-wide);
+    text-decoration: none;
+    color: var(--ds-color-text-on-dark-soft);
+    padding: var(--ds-space-2) var(--ds-space-3);
+    border-radius: var(--ds-radius-pill);
+    transition: all var(--ds-duration-fast);
+  }
+  .doc-nav a:hover {
+    background: rgba(255, 214, 10, 0.15);
+    color: var(--ds-color-brand-yellow);
+  }
+
+  .doc-section {
+    background: var(--ds-color-brand-black);
+    border: 1.5px solid rgba(255, 214, 10, 0.18);
+    border-radius: var(--ds-radius-xl);
+    padding: var(--ds-space-8) var(--ds-space-6);
+    margin-bottom: var(--ds-space-8);
+    scroll-margin-top: var(--ds-space-16);
+  }
+
+  .doc-section h2 {
+    font-family: var(--ds-font-display);
+    font-size: var(--ds-fs-xl);
+    letter-spacing: var(--ds-tracking-wide);
+    color: var(--ds-color-brand-yellow);
+    margin: 0 0 var(--ds-space-2);
+    text-shadow: 0 2px 8px rgba(255, 214, 10, 0.3);
+  }
+
+  .doc-section h2 .doc-section__num {
+    display: inline-block;
+    background: var(--ds-color-brand-yellow);
+    color: var(--ds-color-text-on-yellow);
+    font-size: 0.6em;
+    padding: var(--ds-space-1) var(--ds-space-2);
+    border-radius: var(--ds-radius-sm);
+    margin-right: var(--ds-space-2);
+    vertical-align: middle;
+  }
+
+  .doc-section__lead {
+    font-size: var(--ds-fs-md);
+    margin: 0 0 var(--ds-space-6);
+    color: var(--ds-color-text-on-dark-soft);
+  }
+
+  .doc-group { margin-bottom: var(--ds-space-8); }
+  .doc-group:last-child { margin-bottom: 0; }
+
+  .doc-group h3 {
+    font-family: var(--ds-font-display);
+    font-size: var(--ds-fs-md);
+    letter-spacing: var(--ds-tracking-wide);
+    margin: 0 0 var(--ds-space-4);
+    color: #fff;
+  }
+
+  .doc-grid { display: grid; gap: var(--ds-space-4); }
+  .doc-grid--2 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  .doc-grid--3 { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+  .doc-grid--4 { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+  .doc-grid--5 { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+  .doc-grid--6 { grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); }
+
+  /* Swatches de cor */
+  .swatch {
+    border-radius: var(--ds-radius-md);
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .swatch__color {
+    height: 5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  }
+  .swatch__meta { padding: var(--ds-space-3); font-size: var(--ds-fs-sm); }
+  .swatch__name {
+    font-family: var(--ds-font-display);
+    font-size: var(--ds-fs-sm);
+    color: #fff;
+    letter-spacing: var(--ds-tracking-wide);
+    margin-bottom: 2px;
+  }
+  .swatch__token {
+    font-family: 'Courier New', monospace;
+    color: rgba(255, 255, 255, 0.55);
+    font-size: var(--ds-fs-xs);
+    word-break: break-all;
+  }
+  .swatch__hex {
+    font-family: 'Courier New', monospace;
+    color: var(--ds-color-brand-yellow);
+    font-size: var(--ds-fs-xs);
+    margin-top: 2px;
+  }
+  .swatch__use {
+    font-size: var(--ds-fs-xs);
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: var(--ds-space-2);
+    line-height: 1.4;
+  }
+
+  /* Cards de demo */
+  .demo {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1.5px dashed rgba(255, 255, 255, 0.15);
+    border-radius: var(--ds-radius-lg);
+    padding: var(--ds-space-5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--ds-space-3);
+    min-height: 8rem;
+  }
+  .demo--row { flex-direction: row; flex-wrap: wrap; }
+  .demo--start { align-items: flex-start; justify-content: flex-start; text-align: left; }
+  .demo__caption {
+    font-size: var(--ds-fs-xs);
+    color: rgba(255, 255, 255, 0.55);
+    font-family: 'Courier New', monospace;
+    margin-top: var(--ds-space-1);
+    text-align: center;
+  }
+
+  /* Tabela */
+  .token-table { width: 100%; border-collapse: collapse; font-size: var(--ds-fs-sm); }
+  .token-table th, .token-table td {
+    text-align: left; padding: var(--ds-space-3);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .token-table th {
+    font-family: var(--ds-font-display);
+    letter-spacing: var(--ds-tracking-wide);
+    color: var(--ds-color-brand-yellow);
+    font-size: var(--ds-fs-xs);
+  }
+  .token-table td.mono  { font-family: 'Courier New', monospace; color: rgba(255, 255, 255, 0.9); }
+  .token-table td.value { font-family: 'Courier New', monospace; color: var(--ds-color-brand-yellow-light); }
+
+  /* Visualizadores */
+  .spacing-block {
+    background: var(--ds-color-brand-yellow);
+    border-radius: var(--ds-radius-sm);
+    height: 1.25rem;
+    box-shadow: 0 0 12px rgba(255, 214, 10, 0.4);
+  }
+  .radius-demo {
+    width: 5rem; height: 5rem;
+    background: var(--ds-gradient-yellow);
+    border: 2px solid #fff7c2;
+  }
+  .shadow-demo {
+    width: 100%; height: 5rem;
+    background: var(--ds-color-brand-black-soft);
+    border: 1px solid rgba(255, 214, 10, 0.15);
+    border-radius: var(--ds-radius-lg);
+  }
+  .font-sample-display { font-family: var(--ds-font-display); }
+  .font-sample-body    { font-family: var(--ds-font-body); }
+
+  /* Distribuição (gráfico de barras) */
+  .distrib {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ds-space-3);
+    margin-top: var(--ds-space-3);
+  }
+  .distrib__row {
+    display: flex;
+    align-items: center;
+    gap: var(--ds-space-3);
+  }
+  .distrib__label {
+    width: 7rem;
+    font-family: var(--ds-font-display);
+    font-size: var(--ds-fs-sm);
+    letter-spacing: var(--ds-tracking-wide);
+  }
+  .distrib__bar {
+    flex: 1;
+    height: 1.5rem;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: var(--ds-radius-pill);
+    overflow: hidden;
+  }
+  .distrib__fill {
+    height: 100%;
+    border-radius: var(--ds-radius-pill);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: var(--ds-space-3);
+    font-family: var(--ds-font-display);
+    font-size: var(--ds-fs-xs);
+    color: rgba(0, 0, 0, 0.7);
+  }
+
+  /* Hierarquia visual */
+  .hier {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: var(--ds-space-3);
+    padding: var(--ds-space-4);
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: var(--ds-radius-md);
+    border-left: 4px solid;
+    margin-bottom: var(--ds-space-3);
+    align-items: center;
+  }
+  .hier strong { font-family: var(--ds-font-display); letter-spacing: var(--ds-tracking-wide); }
+
+  /* Snippet de código */
+  .doc-code {
+    margin-top: var(--ds-space-3);
+    padding: var(--ds-space-3) var(--ds-space-4);
+    background: rgba(0, 0, 0, 0.5);
+    border-left: 3px solid var(--ds-color-brand-yellow);
+    border-radius: var(--ds-radius-sm);
+    font-family: 'Courier New', monospace;
+    font-size: var(--ds-fs-sm);
+    color: #c8e6ff;
+    overflow-x: auto;
+    white-space: pre;
+  }
+  .doc-code .k { color: #ff8a80; }
+  .doc-code .s { color: #b9f6ca; }
+  .doc-code .c { color: #888; font-style: italic; }
+
+  /* Boxes de regras */
+  .doc-rule {
+    background: rgba(255, 214, 10, 0.06);
+    border-left: 4px solid var(--ds-color-brand-yellow);
+    border-radius: var(--ds-radius-md);
+    padding: var(--ds-space-4) var(--ds-space-5);
+    margin-top: var(--ds-space-4);
+  }
+  .doc-rule strong { color: var(--ds-color-brand-yellow-light); }
+  .doc-rule--alert {
+    background: var(--ds-color-danger-bg);
+    border-left-color: var(--ds-color-danger);
+  }
+  .doc-rule--alert strong { color: var(--ds-color-danger); }
+
+  /* Feedback display especial */
+  .feedback-card {
+    background: rgba(0, 0, 0, 0.4);
+    border-left: 4px solid;
+    border-radius: var(--ds-radius-md);
+    padding: var(--ds-space-4);
+    display: flex;
+    gap: var(--ds-space-4);
+    align-items: center;
+  }
+  .feedback-icon {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5em;
+    flex-shrink: 0;
+  }
+  .feedback-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .feedback-title {
+    font-family: var(--ds-font-display);
+    font-size: var(--ds-fs-base);
+    letter-spacing: var(--ds-tracking-wide);
+  }
+  .feedback-meta {
+    font-family: 'Courier New', monospace;
+    font-size: var(--ds-fs-xs);
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  @media (max-width: 600px) {
+    .doc-section { padding: var(--ds-space-6) var(--ds-space-4); }
+    .doc-hero h1 { font-size: 2rem; }
+    .hier { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body class="ds-scope">
+
+<!-- Voltar ao hub L4 -->
+<a href="../" style="position:fixed;top:20px;left:20px;z-index:200;display:inline-flex;align-items:center;gap:6px;padding:10px 16px;background:rgba(10,10,10,0.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1.5px solid rgba(255,214,10,0.3);border-radius:999px;color:#ffd60a;font-family:'Bungee','Impact',sans-serif;font-size:12px;letter-spacing:0.08em;text-decoration:none;transition:all 150ms ease">← VOLTAR AO HUB L4</a>
+
+<div class="doc-shell">
+
+  <!-- ============================================ HERO ============================================ -->
+  <header class="doc-hero">
+    <div class="doc-hero__chip">🎮 ARCADE PREMIUM POPULAR</div>
+    <h1>CAÇADORES DE BALÕES DESIGN SYSTEM</h1>
+    <div class="doc-hero__tagline">DIVERSÃO<span>•</span>PRÊMIOS<span>•</span>RECOMPENSAS</div>
+    <p>
+      Identidade visual completa de Caçadores de Balões. Conceito arcade com sensação premium,
+      tokens calibrados para acessibilidade do público C/D e regras de distribuição
+      para manter o produto consistente, confiável e divertido.
+    </p>
+  </header>
+
+  <!-- ============================================ NAV ============================================ -->
+  <nav class="doc-nav">
+    <a href="#paleta">01 · Paleta</a>
+    <a href="#distrib">02 · Distribuição</a>
+    <a href="#feedback">03 · Feedback</a>
+    <a href="#tipografia">04 · Tipografia</a>
+    <a href="#espacamento">05 · Espaçamento</a>
+    <a href="#grid">05.5 · Grid</a>
+    <a href="#raios">06 · Raios</a>
+    <a href="#sombras">07 · Sombras</a>
+    <a href="#botoes">08 · Botões</a>
+    <a href="#inputs">09 · Inputs</a>
+    <a href="#cards">10 · Cards</a>
+    <a href="#modais">11 · Modais</a>
+    <a href="#loading">12 · Loading</a>
+    <a href="#toasts">13 · Toasts</a>
+    <a href="#badges">14 · Badges</a>
+    <a href="#hierarquia">15 · Hierarquia</a>
+    <a href="#componentes">16 · Componentes</a>
+    <a href="#a11y">17 · A11y</a>
+  </nav>
+
+  <!-- ============================================ 1. PALETA OFICIAL ============================================ -->
+  <section class="doc-section" id="paleta">
+    <h2><span class="doc-section__num">01</span> Paleta Principal — 5 cores oficiais</h2>
+    <p class="doc-section__lead">
+      A identidade Caçadores de Balões se sustenta em 5 cores. Cada uma com função específica.
+      <strong style="color: #fff;">Não improvise:</strong> qualquer cor fora dessa paleta deve ter justificativa documentada.
+    </p>
+
+    <div class="doc-grid doc-grid--5">
+      <div class="swatch">
+        <div class="swatch__color" style="background: var(--ds-color-brand-blue)"></div>
+        <div class="swatch__meta">
+          <div class="swatch__name">AZUL MARCA</div>
+          <div class="swatch__token">--ds-color-brand-blue</div>
+          <div class="swatch__hex">#1795D4</div>
+          <div class="swatch__use">Base estrutural do app, navegação, áreas principais.</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__color" style="background: var(--ds-color-brand-blue-deep)"></div>
+        <div class="swatch__meta">
+          <div class="swatch__name">AZUL PROFUNDO</div>
+          <div class="swatch__token">--ds-color-brand-blue-deep</div>
+          <div class="swatch__hex">#0A3E63</div>
+          <div class="swatch__use">Contraste e profundidade, gradientes, áreas de apoio.</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__color" style="background: var(--ds-color-brand-yellow)"></div>
+        <div class="swatch__meta">
+          <div class="swatch__name">AMARELO MARCA</div>
+          <div class="swatch__token">--ds-color-brand-yellow</div>
+          <div class="swatch__hex">#FFD60A</div>
+          <div class="swatch__use">Ação, recompensas, CTAs. Chama atenção. <strong style="color:var(--ds-color-brand-yellow)">Usar com parcimônia.</strong></div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__color" style="background: var(--ds-color-brand-pink)"></div>
+        <div class="swatch__meta">
+          <div class="swatch__name">ROSA ARCADE</div>
+          <div class="swatch__token">--ds-color-brand-pink</div>
+          <div class="swatch__hex">#FF2D87</div>
+          <div class="swatch__use">Diversão, eventos especiais. Usar com moderação.</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__color" style="background: var(--ds-color-brand-black); border: 1px solid rgba(255,255,255,0.1);"></div>
+        <div class="swatch__meta">
+          <div class="swatch__name">PRETO PREMIUM</div>
+          <div class="swatch__token">--ds-color-brand-black</div>
+          <div class="swatch__hex">#111111</div>
+          <div class="swatch__use">Superfícies escuras, cards, menus, overlays. Gera sensação premium.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="doc-group" style="margin-top: var(--ds-space-8)">
+      <h3>Gradientes Oficiais</h3>
+      <div class="doc-grid doc-grid--2">
+        <div class="swatch">
+          <div class="swatch__color" style="background: var(--ds-gradient-yellow); height: 5.5rem;"></div>
+          <div class="swatch__meta">
+            <div class="swatch__name">AMARELO MARCA</div>
+            <div class="swatch__token">--ds-gradient-yellow</div>
+            <div class="swatch__use">CTA primário, prêmios, saldo em destaque.</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__color" style="background: var(--ds-gradient-blue); height: 5.5rem;"></div>
+          <div class="swatch__meta">
+            <div class="swatch__name">AZUL (claro → marca)</div>
+            <div class="swatch__token">--ds-gradient-blue</div>
+            <div class="swatch__use">Botões aceleradores, informações, navegação ativa.</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__color" style="background: var(--ds-gradient-blue-deep); height: 5.5rem;"></div>
+          <div class="swatch__meta">
+            <div class="swatch__name">AZUL ESTRUTURAL</div>
+            <div class="swatch__token">--ds-gradient-blue-deep</div>
+            <div class="swatch__use">Fundos profundos, áreas estruturais.</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__color" style="background: var(--ds-gradient-premium); height: 5.5rem;"></div>
+          <div class="swatch__meta">
+            <div class="swatch__name">PREMIUM (preto → azul)</div>
+            <div class="swatch__token">--ds-gradient-premium</div>
+            <div class="swatch__use">Cards de destaque, fundos de seção, menus premium.</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__color" style="background: var(--ds-gradient-pink); height: 5.5rem;"></div>
+          <div class="swatch__meta">
+            <div class="swatch__name">ROSA ARCADE</div>
+            <div class="swatch__token">--ds-gradient-pink</div>
+            <div class="swatch__use">Eventos especiais, badges "NOVO!", onboarding.</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__color" style="background: var(--ds-gradient-arcade-night); height: 5.5rem;"></div>
+          <div class="swatch__meta">
+            <div class="swatch__name">ARCADE NOTURNO</div>
+            <div class="swatch__token">--ds-gradient-arcade-night</div>
+            <div class="swatch__use">Cards de categoria (estilo home).</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ 2. DISTRIBUIÇÃO ============================================ -->
+  <section class="doc-section" id="distrib">
+    <h2><span class="doc-section__num">02</span> Distribuição das cores</h2>
+    <p class="doc-section__lead">
+      Equilíbrio é tudo. A regra <strong style="color:#fff;">70/20/8/2</strong> mantém o app
+      consistente, sem virar "carnaval de neon" nem perder a identidade arcade.
+    </p>
+
+    <div class="distrib">
+      <div class="distrib__row">
+        <div class="distrib__label" style="color: var(--ds-color-brand-blue-light);">AZUL</div>
+        <div class="distrib__bar"><div class="distrib__fill" style="width: 70%; background: var(--ds-gradient-blue); color: #fff;">70%</div></div>
+      </div>
+      <div class="distrib__row">
+        <div class="distrib__label" style="color: #ccc;">PRETO</div>
+        <div class="distrib__bar"><div class="distrib__fill" style="width: 20%; background: var(--ds-color-brand-black-soft); border: 1px solid rgba(255,255,255,0.15); color: #fff;">20%</div></div>
+      </div>
+      <div class="distrib__row">
+        <div class="distrib__label" style="color: var(--ds-color-brand-yellow);">AMARELO</div>
+        <div class="distrib__bar"><div class="distrib__fill" style="width: 8%; background: var(--ds-gradient-yellow); min-width: 3rem;">8%</div></div>
+      </div>
+      <div class="distrib__row">
+        <div class="distrib__label" style="color: var(--ds-color-brand-pink);">ROSA</div>
+        <div class="distrib__bar"><div class="distrib__fill" style="width: 2%; background: var(--ds-color-brand-pink); min-width: 2.5rem; color: #fff;">2%</div></div>
+      </div>
+    </div>
+
+    <div class="doc-rule">
+      <strong>Por que essa proporção —</strong> Azul carrega a estrutura (confiança).
+      Preto cria profundidade premium (legibilidade + sensação de qualidade).
+      Amarelo é guiado pela função (1-2 elementos por viewport, sempre ação ou recompensa).
+      Rosa é tempero (jackpots, eventos raros, badges "NOVO!").
+    </div>
+
+    <div class="doc-rule doc-rule--alert">
+      <strong>O que evitar —</strong> Branco sobre azul claro (contraste fraco) ·
+      Amarelo sobre branco (perde a marca) ·
+      Múltiplos elementos com glow simultâneo ·
+      Vermelho puro (briga com amarelo e rosa — use coral <code>#FF5A5F</code>).
+    </div>
+  </section>
+
+  <!-- ============================================ 3. FEEDBACK ============================================ -->
+  <section class="doc-section" id="feedback">
+    <h2><span class="doc-section__num">03</span> Sistema de Feedback</h2>
+    <p class="doc-section__lead">
+      5 estados de comunicação com o usuário. Cada um tem 3 tokens: <strong>cor principal</strong> (borda + ícone),
+      <strong>fundo tonalizado</strong> (escuro, harmoniza com a paleta) e <strong>glow controlado</strong> (não satura o app).
+    </p>
+
+    <div class="doc-stack" style="display: flex; flex-direction: column; gap: var(--ds-space-3);">
+
+      <div class="feedback-card" style="border-color: var(--ds-color-success); background: var(--ds-color-success-bg); box-shadow: var(--ds-shadow-glow-success);">
+        <div class="feedback-icon" style="background: rgba(25,217,124,0.2); color: var(--ds-color-success);">✓</div>
+        <div class="feedback-body">
+          <div class="feedback-title" style="color: var(--ds-color-success);">SUCESSO</div>
+          <div>Confirmações positivas — compra aprovada, saldo recebido, prêmio ganho.</div>
+          <div class="feedback-meta">cor #19D97C · fundo #123D2A · glow rgba(25,217,124,0.25)</div>
+        </div>
+      </div>
+
+      <div class="feedback-card" style="border-color: var(--ds-color-danger); background: var(--ds-color-danger-bg); box-shadow: var(--ds-shadow-glow-danger);">
+        <div class="feedback-icon" style="background: rgba(255,90,95,0.2); color: var(--ds-color-danger);">✕</div>
+        <div class="feedback-body">
+          <div class="feedback-title" style="color: var(--ds-color-danger);">ERRO</div>
+          <div>Pagamento recusado, erro de conexão, saldo insuficiente, falha ao processar.</div>
+          <div class="feedback-meta">cor #FF5A5F · fundo #3B1C22 · glow rgba(255,90,95,0.18)</div>
+        </div>
+      </div>
+
+      <div class="feedback-card" style="border-color: var(--ds-color-warning); background: var(--ds-color-warning-bg); box-shadow: var(--ds-shadow-glow-warning);">
+        <div class="feedback-icon" style="background: rgba(255,159,28,0.2); color: var(--ds-color-warning);">!</div>
+        <div class="feedback-body">
+          <div class="feedback-title" style="color: var(--ds-color-warning);">ALERTA</div>
+          <div>Atenção, ação pendente, confirmação importante, limites/regras.</div>
+          <div class="feedback-meta">cor #FF9F1C · fundo #3D2A12 · glow rgba(255,159,28,0.18)</div>
+        </div>
+      </div>
+
+      <div class="feedback-card" style="border-color: var(--ds-color-info); background: var(--ds-color-info-bg); box-shadow: var(--ds-shadow-glow-info);">
+        <div class="feedback-icon" style="background: rgba(59,184,255,0.2); color: var(--ds-color-info);">i</div>
+        <div class="feedback-body">
+          <div class="feedback-title" style="color: var(--ds-color-info);">INFORMAÇÃO</div>
+          <div>Mensagens neutras, dicas, tutoriais, novidades do sistema, comunicações gerais.</div>
+          <div class="feedback-meta">cor #3BB8FF · fundo #132D42 · glow rgba(59,184,255,0.18)</div>
+        </div>
+      </div>
+
+      <div class="feedback-card" style="border-color: var(--ds-color-special); background: var(--ds-color-special-bg); box-shadow: var(--ds-shadow-glow-special);">
+        <div class="feedback-icon" style="background: rgba(255,45,135,0.2); color: var(--ds-color-special);">★</div>
+        <div class="feedback-body">
+          <div class="feedback-title" style="color: var(--ds-color-special);">ESPECIAL</div>
+          <div>Jackpot, combo, evento especial, promoção limitada, onboarding, referral.</div>
+          <div class="feedback-meta">cor #FF2D87 · fundo #3A1326 · glow rgba(255,45,135,0.25)</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="doc-rule">
+      <strong>Fórmula do componente —</strong>
+      fundo escuro tonalizado + ícone colorido + título branco + glow leve.
+      Nunca empilhe fundo claro com borda forte com glow forte — o app vira poluição visual.
+    </div>
+  </section>
+
+  <!-- ============================================ 4. TIPOGRAFIA ============================================ -->
+  <section class="doc-section" id="tipografia">
+    <h2><span class="doc-section__num">04</span> Tipografia</h2>
+    <p class="doc-section__lead">
+      Duas famílias com papéis claros. Mínimo <strong>16px</strong> para body, <strong>14px</strong> para legendas.
+      Nunca menor — o público-alvo inclui pessoas com baixa visão e leitura iniciante.
+    </p>
+
+    <div class="doc-group">
+      <h3>Famílias</h3>
+      <div class="doc-grid doc-grid--2">
+        <div class="demo demo--start" style="height: 100%;">
+          <div class="font-sample-display" style="font-size: 1.8em; color: var(--ds-color-brand-yellow); letter-spacing: 0.08em;">BUNGEE</div>
+          <div class="font-sample-display" style="font-size: 1em;">DISPLAY · CTAs · acentos arcade</div>
+          <div class="demo__caption">var(--ds-font-display)</div>
+        </div>
+        <div class="demo demo--start" style="height: 100%;">
+          <div class="font-sample-body" style="font-size: 1.8em; font-weight: 800;">Nunito</div>
+          <div class="font-sample-body" style="font-weight: 600;">Texto corrido, labels, inputs</div>
+          <div class="font-sample-body" style="font-size: 0.85em; opacity: 0.8;">Recomendada para baixa visão</div>
+          <div class="demo__caption">var(--ds-font-body)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="doc-group">
+      <h3>Escala — Minor Third (razão 1.200)</h3>
+      <p style="color: var(--ds-color-text-on-dark-soft); margin: 0 0 var(--ds-space-4);">
+        Escala suave: cada nível é <strong style="color:#fff">1,2× o anterior</strong>. Hierarquia clara
+        sem saltos visuais agressivos. Base em 16px (1rem).
+      </p>
+      <table class="token-table">
+        <thead><tr><th>Token</th><th>HTML</th><th>rem / px</th><th>Amostra</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">--ds-fs-4xl</td>  <td><strong>H1</strong></td> <td class="value">2.986rem / 47.78px</td> <td style="font-size: 2.986rem; line-height: 1.1; font-weight: 800;">Aa</td></tr>
+          <tr><td class="mono">--ds-fs-3xl</td>  <td><strong>H2</strong></td> <td class="value">2.488rem / 39.81px</td> <td style="font-size: 2.488rem; line-height: 1.1; font-weight: 800;">Aa</td></tr>
+          <tr><td class="mono">--ds-fs-2xl</td>  <td><strong>H3</strong></td> <td class="value">2.074rem / 33.18px</td> <td style="font-size: 2.074rem; line-height: 1.1; font-weight: 700;">Aa</td></tr>
+          <tr><td class="mono">--ds-fs-xl</td>   <td><strong>H4</strong></td> <td class="value">1.728rem / 27.65px</td> <td style="font-size: 1.728rem; line-height: 1.2; font-weight: 700;">Aa</td></tr>
+          <tr><td class="mono">--ds-fs-lg</td>   <td><strong>H5</strong></td> <td class="value">1.44rem / 23.04px</td>  <td style="font-size: 1.44rem;  line-height: 1.2; font-weight: 700;">Aa</td></tr>
+          <tr><td class="mono">--ds-fs-md</td>   <td><strong>H6</strong></td> <td class="value">1.2rem / 19.2px</td>   <td style="font-size: 1.2rem;   line-height: 1.3; font-weight: 600;">Aa</td></tr>
+          <tr><td class="mono">--ds-fs-base</td> <td><strong>P</strong></td>  <td class="value">1rem / 16px</td>       <td style="font-size: 1rem;     line-height: 1.5;">Aa</td></tr>
+          <tr><td class="mono">--ds-fs-sm</td>   <td>caption</td>             <td class="value">0.875rem / 14px</td>   <td style="font-size: 0.875rem;">Aa</td></tr>
+          <tr><td class="mono">--ds-fs-xs</td>   <td>tag</td>                 <td class="value">0.75rem / 12px</td>    <td style="font-size: 0.75rem;">Aa</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="doc-group">
+      <h3>Classes utilitárias</h3>
+      <div class="demo demo--start" style="gap: var(--ds-space-3);">
+        <div class="ds-display">DISPLAY</div>
+        <div class="ds-title-xl">Título XL</div>
+        <div class="ds-title">Título</div>
+        <div class="ds-subtitle">Subtítulo</div>
+        <div class="ds-body">Body padrão — texto corrido confortável para leitura.</div>
+        <div class="ds-body-sm">Body pequeno — informações secundárias.</div>
+        <div class="ds-caption">Caption — hints e legendas.</div>
+      </div>
+    </div>
+
+    <div class="doc-rule">
+      <strong>Regra de uso —</strong> Bungee é só para títulos curtos, CTAs e acentos arcade
+      (cansa em parágrafo). Nunito 600/700 é a fonte da maior parte da UI. Para grandes blocos
+      de leitura (termos, FAQ), use Nunito 500 com line-height 1.6+.
+    </div>
+
+    <div class="doc-rule doc-rule--alert">
+      <strong>⛔ REGRA ABSOLUTA —</strong> Nunca use fonte escura sobre fundo claro, em lugar nenhum
+      do sistema. A identidade é dark-first: texto branco/colorido sobre fundo dark. Exceção única:
+      texto sobre amarelo da marca (<code>.ds-btn--primary</code>, badges) — alto contraste
+      yellow/dark é a assinatura de Caçadores de Balões.
+    </div>
+  </section>
+
+  <!-- ============================================ 5. ESPAÇAMENTO ============================================ -->
+  <section class="doc-section" id="espacamento">
+    <h2><span class="doc-section__num">05</span> Espaçamento — grid 8pt</h2>
+    <p class="doc-section__lead">
+      Todos os espaçamentos seguem múltiplos de 8 (com meio-passo de 4 para micro-ajustes).
+      Use apenas tokens da escala — nunca valores soltos.
+    </p>
+
+    <table class="token-table">
+      <thead><tr><th>Token</th><th>rem / px</th><th>Visual</th><th>Uso típico</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">--ds-space-1</td>  <td class="value">0.25rem / 4px</td>  <td><div class="spacing-block" style="width: 4px"></div></td>    <td>Micro (gap ícone/texto)</td></tr>
+        <tr><td class="mono">--ds-space-2</td>  <td class="value">0.5rem / 8px</td>   <td><div class="spacing-block" style="width: 8px"></div></td>    <td>Base — gap padrão</td></tr>
+        <tr><td class="mono">--ds-space-3</td>  <td class="value">0.75rem / 12px</td> <td><div class="spacing-block" style="width: 12px"></div></td>   <td>Padding interno pequeno</td></tr>
+        <tr><td class="mono">--ds-space-4</td>  <td class="value">1rem / 16px</td>    <td><div class="spacing-block" style="width: 16px"></div></td>   <td>Padding interno padrão</td></tr>
+        <tr><td class="mono">--ds-space-5</td>  <td class="value">1.25rem / 20px</td> <td><div class="spacing-block" style="width: 20px"></div></td>   <td>Padding card</td></tr>
+        <tr><td class="mono">--ds-space-6</td>  <td class="value">1.5rem / 24px</td>  <td><div class="spacing-block" style="width: 24px"></div></td>   <td>Padding modal / seção</td></tr>
+        <tr><td class="mono">--ds-space-8</td>  <td class="value">2rem / 32px</td>    <td><div class="spacing-block" style="width: 32px"></div></td>   <td>Gap entre blocos</td></tr>
+        <tr><td class="mono">--ds-space-10</td> <td class="value">2.5rem / 40px</td>  <td><div class="spacing-block" style="width: 40px"></div></td>   <td>Gap entre seções</td></tr>
+        <tr><td class="mono">--ds-space-12</td> <td class="value">3rem / 48px</td>    <td><div class="spacing-block" style="width: 48px"></div></td>   <td>Espaçamento de página</td></tr>
+        <tr><td class="mono">--ds-space-16</td> <td class="value">4rem / 64px</td>    <td><div class="spacing-block" style="width: 64px"></div></td>   <td>Hero / breathing room</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ============================================ 5.5 GRID (gov.br) ============================================ -->
+  <section class="doc-section" id="grid">
+    <h2><span class="doc-section__num">05.5</span> Grid — padrão gov.br DS</h2>
+    <p class="doc-section__lead">
+      Sistema responsivo de <strong>4 / 8 / 12 colunas</strong> baseado no
+      <a href="https://www.gov.br/ds/fundamentos-visuais/grid" target="_blank" rel="noopener" style="color:var(--ds-color-brand-yellow);text-decoration:underline;">gov.br Design System</a>.
+      Mobile-first: o layout adapta progressivamente conforme a viewport cresce.
+      Use as classes utilitárias <code class="mono">.ds-container</code>, <code class="mono">.ds-row</code>,
+      <code class="mono">.ds-col-{N}</code> em vez de criar @media queries soltas.
+    </p>
+
+    <h3 style="font-family: var(--ds-font-display); color: var(--ds-color-brand-yellow); margin: 24px 0 12px; letter-spacing: 1px;">Breakpoints</h3>
+    <table class="token-table">
+      <thead><tr><th>Token</th><th>rem / px</th><th>Faixa</th><th>Dispositivos típicos</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">--ds-bp-xs</td> <td class="value">0</td>          <td>&lt; 576px</td>      <td>Phones</td></tr>
+        <tr><td class="mono">--ds-bp-sm</td> <td class="value">36rem / 576px</td>  <td>576 – 767px</td> <td>Large phones / small tablets</td></tr>
+        <tr><td class="mono">--ds-bp-md</td> <td class="value">48rem / 768px</td>  <td>768 – 991px</td> <td>Tablets</td></tr>
+        <tr><td class="mono">--ds-bp-lg</td> <td class="value">62rem / 992px</td>  <td>992 – 1199px</td><td>Small desktops</td></tr>
+        <tr><td class="mono">--ds-bp-xl</td> <td class="value">75rem / 1200px</td> <td>≥ 1200px</td>    <td>Large desktops</td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-family: var(--ds-font-display); color: var(--ds-color-brand-yellow); margin: 24px 0 12px; letter-spacing: 1px;">Colunas, gutters e margens</h3>
+    <table class="token-table">
+      <thead><tr><th>Breakpoint</th><th>Colunas</th><th>Gutter</th><th>Margem lateral</th><th>Container max-width</th></tr></thead>
+      <tbody>
+        <tr><td>xs (mobile)</td>          <td><strong>4</strong></td>  <td>16px</td> <td>16px</td> <td>100%</td></tr>
+        <tr><td>sm (≥ 576px)</td>         <td><strong>8</strong></td>  <td>24px</td> <td>24px</td> <td>540px</td></tr>
+        <tr><td>md (≥ 768px)</td>         <td><strong>8</strong></td>  <td>24px</td> <td>24px</td> <td>720px</td></tr>
+        <tr><td>lg (≥ 992px)</td>         <td><strong>12</strong></td> <td>24px</td> <td>24px</td> <td>960px</td></tr>
+        <tr><td>xl (≥ 1200px)</td>        <td><strong>12</strong></td> <td>24px</td> <td>24px</td> <td>1140px</td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-family: var(--ds-font-display); color: var(--ds-color-brand-yellow); margin: 24px 0 12px; letter-spacing: 1px;">Demo visual — 12 colunas em desktop / 8 em tablet / 4 em mobile</h3>
+    <div style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 214, 10, 0.22); border-radius: var(--ds-radius-md); padding: var(--ds-space-3);">
+      <div class="ds-row">
+        <div class="ds-col-2 ds-col-md-4 ds-col-lg-6" style="text-align:center;">
+          <div style="background:var(--ds-color-brand-yellow); color:var(--ds-color-brand-yellow-text); padding: 16px; border-radius: 8px; font-family: var(--ds-font-display); margin-bottom: 8px;">6 / 4 / 2</div>
+        </div>
+        <div class="ds-col-2 ds-col-md-4 ds-col-lg-6" style="text-align:center;">
+          <div style="background:var(--ds-color-brand-pink); color:#fff; padding: 16px; border-radius: 8px; font-family: var(--ds-font-display); margin-bottom: 8px;">6 / 4 / 2</div>
+        </div>
+        <div class="ds-col-2 ds-col-md-4 ds-col-lg-4" style="text-align:center;">
+          <div style="background:var(--ds-color-brand-blue); color:#fff; padding: 16px; border-radius: 8px; font-family: var(--ds-font-display); margin-bottom: 8px;">4 / 4 / 2</div>
+        </div>
+        <div class="ds-col-2 ds-col-md-4 ds-col-lg-4" style="text-align:center;">
+          <div style="background:var(--ds-color-success); color:#fff; padding: 16px; border-radius: 8px; font-family: var(--ds-font-display); margin-bottom: 8px;">4 / 4 / 2</div>
+        </div>
+        <div class="ds-col-4 ds-col-md-8 ds-col-lg-4" style="text-align:center;">
+          <div style="background:var(--ds-color-brand-orange); color:#fff; padding: 16px; border-radius: 8px; font-family: var(--ds-font-display);">4 / 8 / 4</div>
+        </div>
+      </div>
+    </div>
+    <p style="margin-top: 12px; font-size: 0.85em; color: var(--ds-color-text-on-dark-soft); font-family: 'Nunito', sans-serif;">
+      Cada bloco mostra <code class="mono">lg / md / xs</code> — o número de colunas que ele ocupa em cada breakpoint.
+      Redimensione a janela do navegador pra ver a reorganização.
+    </p>
+
+    <h3 style="font-family: var(--ds-font-display); color: var(--ds-color-brand-yellow); margin: 24px 0 12px; letter-spacing: 1px;">Como usar</h3>
+    <pre style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,214,10,0.2); border-radius: 8px; padding: 16px; overflow-x: auto; font-family: 'SF Mono', Monaco, monospace; font-size: 0.85em; color: var(--ds-color-text-on-dark); line-height: 1.5;">&lt;div class="ds-container"&gt;
+  &lt;div class="ds-row"&gt;
+    &lt;div class="ds-col-4 ds-col-md-6 ds-col-lg-8"&gt;
+      Conteúdo principal — 4 cols no mobile, 6 no tablet, 8 no desktop
+    &lt;/div&gt;
+    &lt;div class="ds-col-4 ds-col-md-2 ds-col-lg-4"&gt;
+      Sidebar
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+
+    <h3 style="font-family: var(--ds-font-display); color: var(--ds-color-brand-yellow); margin: 24px 0 12px; letter-spacing: 1px;">Modificadores de alinhamento</h3>
+    <table class="token-table">
+      <thead><tr><th>Classe</th><th>Efeito</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">.ds-row--center</td>  <td>Centraliza colunas horizontalmente</td></tr>
+        <tr><td class="mono">.ds-row--end</td>     <td>Alinha colunas à direita</td></tr>
+        <tr><td class="mono">.ds-row--between</td> <td>Distribui colunas com espaço entre elas</td></tr>
+        <tr><td class="mono">.ds-row--middle</td>  <td>Alinha verticalmente ao centro</td></tr>
+        <tr><td class="mono">.ds-row--no-gutter</td> <td>Remove os gutters laterais (uso pontual)</td></tr>
+        <tr><td class="mono">.ds-container-fluid</td> <td>Container largura total (sem max-width)</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ============================================ 6. RAIOS ============================================ -->
+  <section class="doc-section" id="raios">
+    <h2><span class="doc-section__num">06</span> Raios de borda</h2>
+    <p class="doc-section__lead">
+      Inputs <strong>levemente arredondados</strong> (12px). Cards mais suaves (16px).
+      Modais com cantos generosos (24px). Botões sempre em <strong>pílula completa</strong>.
+    </p>
+
+    <div class="doc-grid doc-grid--4">
+      <div class="demo"><div class="radius-demo" style="border-radius: var(--ds-radius-sm);"></div>   <div class="demo__caption">--ds-radius-sm<br>8px · chips/tags</div></div>
+      <div class="demo"><div class="radius-demo" style="border-radius: var(--ds-radius-md);"></div>   <div class="demo__caption">--ds-radius-md<br>12px · inputs</div></div>
+      <div class="demo"><div class="radius-demo" style="border-radius: var(--ds-radius-lg);"></div>   <div class="demo__caption">--ds-radius-lg<br>16px · cards</div></div>
+      <div class="demo"><div class="radius-demo" style="border-radius: var(--ds-radius-xl);"></div>   <div class="demo__caption">--ds-radius-xl<br>24px · modais</div></div>
+      <div class="demo"><div class="radius-demo" style="border-radius: var(--ds-radius-2xl);"></div>  <div class="demo__caption">--ds-radius-2xl<br>32px · destaques</div></div>
+      <div class="demo"><div class="radius-demo" style="border-radius: var(--ds-radius-pill);"></div> <div class="demo__caption">--ds-radius-pill<br>botões / pílulas</div></div>
+    </div>
+  </section>
+
+  <!-- ============================================ 7. SOMBRAS ============================================ -->
+  <section class="doc-section" id="sombras">
+    <h2><span class="doc-section__num">07</span> Sombras & Glows</h2>
+    <p class="doc-section__lead">
+      <strong>Glow é um recurso escasso.</strong> Use apenas em CTAs, prêmios e eventos especiais.
+      <code>--ds-shadow-press</code> entrega o efeito 3D arcade nos botões.
+    </p>
+
+    <div class="doc-grid doc-grid--3">
+      <div class="demo"><div class="shadow-demo" style="box-shadow: var(--ds-shadow-sm)"></div>     <div class="demo__caption">--ds-shadow-sm</div></div>
+      <div class="demo"><div class="shadow-demo" style="box-shadow: var(--ds-shadow-md)"></div>     <div class="demo__caption">--ds-shadow-md</div></div>
+      <div class="demo"><div class="shadow-demo" style="box-shadow: var(--ds-shadow-lg)"></div>     <div class="demo__caption">--ds-shadow-lg</div></div>
+      <div class="demo"><div class="shadow-demo" style="box-shadow: var(--ds-shadow-xl)"></div>     <div class="demo__caption">--ds-shadow-xl · modal</div></div>
+      <div class="demo"><div class="shadow-demo" style="box-shadow: var(--ds-shadow-press)"></div>  <div class="demo__caption">--ds-shadow-press · botão 3D</div></div>
+      <div class="demo"><div class="shadow-demo" style="box-shadow: var(--ds-shadow-glow-yellow); background: var(--ds-gradient-yellow);"></div>  <div class="demo__caption">glow-yellow · CTA</div></div>
+      <div class="demo"><div class="shadow-demo" style="box-shadow: var(--ds-shadow-glow-pink); background: var(--ds-gradient-pink);"></div>      <div class="demo__caption">glow-pink · especial</div></div>
+      <div class="demo"><div class="shadow-demo" style="box-shadow: var(--ds-shadow-glow-blue); background: var(--ds-gradient-blue);"></div>      <div class="demo__caption">glow-blue · info</div></div>
+      <div class="demo"><div class="shadow-demo" style="box-shadow: var(--ds-shadow-glow-success); background: var(--ds-color-success-bg);"></div> <div class="demo__caption">glow-success</div></div>
+    </div>
+  </section>
+
+  <!-- ============================================ 8. BOTÕES ============================================ -->
+  <section class="doc-section" id="botoes">
+    <h2><span class="doc-section__num">08</span> Botões</h2>
+    <p class="doc-section__lead">
+      Todos com <strong>≥48px</strong> de altura. Sempre em pílula. Hierarquia:
+      <strong>1 primário</strong> por viewport, secundários em contextos paralelos.
+    </p>
+
+    <div class="doc-group">
+      <h3>Variantes</h3>
+      <div class="demo demo--row">
+        <button class="ds-btn ds-btn--primary">🚀 Primário</button>
+        <button class="ds-btn ds-btn--secondary">Secundário</button>
+        <button class="ds-btn ds-btn--accent">Aceleração</button>
+        <button class="ds-btn ds-btn--success">Sucesso</button>
+        <button class="ds-btn ds-btn--danger">Perigo</button>
+        <button class="ds-btn ds-btn--special">★ Especial</button>
+        <button class="ds-btn ds-btn--ghost">Ghost</button>
+        <button class="ds-btn ds-btn--link">Link</button>
+      </div>
+    </div>
+
+    <div class="doc-group">
+      <h3>Tamanhos</h3>
+      <div class="demo demo--row" style="align-items: center;">
+        <button class="ds-btn ds-btn--primary ds-btn--sm">SM · 48px</button>
+        <button class="ds-btn ds-btn--primary ds-btn--md">MD · 56px</button>
+        <button class="ds-btn ds-btn--primary ds-btn--lg">LG · 64px</button>
+        <button class="ds-btn ds-btn--primary ds-btn--xl">XL · 72px</button>
+      </div>
+      <div class="doc-rule"><strong>Acessibilidade —</strong> mesmo o SM respeita 48px (WCAG AAA é 44px; usamos 48px por margem). Nunca reduza.</div>
+    </div>
+
+    <div class="doc-group">
+      <h3>Modificadores</h3>
+      <div class="demo demo--row">
+        <button class="ds-btn ds-btn--primary ds-btn--block">Block (largura total)</button>
+        <button class="ds-btn ds-btn--secondary ds-btn--round" aria-label="Curtir">♥</button>
+        <button class="ds-btn ds-btn--primary ds-btn--pulsing">Pulsing (chamativo)</button>
+        <button class="ds-btn ds-btn--primary" disabled>Disabled</button>
+      </div>
+    </div>
+
+    <div class="doc-group">
+      <h3>Hero CTA (estilo splash)</h3>
+      <div class="demo">
+        <button class="ds-btn ds-btn--primary ds-btn--hero ds-btn--pulsing" style="min-width: 16rem;">
+          QUERO CONCORRER!
+          <span class="ds-btn-sub">Toque para começar</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ 9. INPUTS ============================================ -->
+  <section class="doc-section" id="inputs">
+    <h2><span class="doc-section__num">09</span> Inputs & Formulários</h2>
+    <p class="doc-section__lead">
+      Bordas levemente arredondadas (12px). Altura mínima 48px. Font-size 16px previne zoom em iOS.
+      Labels sempre acima do campo.
+    </p>
+
+    <div class="demo demo--start" style="max-width: 28rem; margin: 0 auto; width: 100%;">
+      <label class="ds-field" style="width: 100%;">
+        <span class="ds-field__label">
+          CPF <span class="ds-field__required" aria-hidden="true">*</span>
+        </span>
+        <input type="tel" class="ds-input" placeholder="000.000.000-00" inputmode="numeric">
+      </label>
+
+      <label class="ds-field" style="width: 100%;">
+        <span class="ds-field__label">
+          Senha <span class="ds-field__required" aria-hidden="true">*</span>
+        </span>
+        <div class="ds-input-group">
+          <input type="password" class="ds-input" placeholder="Digite sua senha" id="demoSenha">
+          <button type="button" class="ds-input-group__addon" aria-label="Mostrar senha"
+                  onclick="const i=document.getElementById('demoSenha'); i.type=i.type==='password'?'text':'password';">
+            👁
+          </button>
+        </div>
+        <span class="ds-field__hint">Use no mínimo 6 caracteres</span>
+      </label>
+
+      <label class="ds-field" style="width: 100%;">
+        <span class="ds-field__label">Erro de validação</span>
+        <input type="email" class="ds-input" value="email-invalido" aria-invalid="true">
+        <span class="ds-field__hint ds-field__hint--error">⚠️ Digite um e-mail válido</span>
+      </label>
+    </div>
+  </section>
+
+  <!-- ============================================ 10. CARDS ============================================ -->
+  <section class="doc-section" id="cards">
+    <h2><span class="doc-section__num">10</span> Cards & Superfícies</h2>
+    <p class="doc-section__lead">
+      <strong>Default = preto premium.</strong> Para conteúdo de leitura longa, use
+      <code>.ds-card--subtle</code> (superfície dark mais clara, mantendo a regra do sistema).
+      As variantes com glow são para destaques específicos.
+    </p>
+
+    <div class="doc-grid doc-grid--2">
+      <div class="ds-card">
+        <div class="ds-title" style="color: var(--ds-color-brand-yellow);">CARD PADRÃO</div>
+        <p class="ds-body" style="margin: var(--ds-space-2) 0 0;">
+          Preto premium com borda neon discreta. Estética de cassino arcade moderna.
+        </p>
+      </div>
+      <div class="ds-card ds-card--subtle">
+        <div class="ds-title" style="color: var(--ds-color-brand-blue-light);">CARD SUBTLE</div>
+        <p class="ds-body" style="margin: var(--ds-space-2) 0 0;">
+          Dark mais claro (#1a1a1a) — para conteúdo de leitura longa, mantendo a regra do sistema.
+        </p>
+      </div>
+      <div class="ds-card ds-card--brand">
+        <div class="ds-title">CARD MARCA</div>
+        <p class="ds-body" style="margin: var(--ds-space-2) 0 0;">
+          Amarelo de marca. Reservado para CTAs visuais e blocos de prêmio.
+        </p>
+      </div>
+      <div class="ds-card ds-card--arcade">
+        <div class="ds-title" style="color: var(--ds-color-brand-yellow);">CATEGORIA</div>
+        <p class="ds-body" style="margin: var(--ds-space-2) 0 0;">
+          Fundo arcade noturno com borda amarela. Cards de categoria (home).
+        </p>
+      </div>
+      <div class="ds-card ds-card--premium-glow-yellow">
+        <div class="ds-title" style="color: var(--ds-color-brand-yellow);">GLOW AMARELO</div>
+        <p class="ds-body" style="margin: var(--ds-space-2) 0 0;">
+          Destaque de prêmio, saldo grande, conquista importante.
+        </p>
+      </div>
+      <div class="ds-card ds-card--premium-glow-pink">
+        <div class="ds-title" style="color: var(--ds-color-brand-pink);">GLOW ROSA</div>
+        <p class="ds-body" style="margin: var(--ds-space-2) 0 0;">
+          Evento especial, promoção limitada, jackpot.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ 11. MODAIS ============================================ -->
+  <section class="doc-section" id="modais">
+    <h2><span class="doc-section__num">11</span> Modais</h2>
+    <p class="doc-section__lead">
+      Premium dark por padrão. Variantes de feedback usam fundo tonalizado + borda de cor +
+      glow controlado — o mesmo padrão dos toasts.
+    </p>
+
+    <div class="doc-grid doc-grid--2">
+      <div class="demo" style="background: rgba(0,0,0,0.4); min-height: 14rem;">
+        <div class="ds-modal" style="max-width: 100%; animation: none;">
+          <div class="ds-title" style="color: var(--ds-color-brand-yellow); text-align: center;">CONFIRMAR</div>
+          <p class="ds-body" style="text-align: center;">Modal padrão premium dark.</p>
+          <button class="ds-btn ds-btn--primary ds-btn--block">CONFIRMAR</button>
+        </div>
+        <div class="demo__caption">.ds-modal (default)</div>
+      </div>
+
+      <div class="demo" style="background: rgba(0,0,0,0.4); min-height: 14rem;">
+        <div class="ds-modal ds-modal--success" style="max-width: 100%; animation: none;">
+          <div class="ds-title" style="color: var(--ds-color-success); text-align: center;">🎉 PRÊMIO GANHO</div>
+          <p class="ds-body" style="text-align: center;">Você ganhou R$ 5,00.</p>
+          <button class="ds-btn ds-btn--success ds-btn--block">CONTINUAR</button>
+        </div>
+        <div class="demo__caption">.ds-modal--success</div>
+      </div>
+
+      <div class="demo" style="background: rgba(0,0,0,0.4); min-height: 14rem;">
+        <div class="ds-modal ds-modal--danger" style="max-width: 100%; animation: none;">
+          <div class="ds-title" style="color: var(--ds-color-danger); text-align: center;">ERRO</div>
+          <p class="ds-body" style="text-align: center;">Não foi possível processar a compra.</p>
+          <button class="ds-btn ds-btn--danger ds-btn--block">TENTAR DE NOVO</button>
+        </div>
+        <div class="demo__caption">.ds-modal--danger</div>
+      </div>
+
+      <div class="demo" style="background: rgba(0,0,0,0.4); min-height: 14rem;">
+        <div class="ds-modal ds-modal--warning" style="max-width: 100%; animation: none;">
+          <div class="ds-title" style="color: var(--ds-color-warning); text-align: center;">⚠️ ATENÇÃO</div>
+          <p class="ds-body" style="text-align: center;">Saldo insuficiente para continuar.</p>
+          <button class="ds-btn ds-btn--accent ds-btn--block">ADICIONAR SALDO</button>
+        </div>
+        <div class="demo__caption">.ds-modal--warning</div>
+      </div>
+
+      <div class="demo" style="background: rgba(0,0,0,0.4); min-height: 14rem;">
+        <div class="ds-modal ds-modal--info" style="max-width: 100%; animation: none;">
+          <div class="ds-title" style="color: var(--ds-color-info); text-align: center;">DICA</div>
+          <p class="ds-body" style="text-align: center;">Convide 5 amigos e ganhe R$ 10,00.</p>
+          <button class="ds-btn ds-btn--accent ds-btn--block">ENTENDI</button>
+        </div>
+        <div class="demo__caption">.ds-modal--info</div>
+      </div>
+
+      <div class="demo" style="background: rgba(0,0,0,0.4); min-height: 14rem;">
+        <div class="ds-modal ds-modal--special" style="max-width: 100%; animation: none;">
+          <div class="ds-title" style="color: var(--ds-color-special); text-align: center;">★ JACKPOT</div>
+          <p class="ds-body" style="text-align: center;">Você desbloqueou um evento especial!</p>
+          <button class="ds-btn ds-btn--special ds-btn--block">PARTICIPAR</button>
+        </div>
+        <div class="demo__caption">.ds-modal--special</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ 12. LOADING ============================================ -->
+  <section class="doc-section" id="loading">
+    <h2><span class="doc-section__num">12</span> Loadings</h2>
+    <p class="doc-section__lead">
+      Quatro padrões de espera. Sempre nas cores da marca — nunca um spinner cinza padrão.
+    </p>
+
+    <div class="doc-grid doc-grid--3">
+      <div class="demo">
+        <div class="ds-spinner"></div>
+        <div class="demo__caption">.ds-spinner (default)</div>
+      </div>
+      <div class="demo">
+        <div class="ds-spinner ds-spinner--pink"></div>
+        <div class="demo__caption">.ds-spinner--pink</div>
+      </div>
+      <div class="demo">
+        <div class="ds-spinner ds-spinner--blue ds-spinner--lg"></div>
+        <div class="demo__caption">.ds-spinner--blue --lg</div>
+      </div>
+      <div class="demo">
+        <div class="ds-loading-dots"><span></span><span></span><span></span><span></span></div>
+        <div class="demo__caption">.ds-loading-dots · arcade</div>
+      </div>
+      <div class="demo">
+        <span class="ds-loading-inline">
+          <span class="ds-spinner ds-spinner--sm"></span>
+          Carregando…
+        </span>
+        <div class="demo__caption">.ds-loading-inline</div>
+      </div>
+      <div class="demo demo--start">
+        <span class="ds-skeleton" style="width: 80%; height: 1rem;"></span>
+        <span class="ds-skeleton" style="width: 60%; height: 1rem;"></span>
+        <span class="ds-skeleton" style="width: 90%; height: 3rem;"></span>
+        <div class="demo__caption">.ds-skeleton</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ 13. TOASTS ============================================ -->
+  <section class="doc-section" id="toasts">
+    <h2><span class="doc-section__num">13</span> Toasts / Feedback</h2>
+    <p class="doc-section__lead">
+      Mensagens curtas e temporárias. Fundo tonalizado escuro + borda da cor de feedback + glow leve.
+      Ícone sempre no início para reforço visual.
+    </p>
+
+    <div class="demo demo--start" style="gap: var(--ds-space-3);">
+      <div class="ds-toast ds-toast--success"><span class="ds-toast__icon">✓</span> Compra aprovada com sucesso!</div>
+      <div class="ds-toast ds-toast--info"><span class="ds-toast__icon">ⓘ</span> Você tem 3 sorteios pendentes</div>
+      <div class="ds-toast ds-toast--warning"><span class="ds-toast__icon">!</span> Saldo está acabando</div>
+      <div class="ds-toast ds-toast--danger"><span class="ds-toast__icon">✕</span> Não foi possível processar a compra</div>
+      <div class="ds-toast ds-toast--special"><span class="ds-toast__icon">★</span> Você desbloqueou um evento especial!</div>
+    </div>
+  </section>
+
+  <!-- ============================================ 14. BADGES ============================================ -->
+  <section class="doc-section" id="badges">
+    <h2><span class="doc-section__num">14</span> Badges & Tags</h2>
+    <p class="doc-section__lead">
+      Pequenos marcadores de status. Sempre em Bungee para destaque.
+    </p>
+
+    <div class="demo demo--row">
+      <span class="ds-badge">EM DESTAQUE</span>
+      <span class="ds-badge ds-badge--success">DISPONÍVEL</span>
+      <span class="ds-badge ds-badge--warning">EM BREVE</span>
+      <span class="ds-badge ds-badge--info">INFO</span>
+      <span class="ds-badge ds-badge--danger">ESGOTADO</span>
+      <span class="ds-badge ds-badge--special">★ NOVO!</span>
+      <span class="ds-badge ds-badge--outline" style="color: #fff;">OUTLINE</span>
+    </div>
+  </section>
+
+  <!-- ============================================ 15. HIERARQUIA ============================================ -->
+  <section class="doc-section" id="hierarquia">
+    <h2><span class="doc-section__num">15</span> Hierarquia visual</h2>
+    <p class="doc-section__lead">
+      Toda tela tem uma ação principal. Use o tratamento certo para o nível de prioridade.
+    </p>
+
+    <div class="hier" style="border-color: var(--ds-color-brand-yellow);">
+      <div><strong style="color: var(--ds-color-brand-yellow);">PRIORIDADE ALTA</strong></div>
+      <div>
+        Amarelo da marca + glow + animação pulsing. Ação principal da tela, prêmio em destaque.<br>
+        <code style="font-size:0.8em;color:rgba(255,255,255,0.55);">.ds-btn--primary .ds-btn--pulsing · .ds-card--premium-glow-yellow</code>
+      </div>
+    </div>
+
+    <div class="hier" style="border-color: var(--ds-color-brand-blue-light);">
+      <div><strong style="color: var(--ds-color-brand-blue-light);">PRIORIDADE MÉDIA</strong></div>
+      <div>
+        Azul vibrante. Ações secundárias, navegação, informação importante.<br>
+        <code style="font-size:0.8em;color:rgba(255,255,255,0.55);">.ds-btn--accent · .ds-tab.is-active</code>
+      </div>
+    </div>
+
+    <div class="hier" style="border-color: rgba(255, 255, 255, 0.4);">
+      <div><strong style="color: rgba(255, 255, 255, 0.85);">PRIORIDADE BAIXA</strong></div>
+      <div>
+        Branco/cinza, sem glow. Ações terciárias, links, infos contextuais.<br>
+        <code style="font-size:0.8em;color:rgba(255,255,255,0.55);">.ds-btn--ghost · .ds-btn--link · .ds-caption</code>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ 16. COMPONENTES PADRONIZADOS ============================================ -->
+  <section class="doc-section" id="componentes">
+    <h2><span class="doc-section__num">16</span> Padronização de componentes</h2>
+    <p class="doc-section__lead">
+      <strong style="color:#fff;">Regra absoluta do sistema:</strong> componentes que se repetem em múltiplas telas
+      DEVEM ter o mesmo visual em todo lugar. Carteira na home, no checkout, no saque e no extrato — tudo igual.
+      Isso reduz a carga cognitiva e cria familiaridade com a marca.
+    </p>
+
+    <div class="doc-rule doc-rule--alert">
+      <strong>⛔ Por que isso é crítico —</strong> Auditoria do projeto encontrou
+      <strong>5 classes diferentes para o mesmo conceito de carteira</strong>
+      (<code>.saldo-pill</code>, <code>.boas-vindas-saldo</code>, <code>.checkout-carteira-chip</code>,
+      <code>.saque-saldo-valor</code>, <code>.escolha-saldo-valor</code>) espalhadas em 18 telas.
+      O usuário vê uma carteira diferente em cada lugar — quebra a marca e gera dúvida.
+    </div>
+
+    <div class="doc-group">
+      <h3>Princípios</h3>
+      <ul style="line-height: var(--ds-lh-relaxed); padding-left: var(--ds-space-6);">
+        <li><strong style="color:var(--ds-color-brand-yellow)">Um conceito, um componente.</strong> Mesma carteira em toda tela. Mesmo header. Mesmo botão fechar. Mesmo sino de notificação.</li>
+        <li><strong style="color:var(--ds-color-brand-yellow)">Variações = modificadores, não componentes novos.</strong> Tamanho diferente? Use <code>--sm/--md/--lg</code>. Estado diferente? Use <code>.is-active</code>, <code>.is-disabled</code>. NÃO crie classe nova.</li>
+        <li><strong style="color:var(--ds-color-brand-yellow)">Antes de criar, busque.</strong> Se existe <code>.ds-*</code> para o conceito, use. Não duplique.</li>
+        <li><strong style="color:var(--ds-color-brand-yellow)">Mudanças propagam.</strong> Atualizar o primitive deve atualizar o componente em todas as telas. Se isso não acontece, há fragmentação.</li>
+      </ul>
+    </div>
+
+    <div class="doc-group">
+      <h3>13.1 — Carteira <span style="font-family: var(--ds-font-body); font-size: 0.8em; font-weight: 600; color: var(--ds-color-text-on-dark-soft); letter-spacing: 0;">(.ds-wallet)</span></h3>
+      <p style="color: var(--ds-color-text-on-dark-soft); margin: 0 0 var(--ds-space-4);">
+        Componente único pra exibir saldo do usuário. Substitui as 5 variações legadas em todo o app.
+      </p>
+
+      <div class="demo demo--row">
+        <a class="ds-wallet ds-wallet--sm" href="#">
+          <span class="ds-wallet__icon">💰</span>
+          <div class="ds-wallet__body">
+            <span class="ds-wallet__label">Saldo</span>
+            <span class="ds-wallet__value">R$ 3,99</span>
+          </div>
+        </a>
+
+        <a class="ds-wallet" href="#">
+          <span class="ds-wallet__icon">💰</span>
+          <div class="ds-wallet__body">
+            <span class="ds-wallet__label">Carteira</span>
+            <span class="ds-wallet__value">R$ 1.250,00</span>
+          </div>
+        </a>
+
+        <a class="ds-wallet ds-wallet--lg ds-wallet--featured" href="#">
+          <span class="ds-wallet__icon">💰</span>
+          <div class="ds-wallet__body">
+            <span class="ds-wallet__label">Sua Carteira</span>
+            <span class="ds-wallet__value">R$ 1.250,00</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="doc-code"><span class="c">&lt;!-- carteira padrão --&gt;</span>
+<span class="k">&lt;a</span> class=<span class="s">"ds-wallet"</span> href=<span class="s">"#carteira"</span><span class="k">&gt;</span>
+  <span class="k">&lt;span</span> class=<span class="s">"ds-wallet__icon"</span><span class="k">&gt;</span>💰<span class="k">&lt;/span&gt;</span>
+  <span class="k">&lt;div</span> class=<span class="s">"ds-wallet__body"</span><span class="k">&gt;</span>
+    <span class="k">&lt;span</span> class=<span class="s">"ds-wallet__label"</span><span class="k">&gt;</span>Carteira<span class="k">&lt;/span&gt;</span>
+    <span class="k">&lt;span</span> class=<span class="s">"ds-wallet__value"</span><span class="k">&gt;</span>R$ 1.250,00<span class="k">&lt;/span&gt;</span>
+  <span class="k">&lt;/div&gt;</span>
+<span class="k">&lt;/a&gt;</span>
+<span class="c">&lt;!-- variantes: ds-wallet--sm, ds-wallet--lg, ds-wallet--featured (com glow) --&gt;</span></div>
+    </div>
+
+    <div class="doc-group">
+      <h3>13.2 — Header de tela <span style="font-family: var(--ds-font-body); font-size: 0.8em; font-weight: 600; color: var(--ds-color-text-on-dark-soft); letter-spacing: 0;">(.ds-screen-header)</span></h3>
+      <p style="color: var(--ds-color-text-on-dark-soft); margin: 0 0 var(--ds-space-4);">
+        Substitui os 12+ padrões atuais (<code>.admin-header</code>, <code>.checkout-header</code>,
+        <code>.pacotes-header</code>...). Sempre: voltar à esquerda, título centralizado, ação à direita.
+      </p>
+
+      <div class="demo" style="padding: 0; min-height: auto;">
+        <header class="ds-screen-header" style="width: 100%;">
+          <button class="ds-screen-header__back" aria-label="Voltar">‹</button>
+          <h1 class="ds-screen-header__title">CHECKOUT</h1>
+          <div class="ds-screen-header__action">
+            <button class="ds-bell" aria-label="Notificações">🔔<span class="ds-bell__count">3</span></button>
+          </div>
+        </header>
+      </div>
+    </div>
+
+    <div class="doc-group">
+      <h3>13.3 — Botão fechar (×) <span style="font-family: var(--ds-font-body); font-size: 0.8em; font-weight: 600; color: var(--ds-color-text-on-dark-soft); letter-spacing: 0;">(.ds-close)</span></h3>
+      <p style="color: var(--ds-color-text-on-dark-soft); margin: 0 0 var(--ds-space-4);">
+        O mesmo botão "×" em todo popup e modal. Sempre canto superior direito, sempre 48px, sempre redondo.
+      </p>
+
+      <div class="demo" style="position: relative; min-height: 8rem; width: 100%;">
+        <button class="ds-close" aria-label="Fechar" style="position: static;">×</button>
+        <div style="color: var(--ds-color-text-on-dark-soft); text-align: center;">
+          Em produção: posicionado absoluto dentro do modal/popup
+        </div>
+      </div>
+    </div>
+
+    <div class="doc-group">
+      <h3>13.4 — Sino de notificação <span style="font-family: var(--ds-font-body); font-size: 0.8em; font-weight: 600; color: var(--ds-color-text-on-dark-soft); letter-spacing: 0;">(.ds-bell)</span></h3>
+      <p style="color: var(--ds-color-text-on-dark-soft); margin: 0 0 var(--ds-space-4);">
+        Indicador de notificações com badge contador. Mesma posição visual em qualquer tela.
+      </p>
+
+      <div class="demo demo--row">
+        <button class="ds-bell" aria-label="Notificações">🔔</button>
+        <button class="ds-bell" aria-label="Notificações">🔔<span class="ds-bell__count">3</span></button>
+        <button class="ds-bell" aria-label="Notificações">🔔<span class="ds-bell__count">12</span></button>
+      </div>
+    </div>
+
+    <div class="doc-group">
+      <h3>Status dos componentes recorrentes</h3>
+      <p style="color: var(--ds-color-text-on-dark-soft); margin: 0 0 var(--ds-space-4);">
+        Auditoria automática dos componentes que mais aparecem no projeto.
+      </p>
+      <table class="token-table">
+        <thead>
+          <tr><th>Componente</th><th>Telas</th><th>Status atual</th><th>Primitive DS</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Overlay (fundo modal)</strong></td>            <td>45</td> <td style="color: var(--ds-color-warning);">⚠️ 7 variações</td>     <td class="mono">.ds-overlay</td></tr>
+          <tr><td><strong>Popup / Modal</strong></td>                    <td>38</td> <td style="color: var(--ds-color-warning);">⚠️ 10+ variações</td>   <td class="mono">.ds-modal</td></tr>
+          <tr><td><strong>Botões</strong></td>                           <td>39</td> <td style="color: var(--ds-color-warning);">⚠️ 15+ variações</td>   <td class="mono">.ds-btn</td></tr>
+          <tr><td><strong>Carteira / Saldo</strong></td>                 <td>18</td> <td style="color: var(--ds-color-danger);">🚨 5 classes diferentes</td>  <td class="mono">.ds-wallet ✓</td></tr>
+          <tr><td><strong>Header de tela</strong></td>                   <td>20</td> <td style="color: var(--ds-color-danger);">🚨 12+ padrões</td>     <td class="mono">.ds-screen-header ✓</td></tr>
+          <tr><td><strong>Cards</strong></td>                            <td>13</td> <td style="color: var(--ds-color-warning);">⚠️ 12+ variações</td>   <td class="mono">.ds-card</td></tr>
+          <tr><td><strong>Botão fechar (×)</strong></td>                 <td>24</td> <td style="color: var(--ds-color-success);">✅ padronizado</td>     <td class="mono">.ds-close ✓</td></tr>
+          <tr><td><strong>Sino notif</strong></td>                       <td>4</td>  <td style="color: var(--ds-color-success);">✅ padronizado</td>     <td class="mono">.ds-bell ✓</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="doc-rule">
+      <strong>Checklist pra cada componente novo —</strong>
+      <ol style="margin-top: var(--ds-space-2); padding-left: var(--ds-space-5); line-height: var(--ds-lh-relaxed);">
+        <li>Esse conceito já existe? Grep por palavras-chave nas screens antes de criar.</li>
+        <li>Se já existe com nome diferente, USE o existente em vez de duplicar.</li>
+        <li>Se for novo, crie como primitive em <code>design-system.css</code> com prefixo <code>.ds-*</code>.</li>
+        <li>Use modificadores (<code>--sm/--lg/--featured/--disabled</code>) pra variações, nunca classes novas.</li>
+        <li>Documente nesse showcase com markup de exemplo.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============================================ 17. A11Y ============================================ -->
+  <section class="doc-section" id="a11y">
+    <h2><span class="doc-section__num">17</span> Acessibilidade — checklist</h2>
+    <p class="doc-section__lead">
+      O público-alvo (C/D, faixas etárias diversas) exige um padrão maior que o mínimo WCAG.
+      Toda nova tela passa pelos itens abaixo antes de ir pra produção.
+    </p>
+
+    <ul style="font-size: var(--ds-fs-md); line-height: var(--ds-lh-relaxed); padding-left: var(--ds-space-6);">
+      <li><strong>Alvos de toque</strong> ≥ <code>48px</code> (use <code>--ds-touch-default</code>).</li>
+      <li><strong>Tipografia</strong> ≥ 16px body, ≥ 14px legendas. Nunca menor.</li>
+      <li><strong>Contraste</strong> texto sobre escuro ≥ 7:1 (AAA). Sobre claro ≥ 4.5:1 (AA).</li>
+      <li><strong>Foco visível</strong> em toda interação clicável via <code>--ds-shadow-focus-ring</code>.</li>
+      <li><strong>Labels</strong> em todo input (não confie só em placeholder).</li>
+      <li><strong>ARIA</strong> botões com ícone usam <code>aria-label</code>; campos com erro usam <code>aria-invalid="true"</code>.</li>
+      <li><strong>Motion</strong> animações infinitas pausadas via <code>prefers-reduced-motion</code>.</li>
+      <li><strong>Linguagem</strong> português direto, sem jargão. Verbos no imperativo.</li>
+      <li><strong>Cores</strong> nunca codificar significado só por cor (+ ícone ou texto).</li>
+      <li><strong>Distrações</strong> uma ação principal por bloco. Glow só onde importa.</li>
+    </ul>
+  </section>
+
+  <footer style="text-align: center; padding: var(--ds-space-8) 0; color: rgba(255,255,255,0.5); font-size: var(--ds-fs-sm);">
+    Caçadores de Balões Design System v1.1 · "Arcade Premium Popular"<br>
+    <code>css/design-system.css</code>
+  </footer>
+
+</div>
+</body>
+</html>

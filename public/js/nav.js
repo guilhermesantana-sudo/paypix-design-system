@@ -41,13 +41,32 @@
 
 const menuToggle = document.getElementById('menuToggle');
 const sidebar = document.getElementById('sidebar');
+const sidebarOverlay = document.getElementById('sidebarOverlay');
+function closeSidebar() {
+  sidebar?.classList.remove('is-open');
+  sidebarOverlay?.classList.remove('is-visible');
+}
+function toggleSidebar() {
+  sidebar?.classList.toggle('is-open');
+  sidebarOverlay?.classList.toggle('is-visible');
+}
 if (menuToggle && sidebar) {
-  menuToggle.addEventListener('click', () => sidebar.classList.toggle('is-open'));
+  menuToggle.addEventListener('click', toggleSidebar);
+  sidebarOverlay?.addEventListener('click', closeSidebar);
   sidebar.querySelectorAll('.sidebar__link').forEach(link => {
     link.addEventListener('click', () => {
-      if (window.innerWidth <= 1024) sidebar.classList.remove('is-open');
+      if (window.innerWidth <= 1024) closeSidebar();
     });
   });
+}
+
+// Botão "Voltar ao topo"
+const backToTop = document.getElementById('backToTop');
+if (backToTop) {
+  window.addEventListener('scroll', () => {
+    backToTop.classList.toggle('is-visible', window.scrollY > 600);
+  }, { passive: true });
+  backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 }
 
 document.querySelectorAll('.swatch[data-hex]').forEach(swatch => {

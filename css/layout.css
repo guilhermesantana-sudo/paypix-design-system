@@ -250,6 +250,7 @@
   padding: 88px 64px;
   position: relative;
   overflow-x: hidden;
+  scroll-margin-top: 24px;
 }
 
 /* Tema CLARO — sobre fundo branco */
@@ -976,6 +977,39 @@
 /* ============================================================
    MOBILE
    ============================================================ */
+
+/* Voltar ao topo */
+.back-to-top {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 150;
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: rgba(12, 22, 40, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1.5px solid var(--orange-500);
+  color: var(--orange-500);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5), var(--glow-orange-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(12px);
+  transition: opacity 200ms ease, transform 200ms ease, background 150ms ease, color 150ms ease;
+}
+.back-to-top.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+.back-to-top:hover {
+  background: var(--orange-500);
+  color: var(--blue-900);
+}
 
 /* Overlay para fechar sidebar no mobile */
 .sidebar-overlay {

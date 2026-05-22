@@ -23,6 +23,176 @@
     padding-bottom: var(--ds-space-16);
   }
 
+  /* ============================================ LAYOUT COM SIDEBAR ============================================ */
+  .doc-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    min-height: 100vh;
+  }
+
+  .doc-sidebar {
+    background: var(--ds-color-brand-black);
+    border-right: 1px solid rgba(255, 214, 10, 0.18);
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 100;
+  }
+  .doc-sidebar::-webkit-scrollbar { width: 6px; }
+  .doc-sidebar::-webkit-scrollbar-thumb { background: rgba(255, 214, 10, 0.3); border-radius: 3px; }
+
+  .doc-sidebar__brand {
+    padding: 28px 24px 22px;
+    border-bottom: 1px solid rgba(255, 214, 10, 0.18);
+  }
+  .doc-sidebar__chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    background: rgba(255, 214, 10, 0.1);
+    border: 1.5px solid rgba(255, 214, 10, 0.4);
+    border-radius: 999px;
+    font-family: var(--ds-font-display);
+    font-size: 10px;
+    color: var(--ds-color-brand-yellow);
+    letter-spacing: 0.12em;
+    margin-bottom: 14px;
+  }
+  .doc-sidebar__title {
+    font-family: var(--ds-font-display);
+    font-size: 22px;
+    line-height: 1.05;
+    color: #fff;
+    letter-spacing: 0.02em;
+    text-shadow:
+      0 1px 0 #6b4500,
+      0 2px 0 #553700,
+      0 4px 12px rgba(255, 214, 10, 0.25);
+  }
+  .doc-sidebar__title em { color: var(--ds-color-brand-yellow); font-style: normal; }
+  .doc-sidebar__system-label {
+    display: block;
+    margin-top: 8px;
+    font-family: var(--ds-font-display);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    color: rgba(255, 255, 255, 0.5);
+  }
+  .doc-sidebar__client {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 18px;
+    padding: 10px;
+    background: rgba(255, 214, 10, 0.06);
+    border: 1px solid rgba(255, 214, 10, 0.20);
+    border-radius: 10px;
+  }
+  .doc-sidebar__client-mark {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    background: var(--ds-gradient-yellow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ds-color-brand-yellow-text);
+    font-family: var(--ds-font-display);
+    font-size: 16px;
+    box-shadow: 0 0 12px rgba(255, 214, 10, 0.35);
+  }
+  .doc-sidebar__client-info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+  }
+  .doc-sidebar__client-label {
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 700;
+  }
+  .doc-sidebar__client-name {
+    font-family: var(--ds-font-display);
+    font-size: 14px;
+    color: #fff;
+    letter-spacing: 0.02em;
+  }
+  .doc-sidebar__client-name em {
+    color: var(--ds-color-brand-yellow);
+    font-style: normal;
+  }
+  .doc-sidebar__back {
+    display: block;
+    margin-top: 16px;
+    padding: 9px 12px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+    transition: all 150ms ease;
+  }
+  .doc-sidebar__back:hover {
+    background: rgba(255, 214, 10, 0.10);
+    border-color: rgba(255, 214, 10, 0.30);
+    color: var(--ds-color-brand-yellow);
+  }
+
+  .doc-sidebar__nav { padding: 22px 12px 60px; }
+  .doc-sidebar__group { margin-bottom: 26px; }
+  .doc-sidebar__group-label {
+    padding: 0 12px 8px;
+    font-family: var(--ds-font-display);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ds-color-brand-yellow);
+  }
+  .doc-sidebar__link {
+    display: block;
+    padding: 9px 12px;
+    font-family: var(--ds-font-body);
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.72);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 150ms ease;
+    position: relative;
+    text-decoration: none;
+  }
+  .doc-sidebar__link:hover {
+    background: rgba(255, 214, 10, 0.08);
+    color: #fff;
+  }
+  .doc-sidebar__link.is-active {
+    background: rgba(255, 214, 10, 0.15);
+    color: #fff;
+    font-weight: 600;
+  }
+  .doc-sidebar__link.is-active::before {
+    content: '';
+    position: absolute;
+    left: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px; height: 18px;
+    background: var(--ds-color-brand-yellow);
+    border-radius: 0 2px 2px 0;
+    box-shadow: 0 0 10px rgba(255, 214, 10, 0.95), 0 0 22px rgba(255, 214, 10, 0.5);
+  }
+
+  .doc-main {
+    min-width: 0;
+    overflow-x: hidden;
+  }
   .doc-shell {
     max-width: 1180px;
     margin: 0 auto;
@@ -33,6 +203,33 @@
     text-align: center;
     padding: var(--ds-space-12) var(--ds-space-4) var(--ds-space-8);
   }
+
+  /* Mobile toggle */
+  .doc-menu-toggle {
+    display: none;
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 200;
+    width: 44px; height: 44px;
+    border-radius: 999px;
+    background: rgba(10, 10, 10, 0.92);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1.5px solid rgba(255, 214, 10, 0.3);
+    color: var(--ds-color-brand-yellow);
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .doc-sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    z-index: 90;
+  }
+  .doc-sidebar-overlay.is-visible { display: block; }
 
   .doc-hero__chip {
     display: inline-flex;
@@ -78,39 +275,6 @@
     max-width: 38rem;
     margin: 0 auto;
     color: var(--ds-color-text-on-dark-soft);
-  }
-
-  /* Navegação flutuante */
-  .doc-nav {
-    position: sticky;
-    top: var(--ds-space-4);
-    z-index: 100;
-    background: rgba(10, 10, 10, 0.92);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1.5px solid rgba(255, 214, 10, 0.3);
-    border-radius: var(--ds-radius-pill);
-    padding: var(--ds-space-2);
-    margin: 0 auto var(--ds-space-8);
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--ds-space-1);
-    justify-content: center;
-    max-width: max-content;
-  }
-  .doc-nav a {
-    font-family: var(--ds-font-display);
-    font-size: var(--ds-fs-sm);
-    letter-spacing: var(--ds-tracking-wide);
-    text-decoration: none;
-    color: var(--ds-color-text-on-dark-soft);
-    padding: var(--ds-space-2) var(--ds-space-3);
-    border-radius: var(--ds-radius-pill);
-    transition: all var(--ds-duration-fast);
-  }
-  .doc-nav a:hover {
-    background: rgba(255, 214, 10, 0.15);
-    color: var(--ds-color-brand-yellow);
   }
 
   .doc-section {
@@ -383,6 +547,21 @@
     color: rgba(255, 255, 255, 0.5);
   }
 
+  @media (max-width: 900px) {
+    .doc-layout { grid-template-columns: 1fr; }
+    .doc-sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 280px;
+      transform: translateX(-100%);
+      transition: transform 250ms ease;
+    }
+    .doc-sidebar.is-open { transform: translateX(0); }
+    .doc-menu-toggle { display: inline-flex; }
+    .doc-shell { padding: var(--ds-space-8) var(--ds-space-4); }
+  }
+
   @media (max-width: 600px) {
     .doc-section { padding: var(--ds-space-6) var(--ds-space-4); }
     .doc-hero h1 { font-size: 2rem; }
@@ -392,44 +571,74 @@
 </head>
 <body class="ds-scope">
 
-<!-- Voltar ao hub L4 -->
-<a href="../" style="position:fixed;top:20px;left:20px;z-index:200;display:inline-flex;align-items:center;gap:6px;padding:10px 16px;background:rgba(10,10,10,0.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1.5px solid rgba(255,214,10,0.3);border-radius:999px;color:#ffd60a;font-family:'Bungee','Impact',sans-serif;font-size:12px;letter-spacing:0.08em;text-decoration:none;transition:all 150ms ease">← VOLTAR AO HUB L4</a>
+<!-- Toggle mobile -->
+<button class="doc-menu-toggle" id="docMenuToggle" aria-label="Abrir menu">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+</button>
+<div class="doc-sidebar-overlay" id="docSidebarOverlay"></div>
 
-<div class="doc-shell">
+<div class="doc-layout">
 
-  <!-- ============================================ HERO ============================================ -->
-  <header class="doc-hero">
-    <div class="doc-hero__chip">🎮 ARCADE PREMIUM POPULAR</div>
-    <h1>CAÇADORES DE BALÕES DESIGN SYSTEM</h1>
-    <div class="doc-hero__tagline">DIVERSÃO<span>•</span>PRÊMIOS<span>•</span>RECOMPENSAS</div>
-    <p>
-      Identidade visual completa de Caçadores de Balões. Conceito arcade com sensação premium,
-      tokens calibrados para acessibilidade do público C/D e regras de distribuição
-      para manter o produto consistente, confiável e divertido.
-    </p>
-  </header>
+  <aside class="doc-sidebar" id="docSidebar">
+    <div class="doc-sidebar__brand">
+      <div class="doc-sidebar__chip">🎮 ARCADE PREMIUM POPULAR</div>
+      <div class="doc-sidebar__title">CAÇADORES <em>DE BALÕES</em></div>
+      <span class="doc-sidebar__system-label">L4 Design System</span>
+      <div class="doc-sidebar__client">
+        <span class="doc-sidebar__client-mark">A</span>
+        <div class="doc-sidebar__client-info">
+          <span class="doc-sidebar__client-label">Cliente</span>
+          <span class="doc-sidebar__client-name">Apcap <em>da Sorte</em></span>
+        </div>
+      </div>
+      <a href="../" class="doc-sidebar__back">← Voltar ao hub</a>
+    </div>
 
-  <!-- ============================================ NAV ============================================ -->
-  <nav class="doc-nav">
-    <a href="#paleta">01 · Paleta</a>
-    <a href="#distrib">02 · Distribuição</a>
-    <a href="#feedback">03 · Feedback</a>
-    <a href="#tipografia">04 · Tipografia</a>
-    <a href="#espacamento">05 · Espaçamento</a>
-    <a href="#grid">05.5 · Grid</a>
-    <a href="#raios">06 · Raios</a>
-    <a href="#sombras">07 · Sombras</a>
-    <a href="#botoes">08 · Botões</a>
-    <a href="#inputs">09 · Inputs</a>
-    <a href="#cards">10 · Cards</a>
-    <a href="#modais">11 · Modais</a>
-    <a href="#loading">12 · Loading</a>
-    <a href="#toasts">13 · Toasts</a>
-    <a href="#badges">14 · Badges</a>
-    <a href="#hierarquia">15 · Hierarquia</a>
-    <a href="#componentes">16 · Componentes</a>
-    <a href="#a11y">17 · A11y</a>
-  </nav>
+    <nav class="doc-sidebar__nav">
+      <div class="doc-sidebar__group">
+        <div class="doc-sidebar__group-label">Fundamentos</div>
+        <a href="#paleta" class="doc-sidebar__link">01 · Paleta</a>
+        <a href="#distrib" class="doc-sidebar__link">02 · Distribuição</a>
+        <a href="#feedback" class="doc-sidebar__link">03 · Feedback</a>
+        <a href="#tipografia" class="doc-sidebar__link">04 · Tipografia</a>
+        <a href="#espacamento" class="doc-sidebar__link">05 · Espaçamento</a>
+        <a href="#grid" class="doc-sidebar__link">05.5 · Grid</a>
+        <a href="#raios" class="doc-sidebar__link">06 · Raios</a>
+        <a href="#sombras" class="doc-sidebar__link">07 · Sombras</a>
+      </div>
+      <div class="doc-sidebar__group">
+        <div class="doc-sidebar__group-label">Componentes</div>
+        <a href="#botoes" class="doc-sidebar__link">08 · Botões</a>
+        <a href="#inputs" class="doc-sidebar__link">09 · Inputs</a>
+        <a href="#cards" class="doc-sidebar__link">10 · Cards</a>
+        <a href="#modais" class="doc-sidebar__link">11 · Modais</a>
+        <a href="#loading" class="doc-sidebar__link">12 · Loading</a>
+        <a href="#toasts" class="doc-sidebar__link">13 · Toasts</a>
+        <a href="#badges" class="doc-sidebar__link">14 · Badges</a>
+      </div>
+      <div class="doc-sidebar__group">
+        <div class="doc-sidebar__group-label">Aplicação</div>
+        <a href="#hierarquia" class="doc-sidebar__link">15 · Hierarquia</a>
+        <a href="#componentes" class="doc-sidebar__link">16 · Componentes</a>
+        <a href="#a11y" class="doc-sidebar__link">17 · A11y</a>
+      </div>
+    </nav>
+  </aside>
+
+  <main class="doc-main">
+    <div class="doc-shell">
+
+      <!-- ============================================ HERO ============================================ -->
+      <header class="doc-hero">
+        <div class="doc-hero__chip">🎮 ARCADE PREMIUM POPULAR</div>
+        <h1>CAÇADORES DE BALÕES DESIGN SYSTEM</h1>
+        <div class="doc-hero__tagline">DIVERSÃO<span>•</span>PRÊMIOS<span>•</span>RECOMPENSAS</div>
+        <p>
+          Identidade visual completa de Caçadores de Balões. Conceito arcade com sensação premium,
+          tokens calibrados para acessibilidade do público C/D e regras de distribuição
+          para manter o produto consistente, confiável e divertido.
+        </p>
+      </header>
 
   <!-- ============================================ 1. PALETA OFICIAL ============================================ -->
   <section class="doc-section" id="paleta">
@@ -1356,11 +1565,53 @@
     </ul>
   </section>
 
-  <footer style="text-align: center; padding: var(--ds-space-8) 0; color: rgba(255,255,255,0.5); font-size: var(--ds-fs-sm);">
-    Caçadores de Balões Design System v1.1 · "Arcade Premium Popular"<br>
-    <code>css/design-system.css</code>
-  </footer>
+      <footer style="text-align: center; padding: var(--ds-space-8) 0; color: rgba(255,255,255,0.5); font-size: var(--ds-fs-sm);">
+        Caçadores de Balões Design System v1.1 · "Arcade Premium Popular"<br>
+        <code>css/design-system.css</code>
+      </footer>
+
+    </div>
+  </main>
 
 </div>
+
+<script>
+  // Toggle sidebar mobile + scroll-spy nos links
+  (function () {
+    const sidebar = document.getElementById('docSidebar');
+    const toggle = document.getElementById('docMenuToggle');
+    const overlay = document.getElementById('docSidebarOverlay');
+    const links = document.querySelectorAll('.doc-sidebar__link');
+
+    function close() {
+      sidebar.classList.remove('is-open');
+      overlay.classList.remove('is-visible');
+    }
+    toggle?.addEventListener('click', () => {
+      sidebar.classList.toggle('is-open');
+      overlay.classList.toggle('is-visible');
+    });
+    overlay?.addEventListener('click', close);
+    links.forEach(a => a.addEventListener('click', () => {
+      if (window.innerWidth <= 900) close();
+    }));
+
+    // Scroll-spy
+    const sections = [...document.querySelectorAll('.doc-section')];
+    function spy() {
+      const y = window.scrollY + 120;
+      let current = sections[0]?.id;
+      for (const s of sections) {
+        if (s.offsetTop <= y) current = s.id;
+      }
+      links.forEach(a => {
+        a.classList.toggle('is-active', a.getAttribute('href') === '#' + current);
+      });
+    }
+    window.addEventListener('scroll', spy, { passive: true });
+    spy();
+  })();
+</script>
+
 </body>
 </html>

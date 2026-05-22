@@ -4,10 +4,12 @@
 
 (function() {
   const links = document.querySelectorAll('.sidebar__link');
+  const sidebarNav = document.querySelector('.sidebar__nav');
   const sections = Array.from(links).map(link => {
     const id = link.getAttribute('href').slice(1);
     return { link, section: document.getElementById(id) };
   }).filter(item => item.section);
+  let lastActive = null;
   function onScroll() {
     const scrollPos = window.scrollY + 120;
     let active = sections[0];
@@ -16,7 +18,22 @@
       else break;
     }
     links.forEach(l => l.classList.remove('is-active'));
-    if (active) active.link.classList.add('is-active');
+    if (!active) return;
+    active.link.classList.add('is-active');
+
+    // Auto-scroll da sidebar pra acompanhar a seção atual (desktop apenas)
+    if (active.link !== lastActive && window.innerWidth > 1024 && sidebarNav) {
+      const nv = sidebarNav.getBoundingClientRect();
+      const lk = active.link.getBoundingClientRect();
+      const margin = 60;
+      const outOfView = lk.top < nv.top + margin || lk.bottom > nv.bottom - margin;
+      if (outOfView) {
+        const linkTopInNav = lk.top - nv.top + sidebarNav.scrollTop;
+        const target = linkTopInNav - sidebarNav.clientHeight / 2 + active.link.offsetHeight / 2;
+        sidebarNav.scrollTo({ top: Math.max(0, target), behavior: 'smooth' });
+      }
+      lastActive = active.link;
+    }
   }
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();

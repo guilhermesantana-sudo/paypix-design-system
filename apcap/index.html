@@ -547,6 +547,180 @@
     color: rgba(255, 255, 255, 0.5);
   }
 
+  /* ============================================ ANIMAÇÕES — demos ============================================ */
+  .anim-card-demo {
+    position: relative;
+    background: var(--ds-gradient-premium);
+    border: 1.5px solid rgba(255, 214, 10, 0.18);
+    border-radius: var(--ds-radius-lg);
+    padding: var(--ds-space-5);
+    cursor: pointer;
+    transition: transform 250ms cubic-bezier(.34,1.56,.64,1),
+                box-shadow 250ms ease,
+                border-color 250ms ease;
+    min-height: 9rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .anim-card-demo::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 50% 0%, rgba(255,214,10,0.18) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 250ms ease;
+    pointer-events: none;
+  }
+  .anim-card-demo:hover {
+    transform: translateY(-4px);
+    border-color: var(--ds-color-brand-yellow);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.5), 0 0 24px rgba(255,214,10,0.35);
+  }
+  .anim-card-demo:hover::after { opacity: 1; }
+  .anim-card-demo__title {
+    font-family: var(--ds-font-display);
+    font-size: var(--ds-fs-md);
+    color: var(--ds-color-brand-yellow);
+    letter-spacing: 0.04em;
+    margin-bottom: 4px;
+  }
+  .anim-card-demo__sub {
+    font-size: var(--ds-fs-sm);
+    color: rgba(255,255,255,0.75);
+  }
+  .anim-card-demo--pink {
+    border-color: rgba(255, 45, 135, 0.25);
+  }
+  .anim-card-demo--pink:hover {
+    border-color: var(--ds-color-brand-pink);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.5), 0 0 24px rgba(255,45,135,0.45);
+  }
+  .anim-card-demo--pink .anim-card-demo__title { color: var(--ds-color-brand-pink); }
+  .anim-card-demo--pink::after {
+    background: radial-gradient(circle at 50% 0%, rgba(255,45,135,0.20) 0%, transparent 60%);
+  }
+
+  /* Confirmação */
+  .confirm-demo {
+    cursor: pointer;
+    transition: background 200ms ease;
+  }
+  .confirm-demo:hover { background: rgba(255,255,255,0.05); }
+  .confirm-circle {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    background: var(--ds-color-success-bg);
+    border: 2px solid var(--ds-color-success);
+    box-shadow: 0 0 24px var(--ds-color-success-glow);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .confirm-circle.is-active {
+    animation: ds-pop-in 600ms cubic-bezier(.34,1.56,.64,1);
+  }
+  .confirm-check {
+    width: 38px; height: 38px;
+    fill: none;
+    stroke: var(--ds-color-success);
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .confirm-circle.is-active .confirm-check path {
+    stroke-dasharray: 60;
+    stroke-dashoffset: 60;
+    animation: confirm-draw 500ms ease 200ms forwards;
+  }
+  @keyframes confirm-draw { to { stroke-dashoffset: 0; } }
+
+  .confirm-circle--prize {
+    background: rgba(255,214,10,0.18);
+    border-color: var(--ds-color-brand-yellow);
+    box-shadow: 0 0 32px rgba(255,214,10,0.45);
+  }
+  .confirm-trophy {
+    font-size: 2.2rem;
+    animation: trophy-wiggle 800ms ease-in-out;
+  }
+  @keyframes trophy-wiggle {
+    0%   { transform: scale(0.5) rotate(-30deg); opacity: 0; }
+    60%  { transform: scale(1.2) rotate(15deg); opacity: 1; }
+    80%  { transform: scale(0.95) rotate(-5deg); }
+    100% { transform: scale(1) rotate(0); }
+  }
+
+  .confirm-title {
+    font-family: var(--ds-font-display);
+    font-size: var(--ds-fs-lg);
+    color: var(--ds-color-success);
+    text-align: center;
+    letter-spacing: 0.02em;
+  }
+  .confirm-sub {
+    font-size: var(--ds-fs-sm);
+    color: rgba(255,255,255,0.7);
+    text-align: center;
+  }
+
+  /* Confete */
+  .confetti-stage {
+    position: relative;
+    overflow: hidden;
+    min-height: 12rem;
+    cursor: pointer;
+  }
+  .confetti-piece {
+    position: absolute;
+    width: 10px; height: 14px;
+    top: 50%; left: 50%;
+    pointer-events: none;
+    animation: confetti-fly 1.6s cubic-bezier(.4,0,.2,1) forwards;
+  }
+  @keyframes confetti-fly {
+    0%   { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+    100% { transform: translate(var(--cx), var(--cy)) rotate(var(--cr)); opacity: 0; }
+  }
+
+  /* Balões */
+  .balao-stage {
+    position: relative;
+    min-height: 14rem;
+    background: linear-gradient(180deg, rgba(23,149,212,0.18) 0%, transparent 100%);
+  }
+  .balao {
+    position: absolute;
+    width: 44px; height: 56px;
+    border-radius: 50% 50% 48% 48% / 55% 55% 45% 45%;
+    bottom: 30px;
+    box-shadow: inset -8px -10px 0 rgba(0,0,0,0.18), 0 6px 14px rgba(0,0,0,0.3);
+    animation: balao-float 4s ease-in-out infinite;
+  }
+  .balao::after {
+    content: '';
+    position: absolute;
+    bottom: -14px; left: 50%;
+    width: 2px; height: 16px;
+    background: rgba(255,255,255,0.4);
+    transform: translateX(-50%);
+  }
+  .balao--yellow { background: var(--ds-color-brand-yellow);     left: 15%; animation-delay: 0s; }
+  .balao--pink   { background: var(--ds-color-brand-pink);       left: 38%; animation-delay: 0.6s; }
+  .balao--blue   { background: var(--ds-color-brand-blue-light); left: 61%; animation-delay: 1.2s; }
+  .balao--white  { background: #ffffff;                          left: 82%; animation-delay: 1.8s; }
+  @keyframes balao-float {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50%      { transform: translateY(-22px) rotate(2deg); }
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .anim-card-demo,
+    .balao,
+    .confirm-circle.is-active,
+    .confirm-trophy,
+    .confetti-piece { animation: none !important; transition: none !important; }
+  }
+
   @media (max-width: 900px) {
     .doc-layout { grid-template-columns: 1fr; }
     .doc-sidebar {
@@ -581,14 +755,14 @@
 
   <aside class="doc-sidebar" id="docSidebar">
     <div class="doc-sidebar__brand">
-      <div class="doc-sidebar__chip">🎮 ARCADE PREMIUM POPULAR</div>
-      <div class="doc-sidebar__title">CAÇADORES <em>DE BALÕES</em></div>
+      <div class="doc-sidebar__chip">✦ A SORTE COM SENTIDO</div>
+      <div class="doc-sidebar__title">APCAP <em>DA SORTE</em></div>
       <span class="doc-sidebar__system-label">L4 Design System</span>
       <div class="doc-sidebar__client">
         <span class="doc-sidebar__client-mark">A</span>
         <div class="doc-sidebar__client-info">
-          <span class="doc-sidebar__client-label">Cliente</span>
-          <span class="doc-sidebar__client-name">Apcap <em>da Sorte</em></span>
+          <span class="doc-sidebar__client-label">Produto</span>
+          <span class="doc-sidebar__client-name">Capitalização <em>premiável</em></span>
         </div>
       </div>
       <a href="../" class="doc-sidebar__back">← Voltar ao hub</a>
@@ -618,9 +792,10 @@
       </div>
       <div class="doc-sidebar__group">
         <div class="doc-sidebar__group-label">Aplicação</div>
-        <a href="#hierarquia" class="doc-sidebar__link">15 · Hierarquia</a>
-        <a href="#componentes" class="doc-sidebar__link">16 · Componentes</a>
-        <a href="#a11y" class="doc-sidebar__link">17 · A11y</a>
+        <a href="#animacoes" class="doc-sidebar__link">15 · Animações</a>
+        <a href="#hierarquia" class="doc-sidebar__link">16 · Hierarquia</a>
+        <a href="#componentes" class="doc-sidebar__link">17 · Componentes</a>
+        <a href="#a11y" class="doc-sidebar__link">18 · A11y</a>
       </div>
     </nav>
   </aside>
@@ -630,13 +805,15 @@
 
       <!-- ============================================ HERO ============================================ -->
       <header class="doc-hero">
-        <div class="doc-hero__chip">🎮 ARCADE PREMIUM POPULAR</div>
-        <h1>CAÇADORES DE BALÕES DESIGN SYSTEM</h1>
-        <div class="doc-hero__tagline">DIVERSÃO<span>•</span>PRÊMIOS<span>•</span>RECOMPENSAS</div>
+        <div class="doc-hero__chip">✦ A SORTE COM SENTIDO</div>
+        <h1>APCAP DA SORTE DESIGN SYSTEM</h1>
+        <div class="doc-hero__tagline">CAPITALIZAÇÃO<span>•</span>PRÊMIOS<span>•</span>CAUSA</div>
         <p>
-          Identidade visual completa de Caçadores de Balões. Conceito arcade com sensação premium,
-          tokens calibrados para acessibilidade do público C/D e regras de distribuição
-          para manter o produto consistente, confiável e divertido.
+          Identidade visual completa da Apcap da Sorte — produto de capitalização premiável
+          que une PIX, sorteios auditáveis e loops de jogo (como o Caçadores de Balões).
+          Tokens calibrados para acessibilidade do público sênior C/D, paleta de marca
+          consistente e regras de distribuição que mantêm o produto confiável e divertido
+          em todas as superfícies (app, PDV, web).
         </p>
       </header>
 
@@ -1362,9 +1539,159 @@
     </div>
   </section>
 
-  <!-- ============================================ 15. HIERARQUIA ============================================ -->
+  <!-- ============================================ 15. ANIMAÇÕES ============================================ -->
+  <section class="doc-section" id="animacoes">
+    <h2><span class="doc-section__num">15</span> Animações &amp; transições</h2>
+    <p class="doc-section__lead">
+      Movimento é parte da assinatura do produto — mas com propósito.
+      Cada animação confirma uma ação, guia o olho ou celebra uma conquista.
+      Sempre respeitando <code>prefers-reduced-motion</code> para o público sensível.
+    </p>
+
+    <!-- 15.1 Tokens de duração -->
+    <div class="doc-group">
+      <h3>15.1 · Tokens de duração</h3>
+      <table class="token-table">
+        <thead><tr><th>Token</th><th>Valor</th><th>Uso</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">--ds-duration-fast</td>   <td class="value">150ms</td> <td>Hover, focus, click feedback</td></tr>
+          <tr><td class="mono">--ds-duration-base</td>   <td class="value">250ms</td> <td>Modais, fade, transições gerais</td></tr>
+          <tr><td class="mono">--ds-duration-slow</td>   <td class="value">400ms</td> <td>Pop-in, cards entrando, slide</td></tr>
+          <tr><td class="mono">--ds-duration-celebrate</td><td class="value">800ms</td><td>Confetes, prêmio, sucesso grande</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 15.2 Curvas (easing) -->
+    <div class="doc-group">
+      <h3>15.2 · Curvas (easing)</h3>
+      <table class="token-table">
+        <thead><tr><th>Token</th><th>Curva</th><th>Quando usar</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">--ds-ease-standard</td><td class="value">cubic-bezier(.4,0,.2,1)</td><td>Transições neutras</td></tr>
+          <tr><td class="mono">--ds-ease-spring</td>  <td class="value">cubic-bezier(.34,1.56,.64,1)</td><td>Pop-in, entrada de elementos</td></tr>
+          <tr><td class="mono">--ds-ease-bounce</td>  <td class="value">cubic-bezier(.68,-.55,.27,1.55)</td><td>Celebração, prêmio</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 15.3 Hover/lift de card -->
+    <div class="doc-group">
+      <h3>15.3 · Card hover &amp; lift</h3>
+      <p class="doc-section__lead" style="margin-bottom: var(--ds-space-3);">Cards interativos sobem 4px e ganham glow amarelo no hover.</p>
+      <div class="doc-grid doc-grid--2">
+        <div class="anim-card-demo">
+          <div class="anim-card-demo__inner">
+            <div class="anim-card-demo__title">PRÊMIO DA SEMANA</div>
+            <div class="anim-card-demo__sub">R$ 50.000 + Smart TV</div>
+          </div>
+          <div class="demo__caption">hover-me</div>
+        </div>
+        <div class="anim-card-demo anim-card-demo--pink">
+          <div class="anim-card-demo__inner">
+            <div class="anim-card-demo__title">JACKPOT ESPECIAL</div>
+            <div class="anim-card-demo__sub">Edição limitada · 24h</div>
+          </div>
+          <div class="demo__caption">hover-me</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 15.4 CTA pulse -->
+    <div class="doc-group">
+      <h3>15.4 · Pulse de CTA principal</h3>
+      <p class="doc-section__lead" style="margin-bottom: var(--ds-space-3);">Ação principal usa <code>.ds-btn--pulsing</code> para atrair o olho — só uma por viewport.</p>
+      <div class="demo demo--row">
+        <button class="ds-btn ds-btn--primary ds-btn--lg ds-btn--pulsing">QUERO CONCORRER!</button>
+        <button class="ds-btn ds-btn--special ds-btn--lg ds-btn--pulsing">★ EVENTO ESPECIAL</button>
+      </div>
+    </div>
+
+    <!-- 15.5 Confirmação de compra -->
+    <div class="doc-group">
+      <h3>15.5 · Confirmação de compra</h3>
+      <p class="doc-section__lead" style="margin-bottom: var(--ds-space-3);">Checkmark desenhado + scale + glow verde. Use após PIX/cartão aprovado.</p>
+      <div class="doc-grid doc-grid--2">
+        <div class="demo confirm-demo" onclick="this.querySelector('.confirm-circle').classList.remove('is-active');void this.offsetWidth;this.querySelector('.confirm-circle').classList.add('is-active');">
+          <div class="confirm-circle is-active">
+            <svg viewBox="0 0 52 52" class="confirm-check"><path d="M14 27 L22 35 L38 17" /></svg>
+          </div>
+          <div class="confirm-title">Pagamento aprovado!</div>
+          <div class="confirm-sub">Título emitido · 1 cartela ativa</div>
+          <div class="demo__caption">click-me para reanimar</div>
+        </div>
+
+        <div class="demo confirm-demo confirm-demo--prize" onclick="this.querySelector('.confirm-circle').classList.remove('is-active');void this.offsetWidth;this.querySelector('.confirm-circle').classList.add('is-active');confetti(this);">
+          <div class="confirm-circle confirm-circle--prize is-active">
+            <span class="confirm-trophy">🏆</span>
+          </div>
+          <div class="confirm-title" style="color: var(--ds-color-brand-yellow);">VOCÊ GANHOU!</div>
+          <div class="confirm-sub">R$ 5.000 creditado no PIX</div>
+          <div class="demo__caption">click-me — solta confete</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 15.6 Confetes -->
+    <div class="doc-group">
+      <h3>15.6 · Confetes (celebração)</h3>
+      <p class="doc-section__lead" style="margin-bottom: var(--ds-space-3);">Explosão de papéis coloridos nos tons da marca (amarelo, rosa, azul, branco). Apenas em momentos de prêmio real.</p>
+      <div class="demo confetti-stage" onclick="confetti(this)">
+        <button class="ds-btn ds-btn--primary ds-btn--lg">🎉 SOLTAR CONFETES</button>
+        <div class="demo__caption">tap pra disparar</div>
+      </div>
+      <div class="doc-rule">
+        <strong>Quando soltar confete —</strong> só em conquistas reais (prêmio sorteado, jackpot ganho, marco de saldo). Nunca em fluxos repetitivos como login ou navegação.
+      </div>
+    </div>
+
+    <!-- 15.7 Balão subindo -->
+    <div class="doc-group">
+      <h3>15.7 · Balão flutuando (signature)</h3>
+      <p class="doc-section__lead" style="margin-bottom: var(--ds-space-3);">Animação assinatura — balão flutua suavemente, evocando o loop "Caçadores de Balões". Use em estados vazios e onboarding.</p>
+      <div class="demo balao-stage">
+        <div class="balao balao--yellow"></div>
+        <div class="balao balao--pink"></div>
+        <div class="balao balao--blue"></div>
+        <div class="balao balao--white"></div>
+        <div class="demo__caption">infinite · 4s ease-in-out</div>
+      </div>
+    </div>
+
+    <!-- 15.8 Estados de loading existentes -->
+    <div class="doc-group">
+      <h3>15.8 · Loading &amp; skeleton (existentes no DS)</h3>
+      <p class="doc-section__lead" style="margin-bottom: var(--ds-space-3);">Já cobertos pelo DS — reaproveite em vez de criar novos.</p>
+      <div class="doc-grid doc-grid--3">
+        <div class="demo"><div class="ds-spinner"></div><div class="demo__caption">.ds-spinner</div></div>
+        <div class="demo">
+          <div class="ds-loading-dots"><span></span><span></span><span></span></div>
+          <div class="demo__caption">.ds-loading-dots</div>
+        </div>
+        <div class="demo" style="align-items: stretch;">
+          <div class="ds-skeleton" style="height: 12px; margin-bottom: 8px;"></div>
+          <div class="ds-skeleton" style="height: 12px; width: 70%;"></div>
+          <div class="demo__caption">.ds-skeleton (shimmer)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 15.9 Regras -->
+    <div class="doc-rule">
+      <strong>Regras de motion —</strong>
+      <ol style="margin-top: var(--ds-space-2); padding-left: var(--ds-space-5); line-height: var(--ds-lh-relaxed);">
+        <li><strong>Duração curta</strong> (≤300ms) para hover/focus/click. <strong>Longa</strong> (≥600ms) só para celebração.</li>
+        <li><strong>Uma animação infinita por viewport</strong> — múltiplos pulse cancelam o efeito de atenção.</li>
+        <li><strong>Confete só em prêmio real</strong> — nunca em compra de cartela, login, navegação.</li>
+        <li><strong>Sempre respeitar</strong> <code>@media (prefers-reduced-motion: reduce)</code> — animações pausam ou viram fade simples.</li>
+        <li><strong>Spring (bounce) só em entrada</strong> de elementos novos. Saída sempre com curva neutra.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============================================ 16. HIERARQUIA ============================================ -->
   <section class="doc-section" id="hierarquia">
-    <h2><span class="doc-section__num">15</span> Hierarquia visual</h2>
+    <h2><span class="doc-section__num">16</span> Hierarquia visual</h2>
     <p class="doc-section__lead">
       Toda tela tem uma ação principal. Use o tratamento certo para o nível de prioridade.
     </p>
@@ -1396,7 +1723,7 @@
 
   <!-- ============================================ 16. COMPONENTES PADRONIZADOS ============================================ -->
   <section class="doc-section" id="componentes">
-    <h2><span class="doc-section__num">16</span> Padronização de componentes</h2>
+    <h2><span class="doc-section__num">17</span> Padronização de componentes</h2>
     <p class="doc-section__lead">
       <strong style="color:#fff;">Regra absoluta do sistema:</strong> componentes que se repetem em múltiplas telas
       DEVEM ter o mesmo visual em todo lugar. Carteira na home, no checkout, no saque e no extrato — tudo igual.
@@ -1545,7 +1872,7 @@
 
   <!-- ============================================ 17. A11Y ============================================ -->
   <section class="doc-section" id="a11y">
-    <h2><span class="doc-section__num">17</span> Acessibilidade — checklist</h2>
+    <h2><span class="doc-section__num">18</span> Acessibilidade — checklist</h2>
     <p class="doc-section__lead">
       O público-alvo (C/D, faixas etárias diversas) exige um padrão maior que o mínimo WCAG.
       Toda nova tela passa pelos itens abaixo antes de ir pra produção.
@@ -1566,7 +1893,7 @@
   </section>
 
       <footer style="text-align: center; padding: var(--ds-space-8) 0; color: rgba(255,255,255,0.5); font-size: var(--ds-fs-sm);">
-        Caçadores de Balões Design System v1.1 · "Arcade Premium Popular"<br>
+        Apcap da Sorte Design System v1.1 · Capitalização premiável<br>
         <code>css/design-system.css</code>
       </footer>
 
@@ -1574,6 +1901,27 @@
   </main>
 
 </div>
+
+<script>
+  // Confete — dispara N peças coloridas a partir do elemento clicado
+  function confetti(host) {
+    const colors = ['#ffd60a', '#ff2d87', '#1795d4', '#3bb8ff', '#ffffff'];
+    const N = 36;
+    for (let i = 0; i < N; i++) {
+      const p = document.createElement('span');
+      p.className = 'confetti-piece';
+      const angle = (Math.PI * 2 * i) / N + Math.random() * 0.4;
+      const dist = 120 + Math.random() * 100;
+      p.style.setProperty('--cx', Math.cos(angle) * dist + 'px');
+      p.style.setProperty('--cy', Math.sin(angle) * dist + 'px');
+      p.style.setProperty('--cr', (Math.random() * 720 - 360) + 'deg');
+      p.style.background = colors[i % colors.length];
+      p.style.animationDuration = (1.2 + Math.random() * 0.8) + 's';
+      host.appendChild(p);
+      setTimeout(() => p.remove(), 2200);
+    }
+  }
+</script>
 
 <script>
   // Toggle sidebar mobile + scroll-spy nos links

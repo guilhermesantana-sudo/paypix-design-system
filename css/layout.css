@@ -902,6 +902,18 @@
 /* ============================================================
    MOBILE
    ============================================================ */
+
+/* Overlay para fechar sidebar no mobile */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 99;
+  cursor: pointer;
+}
+.sidebar-overlay.is-visible { display: block; }
+
 @media (max-width: 1024px) {
   .layout { grid-template-columns: 1fr; }
   .sidebar {
@@ -909,6 +921,7 @@
     left: -100%;
     width: 280px;
     transition: left 300ms ease;
+    z-index: 100;
   }
   .sidebar.is-open { left: 0; }
   .menu-toggle {
@@ -949,14 +962,48 @@
   .paypix-clear__logo { width: 160px; }
   .paypix-mock-footer { padding: 22px 18px; }
   .hub-nav { padding: 0 20px; }
-  .hub__inner { padding: 28px 20px 0; }
-  .hub__hero { grid-template-columns: 1fr; gap: 0; }
+  .hub__inner { padding: 28px 20px; }
   .hub__visual { display: none; }
   .hub__clients { grid-template-columns: 1fr 1fr; }
   .client-card { padding: 18px 16px 16px; }
   .client-card__brand { font-size: 18px; }
 }
-@media (max-width: 800px) { .mockup__grid { grid-template-columns: 1fr; } }
+
+@media (max-width: 800px) {
+  .mockup__grid { grid-template-columns: 1fr; }
+}
+
+/* Tablet menor / mobile grande (≤ 768px) */
+@media (max-width: 768px) {
+  .hub-nav { padding: 0 16px; }
+  .hub-nav__chip { font-size: 9px; padding: 5px 10px; letter-spacing: 0.08em; gap: 5px; }
+  .hub__inner { padding: 24px 16px; }
+  .hub__products { margin-top: 20px; }
+  .hub__footer { flex-direction: column; align-items: flex-start; gap: 4px; font-size: 11px; }
+  .hero { padding: 48px 20px 60px; }
+  .hero__lead { font-size: 16px; }
+  .section { padding: 52px 20px; }
+  .section__lead { font-size: 16px; }
+  .section__header { margin-bottom: 36px; }
+  .subsection { margin-bottom: 44px; }
+  .footer { padding: 40px 20px; }
+}
+
+/* Mobile pequeno (≤ 480px) */
+@media (max-width: 480px) {
+  .hub-nav__chip { display: none; }
+  .hub__inner { padding: 20px 14px; }
+  .hub__clients { grid-template-columns: 1fr; }
+  .client-card { padding: 16px 14px; }
+  .hero { padding: 36px 16px 48px; }
+  .hero__lead { font-size: 15px; }
+  .section { padding: 40px 16px; }
+  .section__lead { font-size: 15px; }
+  .subsection { margin-bottom: 36px; }
+  .footer { padding: 32px 16px; }
+  .menu-toggle { top: 12px; right: 12px; width: 44px; height: 44px; }
+}
+
 @media (min-width: 1025px) { .menu-toggle { display: none; } }
 
 /* Hub aberto = esconde menu mobile que poderia "vazar" */

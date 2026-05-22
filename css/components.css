@@ -2431,9 +2431,70 @@
   color: rgba(255, 255, 255, 0.35);
 }
 
-@media (max-width: 1200px) {
-  /* .app-screens now uses flex with fixed width phones — no grid override needed */
+/* Tablet menor / mobile grande (≤ 768px) */
+@media (max-width: 768px) {
+  /* Tabela tipográfica: colunas menores */
+  .type-stack { padding: 6px 16px; }
+  .type-row { grid-template-columns: 80px 105px 1fr; gap: 12px; }
+  .type-row__token { font-size: 10px; }
+
+  /* Tabela espaçamento: colunas menores */
+  .spacing-list { padding: 6px 16px; }
+  .space-row { grid-template-columns: 88px 52px 1fr; gap: 10px; }
+
+  /* Distribuição de cores: altura reduzida */
+  .distribution { height: 62px; }
+  .dist strong { font-size: 16px; }
+  .dist { font-size: 8px; }
+
+  /* Qty picker: 2 × 2 */
+  .qty-picker { grid-template-columns: repeat(2, 1fr); max-width: 100%; }
+
+  /* Max-widths liberados em mobile */
+  .premio-stack { max-width: 100%; }
+  .causa-card { max-width: 100%; }
+  .input-stack { max-width: 100%; }
+
+  /* Cartelas: reduzir fonte dos números */
+  .dezena { font-size: 14px; }
+
+  /* Paypix logo */
+  .paypix-size--lg .paypix-size__logo { width: 160px; }
 }
-@media (max-width: 800px) {
-  /* .app-screens now uses flex with fixed width phones — no grid override needed */
+
+/* Mobile pequeno (≤ 480px) */
+@media (max-width: 480px) {
+  /* Tipografia: empilhar colunas */
+  .type-stack { padding: 4px 14px; }
+  .type-row { grid-template-columns: 1fr; gap: 2px; padding: 12px 0; }
+  .type-row__token { display: inline-block; margin-bottom: 1px; }
+  .type-row__size  { display: inline-block; margin-left: 8px; }
+  .type-row__sample { padding-left: 10px; border-left: 2px solid rgba(243,146,8,0.40); margin-top: 4px; }
+
+  /* Espaçamento: simplificar */
+  .spacing-list { padding: 4px 14px; }
+  .space-row { grid-template-columns: 82px 46px 1fr; gap: 8px; }
+  .space-row__bar { border-radius: 2px; }
+
+  /* Distribuição: 2 × 2 */
+  .distribution { grid-template-columns: 1fr 1fr; height: auto; }
+  .dist { min-height: 54px; padding: 8px 4px; }
+  .dist strong { font-size: 14px; }
+  .dist { font-size: 7px; }
+
+  /* Cartelas */
+  .dezena { font-size: 13px; }
+  .cartela__grid { gap: 5px; }
+
+  /* Paypix logo demo */
+  .paypix-sizes { padding: 16px; gap: 14px; }
+  .paypix-size--lg .paypix-size__logo { width: 130px; }
+  .paypix-clear__logo { width: 130px; }
+
+  /* Cards demo */
+  .cards-demo { grid-template-columns: 1fr; }
+
+  /* Coupon */
+  .coupon { gap: 10px; }
+  .coupon__stub { width: 52px; }
 }

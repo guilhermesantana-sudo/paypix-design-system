@@ -2218,17 +2218,36 @@
       if (window.innerWidth <= 900) close();
     }));
 
-    // Scroll-spy
+    // Scroll-spy + auto-scroll da sidebar pra acompanhar a seção atual
     const sections = [...document.querySelectorAll('.doc-section')];
+    let lastActive = null;
     function spy() {
       const y = window.scrollY + 120;
       let current = sections[0]?.id;
       for (const s of sections) {
         if (s.offsetTop <= y) current = s.id;
       }
+      let activeLink = null;
       links.forEach(a => {
-        a.classList.toggle('is-active', a.getAttribute('href') === '#' + current);
+        const isActive = a.getAttribute('href') === '#' + current;
+        a.classList.toggle('is-active', isActive);
+        if (isActive) activeLink = a;
       });
+
+      // Quando o link ativo muda, rola APENAS a sidebar (não a página)
+      // pra manter o link da seção atual visível
+      if (activeLink && activeLink !== lastActive && window.innerWidth > 900) {
+        const sb = sidebar.getBoundingClientRect();
+        const lk = activeLink.getBoundingClientRect();
+        const margin = 60;
+        const outOfView = lk.top < sb.top + margin || lk.bottom > sb.bottom - margin;
+        if (outOfView) {
+          const linkTopInSidebar = lk.top - sb.top + sidebar.scrollTop;
+          const target = linkTopInSidebar - sidebar.clientHeight / 2 + activeLink.offsetHeight / 2;
+          sidebar.scrollTo({ top: Math.max(0, target), behavior: 'smooth' });
+        }
+        lastActive = activeLink;
+      }
     }
     window.addEventListener('scroll', spy, { passive: true });
     spy();

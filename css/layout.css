@@ -753,19 +753,18 @@
   display: block;
 }
 .client-card__logo--paypix {
-  background: rgba(0,0,0,0.30);
-  border: 1px solid rgba(243, 146, 8, 0.30);
+  background: #ffffff;
+  border: none;
+  padding: 4px;
 }
+.client-card__logo--paypix img { object-fit: contain; }
+
 .client-card__logo--iadm {
-  background: rgba(1, 102, 179, 0.22);
-  border: 1px solid rgba(1, 102, 179, 0.38);
-  font-family: var(--font-display);
-  font-style: italic;
-  font-weight: 800;
-  font-size: 22px;
-  color: var(--skyblue-500, #9ED7EB);
-  letter-spacing: -0.03em;
+  background: #ffffff;
+  border: none;
+  padding: 2px;
 }
+.client-card__logo--iadm img { object-fit: contain; }
 .client-card__logo--cria {
   background: rgba(178, 111, 154, 0.20);
   border: 1px solid rgba(178, 111, 154, 0.32);

@@ -2,6 +2,14 @@
    nav.js: scroll spy da sidebar + toggle menu mobile + copy hex
    ============================================================ */
 
+// Auto-print quando a página é aberta com ?print=1 (botão Baixar PDF do hub)
+(function () {
+  if (new URLSearchParams(location.search).get('print') !== '1') return;
+  window.addEventListener('load', () => {
+    setTimeout(() => window.print(), 400);
+  });
+})();
+
 (function() {
   const links = document.querySelectorAll('.sidebar__link');
   const sidebarNav = document.querySelector('.sidebar__nav');

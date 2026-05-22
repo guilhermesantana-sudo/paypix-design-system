@@ -967,6 +967,82 @@
     100% { opacity: 1; transform: rotate(0deg) scale(1); }
   }
 
+  /* ============================================ PRINT (PDF A4) ============================================ */
+  @media print {
+    @page { size: A4; margin: 14mm 12mm; }
+    html, body {
+      background: #fff !important;
+      color: #000 !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    body { font-size: 11pt; }
+    /* Esconde UI navegacional/ferramentas */
+    .doc-sidebar,
+    .doc-menu-toggle,
+    .doc-sidebar-overlay,
+    .back-to-top { display: none !important; }
+    /* Layout 1 coluna ocupando a página inteira */
+    .doc-layout { display: block !important; }
+    .doc-main { display: block !important; }
+    .doc-shell {
+      max-width: 100% !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+    /* Cores claras para preservar tinta */
+    .doc-section {
+      background: #fff !important;
+      border: 1px solid #ccc !important;
+      box-shadow: none !important;
+      page-break-inside: avoid;
+      margin-bottom: 12pt;
+      padding: 14pt 16pt !important;
+      border-radius: 4pt !important;
+    }
+    .doc-section h2 {
+      color: #000 !important;
+      text-shadow: none !important;
+      font-size: 14pt;
+      page-break-after: avoid;
+    }
+    .doc-section__num {
+      background: #000 !important;
+      color: #fff !important;
+    }
+    .doc-section__lead, .doc-section p, .doc-section li, .doc-section span, .doc-section strong {
+      color: #222 !important;
+    }
+    .doc-hero {
+      text-align: left !important;
+      padding: 0 0 18pt !important;
+      page-break-after: avoid;
+    }
+    .doc-hero h1 {
+      color: #000 !important;
+      text-shadow: none !important;
+      font-size: 22pt !important;
+    }
+    .doc-hero__chip, .doc-hero__tagline {
+      color: #555 !important;
+    }
+    /* Esconde demos interativos pesados pra não estourar páginas */
+    .enter-stage, .anim-card-demo, .confetti-stage, .balao-stage, .confirm-demo,
+    .demo button, .modal-showcase .ds-btn {
+      page-break-inside: avoid;
+    }
+    .ds-spinner, .ds-loading-dots, .ds-skeleton,
+    .confetti-piece, .balao { display: none !important; }
+    /* Swatches preservam cor pra docs visuais */
+    .swatch { break-inside: avoid; border: 1px solid #ccc !important; }
+    .swatch__hex, .swatch__token, .swatch__name { color: #000 !important; }
+    .doc-code { background: #f4f4f4 !important; color: #000 !important; }
+    .doc-rule { background: #fff8d6 !important; color: #000 !important; border-left-color: #d4a300 !important; }
+    /* Quebras lógicas */
+    .doc-group { page-break-inside: avoid; }
+    a { color: #000 !important; text-decoration: underline; }
+  }
+
   /* Reduced motion */
   @media (prefers-reduced-motion: reduce) {
     .anim-card-demo,
@@ -2301,6 +2377,14 @@
 </script>
 
 <script>
+  // Auto-print quando a página é aberta com ?print=1 (botão Baixar PDF do hub)
+  (function () {
+    if (new URLSearchParams(location.search).get('print') !== '1') return;
+    window.addEventListener('load', () => {
+      setTimeout(() => window.print(), 400);
+    });
+  })();
+
   // Toggle sidebar mobile + scroll-spy nos links
   (function () {
     const sidebar = document.getElementById('docSidebar');

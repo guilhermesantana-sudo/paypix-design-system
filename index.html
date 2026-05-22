@@ -76,10 +76,28 @@
           <p class="client-card__desc">Infraestrutura Pix aplicada ao Título de Capitalização Filantropia Premiável. Sorteios semanais ao vivo na RedeTV!.</p>
           <div class="client-card__actions">
             <a href="hiperxcap/" class="client-card__cta">Abrir design system →</a>
-            <a href="/downloads/hiperxcap.md" download="hiperxcap-design-system.md" class="client-card__download" onclick="event.stopPropagation()">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              .md
-            </a>
+            <div class="client-card__download-wrap" onclick="event.stopPropagation()">
+              <button type="button" class="client-card__download" aria-haspopup="true" aria-expanded="false" onclick="toggleDownloadMenu(this)">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Baixar
+              </button>
+              <div class="client-card__download-menu" data-slug="hiperxcap">
+                <div class="download-menu__group">
+                  <div class="download-menu__label">Preview</div>
+                  <button type="button" class="download-menu__item" onclick="downloadPdf('hiperxcap')">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg>
+                    <span>PDF (A4)<span class="download-menu__item-hint">página inteira pra impressão</span></span>
+                  </button>
+                </div>
+                <div class="download-menu__group">
+                  <div class="download-menu__label">Desenvolvimento</div>
+                  <button type="button" class="download-menu__item" onclick="downloadKit('hiperxcap')">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                    <span>Kit ZIP<span class="download-menu__item-hint">tokens.css + tokens.json + README</span></span>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -99,10 +117,35 @@
           <p class="client-card__desc">Capitalização premiável com loop de jogo "Caçadores de Balões" — sorteios auditáveis, PIX/cartão e acessibilidade WCAG AA para o público sênior.</p>
           <div class="client-card__actions">
             <a href="apcap/" class="client-card__cta">Abrir design system →</a>
-            <a href="https://rdx-mvp.vercel.app/" target="_blank" rel="noopener" class="client-card__download" onclick="event.stopPropagation()" aria-label="Abrir app MVP em nova aba">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-              app
-            </a>
+            <div class="client-card__download-wrap" onclick="event.stopPropagation()">
+              <button type="button" class="client-card__download" aria-haspopup="true" aria-expanded="false" onclick="toggleDownloadMenu(this)">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Baixar
+              </button>
+              <div class="client-card__download-menu" data-slug="apcap">
+                <div class="download-menu__group">
+                  <div class="download-menu__label">Preview</div>
+                  <button type="button" class="download-menu__item" onclick="downloadPdf('apcap')">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg>
+                    <span>PDF (A4)<span class="download-menu__item-hint">página inteira pra impressão</span></span>
+                  </button>
+                </div>
+                <div class="download-menu__group">
+                  <div class="download-menu__label">Desenvolvimento</div>
+                  <button type="button" class="download-menu__item" onclick="downloadKit('apcap')">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                    <span>Kit ZIP<span class="download-menu__item-hint">tokens.css + tokens.json + README</span></span>
+                  </button>
+                </div>
+                <div class="download-menu__group">
+                  <div class="download-menu__label">Links</div>
+                  <a href="https://rdx-mvp.vercel.app/" target="_blank" rel="noopener" class="download-menu__item">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                    <span>App ao vivo<span class="download-menu__item-hint">rdx-mvp.vercel.app</span></span>
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -149,6 +192,140 @@
 
   </div>
 </section>
+
+<!-- ============================================================
+     JSZip via CDN (usado pelo botão "Kit ZIP")
+     ============================================================ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" defer></script>
+
+<script>
+  // ========================================================================
+  // Download dropdown nos cards do hub
+  // ========================================================================
+
+  // Abre/fecha o dropdown clicado e fecha qualquer outro aberto
+  function toggleDownloadMenu(btn) {
+    const wrap = btn.closest('.client-card__download-wrap');
+    const menu = wrap?.querySelector('.client-card__download-menu');
+    if (!menu) return;
+    const isOpen = menu.classList.contains('is-open');
+    document.querySelectorAll('.client-card__download-menu.is-open').forEach(m => m.classList.remove('is-open'));
+    document.querySelectorAll('.client-card__download[aria-expanded="true"]').forEach(b => b.setAttribute('aria-expanded', 'false'));
+    if (!isOpen) {
+      menu.classList.add('is-open');
+      btn.setAttribute('aria-expanded', 'true');
+    }
+  }
+
+  // Fecha ao clicar fora
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.client-card__download-wrap')) {
+      document.querySelectorAll('.client-card__download-menu.is-open').forEach(m => m.classList.remove('is-open'));
+      document.querySelectorAll('.client-card__download[aria-expanded="true"]').forEach(b => b.setAttribute('aria-expanded', 'false'));
+    }
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.client-card__download-menu.is-open').forEach(m => m.classList.remove('is-open'));
+    }
+  });
+
+  // ========================================================================
+  // Preview · Baixar PDF
+  // Abre o DS do produto com ?print=1 numa aba nova. A página do DS
+  // detecta o parâmetro e chama window.print() automaticamente, sem
+  // navegação extra pro usuário.
+  // ========================================================================
+  function downloadPdf(slug) {
+    const url = `/${slug}/?print=1`;
+    window.open(url, '_blank', 'noopener');
+  }
+
+  // ========================================================================
+  // Desenvolvimento · Baixar kit ZIP
+  // Monta o .zip no client com:
+  //   - tokens.css   (variáveis :root prontas pra colar no projeto)
+  //   - tokens.json  (gerado pelo plugin tokens-export no build)
+  //   - README.md    (referência da plataforma)
+  // ========================================================================
+  const KIT_SOURCES = {
+    hiperxcap: {
+      css:    '/css/variables.css',
+      json:   '/tokens/hiperxcap.json',
+      readme: '/downloads/hiperxcap.md',
+    },
+    apcap: {
+      css:    '/apcap/css/design-system.css',
+      json:   '/tokens/apcap.json',
+      readme: null, // README do apcap ainda não publicado
+    },
+  };
+
+  async function downloadKit(slug) {
+    if (typeof JSZip === 'undefined') {
+      alert('JSZip ainda carregando, tente novamente em 1s.');
+      return;
+    }
+    const sources = KIT_SOURCES[slug];
+    if (!sources) return;
+
+    const zip = new JSZip();
+    const folder = zip.folder(`${slug}-design-system`);
+
+    // Busca em paralelo o que existir
+    const fetches = [
+      sources.css    && fetch(sources.css).then(r => r.ok ? r.text() : null).then(t => t && folder.file('tokens.css', t)),
+      sources.json   && fetch(sources.json).then(r => r.ok ? r.text() : null).then(t => t && folder.file('tokens.json', t)),
+      sources.readme && fetch(sources.readme).then(r => r.ok ? r.text() : null).then(t => t && folder.file('README.md', t)),
+    ].filter(Boolean);
+
+    folder.file('USING.md', kitInstructions(slug));
+
+    await Promise.all(fetches);
+    const blob = await zip.generateAsync({ type: 'blob' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${slug}-design-system.zip`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  function kitInstructions(slug) {
+    return `# ${slug} · Design System kit
+
+Conteúdo deste arquivo:
+
+- **tokens.css** — variáveis CSS prontas. Copie o bloco \`:root { ... }\` direto pro seu projeto (geralmente em \`src/styles/tokens.css\` ou similar) e importe antes de tudo.
+- **tokens.json** — mesmos tokens em formato declarativo. Use em build systems, geradores de tipo, design pipelines.
+- **README.md** — referência completa de uso (quando publicada).
+- **USING.md** — este arquivo.
+
+## Uso rápido em projeto novo
+
+\`\`\`css
+/* src/styles/global.css */
+@import './tokens.css';
+
+.minha-button {
+  background: var(--orange-500); /* HiperXCAP */
+  /* ou */
+  background: var(--ds-color-brand-yellow); /* Apcap */
+}
+\`\`\`
+
+## Mantendo sincronizado
+
+Esses arquivos são gerados automaticamente a partir do CSS do hub do
+Design System a cada release. Quando o time de DS atualiza um token,
+o próximo download desse kit já vem com o valor novo.
+
+Versão gerada em: ${new Date().toISOString()}
+`;
+  }
+</script>
 
 </body>
 </html>

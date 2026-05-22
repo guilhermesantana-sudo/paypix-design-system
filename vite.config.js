@@ -1,4 +1,5 @@
 import { resolve } from 'path'
+import fs from 'fs'
 import { defineConfig } from 'vite'
 import { execSync } from 'child_process'
 
@@ -29,8 +30,62 @@ function gitDatePlugin() {
   }
 }
 
+/* ============================================================
+   tokensPlugin
+   ------------------------------------------------------------
+   Lê o :root de cada CSS de produto, extrai todas as custom
+   properties (--*), e gera public/tokens/<slug>.json no boot
+   do dev/build. Assim qualquer ajuste no CSS é refletido no
+   JSON automaticamente — sem sincronia manual.
+   ============================================================ */
+function tokensPlugin() {
+  const products = [
+    { slug: 'hiperxcap', cssPath: 'css/variables.css',           label: 'HiperXCAP' },
+    { slug: 'apcap',     cssPath: 'apcap/css/design-system.css', label: 'Apcap da Sorte' },
+  ]
+  function parseCssVars(css) {
+    const rootMatch = css.match(/:root\s*\{([\s\S]*?)\n\}/)
+    if (!rootMatch) return {}
+    const body = rootMatch[1]
+    const out = {}
+    const re = /^\s*(--[a-zA-Z0-9-]+)\s*:\s*([^;]+);/gm
+    let m
+    while ((m = re.exec(body)) !== null) {
+      out[m[1]] = m[2].trim().replace(/\s+/g, ' ')
+    }
+    return out
+  }
+  function generate() {
+    const outDir = resolve(__dirname, 'public/tokens')
+    fs.mkdirSync(outDir, { recursive: true })
+    products.forEach(p => {
+      const cssAbs = resolve(__dirname, p.cssPath)
+      if (!fs.existsSync(cssAbs)) return
+      const css = fs.readFileSync(cssAbs, 'utf-8')
+      const tokens = parseCssVars(css)
+      const json = {
+        product: p.label,
+        slug: p.slug,
+        updatedAt: new Date().toISOString(),
+        source: p.cssPath,
+        count: Object.keys(tokens).length,
+        tokens,
+      }
+      fs.writeFileSync(
+        resolve(outDir, `${p.slug}.json`),
+        JSON.stringify(json, null, 2)
+      )
+    })
+  }
+  return {
+    name: 'tokens-export',
+    buildStart() { generate() },
+    configureServer() { generate() },
+  }
+}
+
 export default defineConfig({
-  plugins: [gitDatePlugin()],
+  plugins: [gitDatePlugin(), tokensPlugin()],
   build: {
     rollupOptions: {
       input: {

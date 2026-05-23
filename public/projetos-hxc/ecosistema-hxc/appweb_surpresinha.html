@@ -655,10 +655,35 @@
     z-index: 1;
   }
 
-  /* ===== QUANTITY STEPPER (manual increment) ===== */
+  /* ===== QUANTITY STEPPER (manual increment — escondido por padrão, expande sob "Outro valor") ===== */
+  .qty-stepper-toggle {
+    margin-top: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    border: 1px dashed rgba(243, 146, 8, 0.40);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: rgba(243, 146, 8, 0.85);
+    cursor: pointer;
+    transition: background 150ms ease, color 150ms ease, border-color 150ms ease;
+  }
+  .qty-stepper-toggle:hover {
+    background: rgba(243, 146, 8, 0.08);
+    color: #fff;
+    border-color: rgba(243, 146, 8, 0.70);
+  }
+  .qty-stepper-toggle svg { transition: transform 200ms ease; }
+  .qty-stepper-toggle.is-open svg { transform: rotate(45deg); }
+
   .qty-stepper-wrap {
-    margin-top: 12px;
-    display: flex;
+    margin-top: 10px;
+    display: none;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
@@ -668,6 +693,12 @@
     border-radius: 10px;
     position: relative;
     z-index: 1;
+    animation: qty-stepper-in 220ms ease;
+  }
+  .qty-stepper-wrap.is-open { display: flex; }
+  @keyframes qty-stepper-in {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
   .qty-stepper-label {
     font-family: var(--font-body);
@@ -5586,6 +5617,184 @@
   .pix-copy-btn > *,
   .qty-step-btn > *,
   .ct-submit > * { position: relative; z-index: 2; }
+
+  /* ============================================================
+     RESPONSIVIDADE — fixes de mobile/tablet
+     ============================================================ */
+  @media (max-width: 768px) {
+    /* Card raiz com menos padding em telas pequenas */
+    .card {
+      padding: 18px 14px !important;
+      border-radius: 14px;
+    }
+    /* Grid de quantidades: 2 colunas */
+    .qty-options {
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 10px !important;
+    }
+    .qty-option {
+      padding: 12px 8px !important;
+    }
+    .qty-mult { font-size: 20px !important; }
+    .qty-price { font-size: 13px !important; }
+    .qty-tag, .qty-badge { font-size: 9px !important; }
+    /* Globo grid: 5 colunas, dezenas menores */
+    .globo-grid {
+      grid-template-columns: repeat(5, 1fr) !important;
+      gap: 6px !important;
+    }
+    .globo-grid .cell {
+      font-size: 14px !important;
+      padding: 6px 0 !important;
+    }
+    /* Contemplados em modo collapsed: max-height menor */
+    .contemplados.is-collapsed { max-height: 360px; }
+    .contemplados-head { gap: 8px; }
+    .contemplados-head .ico { font-size: 22px; }
+    .conteg-row {
+      padding: 8px 10px !important;
+      gap: 10px;
+    }
+    .conteg-row .avatar {
+      width: 32px !important;
+      height: 32px !important;
+      font-size: 11px !important;
+    }
+    .conteg-row .name { font-size: 12px !important; }
+    .conteg-row .titulo-num { font-size: 10.5px !important; }
+    /* Banner placeholders mais compactos */
+    .banner-placeholder { aspect-ratio: 21 / 12; }
+    .banner-placeholder--lg { aspect-ratio: 4 / 3; }
+    /* Hero promo / lock — empilha melhor */
+    .hero-promo { min-height: 240px; }
+    /* Steps tutorial */
+    .step-grid {
+      grid-template-columns: 1fr !important;
+      gap: 12px;
+    }
+    /* Info banners row vira coluna */
+    .info-banners-row {
+      grid-template-columns: 1fr !important;
+      gap: 10px !important;
+    }
+    /* Receipt mais respirado */
+    .receipt {
+      grid-template-columns: 1fr !important;
+      gap: 10px;
+    }
+    .receipt .col { padding: 10px 12px; }
+    /* Brand-mark menor */
+    .brand-mark { font-size: 16px !important; gap: 6px !important; }
+    .brand-mark small { font-size: 9px !important; }
+    /* Home: model picker em 1 coluna em telas muito estreitas */
+    .picker-cards { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; }
+    .scenario { padding: 12px 10px !important; }
+    .scenario .num { font-size: 18px !important; }
+    .scenario .info .title { font-size: 13px !important; }
+    .scenario .info .desc { font-size: 11px !important; }
+  }
+
+  @media (max-width: 420px) {
+    /* Em telas muito pequenas (≤ iPhone SE), reduz ainda mais */
+    .qty-options { gap: 8px !important; }
+    .globo-grid {
+      grid-template-columns: repeat(4, 1fr) !important;
+    }
+    .globo-grid .cell { font-size: 12px !important; }
+    .banner-placeholder__label { font-size: 10px; letter-spacing: 0.14em; }
+    .banner-placeholder__hint { font-size: 11px; text-align: center; padding: 0 14px; }
+    .home-title { font-size: 22px !important; }
+  }
+
+  /* ============================================================
+     CONTEMPLADOS — collapse com fade no fim + botão "Ver lista"
+     ============================================================ */
+  .contemplados.is-collapsed {
+    max-height: 480px;
+    overflow: hidden;
+    position: relative;
+  }
+  .contemplados.is-collapsed::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 140px;
+    background: linear-gradient(180deg, transparent 0%, var(--giro-bg, #02124A) 92%);
+    pointer-events: none;
+  }
+  .contemplados-expand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    margin-top: 14px;
+    padding: 12px 16px;
+    background: rgba(243, 146, 8, 0.10);
+    border: 1px solid rgba(243, 146, 8, 0.40);
+    border-radius: 999px;
+    font-family: var(--font-body, 'Poppins', sans-serif);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(243, 146, 8, 0.95);
+    cursor: pointer;
+    transition: background 150ms ease, color 150ms ease, border-color 150ms ease;
+  }
+  .contemplados-expand:hover {
+    background: rgba(243, 146, 8, 0.22);
+    color: #fff;
+    border-color: rgba(243, 146, 8, 0.80);
+  }
+  .contemplados-expand svg { transition: transform 200ms ease; }
+  .contemplados-expand.is-expanded svg { transform: rotate(180deg); }
+
+  /* ============================================================
+     BANNER PLACEHOLDER — espaço reservado para arte/banner
+     que o usuário vai enviar depois. Mantém proporção e
+     identidade visual do DS sem precisar simular conteúdo.
+     ============================================================ */
+  .banner-placeholder {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 14px;
+    background:
+      linear-gradient(135deg, rgba(243, 146, 8, 0.06) 0%, rgba(26, 47, 81, 0.30) 100%),
+      repeating-linear-gradient(45deg,
+        rgba(255, 255, 255, 0.02) 0 14px,
+        rgba(255, 255, 255, 0.05) 14px 28px);
+    border: 1.5px dashed rgba(243, 146, 8, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
+    color: rgba(255, 255, 255, 0.55);
+    font-family: var(--font-body, 'Poppins', sans-serif);
+    overflow: hidden;
+    margin: 0 0 16px;
+  }
+  .banner-placeholder--sm { aspect-ratio: 21 / 9; }
+  .banner-placeholder--lg { aspect-ratio: 4 / 3; }
+  .banner-placeholder__label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(243, 146, 8, 0.75);
+  }
+  .banner-placeholder__hint {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.45);
+    font-weight: 400;
+  }
+  .banner-placeholder__icon {
+    width: 32px; height: 32px;
+    opacity: 0.55;
+    margin-bottom: 4px;
+  }
 </style>
 </head>
 <body class="theme-orange">
@@ -5826,59 +6035,16 @@
       <small>HIPERXCAP · FILANTROPIA PREMIÁVEL</small>
     </div>
     <div class="hero-promo">
-      <!-- Promo Banner (background) -->
+      <!-- Banner promocional principal — arte oficial enviada pelo time -->
       <div class="promo-banner" aria-hidden="true">
-        <div class="pb-bg-shapes">
-          <span class="pb-cloud pb-cloud-1"></span>
-          <span class="pb-cloud pb-cloud-2"></span>
-          <span class="pb-cloud pb-cloud-3"></span>
-          <span class="pb-sparkle pb-spk-1">✦</span>
-          <span class="pb-sparkle pb-spk-2">✦</span>
-          <span class="pb-sparkle pb-spk-3">★</span>
-          <span class="pb-sparkle pb-spk-4">✦</span>
-        </div>
-
-        <div class="pb-top-row">
-          <div class="pb-pix-tag">
-            <span class="pb-pix-icon">R$</span>
-            <span class="pb-pix-text">
-              <small>PAGUE POR PIX</small>
-              <b data-money="unit">R$ 10</b>
-            </span>
-          </div>
-          <div class="pb-date-tag">
-            <small>SORTEIO</small>
-            <b>17/05/2026</b>
-          </div>
-        </div>
-
-        <div class="pb-headline">
-          <div class="pb-headline-prefix" data-prize="big-name">UM</div>
-          <div class="pb-headline-main" data-prize="big-prize">MILHÃO</div>
-          <div class="pb-headline-value" data-prize="big-caption">R$ 1.000.000,00<sup>*</sup> no 4° sorteio</div>
-        </div>
-
-        <div class="pb-bottom-row">
-          <span class="pb-prize-pill">
-            <span class="pb-prize-label">1°·2°·3° SORTEIO</span>
-            <span class="pb-prize-amount" data-prize="pill-3">R$ 30 MIL</span>
-          </span>
-          <span class="pb-prize-pill green">
-            <span class="pb-prize-label">NA TRAVE</span>
-            <span class="pb-prize-amount" data-prize="pill-trave">R$ 15 MIL</span>
-          </span>
-          <span class="pb-prize-pill gold-highlight">
-            <span class="pb-prize-label">NA TRAVE DO MILHÃO</span>
-            <span class="pb-prize-amount" data-prize="pill-trave-milhao">R$ 60 MIL</span>
-          </span>
-          <span class="pb-prize-pill blue">
-            <span class="pb-prize-label">HIPER GIRO · 30×</span>
-            <span class="pb-prize-amount" data-prize="pill-giro">R$ 5 MIL</span>
-          </span>
-        </div>
-
-        <div class="pb-footer-strip">
-          ★ Sorteios ao vivo · RedeTV! e Record News · Toda semana ★
+        <div class="banner-placeholder banner-placeholder--lg" data-banner-slot="promo-principal" role="img" aria-label="Espaço reservado para banner promocional principal">
+          <svg class="banner-placeholder__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21 15 16 10 5 21"/>
+          </svg>
+          <div class="banner-placeholder__label">Banner promocional</div>
+          <div class="banner-placeholder__hint">Aguardando arte enviada pelo time</div>
         </div>
       </div>
 
@@ -5974,8 +6140,15 @@
           </button>
         </div>
 
+        <button type="button" class="qty-stepper-toggle" onclick="toggleQtyStepper(this)" aria-expanded="false">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+          Outro valor
+        </button>
+
         <div class="qty-stepper-wrap">
-          <span class="qty-stepper-label">Ou ajuste manualmente</span>
+          <span class="qty-stepper-label">Quantidade personalizada</span>
           <div class="qty-stepper" role="group" aria-label="Ajustar quantidade">
             <button type="button" class="qty-step-btn" onclick="stepQty(-1)" aria-label="Diminuir quantidade">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
@@ -6465,35 +6638,15 @@
       </div>
     </div>
 
-    <div class="cause-banner">
-      <div class="hospital-mark">
-        <div class="heart">
-          <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 21s-7.5-4.8-9.6-9.4C.7 7.4 3 3.6 6.8 3.6c2 0 3.6 1 5.2 3 1.6-2 3.2-3 5.2-3 3.8 0 6.1 3.8 4.4 8C19.5 16.2 12 21 12 21z"/>
-          </svg>
-        </div>
-        <svg class="hospital-logo" viewBox="0 0 180 60" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <defs>
-            <linearGradient id="amorGradX" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#B26F9A"/>
-              <stop offset="100%" stop-color="#B26F9A"/>
-            </linearGradient>
-          </defs>
-          <text x="90" y="12" text-anchor="middle" font-family="Manrope, sans-serif" font-size="9" font-weight="800" letter-spacing="3" fill="#ffffff" opacity="0.85">HOSPITAL DE</text>
-          <text x="90" y="44" text-anchor="middle" font-family="Anton, sans-serif" font-size="34" font-weight="900" letter-spacing="2" fill="url(#amorGradX)" font-style="italic">AMOR</text>
-          <path d="M 50 50 Q 90 56 130 50" stroke="#B26F9A" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.65"/>
-        </svg>
-      </div>
-      <div class="body">
-        <div class="lbl">Você ajuda quem precisa</div>
-        <div class="ttl">Parte do valor da sua surpresinha apoia esta causa</div>
-        <div class="metrics">
-          <span class="metric"><span class="num">+60</span><span class="lab">anos</span></span>
-          <span class="metric"><span class="num">100%</span><span class="lab">gratuito</span></span>
-          <span class="metric"><span class="num">7.000+</span><span class="lab">pacientes/dia</span></span>
-        </div>
-        <div class="sub">Referência em oncologia · Barretos · SP</div>
-      </div>
+    <!-- Banner Hospital de Amor — arte oficial enviada pelo time -->
+    <div class="banner-placeholder banner-placeholder--sm" data-banner-slot="hospital-amor" role="img" aria-label="Espaço reservado para banner do Hospital de Amor">
+      <svg class="banner-placeholder__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="3" y="3" width="18" height="18" rx="2"/>
+        <circle cx="8.5" cy="8.5" r="1.5"/>
+        <polyline points="21 15 16 10 5 21"/>
+      </svg>
+      <div class="banner-placeholder__label">Banner · Hospital de Amor</div>
+      <div class="banner-placeholder__hint">Aguardando arte enviada pelo time</div>
     </div>
 
     <div class="info-banners-row">
@@ -7136,7 +7289,7 @@
     </div>
 
     <!-- ============== CONTEMPLADOS DESTA SEMANA ============== -->
-    <div class="contemplados">
+    <div class="contemplados is-collapsed">
       <div class="contemplados-head">
         <div class="ico">🏆</div>
         <div class="text">
@@ -7582,6 +7735,12 @@
           </div>
         </div>
       </div>
+      <button type="button" class="contemplados-expand" onclick="toggleContemplados(this)" aria-expanded="false">
+        <span>Ver lista completa</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </button>
     </div>
 
 <!-- Receipt -->
@@ -7624,35 +7783,15 @@
     <h1 class="state-title">Não foi <span class="accent">desta vez</span></h1>
     <p class="state-message">Suas dezenas não atingiram 19 ou 20 acertos por chance, e seu Giro da Sorte não foi sorteado nesta semana.</p>
 
-    <div class="cause-banner">
-      <div class="hospital-mark">
-        <div class="heart">
-          <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 21s-7.5-4.8-9.6-9.4C.7 7.4 3 3.6 6.8 3.6c2 0 3.6 1 5.2 3 1.6-2 3.2-3 5.2-3 3.8 0 6.1 3.8 4.4 8C19.5 16.2 12 21 12 21z"/>
-          </svg>
-        </div>
-        <svg class="hospital-logo" viewBox="0 0 180 60" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <defs>
-            <linearGradient id="amorGradY" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#B26F9A"/>
-              <stop offset="100%" stop-color="#B26F9A"/>
-            </linearGradient>
-          </defs>
-          <text x="90" y="12" text-anchor="middle" font-family="Manrope, sans-serif" font-size="9" font-weight="800" letter-spacing="3" fill="#ffffff" opacity="0.85">HOSPITAL DE</text>
-          <text x="90" y="44" text-anchor="middle" font-family="Anton, sans-serif" font-size="34" font-weight="900" letter-spacing="2" fill="url(#amorGradY)" font-style="italic">AMOR</text>
-          <path d="M 50 50 Q 90 56 130 50" stroke="#B26F9A" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.65"/>
-        </svg>
-      </div>
-      <div class="body">
-        <div class="lbl">Obrigado pela sua ajuda</div>
-        <div class="ttl">Você ajudou — e muito — esta causa</div>
-        <div class="metrics">
-          <span class="metric"><span class="num">+60</span><span class="lab">anos</span></span>
-          <span class="metric"><span class="num">100%</span><span class="lab">gratuito</span></span>
-          <span class="metric"><span class="num">7.000+</span><span class="lab">pacientes/dia</span></span>
-        </div>
-        <div class="sub"><strong>Sua ajuda é muito importante.</strong> Continue apoiando com sua próxima surpresinha.</div>
-      </div>
+    <!-- Banner Hospital de Amor — arte oficial enviada pelo time -->
+    <div class="banner-placeholder banner-placeholder--sm" data-banner-slot="hospital-amor" role="img" aria-label="Espaço reservado para banner do Hospital de Amor">
+      <svg class="banner-placeholder__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="3" y="3" width="18" height="18" rx="2"/>
+        <circle cx="8.5" cy="8.5" r="1.5"/>
+        <polyline points="21 15 16 10 5 21"/>
+      </svg>
+      <div class="banner-placeholder__label">Banner · Hospital de Amor</div>
+      <div class="banner-placeholder__hint">Aguardando arte enviada pelo time</div>
     </div>
 
     <div class="sorteio-banner">
@@ -7940,7 +8079,7 @@
     </div>
 
     <!-- ============== CONTEMPLADOS DESTA SEMANA ============== -->
-    <div class="contemplados">
+    <div class="contemplados is-collapsed">
       <div class="contemplados-head">
         <div class="ico">🏆</div>
         <div class="text">
@@ -8376,6 +8515,12 @@
           </div>
         </div>
       </div>
+      <button type="button" class="contemplados-expand" onclick="toggleContemplados(this)" aria-expanded="false">
+        <span>Ver lista completa</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </button>
     </div>
 
 <!-- Receipt -->
@@ -8808,8 +8953,15 @@
         </button>
       </div>
 
+      <button type="button" class="qty-stepper-toggle" onclick="toggleQtyStepper(this)" aria-expanded="false">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+        </svg>
+        Outro valor
+      </button>
+
       <div class="qty-stepper-wrap">
-        <span class="qty-stepper-label">Ou ajuste manualmente</span>
+        <span class="qty-stepper-label">Quantidade personalizada</span>
         <div class="qty-stepper" role="group" aria-label="Ajustar quantidade">
           <button type="button" class="qty-step-btn" onclick="stepQty(-1)" aria-label="Diminuir">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
@@ -9170,6 +9322,37 @@
     window.stepQty = function(delta) {
       const current = window.__currentQty || 1;
       window.selectQty(current + delta);
+    };
+
+    // Toggle do collapse da lista de contemplados
+    window.toggleContemplados = function(btn) {
+      const wrap = btn.closest('.contemplados');
+      if (!wrap) return;
+      const expanded = wrap.classList.toggle('is-collapsed') === false;
+      btn.classList.toggle('is-expanded', expanded);
+      btn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+      const label = btn.querySelector('span');
+      if (label) label.textContent = expanded ? 'Ocultar lista' : 'Ver lista completa';
+    };
+
+    // Toggle do stepper manual ("Outro valor") — abre/fecha o painel adjacente
+    window.toggleQtyStepper = function(btn) {
+      btn.classList.toggle('is-open');
+      const expanded = btn.classList.contains('is-open');
+      btn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+      // O .qty-stepper-wrap é o próximo irmão do botão
+      const wrap = btn.nextElementSibling;
+      if (wrap && wrap.classList.contains('qty-stepper-wrap')) {
+        wrap.classList.toggle('is-open', expanded);
+        // Atualiza o label do botão pra refletir o estado
+        const labelNode = Array.from(btn.childNodes).find(n => n.nodeType === 3 && n.textContent.trim());
+        if (labelNode) labelNode.textContent = expanded ? ' Fechar' : ' Outro valor';
+        // Foca no input se acabou de abrir
+        if (expanded) {
+          const inp = wrap.querySelector('input');
+          if (inp) setTimeout(() => inp.focus(), 200);
+        }
+      }
     };
 
     // Read from input field (typing or paste)

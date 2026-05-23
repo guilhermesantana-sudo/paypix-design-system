@@ -3630,14 +3630,16 @@
   }
   .globo-grid .dezena { font-size: clamp(11px, 2.8vw, 13px); }
 
-  /* state 3 tickets: 10 cols, compact */
+  /* state 3 tickets: grid elástico — cabem 6-10 bolas por linha
+     conforme largura disponível, sem nunca estourar o container */
   .mini-grid {
     display: grid;
-    grid-template-columns: repeat(10, 1fr);
-    gap: 4px;
+    grid-template-columns: repeat(auto-fit, minmax(34px, 1fr));
+    gap: 5px;
+    width: 100%;
     margin-bottom: 8px;
   }
-  .mini-grid .dezena { font-size: clamp(9px, 2.2vw, 11px); }
+  .mini-grid .dezena { font-size: clamp(10px, 2.2vw, 12px); }
 
   /* state 4 drawn results: 6 cols */
   .draw-grid {
@@ -5623,6 +5625,21 @@
       font-size: 14px !important;
       padding: 6px 0 !important;
     }
+    /* Mini-grid (state-4 "Dezenas sorteadas") — em mobile reduz cols
+       pra bolas brancas não estourarem o card de 480px */
+    .mini-grid {
+      grid-template-columns: repeat(6, 1fr) !important;
+      gap: 5px !important;
+    }
+    .mini-grid .dezena {
+      font-size: clamp(10px, 2.4vw, 12px) !important;
+    }
+    .mini-grid:has(.cell) {
+      grid-template-columns: repeat(5, 1fr) !important;
+    }
+    .mini-grid:has(.cell) .cell {
+      font-size: clamp(11px, 2.6vw, 14px) !important;
+    }
     /* Contemplados em modo collapsed: max-height menor */
     .contemplados.is-collapsed { max-height: 360px; }
     .contemplados-head { gap: 8px; }
@@ -5677,6 +5694,15 @@
       grid-template-columns: repeat(4, 1fr) !important;
     }
     .globo-grid .cell { font-size: 12px !important; }
+    /* Mini-grid em telas tiny: 5 cols pra dezenas brancas */
+    .mini-grid {
+      grid-template-columns: repeat(5, 1fr) !important;
+      gap: 4px !important;
+    }
+    .mini-grid .dezena { font-size: 10px !important; }
+    .mini-grid:has(.cell) {
+      grid-template-columns: repeat(4, 1fr) !important;
+    }
     .banner-placeholder__label { font-size: 10px; letter-spacing: 0.14em; }
     .banner-placeholder__hint { font-size: 11px; text-align: center; padding: 0 14px; }
     .home-title { font-size: 22px !important; }

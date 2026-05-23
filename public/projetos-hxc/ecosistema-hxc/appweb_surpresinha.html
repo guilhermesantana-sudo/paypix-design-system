@@ -8,7 +8,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
-<title>Surpresinha HiperXCap — Demo de telas</title>
+<title>Surpresinha HiperXCAP</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700;1,800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
@@ -16,7 +16,8 @@
 <style>
   /* Tokens locais — fundo navy do lotérico (DS unificado em todo ecosistema) */
   :root {
-    --giro-bg: #02124A;
+    --giro-bg: var(--blue-950, #0C1628);
+    --app-max-width: 480px;
     --bg-grad:
       radial-gradient(ellipse 100% 70% at 50% 25%, rgba(20, 55, 140, 0.55) 0%, transparent 60%),
       radial-gradient(ellipse 80% 40% at 50% 95%, rgba(20, 55, 140, 0.35) 0%, transparent 60%),
@@ -106,7 +107,7 @@
     letter-spacing: -0.02em;
     line-height: 1;
   }
-  .logo .hiper { color: #9ED7EB; text-shadow: 0 2px 0 rgba(0,0,0,0.5); }
+  .logo .hiper { color: var(--skyblue-500, #9ED7EB); text-shadow: 0 2px 0 rgba(0,0,0,0.5); }
   .logo .xcap  { color: #F39208; text-shadow: 0 2px 0 rgba(0,0,0,0.5); }
   .top .tagline {
     font-size: 10px;
@@ -134,7 +135,7 @@
   }
   .back-btn:hover { background: rgba(0,0,0,0.5); border-color: var(--accent-glow); }
 
-  .screen { width: 100%; max-width: 480px; position: relative; z-index: 2; }
+  .screen { width: 100%; max-width: var(--app-max-width, 480px); position: relative; z-index: 2; }
   .screen.hidden { display: none; }
 
   /* ---------- HOME ---------- */
@@ -547,7 +548,8 @@
   .qty-options {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
+    gap: 10px;
+    margin-top: 14px;  /* respira pras badges flutuantes (POPULAR/TOP) */
     position: relative;
     z-index: 1;
   }
@@ -559,8 +561,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4px;
-    padding: 14px 8px 12px;
+    justify-content: center;
+    gap: 6px;
+    /* min-height fixo garante TODOS os botões com mesma altura,
+       independente de ter badge ou não */
+    min-height: 108px;
+    padding: 16px 8px 14px;
     background: linear-gradient(180deg, rgba(28, 16, 6, 0.85), rgba(0, 0, 0, 0.7));
     border: 1.5px solid rgba(243, 146, 8, 0.18);
     border-radius: 12px;
@@ -1100,7 +1106,7 @@
     justify-content: center;
     opacity: 0;
     transform: translateY(8px);
-    background: linear-gradient(135deg, #B6D37B, #A7C945 50%, #A7C945);
+    background: linear-gradient(135deg, var(--green-300, #B6D37B), #A7C945 50%, #A7C945);
     color: #0C1628;
     border-radius: 10px;
   }
@@ -1206,36 +1212,7 @@
     font-weight: 800;
   }
 
-  /* ====================================================================== */
-  .demo-badge {
-    position: fixed;
-    bottom: 14px; right: 14px;
-    z-index: 50;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 6px 12px;
-    background: rgba(28, 16, 6, 0.92);
-    border: 1px solid var(--gold-bright);
-    border-radius: 20px;
-    font-family: var(--font-display); font-style: italic; font-weight: 800;
-    font-size: 9.5px;
-    color: var(--gold-bright);
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    backdrop-filter: blur(6px);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(243, 146, 8, 0.15);
-    pointer-events: none;
-  }
-  .demo-badge::before {
-    content: '';
-    width: 6px; height: 6px;
-    background: var(--gold-bright);
-    border-radius: 50%;
-    box-shadow: 0 0 8px var(--gold-bright);
-    animation: demo-pulse 1.5s ease-in-out infinite;
-  }
-  /* hide badge on home (home already has watermark, no need for badge) */
+  /* home direct children: stay above the watermark (z-index 0) */
   /* home direct children must stay above the watermark (z-index 0) */
   #home > .home-title,
   #home > .home-sub,
@@ -1312,7 +1289,7 @@
     margin-bottom: 10px;
     box-shadow: 0 3px 6px rgba(0,0,0,0.45);
   }
-  .model-card .swatch.blue   { background: linear-gradient(135deg, #9ED7EB, #1e3a8a); }
+  .model-card .swatch.blue   { background: linear-gradient(135deg, var(--skyblue-500, #9ED7EB), #1e3a8a); }
   .model-card .swatch.orange { background: linear-gradient(135deg, #F8AF4F, #c2410c); }
   .model-card .m-name {
     font-family: var(--font-display); font-style: italic; font-weight: 800;
@@ -1399,9 +1376,9 @@
   .scenario .icon  { flex-shrink: 0; width: 28px; height: 28px; opacity: 0.9; }
   .scenario.s1 { --accent-color: #F39208; }
   .scenario.s2 { --accent-color: var(--gold-bright); }
-  .scenario.s3 { --accent-color: #9ED7EB; }
+  .scenario.s3 { --accent-color: var(--skyblue-500, #9ED7EB); }
   .scenario.s4 { --accent-color: var(--success); }
-  .scenario.s5 { --accent-color: #B26F9A; }
+  .scenario.s5 { --accent-color: var(--purple-500, #B26F9A); }
 
   .mechanics-card {
     margin-top: 16px;
@@ -1438,7 +1415,7 @@
     border: 1px solid rgba(96, 165, 250, 0.35);
     border-radius: 4px;
     font-family: var(--font-display); font-style: italic; font-weight: 800;
-    color: #9ED7EB;
+    color: var(--skyblue-500, #9ED7EB);
     letter-spacing: 0.15em;
   }
 
@@ -1447,7 +1424,8 @@
     background: var(--card-grad);
     border: 1px solid var(--accent-border);
     border-radius: 20px;
-    padding: 34px 20px 26px;
+    /* Padding consistente: 28px topo/laterais (igual landing), 24px base */
+    padding: 28px 22px 24px;
     box-shadow: var(--shadow-deep), inset 0 1px 0 rgba(255,255,255,0.08);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
@@ -1458,6 +1436,7 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
+    gap: 14px;  /* respiro vertical consistente entre blocos do card */
     transition: background 0.4s ease, border-color 0.4s ease;
   }
   .card::before {
@@ -1481,8 +1460,8 @@
     margin-bottom: 16px;
   }
   .chip.amber  { background: rgba(251,191,36,0.18); border: 1px solid rgba(251,191,36,0.45); color: var(--gold-bright); }
-  .chip.green  { background: rgba(34,197,94,0.18);  border: 1px solid rgba(34,197,94,0.45);  color: #B6D37B; }
-  .chip.blue   { background: rgba(96,165,250,0.18); border: 1px solid rgba(96,165,250,0.45); color: #9ED7EB; }
+  .chip.green  { background: rgba(34,197,94,0.18);  border: 1px solid rgba(34,197,94,0.45);  color: var(--green-300, #B6D37B); }
+  .chip.blue   { background: rgba(96,165,250,0.18); border: 1px solid rgba(96,165,250,0.45); color: var(--skyblue-500, #9ED7EB); }
   .chip.gray   { background: rgba(148,163,184,0.16); border: 1px solid rgba(148,163,184,0.4); color: #cbd5e1; }
   .chip .dot {
     width: 6px; height: 6px;
@@ -1490,7 +1469,7 @@
     animation: pulse-dot 1.4s ease-in-out infinite;
   }
   .chip.amber .dot { background: var(--gold-bright); box-shadow: 0 0 8px var(--gold-bright); }
-  .chip.blue .dot  { background: #9ED7EB; box-shadow: 0 0 8px #9ED7EB; }
+  .chip.blue .dot  { background: var(--skyblue-500, #9ED7EB); box-shadow: 0 0 8px var(--skyblue-500, #9ED7EB); }
   .chip.gray .dot  { background: #94a3b8; box-shadow: 0 0 8px #94a3b8; animation: none; }
   .chip .check {
     width: 14px; height: 14px;
@@ -1833,7 +1812,7 @@
     justify-content: center;
     opacity: 0;
     transform: translateY(8px);
-    background: linear-gradient(135deg, #B6D37B, #A7C945 50%, #A7C945);
+    background: linear-gradient(135deg, var(--green-300, #B6D37B), #A7C945 50%, #A7C945);
     color: #0C1628;
     border-radius: 12px;
     font-family: var(--font-display); font-style: italic; font-weight: 800;
@@ -1937,7 +1916,7 @@
     border: 1px solid rgba(251, 113, 133, 0.45);
     border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
-    color: #B26F9A;
+    color: var(--purple-500, #B26F9A);
     position: relative;
     z-index: 1;
     margin-top: 1px;
@@ -1983,7 +1962,7 @@
   .cause-banner .heart svg {
     width: 24px; height: 24px;
     filter: drop-shadow(0 2px 6px rgba(244, 63, 94, 0.7));
-    color: #B26F9A;
+    color: var(--purple-500, #B26F9A);
     animation: heartbeat 1.6s ease-in-out infinite;
     transform-origin: center;
   }
@@ -2003,7 +1982,7 @@
     font-size: 9px;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: #B26F9A;
+    color: var(--purple-500, #B26F9A);
     margin-bottom: 4px;
     font-weight: 800;
     font-family: var(--font-body);
@@ -2023,7 +2002,7 @@
     margin-bottom: 8px;
   }
   .cause-banner .ttl .org {
-    color: #B26F9A;
+    color: var(--purple-500, #B26F9A);
     text-shadow: 0 1px 8px rgba(244, 63, 94, 0.45);
   }
   /* impact metrics row */
@@ -2046,7 +2025,7 @@
   .cause-banner .metric .num {
     font-family: var(--font-display); font-style: italic; font-weight: 800;
     font-size: 11px;
-    color: #B26F9A;
+    color: var(--purple-500, #B26F9A);
     letter-spacing: 0.02em;
   }
   .cause-banner .metric .lab {
@@ -2062,7 +2041,7 @@
     line-height: 1.4;
   }
   .cause-banner .sub strong {
-    color: #B26F9A;
+    color: var(--purple-500, #B26F9A);
     font-weight: 800;
   }
 
@@ -2116,15 +2095,15 @@
     --ib-bg-from: rgba(178, 111, 154, 0.18);
     --ib-border: rgba(178, 111, 154, 0.4);
     --ib-icon-bg: rgba(178, 111, 154, 0.25);
-    --ib-icon-color: #B26F9A;
-    --ib-label: #B26F9A;
+    --ib-icon-color: var(--purple-500, #B26F9A);
+    --ib-label: var(--purple-500, #B26F9A);
   }
   .info-banner.secure {
     --ib-bg-from: rgba(96, 165, 250, 0.18);
     --ib-border: rgba(96, 165, 250, 0.4);
     --ib-icon-bg: rgba(96, 165, 250, 0.25);
-    --ib-icon-color: #9ED7EB;
-    --ib-label: #9ED7EB;
+    --ib-icon-color: var(--skyblue-500, #9ED7EB);
+    --ib-label: var(--skyblue-500, #9ED7EB);
   }
 
   /* ---------- HERO PROMO (banner + lock layered) ---------- */
@@ -2356,7 +2335,7 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
   .pb-prize-pill.green { border-color: #4ade80; }
-  .pb-prize-pill.blue { border-color: #9ED7EB; }
+  .pb-prize-pill.blue { border-color: var(--skyblue-500, #9ED7EB); }
   .pb-prize-pill.gold-highlight {
     background: linear-gradient(135deg, rgba(243, 146, 8, 0.4), rgba(217, 119, 6, 0.2));
     border-color: var(--gold-bright);
@@ -2386,8 +2365,8 @@
     color: var(--gold-bright);
     letter-spacing: 0.02em;
   }
-  .pb-prize-pill.green .pb-prize-amount { color: #B6D37B; }
-  .pb-prize-pill.blue .pb-prize-amount { color: #9ED7EB; }
+  .pb-prize-pill.green .pb-prize-amount { color: var(--green-300, #B6D37B); }
+  .pb-prize-pill.blue .pb-prize-amount { color: var(--skyblue-500, #9ED7EB); }
 
   /* footer strip */
   .pb-footer-strip {
@@ -2625,7 +2604,7 @@
     letter-spacing: 0.15em;
     padding: 4px 8px;
     background: rgba(96,165,250,0.22);
-    color: #9ED7EB;
+    color: var(--skyblue-500, #9ED7EB);
     border-radius: 4px;
   }
 
@@ -2688,13 +2667,13 @@
     font-weight: 800;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: #B26F9A;
+    color: var(--purple-500, #B26F9A);
   }
   .campaign-badge .live-dot {
     width: 6px; height: 6px;
-    background: #B26F9A;
+    background: var(--purple-500, #B26F9A);
     border-radius: 50%;
-    box-shadow: 0 0 8px #B26F9A;
+    box-shadow: 0 0 8px var(--purple-500, #B26F9A);
     animation: live-pulse 1.2s ease-in-out infinite;
   }
   @keyframes live-pulse {
@@ -3057,7 +3036,7 @@
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
   }
   .conteg-row.you .avatar {
-    background: linear-gradient(135deg, #B6D37B, var(--success));
+    background: linear-gradient(135deg, var(--green-300, #B6D37B), var(--success));
     border-color: #A7C945;
     color: #0C1628;
   }
@@ -3089,7 +3068,7 @@
     margin-top: 2px;
   }
   .conteg-row.you .titulo-num {
-    color: #B6D37B;
+    color: var(--green-300, #B6D37B);
   }
   .conteg-row .you-tag {
     font-family: var(--font-display); font-style: italic; font-weight: 800;
@@ -3679,14 +3658,14 @@
   }
   /* user's chance ball that was drawn — solid green */
   .dezena.hit {
-    background: radial-gradient(circle at 30% 25%, #B6D37B 0%, var(--success) 55%, #A7C945 100%);
+    background: radial-gradient(circle at 30% 25%, var(--green-300, #B6D37B) 0%, var(--success) 55%, #A7C945 100%);
     color: #0C1628;
     border: 2px solid #A7C945;
     box-shadow: 0 0 0 2px rgba(34,197,94,0.3), 0 4px 18px rgba(34,197,94,0.5), inset 0 2px 4px rgba(255,255,255,0.45);
   }
   /* drawn AND user matched — green with gold rim (kept for reference; no longer used) */
   .dezena.draw.hit {
-    background: radial-gradient(circle at 30% 25%, #B6D37B 0%, var(--success) 60%, #A7C945 100%);
+    background: radial-gradient(circle at 30% 25%, var(--green-300, #B6D37B) 0%, var(--success) 60%, #A7C945 100%);
     color: #0C1628;
     border: 2px solid var(--gold-bright);
     box-shadow: 0 0 0 2px rgba(251,191,36,0.4), 0 4px 18px rgba(34,197,94,0.55), inset 0 2px 4px rgba(255,255,255,0.55);
@@ -3833,7 +3812,7 @@
     text-align: center;
   }
   .giro-display.matched {
-    background: linear-gradient(180deg, #B6D37B 0%, var(--success) 50%, #A7C945 100%);
+    background: linear-gradient(180deg, var(--green-300, #B6D37B) 0%, var(--success) 50%, #A7C945 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -4015,12 +3994,12 @@
   }
   .ticket .mini-chip.blue {
     background: rgba(96,165,250,0.22);
-    color: #9ED7EB;
+    color: var(--skyblue-500, #9ED7EB);
     border: 1px solid rgba(96,165,250,0.4);
   }
   .ticket .mini-chip.green {
     background: rgba(34,197,94,0.22);
-    color: #B6D37B;
+    color: var(--green-300, #B6D37B);
     border: 1px solid rgba(34,197,94,0.45);
   }
   .ticket .mini-chip.gold {
@@ -4060,7 +4039,7 @@
     color: var(--gold-bright);
     font-variant-numeric: tabular-nums;
   }
-  .ticket-giro.matched .val { color: #B6D37B; }
+  .ticket-giro.matched .val { color: var(--green-300, #B6D37B); }
 
   /* compact summary inside tickets (state 3) */
   .ticket-summary {
@@ -4112,7 +4091,7 @@
     gap: 4px;
   }
   .ticket-meta .pdv {
-    color: #9ED7EB;
+    color: var(--skyblue-500, #9ED7EB);
     font-family: var(--font-display); font-style: italic; font-weight: 800;
     font-size: 9px;
     letter-spacing: 0.12em;
@@ -4158,7 +4137,7 @@
   .prize-banner .text { flex: 1; }
   .prize-banner .lbl {
     font-size: 10px; letter-spacing: 0.2em;
-    text-transform: uppercase; color: #B6D37B;
+    text-transform: uppercase; color: var(--green-300, #B6D37B);
     margin-bottom: 2px;
     font-weight: 700;
   }
@@ -4244,7 +4223,7 @@
     display: block;
     font-size: 8.5px;
     letter-spacing: 0.2em;
-    color: #B6D37B;
+    color: var(--green-300, #B6D37B);
     text-transform: uppercase;
     margin-top: 2px;
     text-align: right;
@@ -4262,7 +4241,7 @@
     font-size: 10.5px;
     color: var(--muted);
   }
-  .sorteio-card.win .sc-acertos { color: #B6D37B; }
+  .sorteio-card.win .sc-acertos { color: var(--green-300, #B6D37B); }
   .sorteio-card.jackpot .sc-acertos { color: var(--gold-bright); }
 
   /* ---------- COLLAPSIBLE SORTEIO-CARD ---------- */
@@ -4289,7 +4268,7 @@
     letter-spacing: 0.04em;
   }
   .sorteio-card .sc-result { flex: 1; }
-  .sorteio-card.win .sc-result { color: #B6D37B; }
+  .sorteio-card.win .sc-result { color: var(--green-300, #B6D37B); }
   .sorteio-card.jackpot .sc-result { color: var(--gold-bright); }
   .sorteio-card .chevron {
     width: 14px;
@@ -4318,7 +4297,7 @@
     color: var(--white);
     letter-spacing: 0.04em;
   }
-  .sorteio-card.win .sc-acertos .count { color: #B6D37B; }
+  .sorteio-card.win .sc-acertos .count { color: var(--green-300, #B6D37B); }
   .sorteio-card.jackpot .sc-acertos .count { color: var(--gold-bright); }
 
   /* per-chance row inside globo cards */
@@ -4343,7 +4322,7 @@
     letter-spacing: 0.04em;
   }
   .set-row.winner .set-lbl,
-  .set-row.winner .set-count { color: #B6D37B; }
+  .set-row.winner .set-count { color: var(--green-300, #B6D37B); }
   .set-row .set-lbl .check {
     width: 11px; height: 11px;
     background: var(--success);
@@ -4379,7 +4358,7 @@
     color: var(--gold-bright);
     font-variant-numeric: tabular-nums;
   }
-  .giro-result.win .gr-num { color: #B6D37B; }
+  .giro-result.win .gr-num { color: var(--green-300, #B6D37B); }
   .giro-result .gr-meta { text-align: right; }
   .giro-result .gr-lbl {
     font-size: 9px;
@@ -4463,8 +4442,8 @@
     border-color: rgba(34,197,94,0.55);
     box-shadow: 0 4px 14px rgba(34,197,94,0.25);
   }
-  .giro-row.matched .pos { color: #B6D37B; }
-  .giro-row.matched .num { color: #B6D37B; }
+  .giro-row.matched .pos { color: var(--green-300, #B6D37B); }
+  .giro-row.matched .num { color: var(--green-300, #B6D37B); }
   .giro-row .tag {
     font-size: 8.5px;
     letter-spacing: 0.16em;
@@ -4543,7 +4522,7 @@
     border: 1px solid rgba(96,165,250,0.35);
     border-radius: 4px;
     font-family: var(--font-display); font-style: italic; font-weight: 800;
-    color: #9ED7EB;
+    color: var(--skyblue-500, #9ED7EB);
     letter-spacing: 0.15em;
     margin: 0 4px;
   }
@@ -4651,7 +4630,7 @@
     letter-spacing: 0.02em;
     line-height: 1;
   }
-  .login-logo .hiper { color: #9ED7EB; }
+  .login-logo .hiper { color: var(--skyblue-500, #9ED7EB); }
   .login-logo .xcap  { color: #F8AF4F; }
   .login-tagline {
     font-family: var(--font-body);
@@ -4749,7 +4728,7 @@
     box-shadow: 0 0 0 3px rgba(243, 146, 8, 0.15);
   }
   .login-field input.error {
-    border-color: #B26F9A;
+    border-color: var(--purple-500, #B26F9A);
     background: rgba(178, 111, 154, 0.08);
   }
 
@@ -4779,7 +4758,7 @@
   .login-error {
     min-height: 18px;
     font-size: 12px;
-    color: #B26F9A;
+    color: var(--purple-500, #B26F9A);
     font-weight: 700;
     letter-spacing: 0.02em;
     text-align: center;
@@ -4861,77 +4840,6 @@
   }
   @keyframes login-spin {
     to { transform: rotate(360deg); }
-  }
-
-  /* Demo hint */
-  .login-demo-hint {
-    margin-top: 8px;
-    padding: 12px 14px;
-    background: rgba(0, 0, 0, 0.4);
-    border: 1px dashed rgba(243, 146, 8, 0.3);
-    border-radius: 10px;
-    text-align: center;
-  }
-  .login-demo-hint-head {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-family: var(--font-body);
-    font-size: 10px;
-    font-weight: 800;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--gold-bright);
-    margin-bottom: 8px;
-  }
-  .login-demo-creds {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 6px;
-  }
-  .login-demo-cred {
-    flex: 1;
-    background: rgba(28, 16, 6, 0.7);
-    border: 1px solid rgba(243, 146, 8, 0.2);
-    border-radius: 8px;
-    padding: 8px 10px;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2px;
-    transition: border-color 0.2s, transform 0.15s;
-    font-family: inherit;
-  }
-  .login-demo-cred:hover {
-    border-color: var(--gold-bright);
-    transform: translateY(-1px);
-  }
-  .login-demo-cred .lbl {
-    font-family: var(--font-body);
-    font-size: 9px;
-    font-weight: 800;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--muted-2);
-  }
-  .login-demo-cred .val {
-    font-family: var(--font-display); font-style: italic; font-weight: 800;
-    font-size: 12px;
-    color: var(--gold-bright);
-    letter-spacing: 0.04em;
-  }
-  .login-demo-cred .val.masked {
-    letter-spacing: 0.12em;
-    color: var(--muted);
-    font-size: 13px;
-  }
-  .login-demo-tap {
-    display: block;
-    font-size: 10px;
-    color: var(--muted-2);
-    font-style: italic;
-    letter-spacing: 0.02em;
   }
 
   /* Foot */
@@ -5139,11 +5047,11 @@
     border-color: #F39208;
     background: rgba(243, 146, 8, 0.08);
   }
-  .ct-form-input.error { border-color: #B26F9A; }
+  .ct-form-input.error { border-color: var(--purple-500, #B26F9A); }
   .ct-form-error {
     font-family: var(--font-body);
     font-size: 12px;
-    color: #B26F9A;
+    color: var(--purple-500, #B26F9A);
     font-weight: 700;
     min-height: 16px;
   }
@@ -5495,7 +5403,7 @@
     color: #0C1628;
   }
   .ct-item.r5 .ct-item-ico {
-    background: linear-gradient(135deg, #9ED7EB, #1e40af);
+    background: linear-gradient(135deg, var(--skyblue-500, #9ED7EB), #1e40af);
     color: #ffffff;
   }
   .ct-item-info { flex: 1; min-width: 0; line-height: 1.3; }
@@ -5884,25 +5792,6 @@
         </span>
       </button>
 
-      <div class="login-demo-hint">
-        <div class="login-demo-hint-head">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>
-          </svg>
-          Credenciais de demonstração
-        </div>
-        <div class="login-demo-creds">
-          <button type="button" class="login-demo-cred" onclick="fillDemoCreds()">
-            <span class="lbl">CPF</span>
-            <span class="val masked">•••.•••.•••-••</span>
-          </button>
-          <button type="button" class="login-demo-cred" onclick="fillDemoCreds()">
-            <span class="lbl">Senha</span>
-            <span class="val masked">••••</span>
-          </button>
-        </div>
-        <span class="login-demo-tap">Toque para preencher automaticamente</span>
-      </div>
     </form>
 
     <div class="login-foot">
@@ -5921,7 +5810,7 @@
 <header class="top">
   <div>
     <div class="logo"><span class="hiper">Hiper</span><span class="xcap">XCAP</span></div>
-    <div class="tagline">Surpresinha · Demo</div>
+    <div class="tagline">Filantropia premiável</div>
   </div>
   <button type="button" class="ct-btn" onclick="ctOpen()" aria-label="Consultar meus títulos" style="margin-right:8px">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -5939,8 +5828,8 @@
      HOME
 ============================================================ -->
 <section class="screen" id="home">
-  <h1 class="home-title">Cenários da <span class="accent">Surpresinha</span></h1>
-  <p class="home-sub">Escolha o modelo e depois um cenário para visualizar</p>
+  <h1 class="home-title">Sua <span class="accent">Surpresinha</span></h1>
+  <p class="home-sub">Escolha o modelo do título</p>
 
   <div class="model-picker">
     <div class="picker-label">Modelo do título</div>
@@ -5960,7 +5849,7 @@
     </div>
   </div>
 
-  <div class="scenarios-label">Cenários da tela de consulta</div>
+  <div class="scenarios-label">Estados do título</div>
   <div class="scenario-list">
     <button type="button" class="scenario s1" onclick="showScreen('state-1')">
       <div class="num">1</div>
@@ -5990,7 +5879,7 @@
         <div class="title">Pago — visualização posterior</div>
         <div class="desc">Mesmo título visto depois da revelação, sem celebração</div>
       </div>
-      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#9ED7EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--skyblue-500, #9ED7EB)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/>
       </svg>
     </button>
@@ -6001,7 +5890,7 @@
         <div class="title">Após o sorteio — premiada</div>
         <div class="desc">Resultado com acertos suficientes para prêmio nos Globos ou Giro</div>
       </div>
-      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#B6D37B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--green-300, #B6D37B)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0V4z"/><path d="M17 5h2a2 2 0 0 1 0 4h-2M7 5H5a2 2 0 0 0 0 4h2"/>
       </svg>
     </button>
@@ -6012,7 +5901,7 @@
         <div class="title">Após o sorteio — não premiada</div>
         <div class="desc">Sem prêmio nesta semana, com chamada para o Hospital de Amor</div>
       </div>
-      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#B26F9A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="var(--purple-500, #B26F9A)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M12 21s-7.5-4.8-9.6-9.4C.7 7.4 3 3.6 6.8 3.6c2 0 3.6 1 5.2 3 1.6-2 3.2-3 5.2-3 3.8 0 6.1 3.8 4.4 8C19.5 16.2 12 21 12 21z"/>
       </svg>
     </button>
@@ -6260,10 +6149,10 @@
               <text x="17.5" y="43.6" text-anchor="middle" font-family="Archivo Black, sans-serif" font-size="2.5" fill="#F39208">30 MIL</text>
 
               <rect x="25.5" y="40" width="13" height="5" rx="1" fill="rgba(0,0,0,0.4)" stroke="#4ade80" stroke-width="0.4"/>
-              <text x="32" y="43.6" text-anchor="middle" font-family="Archivo Black, sans-serif" font-size="2.5" fill="#B6D37B">15 MIL</text>
+              <text x="32" y="43.6" text-anchor="middle" font-family="Archivo Black, sans-serif" font-size="2.5" fill="var(--green-300, #B6D37B)">15 MIL</text>
 
-              <rect x="40" y="40" width="13" height="5" rx="1" fill="rgba(0,0,0,0.4)" stroke="#9ED7EB" stroke-width="0.4"/>
-              <text x="46.5" y="43.6" text-anchor="middle" font-family="Archivo Black, sans-serif" font-size="2.5" fill="#9ED7EB">5 MIL</text>
+              <rect x="40" y="40" width="13" height="5" rx="1" fill="rgba(0,0,0,0.4)" stroke="var(--skyblue-500, #9ED7EB)" stroke-width="0.4"/>
+              <text x="46.5" y="43.6" text-anchor="middle" font-family="Archivo Black, sans-serif" font-size="2.5" fill="var(--skyblue-500, #9ED7EB)">5 MIL</text>
 
               <!-- QR Code box (the target) -->
               <rect x="20" y="49" width="24" height="20" rx="1.5" fill="#F8AF4F" stroke="#0C1628" stroke-width="0.5"/>
@@ -6319,7 +6208,7 @@
 
               <!-- Annotation tag near arrow -->
               <text x="68" y="22" text-anchor="middle" font-family="Manrope, sans-serif" font-size="3" fill="#A7C945" font-weight="900" letter-spacing="0.2">AQUI</text>
-              <text x="68" y="26" text-anchor="middle" font-family="Manrope, sans-serif" font-size="2.2" fill="#B6D37B" font-weight="700">↓</text>
+              <text x="68" y="26" text-anchor="middle" font-family="Manrope, sans-serif" font-size="2.2" fill="var(--green-300, #B6D37B)" font-weight="700">↓</text>
             </svg>
           </div>
           <div class="step-info">
@@ -6459,8 +6348,8 @@
             <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <defs>
                 <linearGradient id="restartG" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#B26F9A"/>
-                  <stop offset="100%" stop-color="#B26F9A"/>
+                  <stop offset="0%" stop-color="var(--purple-500, #B26F9A)"/>
+                  <stop offset="100%" stop-color="var(--purple-500, #B26F9A)"/>
                 </linearGradient>
               </defs>
               <!-- Heart background -->
@@ -6473,7 +6362,7 @@
               <path d="M 40 22 L 32 22 L 40 14 Z" fill="#F39208"/>
               <!-- Heart small inside -->
               <path d="M40 48 C40 48 32 42 32 36 C32 33.5 34 32 36.5 32 C38 32 39.5 33 40 34 C40.5 33 42 32 43.5 32 C46 32 48 33.5 48 36 C48 42 40 48 40 48 Z"
-                    fill="#B26F9A"/>
+                    fill="var(--purple-500, #B26F9A)"/>
             </svg>
           </div>
           <div class="step-info">
@@ -6504,7 +6393,7 @@
         <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <radialGradient id="leafGrad" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="#B6D37B"/>
+              <stop offset="0%" stop-color="var(--green-300, #B6D37B)"/>
               <stop offset="60%" stop-color="#A7C945"/>
               <stop offset="100%" stop-color="#A7C945"/>
             </radialGradient>
@@ -6570,9 +6459,9 @@
         <div class="inst-lbl">Instituição beneficiada</div>
         <div class="inst-name hospital">
           <svg viewBox="0 0 60 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <text x="6" y="22" font-family="Anton, sans-serif" font-size="22" font-weight="900" fill="#B26F9A" font-style="italic">ha</text>
-            <text x="32" y="9" font-family="Manrope, sans-serif" font-size="5" font-weight="800" letter-spacing="1.5" fill="#B26F9A">HOSPITAL</text>
-            <text x="32" y="16" font-family="Manrope, sans-serif" font-size="5" font-weight="800" letter-spacing="1.5" fill="#B26F9A">DE AMOR</text>
+            <text x="6" y="22" font-family="Anton, sans-serif" font-size="22" font-weight="900" fill="var(--purple-500, #B26F9A)" font-style="italic">ha</text>
+            <text x="32" y="9" font-family="Manrope, sans-serif" font-size="5" font-weight="800" letter-spacing="1.5" fill="var(--purple-500, #B26F9A)">HOSPITAL</text>
+            <text x="32" y="16" font-family="Manrope, sans-serif" font-size="5" font-weight="800" letter-spacing="1.5" fill="var(--purple-500, #B26F9A)">DE AMOR</text>
           </svg>
         </div>
       </div>
@@ -9702,15 +9591,6 @@
       }
     };
 
-    window.fillDemoCreds = function() {
-      const cpf = document.getElementById('loginCpf');
-      const pw  = document.getElementById('loginPassword');
-      if (!cpf || !pw) return;
-      cpf.value = '111.222.333-44';
-      pw.value = DEMO_PASSWORD;
-      pw.focus();
-    };
-
     window.handleLogin = function() {
       const cpfInput = document.getElementById('loginCpf');
       const pwInput  = document.getElementById('loginPassword');
@@ -9804,9 +9684,6 @@
   })();
 </script>
 
-
-<!-- Floating DEMO badge for all demo screens -->
-<div class="demo-badge" aria-hidden="true" id="demoBadge">DEMO</div>
 
 <!-- ============================================================
      CONSULTAR MEUS TÍTULOS — MODAL

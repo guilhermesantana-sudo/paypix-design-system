@@ -659,23 +659,44 @@
     max-width: 900px;
     aspect-ratio: 1080 / 454;
     margin: 0 auto;
-    background: url('assets/bannerinicial.png') center/cover no-repeat, #02124A;
+    background:
+      linear-gradient(135deg, rgba(243, 146, 8, 0.06) 0%, rgba(26, 47, 81, 0.30) 100%),
+      repeating-linear-gradient(45deg,
+        rgba(255, 255, 255, 0.02) 0 16px,
+        rgba(255, 255, 255, 0.05) 16px 32px),
+      #02124A;
     border-radius: 18px;
     padding: 0;
-    border: 1.5px solid rgba(243, 146, 8, 0.45);
-    box-shadow:
-      0 14px 36px rgba(0, 0, 0, 0.5),
-      0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+    border: 1.5px dashed rgba(243, 146, 8, 0.45);
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.5);
     position: relative;
     overflow: hidden;
-  }
-  body.product-hiperxcap-005 .product-banner {
-    /* mesma imagem por enquanto — pode trocar pra banner-hcx-totem-005.png */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
+    color: rgba(255, 255, 255, 0.55);
   }
   .product-banner::before {
-    content: none;
+    content: '';
+    width: 36px; height: 36px;
+    background: rgba(243, 146, 8, 0.10);
+    border: 1.5px dashed rgba(243, 146, 8, 0.55);
+    border-radius: 6px;
+    margin-bottom: 4px;
   }
-  /* textos da imagem já contêm a info — esconde os elementos internos */
+  .product-banner::after {
+    content: 'BANNER DO PRODUTO · Aguardando arte';
+    font-family: var(--font-body, 'Poppins', sans-serif);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(243, 146, 8, 0.80);
+  }
+  /* Esconde os elementos internos legados — o JS ainda atualiza
+     os IDs por baixo, mas o visual é o placeholder agora */
   .product-banner-icon,
   .product-banner-info { display: none; }
   .product-banner-info {
@@ -1230,6 +1251,77 @@
   body[data-has-phone="no"] #payPhoneRow { display: none; }
   body[data-has-phone="no"] #payCpfRow { display: flex; }
   body:not([data-has-phone="no"]) #payCpfRow { display: none; }
+
+  /* Success screen — grid de dezenas geradas */
+  .success-numbers-block {
+    width: 100%;
+    max-width: 720px;
+    margin: 4px auto 8px;
+    padding: 16px 18px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(243, 146, 8, 0.30);
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .success-numbers-section { display: flex; flex-direction: column; gap: 8px; }
+  .success-numbers-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--font-body, 'Poppins', sans-serif);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.70);
+  }
+  .success-numbers-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: rgba(243, 146, 8, 0.85);
+    padding: 2px 8px;
+    background: rgba(243, 146, 8, 0.10);
+    border: 1px solid rgba(243, 146, 8, 0.30);
+    border-radius: 999px;
+    letter-spacing: 0.06em;
+  }
+  .success-numbers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
+    gap: 6px;
+  }
+  .success-numbers-grid--giro {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
+  .success-ball {
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg, #fff 0%, #f1f3f7 100%);
+    color: var(--blue-900, #1A2F51);
+    font-family: var(--font-display, 'Bitner', 'Poppins', sans-serif);
+    font-weight: 800;
+    font-size: 15px;
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25),
+                inset 0 -3px 0 rgba(0, 0, 0, 0.12);
+    animation: success-ball-in 360ms cubic-bezier(.34,1.56,.64,1) both;
+  }
+  .success-numbers-grid--giro .success-ball {
+    aspect-ratio: auto;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+  }
+  @keyframes success-ball-in {
+    0%   { opacity: 0; transform: translateY(8px) scale(0.6); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
 
   /* Success screen CPF block */
   .success-cpf-block {
@@ -3544,6 +3636,24 @@
         </div>
       </div>
 
+      <!-- Bloco de dezenas geradas — mostra os números que o cliente está concorrendo -->
+      <div class="success-numbers-block" id="successNumbersBlock" aria-live="polite">
+        <div class="success-numbers-section">
+          <div class="success-numbers-label">
+            <span>Suas dezenas</span>
+            <span class="success-numbers-count" id="successDezenasCount">—</span>
+          </div>
+          <div class="success-numbers-grid" id="successDezenasGrid" role="list"></div>
+        </div>
+        <div class="success-numbers-section">
+          <div class="success-numbers-label">
+            <span>Hiper Giro</span>
+            <span class="success-numbers-count" id="successGiroCount">—</span>
+          </div>
+          <div class="success-numbers-grid success-numbers-grid--giro" id="successGiroGrid" role="list"></div>
+        </div>
+      </div>
+
       <p class="success-detail" style="font-size:15px">
         Sorteio neste <b>domingo, 17/05 às 21h30</b><br>
         na RedeTV!, Record News e YouTube.
@@ -3946,9 +4056,32 @@
   }
 
   // ============ SUCCESS ============
+  // Gera N dezenas únicas no intervalo [01, 60]
+  function _generateDezenas(n) {
+    const pool = [];
+    for (let i = 1; i <= 60; i++) pool.push(i);
+    // Fisher-Yates shuffle parcial
+    for (let i = 0; i < n; i++) {
+      const j = i + Math.floor(Math.random() * (pool.length - i));
+      [pool[i], pool[j]] = [pool[j], pool[i]];
+    }
+    return pool.slice(0, n).sort((a, b) => a - b).map(num => String(num).padStart(2, '0'));
+  }
+  // Gera N números de Hiper Giro (7 dígitos, formatados X.XXX.XXX)
+  function _generateGiroNumbers(n) {
+    const out = [];
+    for (let i = 0; i < n; i++) {
+      const raw = String(Math.floor(1000000 + Math.random() * 9000000));
+      out.push(raw.slice(0, 1) + '.' + raw.slice(1, 4) + '.' + raw.slice(4, 7));
+    }
+    return out;
+  }
+
   function enterSuccessScreen() {
     const qty = state.qty;
-    const desc = (qty * 2) + ' dezenas e ' + qty + ' número' + (qty > 1 ? 's' : '') + ' no Hiper Giro';
+    const dezenasN = qty * 2;
+    const giroN = qty;
+    const desc = dezenasN + ' dezenas e ' + giroN + ' número' + (giroN > 1 ? 's' : '') + ' no Hiper Giro';
     const qtyEl = $('#successQty');
     if (qtyEl) qtyEl.textContent = desc;
     const qtyCpfEl = $('#successQtyCpf');
@@ -3958,14 +4091,46 @@
     const waBlock = $('#successWaBlock');
     const cpfBlock = $('#successCpfBlock');
     if (state.hasPhone && state.phone) {
-      // User provided WhatsApp — show delivered confirmation, with CPF as secondary
       $('#successPhone').textContent = '+55 ' + maskPhone(state.phone);
       if (waBlock) waBlock.style.display = 'contents';
       if (cpfBlock) cpfBlock.style.display = 'none';
     } else {
-      // No WhatsApp — CPF lookup is the primary message
       if (waBlock) waBlock.style.display = 'none';
       if (cpfBlock) cpfBlock.style.display = 'flex';
+    }
+
+    // Gera e injeta as dezenas e números do Hiper Giro
+    const dezenas = _generateDezenas(dezenasN);
+    const giro = _generateGiroNumbers(giroN);
+
+    const dezenasGrid = $('#successDezenasGrid');
+    const giroGrid = $('#successGiroGrid');
+    const dezenasCountEl = $('#successDezenasCount');
+    const giroCountEl = $('#successGiroCount');
+    if (dezenasCountEl) dezenasCountEl.textContent = dezenasN + ' bolas';
+    if (giroCountEl) giroCountEl.textContent = giroN + (giroN > 1 ? ' bilhetes' : ' bilhete');
+
+    if (dezenasGrid) {
+      dezenasGrid.innerHTML = '';
+      dezenas.forEach((num, i) => {
+        const ball = document.createElement('span');
+        ball.className = 'success-ball';
+        ball.setAttribute('role', 'listitem');
+        ball.style.animationDelay = (i * 35) + 'ms';
+        ball.textContent = num;
+        dezenasGrid.appendChild(ball);
+      });
+    }
+    if (giroGrid) {
+      giroGrid.innerHTML = '';
+      giro.forEach((num, i) => {
+        const ball = document.createElement('span');
+        ball.className = 'success-ball';
+        ball.setAttribute('role', 'listitem');
+        ball.style.animationDelay = ((dezenasN + i) * 35) + 'ms';
+        ball.textContent = num;
+        giroGrid.appendChild(ball);
+      });
     }
 
     _goToScreen('success');

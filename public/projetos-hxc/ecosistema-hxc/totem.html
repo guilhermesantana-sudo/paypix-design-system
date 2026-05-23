@@ -1,0 +1,4554 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+<meta name="theme-color" content="#0C1628" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<meta name="description" content="Smart Pay Pix · Totem" />
+<meta name="robots" content="noindex, nofollow" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230C1628'/%3E%3Ctext x='50' y='72' text-anchor='middle' font-family='Arial Black,sans-serif' font-style='italic' font-size='62' fill='%23F39208'%3EH%3C/text%3E%3C/svg%3E" />
+<title>HiperXCAP · Totem da Lotérica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700;1,800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/design-system.css">
+<style>
+  /* Tokens locais — fundo navy do lotérico (HiperXCAP) — limpo, sem stars/beams */
+  :root {
+    --line: rgba(243, 146, 8, 0.22);
+    --accent: var(--orange-500);
+    --giro-bg: #02124A;
+    --bg-grad:
+      radial-gradient(ellipse 100% 70% at 50% 25%, rgba(20, 55, 140, 0.55) 0%, transparent 60%),
+      radial-gradient(ellipse 80% 40% at 50% 95%, rgba(20, 55, 140, 0.35) 0%, transparent 60%),
+      var(--giro-bg);
+    --beam-color: transparent;
+  }
+  /* Per-product theming — mesma base navy para todos os produtos */
+  body.product-hiperxcap-010,
+  body.product-hiperxcap-005 {
+    --bg-grad:
+      radial-gradient(ellipse 100% 70% at 50% 25%, rgba(20, 55, 140, 0.55) 0%, transparent 60%),
+      radial-gradient(ellipse 80% 40% at 50% 95%, rgba(20, 55, 140, 0.35) 0%, transparent 60%),
+      var(--giro-bg);
+    --beam-color: transparent;
+    --accent: var(--orange-500);
+  }
+  body.product-hiperxcap-005 { --accent: var(--skyblue-500); }
+
+  * { -webkit-tap-highlight-color: transparent; }
+  html, body { background: var(--giro-bg); height: 100%; overflow: hidden; }
+  body {
+    background: var(--bg-grad);
+    background-attachment: fixed;
+    transition: background 0.6s ease;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+  }
+  /* Stars/beam ocultos — fundo navy limpo como o lotérico (HiperXCAP) */
+  .stars { display: none; }
+  .beam { display: none; }
+  .watermark {
+    display: none;
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 1;
+    overflow: hidden;
+    transform: rotate(-22deg);
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 4vw 0;
+  }
+  .watermark span {
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: clamp(80px, 14vw, 160px);
+    text-align: center;
+    letter-spacing: 0.12em;
+    color: transparent;
+    -webkit-text-stroke: 3px rgba(243, 146, 8, 0.10);
+    line-height: 0.85;
+    white-space: nowrap;
+  }
+  .watermark span:nth-child(even) { transform: translateX(-8%); }
+  .watermark span:nth-child(odd) { transform: translateX(8%); }
+
+  .demo-badge {
+    position: fixed;
+    bottom: 24px; right: 24px;
+    z-index: 100;
+    padding: 10px 18px;
+    background: rgba(12, 22, 40, 0.92);
+    border: 2px solid var(--pix-teal);
+    border-radius: 20px;
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 14px;
+    color: var(--pix-teal);
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    pointer-events: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .demo-badge::before {
+    content: '';
+    width: 8px; height: 8px;
+    background: var(--pix-teal);
+    border-radius: 50%;
+    box-shadow: 0 0 12px var(--pix-teal);
+    animation: demo-pulse 1.5s infinite;
+  }
+  @keyframes demo-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: 0.5; transform: scale(0.7); }
+  }
+
+  /* ============ TOTEM ROOT ============ */
+  .totem {
+    position: relative;
+    z-index: 2;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* ============ HEADER (Smart Pay Pix) ============ */
+  .totem-header {
+    flex-shrink: 0;
+    padding: clamp(14px, 2.2vw, 24px) clamp(16px, 4vw, 56px) clamp(12px, 1.8vw, 18px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: clamp(12px, 2vw, 32px);
+    border-bottom: 1px solid var(--line);
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.4), transparent);
+    flex-wrap: wrap;
+  }
+
+  /* --- Card glass envolvendo logo + nome + tagline --- */
+  .totem-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: clamp(10px, 1.2vw, 14px);
+    padding: clamp(8px, 1vw, 12px) clamp(14px, 1.6vw, 20px) clamp(8px, 1vw, 12px) clamp(8px, 0.9vw, 12px);
+    background:
+      linear-gradient(135deg, rgba(243, 146, 8, 0.10) 0%, rgba(12, 22, 40, 0.45) 60%, rgba(12, 22, 40, 0.55) 100%);
+    border: 1px solid rgba(243, 146, 8, 0.28);
+    border-radius: 16px;
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    box-shadow:
+      0 10px 28px rgba(0, 0, 0, 0.35),
+      0 0 0 1px rgba(255, 255, 255, 0.02) inset,
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+  }
+  /* Sheen sutil no topo */
+  .totem-brand::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(255,255,255,0.06) 0%, transparent 45%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  /* Glow laranja suave atrás do ícone */
+  .totem-brand::after {
+    content: '';
+    position: absolute;
+    left: -10%; top: 50%;
+    transform: translateY(-50%);
+    width: 70px; height: 70px;
+    background: radial-gradient(circle, rgba(243, 146, 8, 0.28) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    filter: blur(8px);
+  }
+  .totem-brand:hover {
+    border-color: rgba(243, 146, 8, 0.5);
+    box-shadow:
+      0 14px 36px rgba(0, 0, 0, 0.45),
+      0 0 24px rgba(243, 146, 8, 0.18),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    transform: translateY(-1px);
+  }
+
+  .totem-brand-mark {
+    position: relative;
+    z-index: 1;
+    width: clamp(40px, 4.2vw, 56px);
+    height: clamp(40px, 4.2vw, 56px);
+    background: linear-gradient(135deg, var(--pix-teal-light), var(--pix-teal) 50%, #F39208);
+    border-radius: clamp(10px, 1.1vw, 14px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:
+      0 8px 24px rgba(243, 146, 8, 0.45),
+      inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    flex-shrink: 0;
+  }
+  .totem-brand-mark svg {
+    width: clamp(22px, 2.4vw, 30px);
+    height: clamp(22px, 2.4vw, 30px);
+    color: #0C1628;
+  }
+  .totem-brand-text {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+  }
+  .totem-brand-name {
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: clamp(15px, 1.6vw, 19px);
+    color: var(--white);
+    letter-spacing: 0.16em;
+    line-height: 1;
+    white-space: nowrap;
+  }
+  .totem-brand-name .teal { color: var(--pix-teal); }
+  .totem-brand-sub {
+    font-family: var(--font-body);
+    font-size: clamp(9px, 0.9vw, 10.5px);
+    font-weight: 700;
+    color: var(--muted);
+    letter-spacing: clamp(0.14em, 0.22vw, 0.24em);
+    text-transform: uppercase;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+  .totem-loterico { text-align: right; display: flex; flex-direction: column; gap: 3px; }
+  .totem-loterico-name {
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: clamp(11px, 1.1vw, 13px);
+    color: var(--white);
+    letter-spacing: 0.04em;
+  }
+  .totem-loterico-meta {
+    font-family: var(--font-body);
+    font-size: clamp(10px, 0.95vw, 11px);
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+  .totem-loterico-meta b { color: var(--pix-teal); font-weight: 800; }
+
+  /* Mobile: encolhe a tagline / loterico para caber sem quebra feia */
+  @media (max-width: 560px) {
+    .totem-brand { gap: 10px; padding: 8px 12px 8px 8px; border-radius: 14px; }
+    .totem-brand-sub { letter-spacing: 0.16em; }
+    .totem-loterico { text-align: left; flex-basis: 100%; order: 3; }
+    .totem-loterico-name { font-size: 12px; }
+    .totem-loterico-meta { font-size: 10px; }
+  }
+  @media (max-width: 380px) {
+    .totem-brand-sub { display: none; }
+  }
+
+  /* ============ CONTENT AREA ============ */
+  .totem-content {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+  }
+  .screen {
+    position: absolute;
+    inset: 0;
+    padding: 32px 64px;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+    text-align: center;
+  }
+  .screen.active {
+    display: flex;
+    animation: screen-rise 0.4s var(--ease-out);
+  }
+  @keyframes screen-rise {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .step-title {
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: clamp(40px, 5vw, 52px);
+    text-transform: uppercase;
+    color: var(--white);
+    margin: 0 0 10px;
+    line-height: 1.05;
+    letter-spacing: 0.01em;
+  }
+  .step-title .accent {
+    background: linear-gradient(180deg, #fef9c3, var(--gold-bright) 50%, var(--gold-deep));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .step-title .teal { color: var(--pix-teal); }
+  .step-sub {
+    font-family: var(--font-body);
+    font-size: 18px;
+    color: var(--muted);
+    margin: 0 0 32px;
+    max-width: 700px;
+    line-height: 1.4;
+  }
+
+  /* ============ SCREEN 0: ATTRACT (vídeo) ============ */
+  .attract {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+  }
+  .attract-video-frame {
+    position: relative;
+    width: 100%;
+    max-width: 880px;
+    aspect-ratio: 16 / 9;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 2px solid var(--pix-teal);
+    box-shadow:
+      0 20px 60px rgba(243, 146, 8, 0.35),
+      inset 0 0 60px rgba(243, 146, 8, 0.08);
+    background: linear-gradient(135deg, var(--spp-purple), var(--spp-purple-deep));
+  }
+  .attract-video-frame video {
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+  /* Placeholder when no video loaded */
+  .attract-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 32px;
+    background: radial-gradient(ellipse at center, rgba(26, 47, 81, 0.4), transparent 70%);
+  }
+  .attract-placeholder-logo {
+    width: 110px; height: 110px;
+    background: linear-gradient(135deg, var(--pix-teal-light), var(--pix-teal), #F39208);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 12px 36px rgba(243, 146, 8, 0.5);
+    animation: spp-float 3s ease-in-out infinite;
+  }
+  @keyframes spp-float {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50%      { transform: translateY(-10px) rotate(2deg); }
+  }
+  .attract-placeholder-logo svg { width: 60px; height: 60px; color: #0C1628; }
+  .attract-placeholder-title {
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 52px;
+    color: var(--white);
+    margin: 0;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+  .attract-placeholder-title .teal {
+    background: linear-gradient(180deg, var(--pix-teal-light), var(--pix-teal));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .attract-placeholder-sub {
+    font-family: var(--font-body);
+    font-size: 15px;
+    color: var(--muted);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    margin: 0;
+    max-width: 500px;
+    text-align: center;
+  }
+  /* Rotating headlines under placeholder logo */
+  .attract-headlines {
+    margin-top: 8px;
+    height: 30px;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+  }
+  .attract-headlines-track {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    animation: headlines-cycle 9s ease-in-out infinite;
+  }
+  .attract-headlines-track span {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 14px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold-bright);
+  }
+  @keyframes headlines-cycle {
+    0%, 25%   { transform: translateY(0); }
+    33%, 58%  { transform: translateY(-34px); }
+    66%, 91%  { transform: translateY(-68px); }
+    100%      { transform: translateY(0); }
+  }
+  .attract-cta {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    animation: attract-bounce 2s ease-in-out infinite;
+    cursor: pointer;
+  }
+  @keyframes attract-bounce {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-10px); }
+  }
+  .attract-cta-icon {
+    width: 100px; height: 100px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--pix-teal-light), var(--pix-teal));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 16px 40px rgba(243, 146, 8, 0.55);
+    position: relative;
+  }
+  .attract-cta-icon::before {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    border: 3px solid var(--pix-teal);
+    animation: attract-ping 1.5s ease-out infinite;
+  }
+  @keyframes attract-ping {
+    0%   { transform: scale(1); opacity: 0.8; }
+    100% { transform: scale(1.3); opacity: 0; }
+  }
+  .attract-cta-icon svg { width: 48px; height: 48px; color: #0C1628; }
+  .attract-cta-text {
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 24px;
+    color: var(--white);
+    letter-spacing: 0.18em;
+  }
+  .attract-perks {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .attract-perk {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--muted);
+  }
+  .attract-perk b { color: var(--pix-teal); }
+
+  /* ============ SCREEN 1: CATALOG ============ */
+  .catalog {
+    width: 100%;
+    max-width: 1100px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .catalog-card {
+    background: linear-gradient(180deg, rgba(26, 47, 81, 0.3), rgba(12, 22, 40, 0.85));
+    border: 2.5px solid var(--line);
+    border-radius: 20px;
+    padding: 24px 22px;
+    cursor: pointer;
+    text-align: left;
+    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-height: 380px;
+  }
+  .catalog-card:active { transform: scale(0.97); }
+  .catalog-card.active {
+    border-color: var(--pix-teal);
+    box-shadow: 0 12px 32px rgba(243, 146, 8, 0.3);
+  }
+  .catalog-card.active:hover {
+    border-color: var(--pix-teal-light);
+    box-shadow: 0 16px 40px rgba(243, 146, 8, 0.45);
+  }
+  .catalog-card.locked {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background: linear-gradient(180deg, rgba(30, 19, 64, 0.3), rgba(12, 22, 40, 0.9));
+  }
+  .catalog-card.locked::before {
+    content: 'EM BREVE';
+    position: absolute;
+    top: 24px; right: -32px;
+    transform: rotate(28deg);
+    padding: 6px 40px;
+    background: linear-gradient(135deg, #6b5530, #4a3820);
+    color: var(--gold-bright);
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  }
+  .catalog-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .catalog-card-icon {
+    width: 56px; height: 56px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 24px;
+    flex-shrink: 0;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+  }
+  .catalog-card.hiperxcap .catalog-card-icon {
+    background: linear-gradient(135deg, var(--gold-bright), var(--gold-deep));
+    color: #0C1628;
+  }
+  .catalog-card.valecap .catalog-card-icon {
+    background: linear-gradient(135deg, #9ED7EB, #1A2F51);
+    color: white;
+  }
+  .catalog-card.apcap .catalog-card-icon {
+    background: linear-gradient(135deg, #B26F9A, #B26F9A);
+    color: white;
+  }
+  .catalog-card-title {
+    flex: 1;
+  }
+  .catalog-card-name {
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 22px;
+    color: var(--white);
+    letter-spacing: 0.01em;
+    line-height: 1.1;
+  }
+  .catalog-card-tag {
+    font-family: var(--font-body);
+    font-size: 10.5px;
+    font-weight: 800;
+    color: var(--muted-2);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+  .catalog-card-prize {
+    padding: 14px 16px;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.5), rgba(26, 47, 81, 0.15));
+    border: 1px dashed rgba(243, 146, 8, 0.4);
+    border-radius: 12px;
+    text-align: center;
+  }
+  .catalog-card-prize-label {
+    font-family: var(--font-body);
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--muted-2);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .catalog-card-prize-value {
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 34px;
+    line-height: 1;
+    background: linear-gradient(180deg, #fef9c3, var(--gold-bright) 50%, var(--gold-deep));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 14px rgba(243, 146, 8, 0.4);
+  }
+  .catalog-card-prize-sub {
+    display: block;
+    font-family: var(--font-body);
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+    font-weight: 600;
+  }
+  .catalog-card-desc {
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.4;
+    flex: 1;
+  }
+  .catalog-card-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding-top: 12px;
+    border-top: 1px dashed rgba(255, 255, 255, 0.08);
+  }
+  .catalog-card-price {
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 15px;
+    color: var(--pix-teal);
+    letter-spacing: 0.06em;
+  }
+  .catalog-card-cta {
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--white);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .catalog-card.active .catalog-card-cta { color: var(--pix-teal-light); }
+  .catalog-card-cta svg { width: 14px; height: 14px; }
+
+  /* ============ SCREEN 2: QUANTITY (with product banner) ============ */
+  .qty-screen-content {
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    align-items: stretch;
+  }
+  .product-banner {
+    width: 100%;
+    max-width: 900px;
+    aspect-ratio: 1080 / 454;
+    margin: 0 auto;
+    background: url('assets/bannerinicial.png') center/cover no-repeat, #02124A;
+    border-radius: 18px;
+    padding: 0;
+    border: 1.5px solid rgba(243, 146, 8, 0.45);
+    box-shadow:
+      0 14px 36px rgba(0, 0, 0, 0.5),
+      0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+    position: relative;
+    overflow: hidden;
+  }
+  body.product-hiperxcap-005 .product-banner {
+    /* mesma imagem por enquanto — pode trocar pra banner-hcx-totem-005.png */
+  }
+  .product-banner::before {
+    content: none;
+  }
+  /* textos da imagem já contêm a info — esconde os elementos internos */
+  .product-banner-icon,
+  .product-banner-info { display: none; }
+  .product-banner-info {
+    flex: 1;
+    text-align: left;
+    position: relative;
+    z-index: 1;
+  }
+  .product-banner-eyebrow {
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.28em;
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .product-banner-name {
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 28px;
+    line-height: 1;
+    color: var(--white);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    letter-spacing: 0.01em;
+  }
+  .product-banner-prize {
+    display: block;
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 38px;
+    line-height: 1;
+    background: linear-gradient(180deg, #fef9c3, var(--gold-bright) 50%, var(--gold-deep));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 4px 24px rgba(243, 146, 8, 0.45);
+    letter-spacing: 0.01em;
+  }
+  .product-banner-prize-label {
+    display: block;
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.7);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+  .product-banner-trocar {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    padding: 8px 14px;
+    background: rgba(12, 22, 40, 0.78);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(243, 146, 8, 0.55);
+    color: var(--gold-bright);
+    border-radius: 20px;
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    cursor: pointer;
+    z-index: 2;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+  }
+  .product-banner-trocar:active { transform: scale(0.96); }
+
+  /* Variant selector (R$5 vs R$10) */
+  .variant-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    width: 100%;
+  }
+  .variant-card {
+    padding: 16px 18px;
+    background: linear-gradient(180deg, rgba(28, 16, 6, 0.7), rgba(0, 0, 0, 0.65));
+    border: 2px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    cursor: pointer;
+    text-align: left;
+    transition: transform 0.18s, border-color 0.18s, background 0.18s;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .variant-card:active { transform: scale(0.97); }
+  .variant-card.selected {
+    border-color: var(--gold-bright);
+    background: linear-gradient(180deg, rgba(243, 146, 8, 0.16), rgba(28, 16, 6, 0.8));
+    box-shadow: 0 8px 22px rgba(243, 146, 8, 0.3);
+  }
+  .variant-card-radio {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    border: 2.5px solid rgba(243, 146, 8, 0.4);
+    flex-shrink: 0;
+    position: relative;
+  }
+  .variant-card.selected .variant-card-radio {
+    border-color: var(--gold-bright);
+    background: var(--gold-bright);
+  }
+  .variant-card.selected .variant-card-radio::after {
+    content: '';
+    position: absolute;
+    top: 4px; left: 4px;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: #0C1628;
+  }
+  .variant-card-info { flex: 1; }
+  .variant-card-price {
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 18px;
+    color: var(--white);
+    letter-spacing: 0.02em;
+  }
+  .variant-card-prize {
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: var(--gold-bright);
+    font-weight: 700;
+    margin-top: 2px;
+  }
+
+  /* Qty cards */
+  .qty-section-label {
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold-bright);
+    text-align: left;
+    margin: 6px 0 -4px;
+  }
+  .qty-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    width: 100%;
+  }
+  .qty-card {
+    padding: 18px 12px;
+    background: linear-gradient(180deg, rgba(28, 16, 6, 0.85), rgba(0, 0, 0, 0.7));
+    border: 2.5px solid rgba(243, 146, 8, 0.25);
+    border-radius: 14px;
+    cursor: pointer;
+    text-align: center;
+    position: relative;
+    transition: transform 0.18s, border-color 0.18s, background 0.18s;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+  }
+  .qty-card:active { transform: scale(0.97); }
+  .qty-card.selected {
+    border-color: var(--gold-bright);
+    background: linear-gradient(180deg, rgba(243, 146, 8, 0.2), rgba(28, 16, 6, 0.9));
+    box-shadow: 0 8px 22px rgba(243, 146, 8, 0.3);
+  }
+  .qty-card.selected::before {
+    content: '✓';
+    position: absolute;
+    top: 8px; right: 10px;
+    width: 22px; height: 22px;
+    background: var(--gold-bright);
+    color: #0C1628;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 13px;
+  }
+  .qty-card-mult {
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 44px;
+    line-height: 1;
+    color: var(--gold-bright);
+    text-shadow: 0 2px 12px rgba(243, 146, 8, 0.4);
+  }
+  .qty-card-price {
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 14px;
+    color: var(--white);
+    letter-spacing: 0.02em;
+  }
+  .qty-card-tag {
+    font-family: var(--font-body);
+    font-size: 9.5px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold-bright);
+    margin-top: 2px;
+  }
+  .qty-card-tag.muted { color: var(--muted-2); }
+  .qty-card-badge {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 3px 10px;
+    background: linear-gradient(135deg, var(--success), #15803d);
+    color: white;
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    border-radius: 20px;
+    box-shadow: 0 3px 10px rgba(34, 197, 94, 0.5);
+    white-space: nowrap;
+  }
+  .qty-card-badge.top {
+    background: linear-gradient(135deg, var(--gold-bright), var(--gold-deep));
+    color: #0C1628;
+  }
+  .qty-stepper-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 14px 22px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+  }
+  .qty-stepper-label {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .qty-stepper {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px;
+    background: linear-gradient(180deg, rgba(28, 16, 6, 0.9), rgba(0, 0, 0, 0.8));
+    border: 1px solid rgba(243, 146, 8, 0.3);
+    border-radius: 20px;
+  }
+  .qty-step-btn {
+    width: 48px; height: 48px;
+    background: linear-gradient(135deg, var(--gold-bright), var(--gold-deep));
+    color: #0C1628;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(243, 146, 8, 0.4);
+    transition: transform 0.12s;
+  }
+  .qty-step-btn:active { transform: scale(0.9); }
+  .qty-step-btn:disabled {
+    background: linear-gradient(135deg, #6b5530, #4a3820);
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+  .qty-step-btn svg { width: 24px; height: 24px; }
+  .qty-step-value {
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 28px;
+    color: var(--gold-bright);
+    min-width: 56px;
+    text-align: center;
+    text-shadow: 0 2px 12px rgba(243, 146, 8, 0.4);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .qty-summary {
+    width: 100%;
+    padding: 16px 22px;
+    background: linear-gradient(135deg, rgba(243, 146, 8, 0.12), rgba(0, 0, 0, 0.5));
+    border: 1.5px solid rgba(243, 146, 8, 0.5);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .qty-summary-left { text-align: left; }
+  .qty-summary-label {
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--muted-2);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .qty-summary-value {
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 30px;
+    color: var(--gold-bright);
+    text-shadow: 0 2px 14px rgba(243, 146, 8, 0.4);
+    font-variant-numeric: tabular-nums;
+    transition: transform 0.2s;
+    line-height: 1;
+    margin-top: 2px;
+  }
+  .qty-summary-value.bump { animation: bump 0.4s; }
+  @keyframes bump {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+  }
+  .qty-summary-right {
+    text-align: right;
+    font-family: var(--font-body);
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+  .qty-summary-right b { color: var(--gold-bright); font-weight: 800; }
+
+  /* ============ SCREEN 3: PHONE ============ */
+  .phone-display {
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 24px;
+    padding: 24px 28px;
+    background: linear-gradient(180deg, rgba(37, 211, 102, 0.08), rgba(0, 0, 0, 0.5));
+    border: 2px solid rgba(37, 211, 102, 0.4);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+  .phone-display-flag { font-size: 32px; flex-shrink: 0; }
+  .phone-display-prefix {
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 26px;
+    color: var(--white);
+    letter-spacing: 0.04em;
+    flex-shrink: 0;
+  }
+  .phone-display-input {
+    flex: 1;
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 28px;
+    color: var(--gold-bright);
+    letter-spacing: 0.06em;
+    font-variant-numeric: tabular-nums;
+    text-align: left;
+    min-height: 38px;
+    border-bottom: 3px dashed rgba(243, 146, 8, 0.4);
+    padding: 0 0 8px;
+    caret-color: var(--gold-bright);
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .phone-display-input::placeholder {
+    color: rgba(160, 160, 192, 0.4);
+    font-style: italic;
+  }
+  .phone-display-input:focus {
+    border-bottom-color: var(--gold-bright);
+    border-bottom-style: solid;
+  }
+  .phone-display-error {
+    margin-top: 10px;
+    font-family: var(--font-body);
+    font-size: 15px;
+    color: #B26F9A;
+    font-weight: 700;
+    min-height: 22px;
+  }
+  .keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    width: 100%;
+    max-width: 480px;
+  }
+  .key-btn {
+    height: 78px;
+    background: linear-gradient(180deg, rgba(28, 16, 6, 0.9), rgba(0, 0, 0, 0.8));
+    border: 2px solid rgba(243, 146, 8, 0.3);
+    border-radius: 14px;
+    color: var(--white);
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 32px;
+    cursor: pointer;
+    transition: transform 0.12s, background 0.12s, border-color 0.12s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .key-btn:active {
+    transform: scale(0.95);
+    background: linear-gradient(180deg, rgba(243, 146, 8, 0.2), rgba(28, 16, 6, 0.9));
+    border-color: var(--gold-bright);
+  }
+  .key-btn.delete {
+    background: linear-gradient(180deg, rgba(127, 29, 29, 0.6), rgba(0, 0, 0, 0.8));
+    border-color: rgba(248, 113, 113, 0.4);
+    color: #B26F9A;
+  }
+  .key-btn.delete svg { width: 32px; height: 32px; }
+  .key-btn.clear {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6));
+    border-color: rgba(255, 255, 255, 0.2);
+    color: var(--muted);
+    font-size: 15px;
+    font-family: var(--font-body);
+    font-weight: 800;
+    letter-spacing: 0.14em;
+  }
+
+  /* Recommended badge above phone screen title */
+  .phone-recommended-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background: linear-gradient(135deg, var(--gold-bright), var(--gold-deep));
+    color: #0C1628;
+    border-radius: 20px;
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 11px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    box-shadow: 0 6px 18px rgba(243, 146, 8, 0.4);
+  }
+
+  /* Phone screen Skip button */
+  .phone-skip-btn {
+    margin-top: 20px;
+    width: 100%;
+    max-width: 540px;
+    background: rgba(0, 0, 0, 0.45);
+    border: 1.5px solid rgba(255, 255, 255, 0.14);
+    border-radius: 14px;
+    padding: 16px 22px;
+    cursor: pointer;
+    color: var(--white);
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    transition: border-color 0.18s, background 0.18s, transform 0.18s;
+  }
+  .phone-skip-btn:hover {
+    border-color: rgba(243, 146, 8, 0.4);
+    background: rgba(28, 16, 6, 0.55);
+  }
+  .phone-skip-btn:active { transform: scale(0.97); }
+  .phone-skip-btn-info {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    gap: 3px;
+    flex: 1;
+  }
+  .phone-skip-btn-title {
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 15px;
+    color: var(--white);
+    letter-spacing: 0.04em;
+  }
+  .phone-skip-btn-sub {
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .phone-skip-btn svg {
+    color: var(--muted-2);
+    transition: color 0.18s, transform 0.2s;
+    flex-shrink: 0;
+  }
+  .phone-skip-btn:hover svg {
+    color: var(--gold-bright);
+    transform: translateX(3px);
+  }
+
+  /* CPF lookup notice on payment screen + success screen */
+  .cpf-notice-box {
+    background:
+      linear-gradient(135deg, rgba(243, 146, 8, 0.12), rgba(28, 16, 6, 0.5));
+    border: 1.5px solid rgba(243, 146, 8, 0.45);
+    border-radius: 14px;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-align: left;
+    box-shadow: 0 6px 18px rgba(243, 146, 8, 0.1);
+  }
+  .cpf-notice-box-icon {
+    width: 44px; height: 44px;
+    background: linear-gradient(135deg, var(--gold-bright), var(--gold-deep));
+    color: #0C1628;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(243, 146, 8, 0.4);
+  }
+  .cpf-notice-box-icon svg { width: 22px; height: 22px; }
+  .cpf-notice-box-text { flex: 1; min-width: 0; }
+  .cpf-notice-box-label {
+    font-family: var(--font-body);
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--gold-bright);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+  .cpf-notice-box-title {
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 14px;
+    color: var(--white);
+    letter-spacing: 0.02em;
+    line-height: 1.3;
+  }
+  .cpf-notice-box-title b { color: var(--gold-bright); }
+  .cpf-notice-box-sub {
+    font-family: var(--font-body);
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.4;
+    margin-top: 3px;
+  }
+
+  /* Show/hide based on hasPhone state */
+  body[data-has-phone="no"] #sendingTitle,
+  body[data-has-phone="no"] #sendingSubMain { display: none; }
+  body[data-has-phone="no"] #sendingNoPhoneTitle,
+  body[data-has-phone="no"] #sendingNoPhoneSub { display: block; }
+  body:not([data-has-phone="no"]) #sendingNoPhoneTitle,
+  body:not([data-has-phone="no"]) #sendingNoPhoneSub { display: none; }
+  body[data-has-phone="no"] #step-whatsapp { display: none; }
+  body[data-has-phone="no"] #successWaBlock { display: none; }
+  body[data-has-phone="no"] #successCpfBlock { display: flex; }
+  body:not([data-has-phone="no"]) #successCpfBlock { display: none; }
+  body[data-has-phone="no"] #payPhoneRow { display: none; }
+  body[data-has-phone="no"] #payCpfRow { display: flex; }
+  body:not([data-has-phone="no"]) #payCpfRow { display: none; }
+
+  /* Success screen CPF block */
+  .success-cpf-block {
+    width: 100%;
+    max-width: 600px;
+    background:
+      linear-gradient(135deg, rgba(243, 146, 8, 0.12), rgba(28, 16, 6, 0.5));
+    border: 2px solid rgba(243, 146, 8, 0.5);
+    border-radius: 18px;
+    padding: 24px 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    box-shadow: 0 10px 30px rgba(243, 146, 8, 0.15);
+  }
+  .success-cpf-block-icon {
+    width: 64px; height: 64px;
+    background: linear-gradient(135deg, var(--gold-bright), var(--gold-deep));
+    color: #0C1628;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 22px rgba(243, 146, 8, 0.4);
+  }
+  .success-cpf-block-icon svg { width: 32px; height: 32px; }
+  .success-cpf-block-title {
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 26px;
+    color: var(--white);
+    text-transform: uppercase;
+    margin: 0;
+    line-height: 1.1;
+    text-align: center;
+  }
+  .success-cpf-block-title .accent {
+    background: linear-gradient(180deg, #fef9c3, var(--gold-bright));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .success-cpf-block-sub {
+    font-family: var(--font-body);
+    font-size: 15px;
+    color: var(--muted);
+    margin: 0;
+    text-align: center;
+    line-height: 1.4;
+  }
+  .success-cpf-block-sub b { color: var(--white); font-weight: 800; }
+
+  /* When user gave WhatsApp, show CPF as secondary suggestion (softer) */
+  .success-cpf-secondary {
+    margin-top: 12px;
+    width: 100%;
+    max-width: 540px;
+    padding: 12px 18px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(243, 146, 8, 0.3);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-align: left;
+  }
+  .success-cpf-secondary-icon {
+    width: 32px; height: 32px;
+    background: rgba(243, 146, 8, 0.18);
+    color: var(--gold-bright);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .success-cpf-secondary-icon svg { width: 18px; height: 18px; }
+  .success-cpf-secondary-text {
+    font-family: var(--font-body);
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.4;
+    flex: 1;
+  }
+  .success-cpf-secondary-text b { color: var(--gold-bright); }
+
+  /* ============ SCREEN 4: PAYMENT QR ============ */
+  .payment-screen {
+    flex-direction: row;
+    gap: 40px;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 64px;
+  }
+  .payment-left {
+    flex: 1;
+    max-width: 460px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    text-align: left;
+  }
+  .payment-right {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  .payment-left .step-title { text-align: left; font-size: 44px; margin-bottom: 4px; }
+  .payment-left .step-sub { text-align: left; font-size: 16px; margin-bottom: 12px; }
+
+  .payment-summary {
+    padding: 18px 22px;
+    background: linear-gradient(135deg, rgba(243, 146, 8, 0.12), rgba(0, 0, 0, 0.5));
+    border: 1.5px solid rgba(243, 146, 8, 0.5);
+    border-radius: 14px;
+  }
+  .payment-summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+    gap: 10px;
+  }
+  .payment-summary-label {
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--muted-2);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .payment-summary-value {
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 16px;
+    color: var(--white);
+  }
+  .payment-summary-value.amount {
+    color: var(--gold-bright);
+    font-size: 26px;
+    text-shadow: 0 2px 12px rgba(243, 146, 8, 0.4);
+  }
+  .payment-summary-value.wa {
+    color: #B6D37B;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .payment-summary-edit {
+    background: transparent;
+    border: 1px solid rgba(34, 197, 94, 0.4);
+    color: #B6D37B;
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-family: var(--font-body);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+  .payment-summary-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--line), transparent);
+    margin: 4px 0;
+  }
+  .payment-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .payment-step {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+  }
+  .payment-step-num {
+    width: 32px; height: 32px;
+    background: linear-gradient(135deg, var(--gold-bright), var(--gold-deep));
+    color: #0C1628;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 14px;
+    flex-shrink: 0;
+    box-shadow: 0 3px 10px rgba(243, 146, 8, 0.4);
+  }
+  .payment-step-text {
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--white);
+    font-weight: 700;
+    line-height: 1.3;
+  }
+  .payment-step-text small {
+    display: block;
+    color: var(--muted);
+    font-weight: 500;
+    font-size: 12px;
+    margin-top: 2px;
+  }
+  .qr-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    background: rgba(243, 146, 8, 0.16);
+    border: 1px solid var(--pix-teal);
+    border-radius: 20px;
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 12px;
+    color: var(--pix-teal);
+    letter-spacing: 0.16em;
+  }
+  .qr-status-dot {
+    width: 8px; height: 8px;
+    background: var(--pix-teal);
+    border-radius: 50%;
+    animation: status-blink 1.2s infinite;
+    box-shadow: 0 0 8px var(--pix-teal);
+  }
+  @keyframes status-blink {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.3; }
+  }
+  .qr-stage {
+    position: relative;
+    padding: 30px;
+  }
+  .qr-halo {
+    position: absolute;
+    top: 24px; left: 50%;
+    width: 360px; height: 360px;
+    border-radius: 20px;
+    transform: translateX(-50%);
+    border: 3px solid var(--gold-bright);
+    opacity: 0;
+    animation: halo-pulse 2.6s ease-out infinite;
+    pointer-events: none;
+  }
+  .qr-halo.s2 { animation-delay: 0.85s; }
+  .qr-halo.s3 { animation-delay: 1.7s; }
+  @keyframes halo-pulse {
+    0%   { transform: translateX(-50%) scale(0.85); opacity: 0; }
+    20%  { opacity: 0.6; }
+    100% { transform: translateX(-50%) scale(1.4); opacity: 0; }
+  }
+  .qr-wrap {
+    width: 340px; height: 340px;
+    padding: 18px;
+    background: linear-gradient(135deg, #fef9c3, #F8AF4F 35%, #F39208);
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(243, 146, 8, 0.4);
+    position: relative;
+    z-index: 2;
+  }
+  .qr-wrap svg {
+    width: 100%; height: 100%;
+    display: block;
+    background: white;
+    border-radius: 12px;
+  }
+  .qr-caption {
+    text-align: center;
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 14px;
+    color: var(--gold-bright);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  /* ============ SCREEN 5: SENDING (PDF + WhatsApp progress) ============ */
+  .sending-screen {
+    justify-content: center;
+    gap: 32px;
+  }
+  .sending-card {
+    width: 100%;
+    max-width: 600px;
+    padding: 36px 32px;
+    background: linear-gradient(180deg, rgba(26, 47, 81, 0.3), rgba(12, 22, 40, 0.85));
+    border: 1.5px solid var(--line);
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+  }
+  .sending-success-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: rgba(34, 197, 94, 0.16);
+    border: 1px solid rgba(34, 197, 94, 0.5);
+    border-radius: 20px;
+    color: #B6D37B;
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    margin-bottom: 20px;
+  }
+  .sending-success-badge .check {
+    width: 16px; height: 16px;
+    background: var(--success);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 900;
+  }
+  .sending-title {
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 36px;
+    color: var(--white);
+    margin: 0 0 8px;
+    text-transform: uppercase;
+    line-height: 1.05;
+  }
+  .sending-title .accent { color: var(--pix-teal); }
+  .sending-sub {
+    font-family: var(--font-body);
+    font-size: 15px;
+    color: var(--muted);
+    margin: 0 0 28px;
+  }
+  .sending-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .sending-step {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1.5px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    text-align: left;
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .sending-step.active {
+    border-color: var(--pix-teal);
+    background: rgba(243, 146, 8, 0.08);
+  }
+  .sending-step.done {
+    border-color: var(--success);
+    background: rgba(34, 197, 94, 0.08);
+  }
+  .sending-step-icon {
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.5);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.3s;
+  }
+  .sending-step.active .sending-step-icon {
+    border-color: var(--pix-teal);
+    background: rgba(243, 146, 8, 0.18);
+  }
+  .sending-step.done .sending-step-icon {
+    border-color: var(--success);
+    background: var(--success);
+  }
+  .sending-step-icon svg { width: 22px; height: 22px; color: var(--muted); transition: color 0.3s; }
+  .sending-step.active .sending-step-icon svg { color: var(--pix-teal); }
+  .sending-step.done .sending-step-icon svg { color: white; }
+  .sending-step-spinner {
+    display: none;
+    width: 22px; height: 22px;
+    border: 3px solid rgba(243, 146, 8, 0.2);
+    border-top-color: var(--pix-teal);
+    border-radius: 50%;
+    animation: step-spin 0.8s linear infinite;
+  }
+  .sending-step.active .sending-step-spinner { display: block; }
+  .sending-step.active .sending-step-icon svg { display: none; }
+  .sending-step.done .sending-step-spinner { display: none; }
+  @keyframes step-spin { to { transform: rotate(360deg); } }
+  .sending-step-text { flex: 1; }
+  .sending-step-title {
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 14px;
+    color: var(--white);
+    letter-spacing: 0.04em;
+  }
+  .sending-step.done .sending-step-title { color: #B6D37B; }
+  .sending-step-detail {
+    font-family: var(--font-body);
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .sending-step.active .sending-step-detail { color: var(--pix-teal-light); }
+
+  /* Progress bar */
+  .progress-bar {
+    width: 100%;
+    height: 10px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--pix-teal-light), var(--pix-teal), #F39208);
+    border-radius: 20px;
+    width: 0%;
+    transition: width 0.5s var(--ease-out);
+    box-shadow: 0 0 12px rgba(243, 146, 8, 0.5);
+    position: relative;
+  }
+  .progress-bar-fill::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    animation: progress-shimmer 1.5s linear infinite;
+  }
+  @keyframes progress-shimmer {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+  .progress-label {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--pix-teal);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-top: 12px;
+  }
+  .progress-label span { color: var(--gold-bright); }
+
+  /* ============ SCREEN 6: SUCCESS ============ */
+  .success-screen {
+    text-align: center;
+    gap: 24px;
+    justify-content: center;
+  }
+  .success-icon {
+    width: 160px; height: 160px;
+    background: radial-gradient(circle, var(--wa-green), #128C7E);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 20px 50px rgba(37, 211, 102, 0.45);
+    margin-bottom: 8px;
+    animation: success-pulse 2s ease-in-out infinite;
+  }
+  @keyframes success-pulse {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.05); box-shadow: 0 24px 60px rgba(37, 211, 102, 0.65); }
+  }
+  .success-icon svg { width: 80px; height: 80px; color: white; }
+  .success-title-big {
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 64px;
+    text-transform: uppercase;
+    color: var(--white);
+    margin: 0;
+    line-height: 1.05;
+  }
+  .success-title-big .accent { color: var(--success); }
+  .success-detail {
+    font-family: var(--font-body);
+    font-size: 18px;
+    color: var(--muted);
+    margin: 0;
+    max-width: 700px;
+    line-height: 1.4;
+  }
+  .success-detail b { color: var(--white); font-weight: 800; }
+  .success-phone {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 28px;
+    background: rgba(37, 211, 102, 0.12);
+    border: 2px solid rgba(37, 211, 102, 0.5);
+    border-radius: 20px;
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 20px;
+    color: var(--white);
+    letter-spacing: 0.04em;
+  }
+  .success-phone svg { width: 24px; height: 24px; color: var(--wa-green); }
+  .success-countdown {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--muted-2);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-top: 14px;
+  }
+  .success-countdown b { color: var(--pix-teal); }
+
+  /* ============ FOOTER (nav) ============ */
+  .totem-footer {
+    flex-shrink: 0;
+    padding: 18px 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    border-top: 1px solid var(--line);
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.6), transparent);
+  }
+  .nav-btn {
+    padding: 16px 28px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 2px solid rgba(243, 146, 8, 0.3);
+    border-radius: 14px;
+    color: var(--muted);
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 14px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: transform 0.16s, border-color 0.16s, color 0.16s;
+    min-height: 56px;
+  }
+  .nav-btn:active { transform: scale(0.97); }
+  .nav-btn:hover, .nav-btn:focus {
+    border-color: var(--pix-teal);
+    color: var(--pix-teal);
+  }
+  .nav-btn.primary {
+    background: var(--orange-500);
+    border-color: transparent;
+    color: #00083F;
+    font-size: 18px;
+    padding: 16px 36px;
+    box-shadow:
+      0 4px 0 rgba(0, 0, 0, 0.22),
+      0 6px 14px rgba(243, 146, 8, 0.30);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.18s ease, background 0.18s ease, box-shadow 0.18s ease, color 0.18s ease;
+  }
+  /* Shimmer sweep contínuo (estilo giro-ds) */
+  .nav-btn.primary::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.55) 50%, transparent 70%);
+    background-size: 200% 100%;
+    animation: shimmer-sweep 2.4s linear infinite;
+    pointer-events: none;
+  }
+  .nav-btn.primary:hover:not(:disabled) {
+    background: var(--orange-300);
+    color: #00083F;
+    transform: translateY(-2px);
+    box-shadow:
+      0 6px 0 rgba(0, 0, 0, 0.22),
+      0 10px 20px rgba(243, 146, 8, 0.42);
+  }
+  .nav-btn.primary:active:not(:disabled) {
+    transform: translateY(2px);
+    box-shadow:
+      0 0 0 rgba(0, 0, 0, 0.22),
+      0 2px 6px rgba(0, 0, 0, 0.18);
+  }
+  .nav-btn.primary:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+    background: linear-gradient(135deg, #444, #222);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.4);
+    box-shadow: none;
+  }
+  .nav-btn.primary:disabled::after { display: none; }
+  @keyframes shimmer-sweep {
+    0%   { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+  @keyframes giro-pulse-glow {
+    0%, 70%, 100% { box-shadow: 0 4px 0 rgba(0, 0, 0, 0.22), 0 0 0 0 rgba(243, 146, 8, 0); }
+    85%           { box-shadow: 0 4px 0 rgba(0, 0, 0, 0.22), 0 0 28px 6px rgba(243, 146, 8, 0.55); }
+  }
+  .nav-btn.primary { animation: giro-pulse-glow 3.6s ease-in-out infinite; }
+  .nav-btn svg { width: 20px; height: 20px; }
+  .step-indicator {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    flex-shrink: 0;
+    background: linear-gradient(180deg, rgba(2, 18, 74, 0.85), transparent);
+  }
+  /* Esconde os steps na attract (tela inicial) — não há etapa pra mostrar */
+  body:has(.screen.active[data-screen="attract"]) #stepIndicator { display: none; }
+  .step-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: rgba(243, 146, 8, 0.25);
+    transition: all 0.3s;
+  }
+  .step-dot.active {
+    background: var(--pix-teal);
+    width: 28px;
+    border-radius: 6px;
+    box-shadow: 0 0 10px rgba(243, 146, 8, 0.6);
+  }
+  .step-dot.done { background: var(--success); }
+
+  /* ============ Hospital strip ============ */
+  .hospital-strip {
+    flex-shrink: 0;
+    padding: 10px 56px;
+    background: linear-gradient(90deg, rgba(220, 38, 38, 0.12), rgba(76, 5, 25, 0.4), rgba(220, 38, 38, 0.12));
+    border-top: 1px solid rgba(248, 113, 113, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    font-family: var(--font-body);
+    font-size: 12px;
+    color: var(--muted);
+    text-align: center;
+  }
+  .hospital-strip b { color: white; font-weight: 800; }
+  .hospital-strip .heart { font-size: 16px; animation: heart-beat 1.4s infinite; }
+  @keyframes heart-beat {
+    0%, 100% { transform: scale(1); }
+    40%      { transform: scale(1.18); }
+    60%      { transform: scale(1); }
+  }
+/* ============================================================
+     CONSULTAR MEUS TÍTULOS — MODAL COMPONENT
+  ============================================================ */
+  .ct-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 16px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1.5px solid rgba(243, 146, 8, 0.45);
+    color: #F8AF4F;
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: transform 0.18s, border-color 0.18s, background 0.18s, color 0.18s;
+    white-space: nowrap;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  .ct-btn:hover {
+    background: rgba(243, 146, 8, 0.12);
+    border-color: #F39208;
+    color: #ffffff;
+    transform: translateY(-1px);
+  }
+  .ct-btn:active { transform: scale(0.97); }
+  .ct-btn svg { width: 14px; height: 14px; }
+  .ct-btn-label-full { display: inline; }
+  .ct-btn-label-short { display: none; }
+  @media (max-width: 480px) {
+    .ct-btn { padding: 8px 12px; font-size: 11px; gap: 6px; }
+    .ct-btn-label-full { display: none; }
+    .ct-btn-label-short { display: inline; }
+  }
+
+  .ct-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9500;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    background:
+      radial-gradient(ellipse at 50% 30%, rgba(243, 146, 8, 0.12), transparent 60%),
+      rgba(10, 6, 20, 0.94);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    overflow-y: auto;
+  }
+  .ct-modal.open { display: flex; animation: ct-fade-in 0.3s ease-out; }
+  .ct-modal.closing { animation: ct-fade-out 0.25s ease-in forwards; }
+  @keyframes ct-fade-in { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes ct-fade-out { from { opacity: 1; } to { opacity: 0; } }
+
+  .ct-card {
+    width: 100%;
+    max-width: 560px;
+    background:
+      linear-gradient(180deg, rgba(28, 16, 40, 0.97), rgba(10, 6, 20, 0.99)),
+      radial-gradient(ellipse at 50% 0%, rgba(243, 146, 8, 0.15), transparent 60%);
+    border: 1.5px solid rgba(243, 146, 8, 0.45);
+    border-radius: 20px;
+    padding: 26px 22px 22px;
+    box-shadow:
+      0 30px 70px rgba(0, 0, 0, 0.7),
+      0 0 60px rgba(243, 146, 8, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    position: relative;
+    animation: ct-rise 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+    max-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    overflow: hidden;
+  }
+  @keyframes ct-rise {
+    from { transform: translateY(20px) scale(0.96); opacity: 0; }
+    to { transform: translateY(0) scale(1); opacity: 1; }
+  }
+  .ct-close {
+    position: absolute;
+    top: 14px; right: 14px;
+    width: 32px; height: 32px;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(243, 146, 8, 0.3);
+    border-radius: 50%;
+    color: #F8AF4F;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s, border-color 0.2s;
+    z-index: 5;
+  }
+  .ct-close:hover { transform: rotate(90deg); border-color: #F39208; }
+  .ct-close svg { width: 16px; height: 16px; }
+
+  /* Head */
+  .ct-head {
+    text-align: center;
+    padding-top: 4px;
+  }
+  .ct-head-icon {
+    width: 56px; height: 56px;
+    background: linear-gradient(135deg, #F8AF4F, #F39208 50%, #F39208);
+    border-radius: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    box-shadow: 0 8px 22px rgba(243, 146, 8, 0.45);
+  }
+  .ct-head-icon svg { width: 28px; height: 28px; color: #0C1628; }
+  .ct-head-title {
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 22px;
+    color: #ffffff;
+    margin: 0 0 6px;
+    letter-spacing: 0.01em;
+  }
+  .ct-head-title .teal { color: #F39208; }
+  .ct-head-sub {
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: #c7d6e8;
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  /* States */
+  .ct-state { display: none; }
+  .ct-state.active { display: flex; flex-direction: column; gap: 14px; }
+
+  /* FORM STATE */
+  .ct-form-field { display: flex; flex-direction: column; gap: 6px; }
+  .ct-form-label {
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 800;
+    color: #c7d6e8;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .ct-form-input {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.45);
+    border: 1.5px solid rgba(243, 146, 8, 0.35);
+    color: #ffffff;
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 20px;
+    letter-spacing: 0.04em;
+    padding: 14px 18px;
+    border-radius: 12px;
+    outline: none;
+    transition: border-color 0.18s, background 0.18s;
+    font-variant-numeric: tabular-nums;
+  }
+  .ct-form-input:focus {
+    border-color: #F39208;
+    background: rgba(243, 146, 8, 0.08);
+  }
+  .ct-form-input.error { border-color: #B26F9A; }
+  .ct-form-error {
+    font-family: var(--font-body);
+    font-size: 12px;
+    color: #B26F9A;
+    font-weight: 700;
+    min-height: 16px;
+  }
+
+  /* Captcha */
+  .ct-captcha {
+    display: flex;
+    align-items: stretch;
+    gap: 12px;
+    padding: 12px 14px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px dashed rgba(243, 146, 8, 0.35);
+    border-radius: 12px;
+  }
+  .ct-captcha-question {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    justify-content: center;
+  }
+  .ct-captcha-label {
+    font-family: var(--font-body);
+    font-size: 10px;
+    font-weight: 800;
+    color: #7e93b0;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .ct-captcha-expr {
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 18px;
+    color: #F39208;
+    letter-spacing: 0.04em;
+  }
+  .ct-captcha-input-wrap {
+    flex-shrink: 0;
+    width: 90px;
+  }
+  .ct-captcha-input {
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1.5px solid rgba(243, 146, 8, 0.4);
+    color: #F39208;
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 22px;
+    text-align: center;
+    padding: 8px;
+    border-radius: 10px;
+    outline: none;
+    font-variant-numeric: tabular-nums;
+    transition: border-color 0.18s;
+  }
+  .ct-captcha-input:focus { border-color: #F39208; }
+  .ct-captcha-refresh {
+    background: transparent;
+    border: none;
+    color: #7e93b0;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.18s, transform 0.4s;
+  }
+  .ct-captcha-refresh:hover { color: #F39208; }
+  .ct-captcha-refresh:active { transform: rotate(180deg); }
+  .ct-captcha-refresh svg { width: 16px; height: 16px; }
+
+  .ct-submit {
+    width: 100%;
+    padding: 16px 20px;
+    background: var(--orange-500);
+    color: #00083F;
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 14px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow:
+      0 4px 0 rgba(0, 0, 0, 0.22),
+      0 6px 14px rgba(243, 146, 8, 0.30);
+    transition: transform 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .ct-submit::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.55) 50%, transparent 70%);
+    background-size: 200% 100%;
+    animation: shimmer-sweep 2.4s linear infinite;
+    pointer-events: none;
+  }
+  .ct-submit:hover:not(:disabled) {
+    background: var(--orange-300);
+    transform: translateY(-2px);
+    box-shadow:
+      0 6px 0 rgba(0, 0, 0, 0.22),
+      0 10px 20px rgba(243, 146, 8, 0.42);
+  }
+  .ct-submit:active:not(:disabled) {
+    transform: translateY(2px);
+    box-shadow:
+      0 0 0 rgba(0, 0, 0, 0.22),
+      0 2px 6px rgba(0, 0, 0, 0.18);
+  }
+  .ct-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+  .ct-submit:disabled::after { display: none; }
+  .ct-submit svg { width: 18px; height: 18px; }
+
+  .ct-form-foot {
+    text-align: center;
+    font-family: var(--font-body);
+    font-size: 11px;
+    color: #7e93b0;
+    letter-spacing: 0.06em;
+    line-height: 1.5;
+  }
+  .ct-form-foot b { color: #c7d6e8; }
+
+  /* LOADING STATE */
+  .ct-loading {
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  .ct-spinner {
+    width: 56px; height: 56px;
+    border: 4px solid rgba(243, 146, 8, 0.2);
+    border-top-color: #F39208;
+    border-radius: 50%;
+    animation: ct-spin 0.9s linear infinite;
+  }
+  @keyframes ct-spin { to { transform: rotate(360deg); } }
+  .ct-loading-text {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 700;
+    color: #c7d6e8;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  /* RESULT STATE */
+  .ct-result {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow: hidden;
+  }
+  .ct-result-greeting {
+    padding: 12px 16px;
+    background: linear-gradient(135deg, rgba(243, 146, 8, 0.12), rgba(0, 0, 0, 0.4));
+    border: 1px solid rgba(243, 146, 8, 0.4);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+  .ct-result-greeting-ico {
+    width: 36px; height: 36px;
+    background: rgba(243, 146, 8, 0.2);
+    color: #F8AF4F;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .ct-result-greeting-ico svg { width: 18px; height: 18px; }
+  .ct-result-greeting-text { flex: 1; line-height: 1.3; }
+  .ct-result-greeting-cpf {
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 13px;
+    color: #ffffff;
+    letter-spacing: 0.04em;
+  }
+  .ct-result-greeting-summary {
+    font-family: var(--font-body);
+    font-size: 11px;
+    color: #c7d6e8;
+    margin-top: 2px;
+    letter-spacing: 0.04em;
+  }
+  .ct-result-greeting-summary b { color: #F39208; font-weight: 800; }
+
+  .ct-result-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 4px;
+    margin-right: -4px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .ct-result-scroll::-webkit-scrollbar { width: 6px; }
+  .ct-result-scroll::-webkit-scrollbar-thumb { background: rgba(243, 146, 8, 0.3); border-radius: 20px; }
+
+  .ct-section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 11px;
+    color: #F8AF4F;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    padding: 4px 0;
+  }
+  .ct-section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(243, 146, 8, 0.4), transparent);
+  }
+  .ct-section-title.history { color: #7e93b0; }
+  .ct-section-title.history::after {
+    background: linear-gradient(90deg, rgba(110, 110, 136, 0.3), transparent);
+  }
+
+  /* Draw group card */
+  .ct-draw {
+    background: linear-gradient(180deg, rgba(26, 47, 81, 0.18), rgba(12, 22, 40, 0.85));
+    border: 1.5px solid rgba(243, 146, 8, 0.25);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .ct-draw.next {
+    border-color: rgba(243, 146, 8, 0.6);
+    box-shadow: 0 6px 20px rgba(243, 146, 8, 0.18);
+  }
+  .ct-draw.win {
+    border-color: rgba(243, 146, 8, 0.7);
+    background: linear-gradient(180deg, rgba(243, 146, 8, 0.12), rgba(12, 22, 40, 0.85));
+    box-shadow: 0 8px 24px rgba(243, 146, 8, 0.25);
+  }
+
+  .ct-draw-head {
+    padding: 12px 16px;
+    background: rgba(0, 0, 0, 0.35);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .ct-draw-head:hover { background: rgba(0, 0, 0, 0.5); }
+  .ct-draw-head-date {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .ct-draw-head-date-main {
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 13px;
+    color: #ffffff;
+    letter-spacing: 0.04em;
+  }
+  .ct-draw-head-date-sub {
+    font-family: var(--font-body);
+    font-size: 11px;
+    color: #c7d6e8;
+    letter-spacing: 0.06em;
+  }
+  .ct-draw-head-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 9.5px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+  .ct-draw-head-status.next {
+    background: rgba(243, 146, 8, 0.16);
+    color: #F8AF4F;
+    border: 1px solid rgba(243, 146, 8, 0.5);
+  }
+  .ct-draw-head-status.next::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: #F8AF4F;
+    border-radius: 50%;
+    box-shadow: 0 0 6px #F8AF4F;
+    animation: ct-pulse 1.4s infinite;
+  }
+  @keyframes ct-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+  .ct-draw-head-status.past {
+    background: rgba(110, 110, 136, 0.15);
+    color: #c7d6e8;
+    border: 1px solid rgba(110, 110, 136, 0.4);
+  }
+  .ct-draw-head-status.win {
+    background: linear-gradient(135deg, #F39208, #F39208);
+    color: #0C1628;
+    border: 1px solid #F39208;
+  }
+  .ct-draw-head-toggle {
+    margin-left: 6px;
+    color: #7e93b0;
+    transition: transform 0.3s;
+  }
+  .ct-draw-head-toggle svg { width: 16px; height: 16px; display: block; }
+  .ct-draw.collapsed .ct-draw-head-toggle { transform: rotate(-90deg); }
+
+  .ct-draw-body {
+    padding: 10px 12px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 1000px;
+    overflow: hidden;
+    transition: max-height 0.35s ease, padding 0.3s ease;
+  }
+  .ct-draw.collapsed .ct-draw-body {
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  /* Title item */
+  .ct-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: border-color 0.18s, background 0.18s, transform 0.15s;
+  }
+  .ct-item:hover { border-color: rgba(243, 146, 8, 0.5); background: rgba(0, 0, 0, 0.5); }
+  .ct-item:active { transform: scale(0.99); }
+  .ct-item.win {
+    border-color: rgba(243, 146, 8, 0.6);
+    background: linear-gradient(135deg, rgba(243, 146, 8, 0.08), rgba(0, 0, 0, 0.4));
+  }
+  .ct-item-ico {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 16px;
+  }
+  .ct-item.r10 .ct-item-ico {
+    background: linear-gradient(135deg, #F39208, #F39208);
+    color: #0C1628;
+  }
+  .ct-item.r5 .ct-item-ico {
+    background: linear-gradient(135deg, #9ED7EB, #1A2F51);
+    color: #ffffff;
+  }
+  .ct-item-info { flex: 1; min-width: 0; line-height: 1.3; }
+  .ct-item-name {
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 13px;
+    color: #ffffff;
+    letter-spacing: 0.01em;
+  }
+  .ct-item-name .price {
+    color: #F39208;
+    font-size: 12px;
+    margin-left: 4px;
+  }
+  .ct-item-meta {
+    font-family: var(--font-body);
+    font-size: 10.5px;
+    color: #c7d6e8;
+    margin-top: 2px;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.04em;
+  }
+  .ct-item-meta b { color: #ffffff; font-weight: 800; }
+  .ct-item-status {
+    flex-shrink: 0;
+    text-align: right;
+    line-height: 1.2;
+  }
+  .ct-item-status-label {
+    font-family: var(--font-body);
+    font-size: 9.5px;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #7e93b0;
+  }
+  .ct-item-status-value {
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 13px;
+    color: #ffffff;
+    margin-top: 2px;
+    letter-spacing: 0.02em;
+  }
+  .ct-item.win .ct-item-status-value {
+    color: #F39208;
+    font-size: 14px;
+  }
+  .ct-item.win .ct-item-status-label { color: #F39208; }
+  .ct-item.lost .ct-item-status-value { color: #7e93b0; }
+
+  .ct-empty {
+    padding: 24px 16px;
+    text-align: center;
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: #c7d6e8;
+    border: 1px dashed rgba(110, 110, 136, 0.3);
+    border-radius: 12px;
+  }
+  .ct-empty b { color: #ffffff; }
+
+  .ct-result-foot {
+    display: flex;
+    gap: 10px;
+    padding-top: 4px;
+    flex-shrink: 0;
+  }
+  .ct-result-foot button {
+    flex: 1;
+    padding: 11px 14px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(243, 146, 8, 0.3);
+    color: #c7d6e8;
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: border-color 0.18s, color 0.18s;
+  }
+  .ct-result-foot button:hover { border-color: #F39208; color: #ffffff; }
+
+  body.ct-open { overflow: hidden; }
+
+  /* ============================================================
+     STICKY BOTTOM — Total a Pagar + Footer sempre visíveis
+  ============================================================ */
+  /* Total a Pagar fica sticky no fim do scroll do screen (desktop)
+     ou acima do footer fixo (mobile/tablet) */
+  .qty-summary {
+    position: sticky;
+    bottom: 12px;
+    z-index: 40;
+    background:
+      linear-gradient(135deg, rgba(243, 146, 8, 0.18), rgba(2, 18, 74, 0.94));
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    box-shadow:
+      0 -2px 0 rgba(255, 255, 255, 0.04),
+      0 12px 28px rgba(0, 0, 0, 0.45);
+  }
+
+  /* Mobile/tablet: footer também sticky no rodapé da viewport
+     (no desktop ele já está fixo via flex column 100vh) */
+  @media (max-width: 1023px) {
+    .totem-footer {
+      position: sticky;
+      bottom: 0;
+      z-index: 50;
+      background:
+        linear-gradient(0deg, rgba(2, 18, 74, 0.97), rgba(2, 18, 74, 0.82));
+      backdrop-filter: blur(14px) saturate(140%);
+      -webkit-backdrop-filter: blur(14px) saturate(140%);
+      border-top: 1px solid var(--line);
+    }
+    /* Total a pagar fica acima do footer fixo */
+    .qty-summary { bottom: 84px; }
+  }
+  @media (max-width: 600px) {
+    .qty-summary { bottom: 76px; }
+  }
+
+  /* ============================================================
+     ATTRACT SCREEN — vídeo em tela cheia
+     Quando a tela inicial está ativa: vídeo cobre toda a área,
+     CTA pulsante sobreposto, footer e perks ocultos.
+  ============================================================ */
+  .screen[data-screen="attract"] {
+    padding: 0 !important;
+    overflow: hidden;
+    min-height: calc(100vh - 120px);
+  }
+  .screen[data-screen="attract"] .attract {
+    position: relative;
+    height: 100%;
+    min-height: inherit;
+    width: 100%;
+    gap: 0;
+    justify-content: flex-end;
+    padding: 0 0 clamp(28px, 5vh, 64px);
+  }
+  .screen[data-screen="attract"] .attract-video-frame {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    aspect-ratio: auto;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    background: #000;
+    cursor: pointer;
+  }
+  .screen[data-screen="attract"] .attract-video-frame video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  /* Vinhetas para legibilidade do brand card (topo) e do CTA (baixo) */
+  .screen[data-screen="attract"] .attract-video-frame::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(12, 22, 40, 0.55) 0%, transparent 18%, transparent 60%, rgba(12, 22, 40, 0.65) 100%);
+    pointer-events: none;
+    z-index: 1;
+  }
+  .screen[data-screen="attract"] .attract-cta {
+    position: relative;
+    z-index: 2;
+    margin-top: 0;
+  }
+  /* Esconde perks, header, footer e hospital na attract — só vídeo + CTA */
+  .screen[data-screen="attract"] .attract-perks { display: none; }
+  body:has(.screen.active[data-screen="attract"]) .totem-header,
+  body:has(.screen.active[data-screen="attract"]) .totem-footer,
+  body:has(.screen.active[data-screen="attract"]) .hospital-strip { display: none; }
+
+  /* Sem header → tela inicial ocupa toda a viewport */
+  body:has(.screen.active[data-screen="attract"]) .screen[data-screen="attract"] {
+    min-height: 100vh;
+  }
+
+  /* ============================================================
+     HEADER CENTRALIZADO — padrão em todas as telas
+     Brand card no centro absoluto; MEUS TÍTULOS e lotérica pinados
+     nas laterais via position:absolute para não desviar o centro.
+  ============================================================ */
+  .totem-header {
+    justify-content: center;
+    position: relative;
+  }
+  .totem-brand {
+    margin: 0 auto;
+  }
+  .totem-header .ct-btn {
+    position: absolute;
+    right: clamp(16px, 4vw, 56px);
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .totem-loterico {
+    position: absolute;
+    left: clamp(16px, 4vw, 56px);
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: left;
+  }
+  /* Em mobile/tablet: header empilha, brand fica centralizado em cima, restante embaixo */
+  @media (max-width: 1023px) {
+    .totem-header {
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+    .totem-header .ct-btn,
+    .totem-loterico {
+      position: static;
+      transform: none;
+      text-align: center;
+    }
+  }
+
+  /* ============================================================
+     RESPONSIVIDADE GLOBAL — totem 15,6" (≥1024px) é o default
+     Breakpoints:
+       ≤ 1023px  → tablet/totem portrait
+       ≤  600px  → mobile (celular)
+  ============================================================ */
+
+  /* ---------- TABLET / TOTEM PORTRAIT (≤ 1023px) ---------- */
+  @media (max-width: 1023px) {
+    html, body { overflow: auto; }
+    .totem { height: auto; min-height: 100vh; overflow: visible; }
+    .totem-content { overflow: visible; }
+    .screen {
+      position: relative;
+      inset: auto;
+      padding: 24px 32px;
+      min-height: 60vh;
+    }
+    .screen.active { display: flex; }
+    .screen:not(.active) { display: none; }
+
+    /* Tipografia geral */
+    .step-title { font-size: clamp(28px, 4.5vw, 40px); }
+    .step-sub   { font-size: 15px; margin-bottom: 22px; }
+
+    /* ATTRACT */
+    .attract { gap: 22px; }
+    .attract-video-frame { max-width: 100%; }
+    .attract-placeholder { padding: 22px; gap: 12px; }
+    .attract-placeholder-logo { width: 84px; height: 84px; border-radius: 18px; }
+    .attract-placeholder-logo svg { width: 46px; height: 46px; }
+    .attract-placeholder-title { font-size: clamp(32px, 5.5vw, 44px); }
+    .attract-placeholder-sub { font-size: 13px; }
+    .attract-headlines { height: 26px; }
+    .attract-headlines-track span { height: 26px; font-size: 13px; }
+    @keyframes headlines-cycle {
+      0%, 25%   { transform: translateY(0); }
+      33%, 58%  { transform: translateY(-30px); }
+      66%, 91%  { transform: translateY(-60px); }
+      100%      { transform: translateY(0); }
+    }
+    .attract-cta-icon { width: 84px; height: 84px; }
+    .attract-cta-icon svg { width: 40px; height: 40px; }
+    .attract-cta-text { font-size: 20px; }
+    .attract-perk { font-size: 13px; padding: 10px 16px; }
+
+    /* CATALOG — 2 colunas */
+    .catalog { grid-template-columns: repeat(2, 1fr); gap: 18px; }
+    .catalog-card { min-height: 320px; padding: 20px 18px; }
+    .catalog-card-icon { width: 48px; height: 48px; font-size: 20px; }
+    .catalog-card-name { font-size: 19px; }
+    .catalog-card-prize-value { font-size: 28px; }
+
+    /* QUANTITY */
+    .qty-screen-content { gap: 14px; }
+    .product-banner { max-width: 720px; }
+    .qty-grid { grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .qty-card { padding: 14px 8px; }
+    .qty-card-mult { font-size: 36px; }
+    .qty-card-price { font-size: 13px; }
+    .qty-summary { padding: 14px 18px; }
+    .qty-summary-value { font-size: 26px; }
+    .qty-stepper-row { padding: 12px 16px; }
+    .qty-step-btn { width: 42px; height: 42px; }
+    .qty-step-btn svg { width: 20px; height: 20px; }
+    .qty-step-value { font-size: 24px; min-width: 48px; }
+
+    /* PHONE */
+    .phone-display { padding: 20px 22px; }
+    .phone-display-input { font-size: 24px; }
+    .phone-display-prefix { font-size: 22px; }
+    .keypad { max-width: 420px; gap: 12px; }
+    .key-btn { height: 66px; font-size: 28px; }
+    .key-btn.delete svg { width: 26px; height: 26px; }
+    .key-btn.clear { font-size: 13px; }
+    .phone-skip-btn { padding: 14px 18px; }
+    .phone-skip-btn-title { font-size: 14px; }
+    .phone-skip-btn-sub { font-size: 12px; }
+
+    /* PAYMENT QR — empilha em coluna */
+    .payment-screen {
+      flex-direction: column;
+      gap: 24px;
+      padding: 24px 32px;
+      align-items: stretch;
+    }
+    .payment-left, .payment-right { max-width: 100%; width: 100%; flex: none; }
+    .payment-left { align-items: center; text-align: center; }
+    .payment-left .step-title { text-align: center; font-size: 30px; }
+    .payment-left .step-sub { text-align: center; font-size: 14px; }
+    .payment-summary, .payment-steps { width: 100%; }
+    .qr-stage { padding: 16px; }
+    .qr-wrap { width: 280px; height: 280px; padding: 14px; }
+    .qr-halo { width: 300px; height: 300px; top: 12px; }
+
+    /* SENDING */
+    .sending-card { padding: 28px 22px; }
+    .sending-title { font-size: 28px; }
+    .sending-sub { font-size: 14px; margin-bottom: 22px; }
+    .sending-step { padding: 12px 14px; }
+    .sending-step-icon { width: 38px; height: 38px; }
+
+    /* SUCCESS */
+    .success-icon { width: 120px; height: 120px; }
+    .success-icon svg { width: 60px; height: 60px; }
+    .success-title-big { font-size: clamp(36px, 6vw, 52px); }
+    .success-detail { font-size: 16px; }
+    .success-phone { font-size: 17px; padding: 12px 22px; }
+    .success-cpf-block { padding: 20px 22px; }
+    .success-cpf-block-title { font-size: 22px; }
+
+    /* MODAL CONSULTAR */
+    .ct-card { max-width: 92vw; padding: 22px 18px 18px; }
+    .ct-head-title { font-size: 20px; }
+    .ct-form-input { font-size: 18px; padding: 12px 16px; }
+
+    /* FOOTER */
+    .totem-footer { padding: 14px 32px; gap: 16px; }
+    .nav-btn { padding: 13px 20px; font-size: 13px; min-height: 50px; }
+    .nav-btn.primary { font-size: 15px; padding: 13px 26px; }
+
+    .hospital-strip { padding: 9px 24px; font-size: 11px; }
+
+    .demo-badge { padding: 8px 14px; font-size: 12px; bottom: 18px; right: 18px; }
+  }
+
+  /* ---------- MOBILE (≤ 600px) ---------- */
+  @media (max-width: 600px) {
+    .screen { padding: 18px 16px; min-height: 50vh; }
+
+    /* Watermark menor pra não dominar */
+    .watermark span { font-size: clamp(60px, 18vw, 100px); }
+
+    /* Tipografia geral */
+    .step-title { font-size: clamp(22px, 7vw, 30px); margin-bottom: 8px; }
+    .step-sub   { font-size: 13px; margin-bottom: 18px; line-height: 1.35; }
+
+    /* ATTRACT */
+    .attract { gap: 18px; }
+    .attract-video-frame { border-radius: 16px; border-width: 1.5px; }
+    .attract-placeholder { padding: 18px; gap: 10px; }
+    .attract-placeholder-logo { width: 68px; height: 68px; border-radius: 14px; }
+    .attract-placeholder-logo svg { width: 36px; height: 36px; }
+    .attract-placeholder-title { font-size: clamp(26px, 8vw, 36px); }
+    .attract-placeholder-sub { font-size: 12px; }
+    .attract-headlines { height: 22px; }
+    .attract-headlines-track span { height: 22px; font-size: 11px; letter-spacing: 0.14em; }
+    @keyframes headlines-cycle {
+      0%, 25%   { transform: translateY(0); }
+      33%, 58%  { transform: translateY(-26px); }
+      66%, 91%  { transform: translateY(-52px); }
+      100%      { transform: translateY(0); }
+    }
+    .attract-cta { gap: 10px; }
+    .attract-cta-icon { width: 68px; height: 68px; }
+    .attract-cta-icon svg { width: 32px; height: 32px; }
+    .attract-cta-text { font-size: 16px; letter-spacing: 0.14em; }
+    .attract-perks { gap: 8px; }
+    .attract-perk { font-size: 12px; padding: 8px 12px; border-radius: 14px; }
+
+    /* CATALOG — 1 coluna */
+    .catalog { grid-template-columns: 1fr; gap: 14px; }
+    .catalog-card { min-height: auto; padding: 18px 16px; gap: 12px; }
+    .catalog-card-icon { width: 44px; height: 44px; font-size: 18px; border-radius: 12px; }
+    .catalog-card-name { font-size: 18px; }
+    .catalog-card-prize-value { font-size: 26px; }
+    .catalog-card-prize-sub { font-size: 11px; }
+    .catalog-card-desc { font-size: 12px; }
+    .catalog-card.locked::before { font-size: 9px; padding: 4px 30px; top: 18px; right: -32px; }
+
+    /* QUANTITY */
+    .product-banner { max-width: 100%; border-radius: 14px; }
+    .variant-row { gap: 10px; }
+    .variant-card { padding: 12px 14px; gap: 10px; }
+    .variant-card-price { font-size: 16px; }
+    .variant-card-prize { font-size: 11px; }
+
+    .qty-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .qty-card { padding: 14px 10px; }
+    .qty-card-mult { font-size: 32px; }
+    .qty-card-price { font-size: 12px; }
+    .qty-card-tag { font-size: 9px; }
+    .qty-card-badge { font-size: 8px; padding: 2px 8px; }
+
+    .qty-stepper-row { padding: 10px 14px; flex-wrap: wrap; gap: 10px; justify-content: center; }
+    .qty-stepper-label { font-size: 11px; flex: 1 1 100%; text-align: center; }
+    .qty-step-btn { width: 40px; height: 40px; }
+    .qty-step-btn svg { width: 18px; height: 18px; }
+    .qty-step-value { font-size: 22px; min-width: 44px; }
+
+    .qty-summary { padding: 12px 14px; flex-direction: column; align-items: stretch; text-align: center; gap: 8px; }
+    .qty-summary-left, .qty-summary-right { text-align: center; }
+    .qty-summary-value { font-size: 24px; }
+
+    /* PHONE */
+    .phone-display { padding: 16px 18px; gap: 12px; flex-wrap: wrap; }
+    .phone-display-flag { font-size: 24px; }
+    .phone-display-prefix { font-size: 18px; }
+    .phone-display-input { font-size: 20px; min-height: 32px; }
+    .phone-display-error { font-size: 13px; }
+    .keypad { max-width: 340px; gap: 8px; }
+    .key-btn { height: 54px; font-size: 22px; border-radius: 12px; border-width: 1.5px; }
+    .key-btn.delete svg { width: 22px; height: 22px; }
+    .key-btn.clear { font-size: 11px; }
+    .phone-skip-btn { padding: 12px 14px; gap: 10px; }
+    .phone-skip-btn-title { font-size: 13px; }
+    .phone-skip-btn-sub { font-size: 11px; }
+    .phone-recommended-badge { font-size: 10px; padding: 5px 12px; letter-spacing: 0.18em; }
+
+    /* PAYMENT QR */
+    .payment-screen { padding: 18px 16px; gap: 18px; }
+    .payment-left .step-title { font-size: 24px; }
+    .payment-summary { padding: 14px 16px; }
+    .payment-summary-value { font-size: 14px; }
+    .payment-summary-value.amount { font-size: 22px; }
+    .payment-step { padding: 10px 12px; gap: 10px; }
+    .payment-step-num { width: 28px; height: 28px; font-size: 12px; }
+    .payment-step-text { font-size: 13px; }
+    .payment-step-text small { font-size: 11px; }
+    .qr-stage { padding: 12px; }
+    .qr-wrap { width: 240px; height: 240px; padding: 12px; border-radius: 16px; }
+    .qr-halo { width: 260px; height: 260px; top: 8px; }
+    .qr-caption { font-size: 12px; }
+
+    /* CPF notice */
+    .cpf-notice-box { padding: 12px 14px; gap: 10px; }
+    .cpf-notice-box-icon { width: 36px; height: 36px; }
+    .cpf-notice-box-icon svg { width: 18px; height: 18px; }
+    .cpf-notice-box-title { font-size: 13px; }
+    .cpf-notice-box-sub { font-size: 11px; }
+
+    /* SENDING */
+    .sending-screen { gap: 20px; }
+    .sending-card { padding: 22px 16px; }
+    .sending-title { font-size: 22px; }
+    .sending-sub { font-size: 13px; margin-bottom: 18px; }
+    .sending-step { padding: 10px 12px; gap: 10px; }
+    .sending-step-icon { width: 32px; height: 32px; }
+    .sending-step-icon svg { width: 18px; height: 18px; }
+    .sending-step-title { font-size: 12px; }
+    .sending-step-detail { font-size: 11px; }
+    .progress-bar { height: 8px; }
+    .progress-label { font-size: 11px; }
+
+    /* SUCCESS */
+    .success-screen { gap: 18px; }
+    .success-icon { width: 96px; height: 96px; }
+    .success-icon svg { width: 48px; height: 48px; }
+    .success-title-big { font-size: clamp(28px, 9vw, 40px); }
+    .success-detail { font-size: 14px; }
+    .success-phone { font-size: 15px; padding: 10px 18px; }
+    .success-phone svg { width: 20px; height: 20px; }
+    .success-countdown { font-size: 11px; }
+    .success-cpf-block { padding: 18px 16px; gap: 10px; }
+    .success-cpf-block-icon { width: 52px; height: 52px; }
+    .success-cpf-block-icon svg { width: 26px; height: 26px; }
+    .success-cpf-block-title { font-size: 18px; }
+    .success-cpf-block-sub { font-size: 13px; }
+
+    /* MODAL CONSULTAR */
+    .ct-modal { padding: 12px; }
+    .ct-card { max-width: 100%; padding: 18px 14px 14px; border-radius: 16px; max-height: 94vh; }
+    .ct-head-icon { width: 48px; height: 48px; }
+    .ct-head-icon svg { width: 24px; height: 24px; }
+    .ct-head-title { font-size: 18px; }
+    .ct-head-sub { font-size: 12px; }
+    .ct-form-input { font-size: 16px; padding: 11px 14px; }
+    .ct-captcha { padding: 10px 12px; gap: 10px; }
+    .ct-captcha-input-wrap { width: 70px; }
+    .ct-captcha-input { font-size: 18px; }
+    .ct-submit { padding: 13px 18px; font-size: 13px; }
+    .ct-result-greeting { padding: 10px 12px; }
+    .ct-result-greeting-cpf { font-size: 12px; }
+    .ct-result-greeting-summary { font-size: 10px; }
+    .ct-section-title { font-size: 10px; letter-spacing: 0.18em; }
+    .ct-draw-head { padding: 10px 12px; }
+    .ct-draw-head-date-main { font-size: 12px; }
+    .ct-draw-head-date-sub { font-size: 10px; }
+    .ct-draw-head-status { font-size: 9px; padding: 3px 8px; }
+    .ct-item { padding: 9px 10px; gap: 10px; }
+    .ct-item-ico { width: 32px; height: 32px; font-size: 14px; }
+    .ct-item-name { font-size: 12px; }
+    .ct-item-meta { font-size: 10px; }
+    .ct-item-status-value { font-size: 12px; }
+    .ct-item-status-label { font-size: 8.5px; letter-spacing: 0.14em; }
+
+    /* FOOTER */
+    .totem-footer {
+      padding: 12px 16px;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .nav-btn { padding: 11px 16px; font-size: 12px; min-height: 44px; }
+    .nav-btn.primary { font-size: 13px; padding: 11px 20px; }
+    .nav-btn svg { width: 16px; height: 16px; }
+    .step-indicator { gap: 7px; padding: 8px 16px; }
+    .step-dot { width: 8px; height: 8px; }
+    .step-dot.active { width: 22px; }
+
+    .hospital-strip { padding: 8px 14px; font-size: 10px; flex-wrap: wrap; gap: 6px; }
+    .hospital-strip .heart { font-size: 13px; }
+
+    .demo-badge { padding: 6px 10px; font-size: 10px; bottom: 12px; right: 12px; letter-spacing: 0.18em; }
+  }
+
+  /* ---------- LANDSCAPE PHONE (altura curta) ---------- */
+  @media (max-width: 920px) and (max-height: 500px) and (orientation: landscape) {
+    .totem { height: auto; min-height: 100vh; }
+    .attract { gap: 14px; }
+    .attract-video-frame { max-width: 60vw; aspect-ratio: 16/9; }
+    .attract-perks { display: none; }
+    .success-icon { width: 80px; height: 80px; }
+    .success-icon svg { width: 40px; height: 40px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="stars"></div>
+<div class="beam"></div>
+<div class="totem">
+
+  <!-- HEADER -->
+  <header class="totem-header">
+    <div class="totem-brand">
+      <div class="totem-brand-mark">
+        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <g fill="currentColor">
+            <path d="M32 6 L45 19 L39 19 L32 12 L25 19 L19 19 Z"/>
+            <path d="M32 58 L45 45 L39 45 L32 52 L25 45 L19 45 Z"/>
+            <path d="M6 32 L19 19 L19 25 L12 32 L19 39 L19 45 Z"/>
+            <path d="M58 32 L45 19 L45 25 L52 32 L45 39 L45 45 Z"/>
+          </g>
+        </svg>
+      </div>
+      <div class="totem-brand-text">
+        <span class="totem-brand-name">SMART <span class="teal">PAY PIX</span></span>
+        <span class="totem-brand-sub">Filantropia Premiável · Plataforma</span>
+      </div>
+    </div>
+    <button type="button" class="ct-btn" onclick="ctOpen()" aria-label="Consultar meus títulos">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="3" y="4" width="18" height="16" rx="2"/>
+          <circle cx="12" cy="10" r="2.5"/>
+          <path d="M7 17c.8-2.5 3-3.5 5-3.5s4.2 1 5 3.5"/>
+        </svg>
+        <span class="ct-btn-label-full">Consultar meus títulos</span>
+        <span class="ct-btn-label-short">Meus títulos</span>
+      </button>
+      <div class="totem-loterico">
+      <span class="totem-loterico-name" id="locName">Banca Lopes · Lotérica</span>
+      <span class="totem-loterico-meta">PDV <b id="locId">0237</b> · <b id="locDate">14/05/2026 · 15:42</b></span>
+    </div>
+  </header>
+
+  <!-- STEP INDICATOR (carrossel de etapas no topo) -->
+  <div class="step-indicator" id="stepIndicator">
+    <span class="step-dot"></span>
+    <span class="step-dot"></span>
+    <span class="step-dot"></span>
+    <span class="step-dot"></span>
+  </div>
+
+  <!-- CONTENT -->
+  <main class="totem-content" id="content">
+
+    <!-- ====== SCREEN 0: ATTRACT ====== -->
+    <section class="screen active" data-screen="attract">
+      <div class="attract">
+        <!-- Vídeo (substituível): coloque <source src="video.mp4"> dentro do <video> abaixo -->
+        <div class="attract-video-frame" onclick="goToScreen('catalog')">
+          <video id="attractVideo" autoplay muted loop playsinline preload="auto" crossorigin="anonymous">
+            <source src="https://totem-capitalizamais.vercel.app/assets/intro.mp4" type="video/mp4">
+          </video>
+          <!-- Placeholder enquanto não tem vídeo -->
+          <div class="attract-placeholder" id="attractPlaceholder">
+            <div class="attract-placeholder-logo">
+              <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <g fill="currentColor">
+                  <path d="M32 6 L45 19 L39 19 L32 12 L25 19 L19 19 Z"/>
+                  <path d="M32 58 L45 45 L39 45 L32 52 L25 45 L19 45 Z"/>
+                  <path d="M6 32 L19 19 L19 25 L12 32 L19 39 L19 45 Z"/>
+                  <path d="M58 32 L45 19 L45 25 L52 32 L45 39 L45 45 Z"/>
+                </g>
+              </svg>
+            </div>
+            <h1 class="attract-placeholder-title">SMART <span class="teal">PAY PIX</span></h1>
+            <p class="attract-placeholder-sub">Filantropia premiável · concorra a prêmios milionários e ajude o Hospital de Amor</p>
+            <div class="attract-headlines">
+              <div class="attract-headlines-track">
+                <span>🎁 HiperXCap · até R$ 1 milhão</span>
+                <span>🎟️ Vale Cap · em breve</span>
+                <span>🍀 ApCap da Sorte · em breve</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="attract-cta" onclick="goToScreen('catalog')">
+          <div class="attract-cta-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 11l-4 4 4 4M5 15h16M15 5l4 4-4 4"/>
+            </svg>
+          </div>
+          <div class="attract-cta-text">TOQUE PARA COMEÇAR</div>
+        </div>
+
+        <div class="attract-perks">
+          <div class="attract-perk">💰 Até <b>R$ 1 milhão</b> de prêmio</div>
+          <div class="attract-perk">📱 PDF no <b>WhatsApp</b></div>
+          <div class="attract-perk">❤️ <b>Hospital de Amor</b></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== SCREEN 1: CATALOG ====== -->
+    <section class="screen" data-screen="catalog">
+      <h1 class="step-title">Escolha o <span class="teal">produto</span></h1>
+      <p class="step-sub">Veja os produtos disponíveis nesta lotérica</p>
+
+      <div class="catalog">
+
+        <!-- HiperXCap (ativo) -->
+        <div class="catalog-card hiperxcap active" onclick="selectProduct('hiperxcap')">
+          <div class="catalog-card-header">
+            <div class="catalog-card-icon">H</div>
+            <div class="catalog-card-title">
+              <div class="catalog-card-name">HiperXCap</div>
+              <div class="catalog-card-tag">Sorteio semanal · Domingo</div>
+            </div>
+          </div>
+          <div class="catalog-card-prize">
+            <div class="catalog-card-prize-label">Prêmio máximo</div>
+            <div class="catalog-card-prize-value">R$ 1.000.000</div>
+            <span class="catalog-card-prize-sub">+ 4 sorteios e 30 prêmios Hiper Giro</span>
+          </div>
+          <div class="catalog-card-desc">
+            4 Globos da Sorte com 20 dezenas cada e 1 Hiper Giro de 30 números. Disponível em R$ 5 e R$ 10.
+          </div>
+          <div class="catalog-card-foot">
+            <span class="catalog-card-price">R$ 5 · R$ 10</span>
+            <span class="catalog-card-cta">
+              Escolher
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </span>
+          </div>
+        </div>
+
+        <!-- Vale Cap (em breve) -->
+        <div class="catalog-card valecap locked">
+          <div class="catalog-card-header">
+            <div class="catalog-card-icon">V</div>
+            <div class="catalog-card-title">
+              <div class="catalog-card-name">Vale Cap</div>
+              <div class="catalog-card-tag">Em breve</div>
+            </div>
+          </div>
+          <div class="catalog-card-prize">
+            <div class="catalog-card-prize-label">Prêmio máximo</div>
+            <div class="catalog-card-prize-value">A definir</div>
+            <span class="catalog-card-prize-sub">Aguarde o lançamento</span>
+          </div>
+          <div class="catalog-card-desc">
+            Próximo lançamento da Smart Pay Pix. Em breve nesta lotérica.
+          </div>
+          <div class="catalog-card-foot">
+            <span class="catalog-card-price" style="color:var(--muted-2)">Em breve</span>
+            <span class="catalog-card-cta" style="color:var(--muted-2)">Indisponível</span>
+          </div>
+        </div>
+
+        <!-- ApCap da Sorte (em breve) -->
+        <div class="catalog-card apcap locked">
+          <div class="catalog-card-header">
+            <div class="catalog-card-icon">A</div>
+            <div class="catalog-card-title">
+              <div class="catalog-card-name">ApCap da Sorte</div>
+              <div class="catalog-card-tag">Em breve</div>
+            </div>
+          </div>
+          <div class="catalog-card-prize">
+            <div class="catalog-card-prize-label">Prêmio máximo</div>
+            <div class="catalog-card-prize-value">A definir</div>
+            <span class="catalog-card-prize-sub">Aguarde o lançamento</span>
+          </div>
+          <div class="catalog-card-desc">
+            Próximo lançamento da Smart Pay Pix. Em breve nesta lotérica.
+          </div>
+          <div class="catalog-card-foot">
+            <span class="catalog-card-price" style="color:var(--muted-2)">Em breve</span>
+            <span class="catalog-card-cta" style="color:var(--muted-2)">Indisponível</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ====== SCREEN 2: QUANTITY ====== -->
+    <section class="screen" data-screen="quantity">
+      <div class="qty-screen-content">
+
+        <!-- Product banner -->
+        <div class="product-banner">
+          <div class="product-banner-icon" id="prodBannerIcon">H</div>
+          <div class="product-banner-info">
+            <div class="product-banner-eyebrow" id="prodBannerEyebrow">Você está concorrendo a</div>
+            <div class="product-banner-name" id="prodBannerName">HiperXCap</div>
+            <span class="product-banner-prize" id="prodBannerPrize">R$ 1.000.000</span>
+            <span class="product-banner-prize-label">Prêmio máximo · Sorteio Domingo 21h30</span>
+          </div>
+        </div>
+
+        <!-- Variant selector (R$5 vs R$10) -->
+        <div class="qty-section-label">Escolha a modalidade</div>
+        <div class="variant-row">
+          <div class="variant-card" data-variant="005" onclick="selectVariant('005')">
+            <span class="variant-card-radio"></span>
+            <div class="variant-card-info">
+              <div class="variant-card-price">R$ 5,00</div>
+              <div class="variant-card-prize">Meio Milhão · R$ 500.000</div>
+            </div>
+          </div>
+          <div class="variant-card selected" data-variant="010" onclick="selectVariant('010')">
+            <span class="variant-card-radio"></span>
+            <div class="variant-card-info">
+              <div class="variant-card-price">R$ 10,00</div>
+              <div class="variant-card-prize">Um Milhão · R$ 1.000.000</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Qty cards -->
+        <div class="qty-section-label">Quantidade</div>
+        <div class="qty-grid">
+          <div class="qty-card selected" data-qty="1" onclick="selectQty(1)">
+            <div class="qty-card-mult">1×</div>
+            <div class="qty-card-price" data-qty-price="1">R$ 10,00</div>
+            <div class="qty-card-tag">Atual</div>
+          </div>
+          <div class="qty-card" data-qty="2" onclick="selectQty(2)">
+            <div class="qty-card-mult">2×</div>
+            <div class="qty-card-price" data-qty-price="2">R$ 20,00</div>
+            <div class="qty-card-tag muted">+1 chance</div>
+          </div>
+          <div class="qty-card" data-qty="5" onclick="selectQty(5)">
+            <span class="qty-card-badge">POPULAR</span>
+            <div class="qty-card-mult">5×</div>
+            <div class="qty-card-price" data-qty-price="5">R$ 50,00</div>
+            <div class="qty-card-tag">5× mais</div>
+          </div>
+          <div class="qty-card" data-qty="10" onclick="selectQty(10)">
+            <span class="qty-card-badge top">TOP</span>
+            <div class="qty-card-mult">10×</div>
+            <div class="qty-card-price" data-qty-price="10">R$ 100,00</div>
+            <div class="qty-card-tag">10× mais</div>
+          </div>
+        </div>
+
+        <!-- Stepper -->
+        <div class="qty-stepper-row">
+          <span class="qty-stepper-label">Ou ajuste manualmente</span>
+          <div class="qty-stepper">
+            <button type="button" class="qty-step-btn" data-step="-1" onclick="stepQty(-1)" aria-label="Diminuir">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14"/>
+              </svg>
+            </button>
+            <span class="qty-step-value" id="qtyStepValue">1</span>
+            <button type="button" class="qty-step-btn" data-step="1" onclick="stepQty(1)" aria-label="Aumentar">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 5v14M5 12h14"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="qty-summary">
+          <div class="qty-summary-left">
+            <div class="qty-summary-label">Total a pagar</div>
+            <div class="qty-summary-value" id="qtyTotal">R$ 10,00</div>
+          </div>
+          <div class="qty-summary-right">
+            <div><b id="qtyChances">2</b> chances · 20 dezenas</div>
+            <div><b id="qtyGiros">1</b> número Hiper Giro</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ====== SCREEN 3: PHONE ====== -->
+    <section class="screen" data-screen="phone">
+      <span class="phone-recommended-badge">⭐ Recomendado</span>
+      <h1 class="step-title">Receba pelo <span style="color:#A7C945">WhatsApp</span></h1>
+      <p class="step-sub">Digite seu número para receber o PDF com suas dezenas <b style="color:#fff">imediatamente</b> após o pagamento</p>
+
+      <label class="phone-display" for="phoneInput">
+        <span class="phone-display-flag">🇧🇷</span>
+        <span class="phone-display-prefix">+55</span>
+        <input
+          class="phone-display-input"
+          id="phoneInput"
+          type="tel"
+          inputmode="numeric"
+          pattern="[0-9 ()-]*"
+          autocomplete="tel-national"
+          placeholder="(__) _____-____"
+          maxlength="16"
+          oninput="onPhoneInput(this)"
+        />
+      </label>
+      <div class="phone-display-error" id="phoneError"></div>
+
+      <!-- Skip option: consult via CPF later -->
+      <button type="button" class="phone-skip-btn" onclick="skipPhone()">
+        <div class="phone-skip-btn-info">
+          <span class="phone-skip-btn-title">Pular esta etapa</span>
+          <span class="phone-skip-btn-sub">Vou consultar pelo CPF do pagador</span>
+        </div>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </button>
+    </section>
+
+    <!-- ====== SCREEN 4: PAYMENT ====== -->
+    <section class="screen payment-screen" data-screen="payment">
+      <div class="payment-left">
+        <h1 class="step-title">Pague pelo <span class="teal">Pix</span></h1>
+        <p class="step-sub">Use a câmera do seu celular para escanear o QR Code ao lado</p>
+
+        <div class="payment-summary">
+          <div class="payment-summary-row">
+            <span class="payment-summary-label">Total a pagar</span>
+            <span class="payment-summary-value amount" id="payAmount">R$ 10,00</span>
+          </div>
+          <div class="payment-summary-divider"></div>
+          <div class="payment-summary-row">
+            <span class="payment-summary-label">Produto</span>
+            <span class="payment-summary-value" id="payProduct">HiperXCap · R$ 10</span>
+          </div>
+          <div class="payment-summary-row">
+            <span class="payment-summary-label">Quantidade</span>
+            <span class="payment-summary-value"><span id="payQty">1</span> Surpresinha</span>
+          </div>
+          <div class="payment-summary-divider"></div>
+          <div class="payment-summary-row" id="payPhoneRow">
+            <span class="payment-summary-label">PDF para</span>
+            <span class="payment-summary-value wa">
+              <svg viewBox="0 0 24 24" fill="currentColor" style="width:14px;height:14px;color:#A7C945" aria-hidden="true">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/>
+              </svg>
+              <span id="payPhone">+55 (11) 9 8765-4321</span>
+              <button class="payment-summary-edit" onclick="goToScreen('phone')">Alterar</button>
+            </span>
+          </div>
+          <div class="payment-summary-row" id="payCpfRow" style="display:none">
+            <span class="payment-summary-label">Consulta</span>
+            <span class="payment-summary-value" style="color:var(--gold-bright);font-size:13px;display:flex;align-items:center;gap:6px;text-align:right">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="12" cy="10" r="2.5"/><path d="M7 17c.8-2.5 3-3.5 5-3.5s4.2 1 5 3.5"/></svg>
+              <span>Pelo CPF do pagador</span>
+              <button class="payment-summary-edit" onclick="goToScreen('phone')" style="border-color:rgba(251,191,36,0.5);color:var(--gold-bright)">+ WhatsApp</button>
+            </span>
+          </div>
+        </div>
+
+        <div class="payment-steps">
+          <div class="payment-step">
+            <span class="payment-step-num">1</span>
+            <span class="payment-step-text">
+              Abra o app do seu banco
+              <small>Procure "Pagar com Pix" → "Escanear QR"</small>
+            </span>
+          </div>
+          <div class="payment-step">
+            <span class="payment-step-num">2</span>
+            <span class="payment-step-text">
+              Aponte a câmera no QR Code
+              <small>Confira o valor e confirme</small>
+            </span>
+          </div>
+          <div class="payment-step">
+            <span class="payment-step-num">3</span>
+            <span class="payment-step-text">
+              Receba pelo WhatsApp
+              <small>Suas dezenas chegam em segundos</small>
+            </span>
+          </div>
+        </div>
+
+        <div class="qr-status">
+          <span class="qr-status-dot"></span>
+          <span>Aguardando pagamento</span>
+        </div>
+      </div>
+
+      <div class="payment-right">
+        <div class="qr-stage">
+          <span class="qr-halo"></span>
+          <span class="qr-halo s2"></span>
+          <span class="qr-halo s3"></span>
+          <div class="qr-wrap">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-label="QR Code Pix">
+              <rect width="100" height="100" fill="#fff"/>
+              <rect x="6" y="6" width="20" height="20" fill="#0C1628"/>
+              <rect x="9" y="9" width="14" height="14" fill="#fff"/>
+              <rect x="12" y="12" width="8" height="8" fill="#0C1628"/>
+              <rect x="74" y="6" width="20" height="20" fill="#0C1628"/>
+              <rect x="77" y="9" width="14" height="14" fill="#fff"/>
+              <rect x="80" y="12" width="8" height="8" fill="#0C1628"/>
+              <rect x="6" y="74" width="20" height="20" fill="#0C1628"/>
+              <rect x="9" y="77" width="14" height="14" fill="#fff"/>
+              <rect x="12" y="80" width="8" height="8" fill="#0C1628"/>
+              <g fill="#0C1628">
+                <rect x="30" y="6" width="3" height="3"/><rect x="36" y="6" width="3" height="3"/>
+                <rect x="42" y="6" width="3" height="3"/><rect x="48" y="6" width="3" height="3"/>
+                <rect x="54" y="6" width="3" height="3"/><rect x="60" y="6" width="3" height="3"/>
+                <rect x="66" y="6" width="3" height="3"/>
+                <rect x="33" y="12" width="3" height="3"/><rect x="39" y="12" width="3" height="3"/>
+                <rect x="45" y="12" width="3" height="3"/><rect x="57" y="12" width="3" height="3"/>
+                <rect x="63" y="12" width="3" height="3"/>
+                <rect x="30" y="18" width="3" height="3"/><rect x="48" y="18" width="3" height="3"/>
+                <rect x="54" y="18" width="3" height="3"/><rect x="66" y="18" width="3" height="3"/>
+                <rect x="6" y="30" width="3" height="3"/><rect x="12" y="30" width="3" height="3"/>
+                <rect x="33" y="30" width="3" height="3"/><rect x="42" y="30" width="3" height="3"/>
+                <rect x="60" y="30" width="3" height="3"/><rect x="72" y="30" width="3" height="3"/>
+                <rect x="84" y="30" width="3" height="3"/>
+                <rect x="9" y="36" width="3" height="3"/><rect x="36" y="36" width="3" height="3"/>
+                <rect x="51" y="36" width="3" height="3"/><rect x="63" y="36" width="3" height="3"/>
+                <rect x="75" y="36" width="3" height="3"/><rect x="87" y="36" width="3" height="3"/>
+                <rect x="6" y="42" width="3" height="3"/><rect x="24" y="42" width="3" height="3"/>
+                <rect x="42" y="42" width="3" height="3"/><rect x="60" y="42" width="3" height="3"/>
+                <rect x="84" y="42" width="3" height="3"/>
+                <rect x="12" y="48" width="3" height="3"/><rect x="27" y="48" width="3" height="3"/>
+                <rect x="45" y="48" width="3" height="3"/><rect x="63" y="48" width="3" height="3"/>
+                <rect x="78" y="48" width="3" height="3"/>
+                <rect x="9" y="54" width="3" height="3"/><rect x="30" y="54" width="3" height="3"/>
+                <rect x="51" y="54" width="3" height="3"/><rect x="75" y="54" width="3" height="3"/>
+                <rect x="90" y="54" width="3" height="3"/>
+                <rect x="6" y="60" width="3" height="3"/><rect x="24" y="60" width="3" height="3"/>
+                <rect x="42" y="60" width="3" height="3"/><rect x="66" y="60" width="3" height="3"/>
+                <rect x="84" y="60" width="3" height="3"/>
+                <rect x="12" y="66" width="3" height="3"/><rect x="33" y="66" width="3" height="3"/>
+                <rect x="51" y="66" width="3" height="3"/><rect x="78" y="66" width="3" height="3"/>
+                <rect x="93" y="66" width="3" height="3"/>
+                <rect x="30" y="78" width="3" height="3"/><rect x="48" y="78" width="3" height="3"/>
+                <rect x="66" y="78" width="3" height="3"/><rect x="78" y="78" width="3" height="3"/>
+                <rect x="33" y="84" width="3" height="3"/><rect x="48" y="84" width="3" height="3"/>
+                <rect x="63" y="84" width="3" height="3"/><rect x="81" y="84" width="3" height="3"/>
+                <rect x="30" y="90" width="3" height="3"/><rect x="45" y="90" width="3" height="3"/>
+                <rect x="60" y="90" width="3" height="3"/><rect x="75" y="90" width="3" height="3"/>
+                <rect x="90" y="90" width="3" height="3"/>
+              </g>
+              <rect x="42" y="42" width="16" height="16" fill="#fff" stroke="#F39208" stroke-width="0.6"/>
+              <g fill="#F39208" transform="translate(45, 45) scale(0.156)">
+                <path d="M32 6 L45 19 L39 19 L32 12 L25 19 L19 19 Z"/>
+                <path d="M32 58 L45 45 L39 45 L32 52 L25 45 L19 45 Z"/>
+                <path d="M6 32 L19 19 L19 25 L12 32 L19 39 L19 45 Z"/>
+                <path d="M58 32 L45 19 L45 25 L52 32 L45 39 L45 45 Z"/>
+              </g>
+            </svg>
+          </div>
+        </div>
+        <div class="qr-caption">Aponte a câmera do celular</div>
+      </div>
+    </section>
+
+    <!-- ====== SCREEN 5: SENDING (PDF + WhatsApp) ====== -->
+    <section class="screen sending-screen" data-screen="sending">
+      <div class="sending-card">
+        <div class="sending-success-badge">
+          <span class="check">✓</span>
+          <span>Pagamento confirmado</span>
+        </div>
+
+        <h1 class="sending-title" id="sendingTitle">Preparando sua <span class="accent">Surpresinha</span></h1>
+        <p class="sending-sub" id="sendingSub">Aguarde alguns segundos enquanto enviamos suas dezenas pelo WhatsApp</p>
+
+        <div class="sending-steps">
+          <div class="sending-step" id="step-paid">
+            <div class="sending-step-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 6L9 17l-5-5"/>
+              </svg>
+              <div class="sending-step-spinner"></div>
+            </div>
+            <div class="sending-step-text">
+              <div class="sending-step-title">Pagamento confirmado</div>
+              <div class="sending-step-detail">Pix recebido com sucesso</div>
+            </div>
+          </div>
+          <div class="sending-step" id="step-generate">
+            <div class="sending-step-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/>
+              </svg>
+              <div class="sending-step-spinner"></div>
+            </div>
+            <div class="sending-step-text">
+              <div class="sending-step-title">Gerando seu PDF</div>
+              <div class="sending-step-detail">Dezenas, Giro e código de autenticação</div>
+            </div>
+          </div>
+          <div class="sending-step" id="step-whatsapp">
+            <div class="sending-step-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+              </svg>
+              <div class="sending-step-spinner"></div>
+            </div>
+            <div class="sending-step-text">
+              <div class="sending-step-title">Enviando pelo WhatsApp</div>
+              <div class="sending-step-detail" id="sendingWaDetail">Para +55 (11) 9 8765-4321</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="progress-bar">
+          <div class="progress-bar-fill" id="progressFill"></div>
+        </div>
+        <div class="progress-label"><span id="progressPct">0</span>% — Não desligue o totem</div>
+      </div>
+    </section>
+
+    <!-- ====== SCREEN 6: SUCCESS ====== -->
+    <section class="screen success-screen" data-screen="success">
+      <div class="success-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 6L9 17l-5-5"/>
+        </svg>
+      </div>
+
+      <!-- Variant A: WhatsApp delivered (default) -->
+      <div id="successWaBlock" style="display:contents">
+        <h1 class="success-title-big">Tudo <span class="accent">pronto!</span></h1>
+        <p class="success-detail">
+          Sua Surpresinha foi enviada para o WhatsApp.<br>
+          <b id="successQty">2 dezenas e 1 número no Hiper Giro</b>
+        </p>
+        <div class="success-phone">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+          <span id="successPhone">+55 (11) 9 8765-4321</span>
+        </div>
+        <!-- Secondary CPF reminder for users who used WhatsApp -->
+        <div class="success-cpf-secondary">
+          <div class="success-cpf-secondary-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="16" rx="2"/>
+              <circle cx="12" cy="10" r="2.5"/>
+              <path d="M7 17c.8-2.5 3-3.5 5-3.5s4.2 1 5 3.5"/>
+            </svg>
+          </div>
+          <span class="success-cpf-secondary-text">
+            Você também pode consultar sua Surpresinha a qualquer momento <b>pelo CPF usado no pagamento Pix</b>.
+          </span>
+        </div>
+      </div>
+
+      <!-- Variant B: No phone — CPF lookup as primary call -->
+      <div id="successCpfBlock" class="success-cpf-block" style="display:none">
+        <div class="success-cpf-block-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="16" rx="2"/>
+            <circle cx="12" cy="10" r="2.5"/>
+            <path d="M7 17c.8-2.5 3-3.5 5-3.5s4.2 1 5 3.5"/>
+          </svg>
+        </div>
+        <h1 class="success-cpf-block-title">Pagamento <span class="accent">recebido!</span></h1>
+        <p class="success-cpf-block-sub">
+          Sua Surpresinha foi gerada com <b id="successQtyCpf">2 dezenas e 1 número no Hiper Giro</b>.<br>
+          Acesse sua Surpresinha pelo <b style="color:var(--gold-bright)">CPF do pagador</b> no app oficial.
+        </p>
+        <div style="display:flex;gap:10px;align-items:center;justify-content:center;padding:10px 18px;background:rgba(0,0,0,0.5);border:1px dashed rgba(251,191,36,0.4);border-radius:10px;font-family:'Manrope',sans-serif;font-size:13px;color:var(--muted);text-align:center;line-height:1.4">
+          <span>📱</span>
+          <span>Acesse <b style="color:var(--gold-bright);font-family:'Archivo Black',sans-serif;letter-spacing:0.06em">surpresinha.app.br</b> e informe o CPF usado no Pix</span>
+        </div>
+      </div>
+
+      <p class="success-detail" style="font-size:15px">
+        Sorteio neste <b>domingo, 17/05 às 21h30</b><br>
+        na RedeTV!, Record News e YouTube.
+      </p>
+      <div class="success-countdown">
+        Voltando ao início em <b id="resetCountdown">15</b>s
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER (nav) -->
+  <footer class="totem-footer" id="footer">
+    <button class="nav-btn" id="navBack" onclick="navBack()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+      Voltar
+    </button>
+    <button class="nav-btn primary" id="navNext" onclick="navNext()">
+      <span id="navNextText">Continuar</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12h14M12 5l7 7-7 7"/>
+      </svg>
+    </button>
+  </footer>
+
+  <!-- Hospital strip -->
+  <div class="hospital-strip">
+    <span class="heart">❤️</span>
+    <span>Sua Surpresinha ajuda o <b>Hospital de Amor</b> · Fundação Pio XII a oferecer tratamento gratuito contra o câncer</span>
+    <span class="heart">❤️</span>
+  </div>
+
+</div>
+
+<div class="demo-badge">DEMO</div>
+
+<script>
+(function() {
+  'use strict';
+
+  // ============ STATE ============
+  const state = {
+    currentScreen: 'attract',
+    product: 'hiperxcap',
+    variant: '010',  // R$ 5 ou R$ 10
+    qty: 1,
+    phone: '',
+    hasPhone: false,
+    idleTimer: null,
+    paymentTimer: null,
+    sendingTimers: []
+  };
+
+  const NAV_SCREENS = ['catalog', 'quantity', 'phone', 'payment'];
+
+  // Produtos no catálogo
+  const PRODUCTS = {
+    hiperxcap: {
+      name: 'HiperXCap',
+      icon: 'H',
+      prizeLabel: 'R$ 1.000.000',
+      prizeLabelShort: 'Um Milhão',
+      variants: {
+        '005': { value: 500, prize: 50000000, prizeLabel: 'Meio Milhão · R$ 500.000' },
+        '010': { value: 1000, prize: 100000000, prizeLabel: 'Um Milhão · R$ 1.000.000' }
+      }
+    }
+  };
+
+  const LOTERICO = { id: '0237', nome: 'Banca Lopes · Lotérica' };
+
+  // ============ UTILS ============
+  function $(s) { return document.querySelector(s); }
+  function $$(s) { return document.querySelectorAll(s); }
+  function fmtMoney(cents) {
+    return (cents / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  }
+  function getUnitCents() {
+    return PRODUCTS[state.product].variants[state.variant].value;
+  }
+  function getTotalCents() { return getUnitCents() * state.qty; }
+  function fmtDate(d) {
+    const dd = String(d.getDate()).padStart(2, '0');
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    const yyyy = d.getFullYear();
+    const hh = String(d.getHours()).padStart(2, '0');
+    const mi = String(d.getMinutes()).padStart(2, '0');
+    return dd + '/' + mm + '/' + yyyy + ' · ' + hh + ':' + mi;
+  }
+  function maskPhone(raw) {
+    if (raw.length === 0) return '';
+    if (raw.length <= 2) return '(' + raw;
+    if (raw.length <= 3) return '(' + raw.slice(0, 2) + ') ' + raw.slice(2);
+    if (raw.length <= 7) return '(' + raw.slice(0, 2) + ') ' + raw.slice(2, 3) + ' ' + raw.slice(3);
+    return '(' + raw.slice(0, 2) + ') ' + raw.slice(2, 3) + ' ' + raw.slice(3, 7) + '-' + raw.slice(7, 11);
+  }
+
+  // ============ SCREEN NAVIGATION ============
+  function _goToScreen(name) {
+    state.currentScreen = name;
+    $$('.screen').forEach(function(el) {
+      el.classList.toggle('active', el.dataset.screen === name);
+    });
+    updateFooter();
+    resetIdleTimer();
+    window.scrollTo(0, 0);
+  }
+
+  window.goToScreen = function(name) {
+    // Cleanup
+    if (state.currentScreen === 'payment' && name !== 'payment') {
+      if (state.paymentTimer) { clearTimeout(state.paymentTimer); state.paymentTimer = null; }
+    }
+    if (state.currentScreen === 'sending' && name !== 'sending') {
+      state.sendingTimers.forEach(function(t) { clearTimeout(t); });
+      state.sendingTimers = [];
+    }
+    _goToScreen(name);
+    if (name === 'payment') enterPaymentScreen();
+    if (name === 'sending') enterSendingScreen();
+  };
+
+  function updateFooter() {
+    const footer = $('#footer');
+    const navBack = $('#navBack');
+    const navNext = $('#navNext');
+    const indicator = $('#stepIndicator');
+    const screen = state.currentScreen;
+
+    if (screen === 'attract' || screen === 'sending' || screen === 'success') {
+      footer.style.display = 'none';
+      return;
+    }
+    footer.style.display = 'flex';
+
+    // Step indicator
+    const dots = indicator.querySelectorAll('.step-dot');
+    const navIndex = NAV_SCREENS.indexOf(screen);
+    dots.forEach(function(dot, i) {
+      dot.classList.remove('active', 'done');
+      if (i < navIndex) dot.classList.add('done');
+      else if (i === navIndex) dot.classList.add('active');
+    });
+
+    // Back button visibility
+    navBack.style.visibility = screen === 'catalog' ? 'hidden' : 'visible';
+
+    // Next button per screen
+    const nextText = $('#navNextText');
+    if (screen === 'payment') {
+      navNext.style.visibility = 'hidden';
+    } else if (screen === 'phone') {
+      navNext.style.visibility = 'visible';
+      navNext.disabled = state.phone.length !== 11;
+      nextText.textContent = 'Gerar QR Code Pix';
+    } else if (screen === 'catalog') {
+      navNext.style.visibility = 'hidden';
+    } else {
+      navNext.style.visibility = 'visible';
+      navNext.disabled = false;
+      nextText.textContent = 'Continuar';
+    }
+  }
+
+  window.navNext = function() {
+    const idx = NAV_SCREENS.indexOf(state.currentScreen);
+    if (idx < 0) return;
+    if (state.currentScreen === 'phone' && state.phone.length !== 11) return;
+    if (state.currentScreen === 'phone') {
+      // user provided phone successfully
+      state.hasPhone = true;
+      document.body.dataset.hasPhone = 'yes';
+    }
+    const next = NAV_SCREENS[idx + 1];
+    if (next) window.goToScreen(next);
+  };
+
+  // Skip phone — go directly to payment without WhatsApp
+  window.skipPhone = function() {
+    state.phone = '';
+    state.hasPhone = false;
+    document.body.dataset.hasPhone = 'no';
+    updatePhoneDisplay();
+    window.goToScreen('payment');
+  };
+
+  window.navBack = function() {
+    const idx = NAV_SCREENS.indexOf(state.currentScreen);
+    if (idx <= 0) return;
+    window.goToScreen(NAV_SCREENS[idx - 1]);
+  };
+
+  // ============ CATALOG → PRODUCT ============
+  window.selectProduct = function(productId) {
+    if (!PRODUCTS[productId]) return; // locked or unknown
+    state.product = productId;
+    updateProductBanner();
+    updateAllPrices();
+    window.goToScreen('quantity');
+  };
+
+  function updateProductBanner() {
+    const p = PRODUCTS[state.product];
+    const v = p.variants[state.variant];
+    $('#prodBannerIcon').textContent = p.icon;
+    $('#prodBannerName').textContent = p.name + ' · ' + fmtMoney(v.value);
+    $('#prodBannerPrize').textContent = fmtMoney(v.prize);
+  }
+
+  // ============ VARIANT (R$ 5 vs R$ 10) ============
+  window.selectVariant = function(variant) {
+    state.variant = variant;
+    document.body.className = '';
+    document.body.classList.add('product-hiperxcap-' + variant);
+    $$('.variant-card').forEach(function(c) {
+      c.classList.toggle('selected', c.dataset.variant === variant);
+    });
+    updateProductBanner();
+    updateAllPrices();
+  };
+
+  function updateAllPrices() {
+    const unit = getUnitCents();
+    [1, 2, 5, 10].forEach(function(q) {
+      const el = document.querySelector('[data-qty-price="' + q + '"]');
+      if (el) el.textContent = fmtMoney(unit * q);
+    });
+    updateQtySummary();
+  }
+
+  // ============ QUANTITY ============
+  window.selectQty = function(qty) {
+    qty = Math.max(1, Math.min(99, parseInt(qty, 10) || 1));
+    state.qty = qty;
+    const presets = [1, 2, 5, 10];
+    $$('.qty-card').forEach(function(c) {
+      const q = parseInt(c.dataset.qty, 10);
+      c.classList.toggle('selected', q === qty && presets.indexOf(qty) >= 0);
+    });
+    $('#qtyStepValue').textContent = qty;
+    updateQtySummary();
+  };
+  window.stepQty = function(delta) { window.selectQty(state.qty + delta); };
+
+  function updateQtySummary() {
+    const totalEl = $('#qtyTotal');
+    const total = fmtMoney(getTotalCents());
+    if (totalEl) {
+      totalEl.textContent = total;
+      totalEl.classList.remove('bump');
+      void totalEl.offsetWidth;
+      totalEl.classList.add('bump');
+    }
+    $('#qtyChances').textContent = state.qty * 2;
+    $('#qtyGiros').textContent = state.qty;
+    $$('.qty-step-btn').forEach(function(b) {
+      const dir = b.dataset.step;
+      if (dir === '-1') b.disabled = state.qty <= 1;
+      if (dir === '1') b.disabled = state.qty >= 99;
+    });
+  }
+
+  // ============ PHONE INPUT (teclado nativo do dispositivo) ============
+  window.onPhoneInput = function(el) {
+    const digits = el.value.replace(/\D/g, '').slice(0, 11);
+    state.phone = digits;
+    el.value = digits ? maskPhone(digits) : '';
+    $('#phoneError').textContent = '';
+    updateFooter();
+  };
+  // Funções legadas mantidas para compat (caso algum botão externo ainda chame)
+  window.pressKey = function(d) {
+    if (state.phone.length >= 11) return;
+    state.phone += d;
+    syncPhoneInput();
+  };
+  window.deleteKey = function() {
+    if (state.phone.length === 0) return;
+    state.phone = state.phone.slice(0, -1);
+    syncPhoneInput();
+  };
+  window.clearPhone = function() {
+    state.phone = '';
+    syncPhoneInput();
+  };
+  function syncPhoneInput() {
+    const inp = $('#phoneInput');
+    if (!inp) return;
+    inp.value = state.phone ? maskPhone(state.phone) : '';
+    $('#phoneError').textContent = '';
+    updateFooter();
+  }
+  // Alias para callers existentes
+  function updatePhoneDisplay() { syncPhoneInput(); }
+
+  // ============ PAYMENT ============
+  function enterPaymentScreen() {
+    $('#payAmount').textContent = fmtMoney(getTotalCents());
+    $('#payProduct').textContent = PRODUCTS[state.product].name + ' · ' + fmtMoney(getUnitCents());
+    $('#payQty').textContent = state.qty;
+
+    // Toggle WhatsApp vs CPF rows
+    const phoneRow = $('#payPhoneRow');
+    const cpfRow = $('#payCpfRow');
+    if (state.hasPhone && state.phone) {
+      $('#payPhone').textContent = '+55 ' + maskPhone(state.phone);
+      if (phoneRow) phoneRow.style.display = 'flex';
+      if (cpfRow) cpfRow.style.display = 'none';
+    } else {
+      if (phoneRow) phoneRow.style.display = 'none';
+      if (cpfRow) cpfRow.style.display = 'flex';
+    }
+
+    // Auto-confirm payment in 8s (demo)
+    state.paymentTimer = setTimeout(function() {
+      window.goToScreen('sending');
+    }, 8000);
+  }
+
+  // ============ SENDING (PDF + WhatsApp) ============
+  function enterSendingScreen() {
+    // Reset steps
+    ['step-paid', 'step-generate', 'step-whatsapp'].forEach(function(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('active', 'done');
+    });
+
+    // Adjust sending screen content based on hasPhone
+    const sendingSub = $('#sendingSub');
+    const stepWa = document.getElementById('step-whatsapp');
+    if (state.hasPhone && state.phone) {
+      $('#sendingWaDetail').textContent = 'Para +55 ' + maskPhone(state.phone);
+      if (sendingSub) sendingSub.textContent = 'Aguarde alguns segundos enquanto enviamos suas dezenas pelo WhatsApp';
+      if (stepWa) stepWa.style.display = 'flex';
+    } else {
+      if (sendingSub) sendingSub.textContent = 'Aguarde alguns segundos enquanto preparamos sua Surpresinha';
+      if (stepWa) stepWa.style.display = 'none';
+    }
+    $('#progressFill').style.width = '0%';
+    $('#progressPct').textContent = '0';
+
+    // Step 1: payment confirmed (instant)
+    let t = setTimeout(function() {
+      document.getElementById('step-paid').classList.add('done');
+      animateProgress(0, state.hasPhone ? 20 : 30, 600);
+    }, 200);
+    state.sendingTimers.push(t);
+
+    // Step 2: generate PDF (1.5s)
+    t = setTimeout(function() {
+      document.getElementById('step-generate').classList.add('active');
+      animateProgress(state.hasPhone ? 20 : 30, state.hasPhone ? 60 : 100, 1800);
+    }, 900);
+    state.sendingTimers.push(t);
+
+    // Step 2 done
+    t = setTimeout(function() {
+      document.getElementById('step-generate').classList.remove('active');
+      document.getElementById('step-generate').classList.add('done');
+    }, 2900);
+    state.sendingTimers.push(t);
+
+    if (state.hasPhone) {
+      // Step 3: send WhatsApp (2s)
+      t = setTimeout(function() {
+        document.getElementById('step-whatsapp').classList.add('active');
+        animateProgress(60, 100, 2000);
+      }, 3000);
+      state.sendingTimers.push(t);
+
+      // Step 3 done + go to success
+      t = setTimeout(function() {
+        document.getElementById('step-whatsapp').classList.remove('active');
+        document.getElementById('step-whatsapp').classList.add('done');
+        setTimeout(function() { enterSuccessScreen(); }, 600);
+      }, 5200);
+      state.sendingTimers.push(t);
+    } else {
+      // No phone — skip WhatsApp step, go straight to success after PDF
+      t = setTimeout(function() {
+        enterSuccessScreen();
+      }, 3500);
+      state.sendingTimers.push(t);
+    }
+  }
+
+  function animateProgress(from, to, duration) {
+    const start = Date.now();
+    function frame() {
+      const elapsed = Date.now() - start;
+      const t = Math.min(elapsed / duration, 1);
+      const val = from + (to - from) * t;
+      $('#progressFill').style.width = val + '%';
+      $('#progressPct').textContent = Math.round(val);
+      if (t < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  // ============ SUCCESS ============
+  function enterSuccessScreen() {
+    const qty = state.qty;
+    const desc = (qty * 2) + ' dezenas e ' + qty + ' número' + (qty > 1 ? 's' : '') + ' no Hiper Giro';
+    const qtyEl = $('#successQty');
+    if (qtyEl) qtyEl.textContent = desc;
+    const qtyCpfEl = $('#successQtyCpf');
+    if (qtyCpfEl) qtyCpfEl.textContent = desc;
+
+    // Toggle WhatsApp vs CPF variant
+    const waBlock = $('#successWaBlock');
+    const cpfBlock = $('#successCpfBlock');
+    if (state.hasPhone && state.phone) {
+      // User provided WhatsApp — show delivered confirmation, with CPF as secondary
+      $('#successPhone').textContent = '+55 ' + maskPhone(state.phone);
+      if (waBlock) waBlock.style.display = 'contents';
+      if (cpfBlock) cpfBlock.style.display = 'none';
+    } else {
+      // No WhatsApp — CPF lookup is the primary message
+      if (waBlock) waBlock.style.display = 'none';
+      if (cpfBlock) cpfBlock.style.display = 'flex';
+    }
+
+    _goToScreen('success');
+    startResetCountdown(15);
+  }
+
+  function startResetCountdown(secs) {
+    let s = secs;
+    const el = $('#resetCountdown');
+    el.textContent = s;
+    const interval = setInterval(function() {
+      s--;
+      if (el) el.textContent = s;
+      if (s <= 0) {
+        clearInterval(interval);
+        resetSession();
+      }
+    }, 1000);
+  }
+
+  // ============ RESET ============
+  function resetSession() {
+    state.product = 'hiperxcap';
+    state.variant = '010';
+    state.qty = 1;
+    state.phone = '';
+    state.hasPhone = false;
+    document.body.className = '';
+    document.body.removeAttribute('data-has-phone');
+    updatePhoneDisplay();
+    window.selectQty(1);
+    window.selectVariant('010');
+    updateProductBanner();
+    _goToScreen('attract');
+  }
+
+  // ============ IDLE TIMER (90s) ============
+  function resetIdleTimer() {
+    if (state.idleTimer) clearTimeout(state.idleTimer);
+    if (state.currentScreen === 'attract' || state.currentScreen === 'success'
+        || state.currentScreen === 'sending') return;
+    // Don't auto-reset if user is consulting titles
+    if (document.body.classList.contains('ct-open')) return;
+    state.idleTimer = setTimeout(function() {
+      console.log('[Totem] Idle · returning to attract');
+      resetSession();
+    }, 90 * 1000);
+  }
+  ['touchstart', 'click', 'keydown'].forEach(function(evt) {
+    document.addEventListener(evt, resetIdleTimer, { passive: true });
+  });
+
+  // ============ VIDEO PLACEHOLDER HANDLING ============
+  // Hides placeholder if a video source is actually loaded
+  (function() {
+    const vid = document.getElementById('attractVideo');
+    const placeholder = document.getElementById('attractPlaceholder');
+    if (!vid || !placeholder) return;
+    vid.addEventListener('loadeddata', function() {
+      if (vid.videoWidth > 0) {
+        placeholder.style.display = 'none';
+      }
+    });
+    // After 2s, if no video loaded, ensure placeholder is visible
+    setTimeout(function() {
+      if (vid.readyState < 2) placeholder.style.display = 'flex';
+    }, 2000);
+  })();
+
+  // ============ INIT ============
+  $('#locDate').textContent = fmtDate(new Date());
+  $('#locId').textContent = LOTERICO.id;
+  $('#locName').textContent = LOTERICO.nome;
+  document.body.classList.add('product-hiperxcap-010');
+  updateProductBanner();
+  updateAllPrices();
+  updateFooter();
+})();
+</script>
+
+<!-- ============================================================
+     CONSULTAR MEUS TÍTULOS — MODAL
+============================================================ -->
+<div class="ct-modal" id="ctModal" role="dialog" aria-modal="true" aria-labelledby="ctTitle">
+  <div class="ct-card">
+    <button type="button" class="ct-close" onclick="ctClose()" aria-label="Fechar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 6L6 18M6 6l12 12"/>
+      </svg>
+    </button>
+
+    <!-- ===== STATE: FORM ===== -->
+    <div class="ct-state active" data-ct-state="form">
+      <div class="ct-head">
+        <div class="ct-head-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="4" width="18" height="16" rx="2"/>
+            <circle cx="12" cy="10" r="2.5"/>
+            <path d="M7 17c.8-2.5 3-3.5 5-3.5s4.2 1 5 3.5"/>
+          </svg>
+        </div>
+        <h2 class="ct-head-title" id="ctTitle">Consulte seus <span class="teal">títulos</span></h2>
+        <p class="ct-head-sub">Veja todas as Surpresinhas que você comprou com este CPF</p>
+      </div>
+
+      <div class="ct-form-field">
+        <label class="ct-form-label" for="ctCpfInput">CPF DO PAGADOR</label>
+        <input type="tel" inputmode="numeric" id="ctCpfInput" class="ct-form-input" placeholder="000.000.000-00" maxlength="14" autocomplete="off">
+        <div class="ct-form-error" id="ctCpfError" aria-live="polite"></div>
+      </div>
+
+      <div class="ct-form-field">
+        <label class="ct-form-label">VERIFICAÇÃO DE SEGURANÇA</label>
+        <div class="ct-captcha">
+          <div class="ct-captcha-question">
+            <span class="ct-captcha-label">Quanto é</span>
+            <span class="ct-captcha-expr" id="ctCaptchaExpr">3 + 4</span>
+          </div>
+          <button type="button" class="ct-captcha-refresh" onclick="ctRefreshCaptcha()" aria-label="Atualizar captcha">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M23 4v6h-6M1 20v-6h6"/>
+              <path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/>
+            </svg>
+          </button>
+          <div class="ct-captcha-input-wrap">
+            <input type="tel" inputmode="numeric" id="ctCaptchaInput" class="ct-captcha-input" placeholder="?" maxlength="3">
+          </div>
+        </div>
+      </div>
+
+      <button type="button" class="ct-submit" onclick="ctSubmit()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+        </svg>
+        Buscar meus títulos
+      </button>
+
+      <div class="ct-form-foot">
+        🔒 Seus dados são protegidos pela <b>LGPD</b><br>
+        Não armazenamos seu CPF após a consulta
+      </div>
+    </div>
+
+    <!-- ===== STATE: LOADING ===== -->
+    <div class="ct-state" data-ct-state="loading">
+      <div class="ct-head">
+        <div class="ct-head-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+          </svg>
+        </div>
+        <h2 class="ct-head-title">Buscando seus <span class="teal">títulos</span></h2>
+      </div>
+      <div class="ct-loading">
+        <div class="ct-spinner"></div>
+        <div class="ct-loading-text">Consultando seus títulos…</div>
+      </div>
+    </div>
+
+    <!-- ===== STATE: RESULT ===== -->
+    <div class="ct-state" data-ct-state="result">
+      <div class="ct-result">
+        <div class="ct-result-greeting">
+          <div class="ct-result-greeting-ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 6L9 17l-5-5"/>
+            </svg>
+          </div>
+          <div class="ct-result-greeting-text">
+            <div class="ct-result-greeting-cpf">CPF: <span id="ctResultCpf">•••.•••.•••-••</span></div>
+            <div class="ct-result-greeting-summary"><b id="ctResultCount">0</b> títulos encontrados · <b id="ctResultNextCount">0</b> em sorteios futuros</div>
+          </div>
+        </div>
+
+        <div class="ct-result-scroll" id="ctResultList">
+          <!-- Draw groups injected here -->
+        </div>
+
+        <div class="ct-result-foot">
+          <button type="button" onclick="ctReset()">Nova consulta</button>
+          <button type="button" onclick="ctClose()">Fechar</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  // ============ MOCK DATA ============
+  // Several titles spread across past, current and future draws
+  // PayPix numbers are 16 digits formatted as XXXX.XXXX.XXXX.XXXX
+  const TODAY = new Date(2026, 4, 21); // 21/05/2026 (totem demo date)
+  // Next draw: Sunday 24/05/2026 21:30
+  // Past draws: 17/05, 10/05, 03/05
+  function isoSundayAt(d, m, y) { return new Date(y, m, d, 21, 30); }
+
+  const MOCK_DB = {
+    '12345678900': {
+      name: 'João',
+      draws: [
+        // Next Sunday (future)
+        {
+          date: isoSundayAt(24, 4, 2026),
+          status: 'next',
+          titles: [
+            { product: 'HiperXCap', variant: '010', paypix: '5183.2471.8847.0428', chances: 2, hiperGiros: 1, qty: 2 },
+            { product: 'HiperXCap', variant: '005', paypix: '5183.2471.8847.0735', chances: 2, hiperGiros: 1, qty: 1 }
+          ]
+        },
+        // Last Sunday — won R$ 15.000 (Na trave)
+        {
+          date: isoSundayAt(17, 4, 2026),
+          status: 'win',
+          drawnNumbers: '02-07-12-15-19-22-24-28-30-33-37-41-44-47-50-52-55-58-03-17',
+          titles: [
+            { product: 'HiperXCap', variant: '010', paypix: '4421.7733.2155.8338', chances: 2, hiperGiros: 1, qty: 1, prize: 1500000, prizeLabel: 'Na trave do Milhão (19/20)', won: true }
+          ]
+        },
+        // 10/05 — not won
+        {
+          date: isoSundayAt(10, 4, 2026),
+          status: 'past',
+          titles: [
+            { product: 'HiperXCap', variant: '010', paypix: '3919.4421.7733.2178', chances: 2, hiperGiros: 1, qty: 1 }
+          ]
+        },
+        // 03/05 — not won, smaller
+        {
+          date: isoSundayAt(3, 4, 2026),
+          status: 'past',
+          titles: [
+            { product: 'HiperXCap', variant: '005', paypix: '3812.4421.7733.2105', chances: 2, hiperGiros: 1, qty: 2 }
+          ]
+        }
+      ]
+    },
+    '11122233344': {
+      name: 'Maria',
+      draws: [
+        {
+          date: isoSundayAt(24, 4, 2026),
+          status: 'next',
+          titles: [
+            { product: 'HiperXCap', variant: '010', paypix: '5183.2471.8847.0019', chances: 2, hiperGiros: 1, qty: 5 }
+          ]
+        }
+      ]
+    }
+  };
+
+  // ============ CAPTCHA ============
+  let captchaAnswer = 7;
+  function refreshCaptcha() {
+    const a = Math.floor(Math.random() * 8) + 1;
+    const b = Math.floor(Math.random() * 8) + 1;
+    const ops = [
+      { sym: '+', fn: function(x, y) { return x + y; } },
+      { sym: '−', fn: function(x, y) { return x - y; } }
+    ];
+    const op = ops[Math.floor(Math.random() * 2)];
+    // Always positive result
+    const x = Math.max(a, b);
+    const y = Math.min(a, b);
+    captchaAnswer = op.fn(x, y);
+    const el = document.getElementById('ctCaptchaExpr');
+    if (el) el.textContent = x + ' ' + op.sym + ' ' + y;
+    const inp = document.getElementById('ctCaptchaInput');
+    if (inp) inp.value = '';
+  }
+  window.ctRefreshCaptcha = refreshCaptcha;
+
+  // ============ UTILS ============
+  function maskCpf(raw) {
+    if (raw.length === 0) return '';
+    if (raw.length <= 3) return raw;
+    if (raw.length <= 6) return raw.slice(0, 3) + '.' + raw.slice(3);
+    if (raw.length <= 9) return raw.slice(0, 3) + '.' + raw.slice(3, 6) + '.' + raw.slice(6);
+    return raw.slice(0, 3) + '.' + raw.slice(3, 6) + '.' + raw.slice(6, 9) + '-' + raw.slice(9, 11);
+  }
+  function fmtMoneyBR(cents) {
+    return (cents / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  }
+  function fmtDateBR(d) {
+    const days = ['DOMINGO', 'SEGUNDA', 'TERÇA', 'QUARTA', 'QUINTA', 'SEXTA', 'SÁBADO'];
+    const dd = String(d.getDate()).padStart(2, '0');
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    const yy = d.getFullYear();
+    const hh = String(d.getHours()).padStart(2, '0');
+    const mi = String(d.getMinutes()).padStart(2, '0');
+    return days[d.getDay()] + ' · ' + dd + '/' + mm + '/' + yy + ' às ' + hh + 'h' + mi;
+  }
+  function fmtDateShort(d) {
+    const dd = String(d.getDate()).padStart(2, '0');
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    return dd + '/' + mm + '/' + d.getFullYear();
+  }
+  function daysUntil(d) {
+    const ms = d.getTime() - new Date().getTime();
+    return Math.ceil(ms / (1000 * 60 * 60 * 24));
+  }
+
+  // ============ STATE TRANSITIONS ============
+  function setState(name) {
+    document.querySelectorAll('[data-ct-state]').forEach(function(el) {
+      el.classList.toggle('active', el.getAttribute('data-ct-state') === name);
+    });
+  }
+
+  // ============ OPEN / CLOSE ============
+  window.ctOpen = function() {
+    const modal = document.getElementById('ctModal');
+    if (!modal) return;
+    document.body.classList.add('ct-open');
+    modal.classList.remove('closing');
+    modal.classList.add('open');
+    setState('form');
+    refreshCaptcha();
+    // Clear inputs
+    const cpf = document.getElementById('ctCpfInput');
+    const cap = document.getElementById('ctCaptchaInput');
+    if (cpf) { cpf.value = ''; cpf.classList.remove('error'); }
+    if (cap) cap.value = '';
+    const err = document.getElementById('ctCpfError');
+    if (err) err.textContent = '';
+    setTimeout(function() {
+      if (cpf) cpf.focus();
+    }, 350);
+  };
+
+  window.ctClose = function() {
+    const modal = document.getElementById('ctModal');
+    if (!modal) return;
+    modal.classList.add('closing');
+    setTimeout(function() {
+      modal.classList.remove('open', 'closing');
+      document.body.classList.remove('ct-open');
+    }, 240);
+  };
+
+  window.ctReset = function() {
+    setState('form');
+    refreshCaptcha();
+    const cpf = document.getElementById('ctCpfInput');
+    if (cpf) { cpf.value = ''; cpf.focus(); }
+    const cap = document.getElementById('ctCaptchaInput');
+    if (cap) cap.value = '';
+    document.getElementById('ctCpfError').textContent = '';
+  };
+
+  // ============ SUBMIT ============
+  window.ctSubmit = function() {
+    const cpfInp = document.getElementById('ctCpfInput');
+    const capInp = document.getElementById('ctCaptchaInput');
+    const errEl = document.getElementById('ctCpfError');
+    const raw = (cpfInp.value || '').replace(/\D/g, '');
+
+    cpfInp.classList.remove('error');
+    errEl.textContent = '';
+
+    if (raw.length !== 11) {
+      cpfInp.classList.add('error');
+      errEl.textContent = 'Informe um CPF válido (11 dígitos)';
+      cpfInp.focus();
+      return;
+    }
+    const answer = parseInt(capInp.value, 10);
+    if (isNaN(answer) || answer !== captchaAnswer) {
+      errEl.textContent = 'Resposta da verificação incorreta. Tente novamente.';
+      refreshCaptcha();
+      capInp.focus();
+      return;
+    }
+
+    setState('loading');
+    // Simulate API call
+    setTimeout(function() {
+      renderResults(raw);
+      setState('result');
+    }, 1100);
+  };
+
+  // ============ RENDER RESULTS ============
+  function renderResults(cpfRaw) {
+    document.getElementById('ctResultCpf').textContent = maskCpf(cpfRaw);
+    const data = MOCK_DB[cpfRaw];
+    const list = document.getElementById('ctResultList');
+    list.innerHTML = '';
+
+    if (!data || !data.draws || data.draws.length === 0) {
+      document.getElementById('ctResultCount').textContent = '0';
+      document.getElementById('ctResultNextCount').textContent = '0';
+      const empty = document.createElement('div');
+      empty.className = 'ct-empty';
+      empty.innerHTML = '🔍 <b>Nenhum título encontrado</b><br>Este CPF não tem Surpresinhas compradas. <br><br><span style="font-size:11px;color:#7e93b0">Experimente <b style="color:#F39208">123.456.789-00</b> ou <b style="color:#F39208">111.222.333-44</b> para ver dados de demonstração.</span>';
+      list.appendChild(empty);
+      return;
+    }
+
+    // Sort: next first, then past by date desc
+    const sorted = data.draws.slice().sort(function(a, b) {
+      if (a.status === 'next' && b.status !== 'next') return -1;
+      if (b.status === 'next' && a.status !== 'next') return 1;
+      return b.date.getTime() - a.date.getTime();
+    });
+
+    let totalTitles = 0;
+    let nextCount = 0;
+    sorted.forEach(function(draw) {
+      draw.titles.forEach(function(t) {
+        totalTitles += (t.qty || 1);
+        if (draw.status === 'next') nextCount += (t.qty || 1);
+      });
+    });
+    document.getElementById('ctResultCount').textContent = totalTitles;
+    document.getElementById('ctResultNextCount').textContent = nextCount;
+
+    // Render next draws (always expanded) + section title for next
+    const nextDraws = sorted.filter(function(d) { return d.status === 'next'; });
+    const pastDraws = sorted.filter(function(d) { return d.status !== 'next'; });
+
+    if (nextDraws.length > 0) {
+      const t1 = document.createElement('div');
+      t1.className = 'ct-section-title';
+      t1.innerHTML = '⏰ Próximos sorteios';
+      list.appendChild(t1);
+      nextDraws.forEach(function(d) {
+        list.appendChild(buildDrawCard(d, false)); // not collapsed
+      });
+    }
+
+    if (pastDraws.length > 0) {
+      const t2 = document.createElement('div');
+      t2.className = 'ct-section-title history';
+      t2.innerHTML = '📜 Histórico';
+      list.appendChild(t2);
+      pastDraws.forEach(function(d, i) {
+        // First past draw expanded, others collapsed
+        list.appendChild(buildDrawCard(d, i > 0));
+      });
+    }
+  }
+
+  function buildDrawCard(draw, collapsedInitially) {
+    const card = document.createElement('div');
+    card.className = 'ct-draw';
+    if (draw.status === 'next') card.classList.add('next');
+    if (draw.status === 'win') card.classList.add('win');
+    if (collapsedInitially) card.classList.add('collapsed');
+
+    // Status badge
+    let statusBadge = '';
+    if (draw.status === 'next') {
+      const days = daysUntil(draw.date);
+      const dayLabel = days === 0 ? 'Hoje!' : (days === 1 ? 'Amanhã' : 'Em ' + days + ' dias');
+      statusBadge = '<span class="ct-draw-head-status next">' + dayLabel + '</span>';
+    } else if (draw.status === 'win') {
+      statusBadge = '<span class="ct-draw-head-status win">⭐ Contemplado</span>';
+    } else {
+      statusBadge = '<span class="ct-draw-head-status past">Sorteado</span>';
+    }
+
+    card.innerHTML = (
+      '<div class="ct-draw-head" onclick="ctToggleDraw(this.parentNode)">' +
+        '<div class="ct-draw-head-date">' +
+          '<div class="ct-draw-head-date-main">' + fmtDateBR(draw.date) + '</div>' +
+          '<div class="ct-draw-head-date-sub">' + getDrawSummary(draw) + '</div>' +
+        '</div>' +
+        '<div style="display:flex;align-items:center;gap:6px">' +
+          statusBadge +
+          '<span class="ct-draw-head-toggle">' +
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>' +
+          '</span>' +
+        '</div>' +
+      '</div>' +
+      '<div class="ct-draw-body"></div>'
+    );
+
+    const body = card.querySelector('.ct-draw-body');
+    draw.titles.forEach(function(t) {
+      body.appendChild(buildTitleItem(t, draw.status));
+    });
+    return card;
+  }
+
+  function getDrawSummary(draw) {
+    let count = 0;
+    draw.titles.forEach(function(t) { count += (t.qty || 1); });
+    if (draw.status === 'next') {
+      return count + ' Surpresinha' + (count > 1 ? 's' : '') + ' · aguardando sorteio';
+    }
+    if (draw.status === 'win') {
+      return count + ' Surpresinha' + (count > 1 ? 's' : '') + ' · 1 contemplado!';
+    }
+    return count + ' Surpresinha' + (count > 1 ? 's' : '') + ' · não contemplado';
+  }
+
+  function buildTitleItem(t, drawStatus) {
+    const item = document.createElement('div');
+    item.className = 'ct-item r' + (t.variant === '010' ? '10' : '5');
+    if (t.won) item.classList.add('win');
+    else if (drawStatus === 'past') item.classList.add('lost');
+
+    const valueLabel = t.variant === '010' ? 'R$ 10,00' : 'R$ 5,00';
+    const qtyLabel = (t.qty > 1) ? (t.qty + '× ') : '';
+
+    let statusHtml = '';
+    if (t.won) {
+      statusHtml =
+        '<div class="ct-item-status">' +
+          '<div class="ct-item-status-label">Prêmio</div>' +
+          '<div class="ct-item-status-value">' + fmtMoneyBR(t.prize) + '</div>' +
+        '</div>';
+    } else if (drawStatus === 'past') {
+      statusHtml =
+        '<div class="ct-item-status">' +
+          '<div class="ct-item-status-label">Resultado</div>' +
+          '<div class="ct-item-status-value">Sem prêmio</div>' +
+        '</div>';
+    } else {
+      statusHtml =
+        '<div class="ct-item-status">' +
+          '<div class="ct-item-status-label">Concorre a</div>' +
+          '<div class="ct-item-status-value" style="color:#F39208">' + (t.variant === '010' ? 'R$ 1MI' : 'R$ 500K') + '</div>' +
+        '</div>';
+    }
+
+    const subline = t.won
+      ? '<b>' + t.prizeLabel + '</b>'
+      : (t.chances + ' chance' + (t.chances > 1 ? 's' : '') + ' · ' + t.hiperGiros + ' Hiper Giro');
+
+    item.innerHTML =
+      '<div class="ct-item-ico">' + (t.variant === '010' ? 'X' : 'X') + '</div>' +
+      '<div class="ct-item-info">' +
+        '<div class="ct-item-name">' + qtyLabel + t.product + '<span class="price">' + valueLabel + '</span></div>' +
+        '<div class="ct-item-meta">PayPix: <b>' + t.paypix + '</b><br>' + subline + '</div>' +
+      '</div>' +
+      statusHtml;
+
+    return item;
+  }
+
+  window.ctToggleDraw = function(card) {
+    card.classList.toggle('collapsed');
+  };
+
+  // ============ INPUT MASKING ============
+  document.addEventListener('DOMContentLoaded', function() {
+    const cpf = document.getElementById('ctCpfInput');
+    if (cpf) {
+      cpf.addEventListener('input', function(e) {
+        const raw = e.target.value.replace(/\D/g, '').slice(0, 11);
+        e.target.value = maskCpf(raw);
+        const err = document.getElementById('ctCpfError');
+        if (err) err.textContent = '';
+        cpf.classList.remove('error');
+      });
+      cpf.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+          const cap = document.getElementById('ctCaptchaInput');
+          if (cap) cap.focus();
+        }
+      });
+    }
+    const cap = document.getElementById('ctCaptchaInput');
+    if (cap) {
+      cap.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') window.ctSubmit();
+      });
+    }
+  });
+
+  // ESC closes
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      const modal = document.getElementById('ctModal');
+      if (modal && modal.classList.contains('open')) window.ctClose();
+    }
+  });
+})();
+</script>
+</body>
+</html>

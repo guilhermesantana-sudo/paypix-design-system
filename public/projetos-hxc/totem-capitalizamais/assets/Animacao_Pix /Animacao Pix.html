@@ -1,0 +1,1045 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<title>Animação Pix — Passo a passo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  :root {
+    --pix-green: #16a34a;
+    --pix-green-soft: #22c55e;
+    --pix-green-deep: #0e7a37;
+    --pix-navy: #0e2d4f;
+    --pix-navy-deep: #0a223d;
+    --kiosk-green: #14532d;
+    --kiosk-green-deep: #0c3d22;
+    --ink: #111827;
+    --ink-soft: #4b5563;
+    --muted: #9ca3af;
+    --soft: #e5e7eb;
+    --bg: #eef0f3;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    font-family: -apple-system, "Inter", system-ui, sans-serif;
+    color: var(--ink);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .topbar {
+    display: flex;
+    gap: 8px;
+    margin: 24px 0 18px;
+  }
+  .chip {
+    appearance: none;
+    border: 1px solid #d1d5db;
+    background: #fff;
+    color: var(--ink-soft);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 8px 12px;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+  .chip.is-on {
+    background: var(--ink);
+    color: #fff;
+    border-color: var(--ink);
+  }
+
+  .stage {
+    width: min(420px, 90vw);
+    aspect-ratio: 9 / 16;
+    background: #fff;
+    border-radius: 36px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.12);
+    overflow: hidden;
+    position: relative;
+  }
+
+  .scene {
+    position: absolute; inset: 0;
+    opacity: 0;
+    transform: translateX(40%);
+    pointer-events: none;
+  }
+  .scene.is-active {
+    animation: scene-enter .55s cubic-bezier(.2,.8,.2,1) forwards;
+    pointer-events: auto;
+  }
+  @keyframes scene-enter {
+    0%   { opacity: 0; transform: translateX(40%); }
+    100% { opacity: 1; transform: translateX(0); }
+  }
+
+  /* ===== Helpers ===== */
+  .center { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+  .ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 2px solid var(--pix-green);
+    opacity: 0;
+  }
+
+  /* =====================================================================
+     CENA 1 — App do banco abrindo
+  ===================================================================== */
+  .s1 { background: linear-gradient(180deg, var(--pix-navy) 0%, var(--pix-navy-deep) 100%); }
+  .s1-logo {
+    position: absolute;
+    left: 50%; top: 38%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 38%;
+    aspect-ratio: 1;
+    border-radius: 28%;
+    background: #fff;
+    display: grid;
+    place-items: center;
+    box-shadow: 0 12px 40px rgba(0,0,0,.25);
+  }
+  .scene.is-active .s1-logo {
+    animation: pop-bounce .55s cubic-bezier(.34,1.56,.64,1) .15s forwards;
+  }
+  .s1-logo svg { width: 60%; height: 60%; }
+  .s1-name {
+    position: absolute;
+    top: 56%; left: 0; right: 0;
+    text-align: center;
+    color: #fff;
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 4px;
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  .scene.is-active .s1-name {
+    animation: fade-up .45s ease-out .55s forwards;
+  }
+  .s1-tagline {
+    position: absolute;
+    top: 62%; left: 0; right: 0;
+    text-align: center;
+    color: rgba(255,255,255,.7);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    opacity: 0;
+  }
+  .scene.is-active .s1-tagline {
+    animation: fade-in .4s ease-out .75s forwards;
+  }
+  .s1-loading {
+    position: absolute;
+    bottom: 12%; left: 50%;
+    transform: translateX(-50%);
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    border: 3px solid rgba(255,255,255,.2);
+    border-top-color: #fff;
+    opacity: 0;
+  }
+  .scene.is-active .s1-loading {
+    animation: fade-in .3s ease-out .9s forwards, spin 1s linear .9s infinite;
+  }
+
+  /* =====================================================================
+     CENA 2 — Selecionando PIX
+  ===================================================================== */
+  .s2 { background: #fff; }
+  .s2-header {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 28%;
+    background: linear-gradient(180deg, var(--pix-navy) 0%, #143962 100%);
+    color: #fff;
+    padding: 8% 8% 0;
+  }
+  .s2-hello { font-size: 12px; opacity: 0.85; }
+  .s2-name { font-size: 16px; font-weight: 700; margin-top: 2px; }
+  .s2-balance-card {
+    position: absolute;
+    top: 22%; left: 6%; right: 6%;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,.1);
+    padding: 14px 16px;
+  }
+  .s2-balance-label { font-size: 10px; color: var(--muted); }
+  .s2-balance-value { font-size: 22px; font-weight: 800; color: var(--ink); margin-top: 4px; }
+  .s2-actions {
+    position: absolute;
+    top: 42%; left: 6%; right: 6%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4%;
+  }
+  .s2-action {
+    aspect-ratio: 1;
+    background: #f3f4f6;
+    border-radius: 12px;
+    display: grid; place-items: center;
+    color: var(--ink);
+    position: relative;
+    transition: transform .3s;
+  }
+  .s2-action svg { width: 50%; height: 50%; }
+  .s2-action span {
+    position: absolute;
+    bottom: -16px; left: 0; right: 0;
+    text-align: center;
+    font-size: 10px;
+    font-weight: 600;
+  }
+  .s2-action.is-pix {
+    background: var(--pix-green);
+    color: #fff;
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  .scene.is-active .s2-action.is-pix {
+    animation: s2-pix-pop .5s ease-out .35s forwards;
+  }
+  @keyframes s2-pix-pop {
+    0%   { opacity: 0; transform: scale(0.7); }
+    60%  { opacity: 1; transform: scale(1.08); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+  .s2-tap {
+    position: absolute;
+    width: 22%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 3px solid var(--pix-green);
+    background: rgba(22, 163, 74, .2);
+    left: 31%; top: 47%;
+    opacity: 0;
+    transform: scale(0.4);
+    pointer-events: none;
+  }
+  .scene.is-active .s2-tap {
+    animation: tap-ripple 1.1s ease-out 1.1s 2 forwards;
+  }
+  .s2-list {
+    position: absolute;
+    top: 70%; left: 6%; right: 6%;
+    display: grid; gap: 12px;
+  }
+  .s2-row {
+    height: 30px;
+    border-radius: 8px;
+    background: #f3f4f6;
+  }
+
+  /* =====================================================================
+     CENA 3 — Lendo QR Code
+  ===================================================================== */
+  .s3 { background: #1a1f2a; }
+  .s3-bar {
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 9%;
+    background: rgba(0,0,0,.5);
+    color: #fff;
+    display: flex; align-items: center; padding: 0 6%;
+    font-weight: 700; font-size: 14px;
+  }
+  .s3-bar .arrow { margin-right: 8px; font-size: 18px; }
+  .s3-frame {
+    position: absolute;
+    top: 22%; left: 14%;
+    width: 72%; aspect-ratio: 1;
+  }
+  .s3-corner {
+    position: absolute;
+    width: 26px; height: 26px;
+    border: 4px solid var(--pix-green);
+    border-radius: 4px;
+  }
+  .s3-corner.tl { top: 0; left: 0; border-right: 0; border-bottom: 0; }
+  .s3-corner.tr { top: 0; right: 0; border-left: 0; border-bottom: 0; }
+  .s3-corner.bl { bottom: 0; left: 0; border-right: 0; border-top: 0; }
+  .s3-corner.br { bottom: 0; right: 0; border-left: 0; border-top: 0; }
+  .s3-qr {
+    position: absolute;
+    inset: 8%;
+    background: #fff;
+    padding: 6%;
+    display: grid;
+    grid-template-columns: repeat(13, 1fr);
+    grid-template-rows: repeat(13, 1fr);
+    gap: 2px;
+    opacity: 0;
+    transform: scale(.92);
+    border-radius: 6px;
+  }
+  .scene.is-active .s3-qr {
+    animation: s3-qr-in .4s ease-out .35s forwards;
+  }
+  @keyframes s3-qr-in {
+    to { opacity: 1; transform: scale(1); }
+  }
+  .s3-qr div { background: #000; border-radius: 1px; }
+  .s3-qr div.off { background: transparent; }
+  .s3-scan {
+    position: absolute;
+    left: 8%; right: 8%;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--pix-green);
+    box-shadow: 0 0 18px var(--pix-green), 0 0 6px var(--pix-green);
+    top: 8%;
+    opacity: 0;
+  }
+  .scene.is-active .s3-scan {
+    animation: s3-scan 1.7s ease-in-out .9s 2 forwards;
+  }
+  @keyframes s3-scan {
+    0%   { top: 6%;  opacity: 1; }
+    50%  { top: 90%; opacity: 1; }
+    100% { top: 6%;  opacity: 0; }
+  }
+  .s3-text {
+    position: absolute;
+    bottom: 12%; left: 0; right: 0;
+    text-align: center;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    opacity: 0;
+  }
+  .scene.is-active .s3-text { animation: fade-up .4s ease-out .5s forwards; }
+  .s3-detected {
+    position: absolute;
+    bottom: 6%; left: 50%;
+    transform: translateX(-50%);
+    background: var(--pix-green);
+    color: #fff;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    opacity: 0;
+  }
+  .scene.is-active .s3-detected { animation: fade-up .4s ease-out 4s forwards; }
+
+  /* =====================================================================
+     CENA 4 — Confirmando pagamento e valor
+  ===================================================================== */
+  .s4 { background: #fff; }
+  .s4-header {
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 9%;
+    background: var(--pix-green);
+    color: #fff;
+    display: flex; align-items: center; padding: 0 6%;
+    font-weight: 700; font-size: 14px;
+  }
+  .s4-header .arrow { margin-right: 8px; font-size: 18px; }
+  .s4-merch {
+    position: absolute;
+    top: 14%; left: 8%; right: 8%;
+    text-align: center;
+    color: var(--muted);
+    font-size: 11px;
+  }
+  .s4-merch strong {
+    display: block;
+    color: var(--ink);
+    font-size: 15px;
+    margin-top: 4px;
+  }
+  .s4-amount {
+    position: absolute;
+    top: 26%; left: 0; right: 0;
+    text-align: center;
+    font-weight: 800;
+    color: var(--ink);
+    font-size: 36px;
+    letter-spacing: -0.5px;
+    transform: translateY(8px);
+    opacity: 0;
+  }
+  .scene.is-active .s4-amount {
+    animation: fade-up .5s ease-out .35s forwards;
+  }
+  .s4-amount small {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--muted);
+    margin-right: 4px;
+    vertical-align: 4px;
+  }
+  .s4-divider {
+    position: absolute;
+    top: 42%; left: 8%; right: 8%;
+    height: 1px;
+    background: var(--soft);
+  }
+  .s4-rows {
+    position: absolute;
+    top: 44%; left: 8%; right: 8%;
+  }
+  .s4-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    font-size: 12px;
+    color: var(--ink-soft);
+    border-bottom: 1px solid var(--soft);
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  .s4-row strong { color: var(--ink); font-weight: 600; }
+  .scene.is-active .s4-row {
+    animation: fade-x .4s ease-out forwards;
+  }
+  .scene.is-active .s4-row.r1 { animation-delay: .55s; }
+  .scene.is-active .s4-row.r2 { animation-delay: .7s; }
+  .scene.is-active .s4-row.r3 { animation-delay: .85s; }
+  .scene.is-active .s4-row.r4 { animation-delay: 1s; }
+  @keyframes fade-x {
+    to { opacity: 1; transform: translateX(0); }
+  }
+  .s4-btn {
+    position: absolute;
+    bottom: 6%; left: 6%; right: 6%;
+    height: 52px;
+    background: var(--pix-green);
+    border-radius: 12px;
+    display: grid; place-items: center;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  .scene.is-active .s4-btn {
+    animation: fade-up .4s ease-out 1.2s forwards;
+  }
+  .s4-btn-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle, rgba(255,255,255,.5) 0%, transparent 60%);
+    transform: translateX(-100%);
+    pointer-events: none;
+  }
+  .scene.is-active .s4-btn-glow {
+    animation: shine 1.6s ease-in-out 1.8s infinite;
+  }
+  @keyframes shine {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  /* =====================================================================
+     CENA 5 — Sucesso
+  ===================================================================== */
+  .s5 { background: var(--pix-navy-deep); }
+  .s5-circle {
+    position: absolute;
+    left: 50%; top: 38%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 38%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--pix-green);
+    display: grid; place-items: center;
+    box-shadow: 0 12px 40px rgba(22,163,74,.4);
+  }
+  .scene.is-active .s5-circle {
+    animation: pop-bounce .6s cubic-bezier(.34,1.56,.64,1) .2s forwards;
+  }
+  .s5-ring {
+    position: absolute;
+    left: 50%; top: 38%;
+    transform: translate(-50%, -50%);
+    width: 38%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 3px solid var(--pix-green);
+    opacity: 0;
+  }
+  .scene.is-active .s5-ring {
+    animation: ring-pulse 1.8s ease-out 1s infinite;
+  }
+  .scene.is-active .s5-ring.r2 { animation-delay: 1.5s; }
+  @keyframes ring-pulse {
+    0%   { opacity: .8; transform: translate(-50%, -50%) scale(1); }
+    100% { opacity: 0;  transform: translate(-50%, -50%) scale(2.2); }
+  }
+  .s5-check {
+    width: 50%; height: 50%;
+    stroke: #fff;
+    stroke-width: 5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+    stroke-dasharray: 60;
+    stroke-dashoffset: 60;
+  }
+  .scene.is-active .s5-check {
+    animation: draw-check .5s ease-out .65s forwards;
+  }
+  .s5-title {
+    position: absolute;
+    top: 60%; left: 0; right: 0;
+    text-align: center;
+    color: #fff;
+    font-weight: 800;
+    font-size: 22px;
+    letter-spacing: -.3px;
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  .s5-title span { color: var(--pix-green-soft); display: block; }
+  .scene.is-active .s5-title { animation: fade-up .45s ease-out .9s forwards; }
+  .s5-amount {
+    position: absolute;
+    top: 76%; left: 0; right: 0;
+    text-align: center;
+    color: rgba(255,255,255,.7);
+    font-size: 14px;
+    opacity: 0;
+  }
+  .s5-amount strong { color: #fff; font-weight: 700; }
+  .scene.is-active .s5-amount { animation: fade-in .4s ease-out 1.2s forwards; }
+
+  /* =====================================================================
+     CENA 6 — Totem PARABÉNS (réplica fiel)
+  ===================================================================== */
+  .s6 {
+    background: var(--kiosk-green);
+    overflow: hidden;
+  }
+  .s6-status {
+    position: absolute;
+    top: 4%; right: 5%;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 600;
+    text-align: right;
+    line-height: 1.2;
+    opacity: 0.9;
+  }
+  .s6-progress {
+    position: absolute;
+    top: 12%; left: 6%; right: 6%;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 6px;
+  }
+  .s6-progress > div {
+    height: 6px;
+    border-radius: 3px;
+    background: var(--kiosk-green-deep);
+  }
+  .s6-progress > div.done { background: var(--pix-green); }
+  .s6-progress > div.current {
+    background: #facc15;
+    animation: pulse-current 1.4s ease-in-out infinite;
+  }
+  @keyframes pulse-current {
+    50% { opacity: .55; }
+  }
+
+  .s6-circle {
+    position: absolute;
+    left: 50%; top: 30%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 28%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--pix-green);
+    display: grid; place-items: center;
+    z-index: 3;
+  }
+  .scene.is-active .s6-circle {
+    animation: pop-bounce .55s cubic-bezier(.34,1.56,.64,1) .15s forwards;
+  }
+  .s6-circle::before {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    background: rgba(34,197,94,.18);
+  }
+  .s6-check {
+    width: 55%; height: 55%;
+    stroke: #fff;
+    stroke-width: 6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+    stroke-dasharray: 60;
+    stroke-dashoffset: 60;
+  }
+  .scene.is-active .s6-check {
+    animation: draw-check .45s ease-out .55s forwards;
+  }
+  .s6-title {
+    position: absolute;
+    top: 47%; left: 0; right: 0;
+    text-align: center;
+    color: #facc15;
+    font-weight: 900;
+    font-size: 36px;
+    letter-spacing: 1px;
+    text-shadow: 0 0 18px rgba(250,204,21,.55), 0 0 4px rgba(250,204,21,.6);
+    opacity: 0;
+    transform: scale(.85);
+    z-index: 3;
+  }
+  .scene.is-active .s6-title {
+    animation: s6-title 0.6s cubic-bezier(.34,1.56,.64,1) .8s forwards;
+  }
+  @keyframes s6-title {
+    to { opacity: 1; transform: scale(1); }
+  }
+  .s6-sub {
+    position: absolute;
+    top: 56%; left: 0; right: 0;
+    text-align: center;
+    color: #fff;
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: 0.6px;
+    opacity: 0;
+    transform: translateY(8px);
+    z-index: 3;
+  }
+  .scene.is-active .s6-sub {
+    animation: fade-up .4s ease-out 1s forwards;
+  }
+  .s6-pill {
+    position: absolute;
+    top: 64%; left: 12%; right: 12%;
+    border: 1.5px solid var(--pix-green-soft);
+    border-radius: 999px;
+    padding: 10px 16px;
+    color: var(--pix-green-soft);
+    font-weight: 800;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    display: flex; align-items: center; gap: 8px;
+    opacity: 0;
+    transform: translateY(10px);
+    z-index: 3;
+  }
+  .scene.is-active .s6-pill {
+    animation: fade-up .4s ease-out 1.2s forwards;
+  }
+  .s6-pill .check-mini {
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: var(--pix-green);
+    display: grid; place-items: center;
+    flex-shrink: 0;
+  }
+  .s6-pill .check-mini svg { width: 10px; height: 10px; }
+  .s6-numbers {
+    position: absolute;
+    top: 75%; left: 6%;
+    color: #fff;
+    z-index: 3;
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  .scene.is-active .s6-numbers {
+    animation: fade-up .4s ease-out 1.4s forwards;
+  }
+  .s6-numbers .label {
+    font-weight: 800;
+    font-size: 16px;
+  }
+  .s6-numbers .date {
+    font-size: 11px;
+    color: rgba(255,255,255,.65);
+    margin-top: 4px;
+  }
+
+  /* Confetes */
+  .s6-confetti {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+    overflow: hidden;
+  }
+  .s6-confetti span {
+    position: absolute;
+    top: -20px;
+    width: 8px;
+    height: 14px;
+    border-radius: 2px;
+    transform-origin: center;
+    opacity: 0;
+  }
+  .scene.is-active .s6-confetti span {
+    animation: confetti-fall var(--dur, 3s) linear var(--delay, 0s) infinite;
+  }
+  @keyframes confetti-fall {
+    0% {
+      transform: translate(0, -20px) rotate(0deg);
+      opacity: 0;
+    }
+    10% { opacity: 1; }
+    100% {
+      transform: translate(var(--xoff, 0), 110vh) rotate(720deg);
+      opacity: 1;
+    }
+  }
+
+  /* ===== Keyframes compartilhados ===== */
+  @keyframes pop-bounce {
+    0%   { transform: translate(-50%, -50%) scale(0); }
+    60%  { transform: translate(-50%, -50%) scale(1.15); }
+    100% { transform: translate(-50%, -50%) scale(1); }
+  }
+  @keyframes fade-in   { to { opacity: 1; } }
+  @keyframes fade-up   { to { opacity: 1; transform: translateY(0); } }
+  @keyframes draw-check { to { stroke-dashoffset: 0; } }
+  @keyframes spin       { to { transform: translateX(-50%) rotate(360deg); } }
+  @keyframes tap-ripple {
+    0%   { opacity: 0; transform: scale(.4); }
+    20%  { opacity: 1; }
+    100% { opacity: 0; transform: scale(2.4); }
+  }
+
+  /* ===== Toolbar ===== */
+  .toolbar {
+    margin-top: 22px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 999px;
+    padding: 6px 10px;
+    box-shadow: 0 6px 20px rgba(0,0,0,.06);
+  }
+  .toolbar button {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    color: var(--ink);
+    display: grid; place-items: center;
+  }
+  .toolbar button:hover { background: #f3f4f6; }
+  .toolbar .label {
+    font-variant-numeric: tabular-nums;
+    color: var(--muted);
+    font-weight: 700;
+    font-size: 12px;
+    min-width: 36px;
+    text-align: center;
+  }
+  .toolbar .dots { display: flex; gap: 6px; padding: 0 4px; }
+  .toolbar .dots i {
+    display: block; width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #e5e7eb;
+  }
+  .toolbar .dots i.is-on { background: var(--pix-green); }
+
+  .scene-title {
+    margin-top: 16px;
+    color: var(--ink);
+    font-weight: 700;
+    font-size: 15px;
+  }
+  .scene-title small {
+    display: block;
+    color: var(--muted);
+    font-weight: 500;
+    font-size: 12px;
+    margin-top: 2px;
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar" id="chips"></div>
+
+<div class="stage" id="stage">
+
+  <!-- ===================== CENA 1 — App do banco ===================== -->
+  <div class="scene s1" data-name="Abrindo o app do banco" data-step="Passo 1 de 6">
+    <div class="s1-logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#0e2d4f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 10l9-6 9 6v2H3z" fill="#0e2d4f" stroke="none"/>
+        <rect x="5" y="13" width="2.5" height="6" fill="#0e2d4f"/>
+        <rect x="11" y="13" width="2.5" height="6" fill="#0e2d4f"/>
+        <rect x="17" y="13" width="2.5" height="6" fill="#0e2d4f"/>
+        <rect x="3" y="20" width="18" height="2" fill="#0e2d4f"/>
+      </svg>
+    </div>
+    <div class="s1-name">SEU BANCO</div>
+    <div class="s1-tagline">SEMPRE COM VOCÊ</div>
+    <div class="s1-loading"></div>
+  </div>
+
+  <!-- ===================== CENA 2 — Selecionando PIX ===================== -->
+  <div class="scene s2" data-name="Selecionando PIX" data-step="Passo 2 de 6">
+    <div class="s2-header">
+      <div class="s2-hello">Olá,</div>
+      <div class="s2-name">Maria 👋</div>
+    </div>
+    <div class="s2-balance-card">
+      <div class="s2-balance-label">Saldo disponível</div>
+      <div class="s2-balance-value">R$ 2.480,75</div>
+    </div>
+    <div class="s2-actions">
+      <div class="s2-action">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#1f2937" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+        <span>Pagar</span>
+      </div>
+      <div class="s2-action is-pix">
+        <svg viewBox="0 0 24 24" fill="#fff"><path d="M12 2 L18 8 L12 14 L6 8 Z M12 10 L18 16 L12 22 L6 16 Z"/></svg>
+        <span>Pix</span>
+      </div>
+      <div class="s2-action">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#1f2937" stroke-width="2"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/></svg>
+        <span>Cartão</span>
+      </div>
+      <div class="s2-action">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#1f2937" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        <span>Extrato</span>
+      </div>
+    </div>
+    <div class="s2-tap"></div>
+    <div class="s2-list">
+      <div class="s2-row"></div>
+      <div class="s2-row"></div>
+    </div>
+  </div>
+
+  <!-- ===================== CENA 3 — Lendo QR Code ===================== -->
+  <div class="scene s3" data-name="Lendo QR Code" data-step="Passo 3 de 6">
+    <div class="s3-bar"><span class="arrow">‹</span> Pagar com QR Code</div>
+    <div class="s3-frame">
+      <div class="s3-corner tl"></div>
+      <div class="s3-corner tr"></div>
+      <div class="s3-corner bl"></div>
+      <div class="s3-corner br"></div>
+      <div class="s3-qr" id="qrGrid"></div>
+      <div class="s3-scan"></div>
+    </div>
+    <div class="s3-text">Aponte para o QR Code</div>
+    <div class="s3-detected">QR detectado ✓</div>
+  </div>
+
+  <!-- ===================== CENA 4 — Confirmando ===================== -->
+  <div class="scene s4" data-name="Confirmando pagamento" data-step="Passo 4 de 6">
+    <div class="s4-header"><span class="arrow">‹</span> Confirmar pagamento</div>
+    <div class="s4-merch">
+      Pagamento para
+      <strong>
+</strong>
+    </div>
+    <div class="s4-amount"><small>R$</small>34,00</div>
+    <div class="s4-divider"></div>
+    <div class="s4-rows">
+      <div class="s4-row r1"><span>Tipo</span><strong>Pix QR Code</strong></div>
+      <div class="s4-row r2"><span>Banco</span><strong>Banco Central</strong></div>
+      <div class="s4-row r3"><span>CNPJ</span><strong>•••.•••/0001-23</strong></div>
+      <div class="s4-row r4"><span>Data</span><strong>Hoje, 10:30</strong></div>
+    </div>
+    <div class="s4-btn">
+      CONFIRMAR PAGAMENTO
+      <div class="s4-btn-glow"></div>
+    </div>
+  </div>
+
+  <!-- ===================== CENA 5 — Sucesso ===================== -->
+  <div class="scene s5" data-name="Pagamento realizado" data-step="Passo 5 de 6">
+    <div class="s5-ring"></div>
+    <div class="s5-ring r2"></div>
+    <div class="s5-circle">
+      <svg class="s5-check" viewBox="0 0 24 24">
+        <polyline points="5,12 10,17 19,7"/>
+      </svg>
+    </div>
+    <div class="s5-title">Pagamento<span>realizado!</span></div>
+    <div class="s5-amount"><strong>R$ 34,00</strong> enviados com Pix</div>
+  </div>
+
+  <!-- ===================== CENA 6 — Totem PARABÉNS ===================== -->
+  <div class="scene s6" data-name="Totem — Parabéns" data-step="Passo 6 de 6">
+    <div class="s6-status">Autorizado<br/>SUSEP</div>
+    <div class="s6-progress">
+      <div class="done"></div>
+      <div class="done"></div>
+      <div class="done"></div>
+      <div class="done"></div>
+      <div class="current"></div>
+      <div></div>
+    </div>
+
+    <div class="s6-confetti" id="confettiBox"></div>
+
+    <div class="s6-circle">
+      <svg class="s6-check" viewBox="0 0 24 24">
+        <polyline points="5,12 10,17 19,7"/>
+      </svg>
+    </div>
+    <div class="s6-title">PARABÉNS!</div>
+    <div class="s6-sub">SUA COMPRA FOI REALIZADA!</div>
+    <div class="s6-pill">
+      <div class="check-mini">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="5,12 10,17 19,7"/></svg>
+      </div>
+      VOCÊ JÁ ESTÁ CONCORRENDO!
+    </div>
+    <div class="s6-numbers">
+      <div class="label">Seus números da sorte</div>
+      <div class="date">Data: dd/mm/aa às hh:mm:ss</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="toolbar">
+  <button id="prevBtn" aria-label="Anterior">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+  </button>
+  <button id="playBtn" aria-label="Play/Pause">
+    <svg id="playIcon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+  </button>
+  <span class="label" id="counter">1/6</span>
+  <div class="dots" id="dots"></div>
+  <button id="nextBtn" aria-label="Próximo">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+  </button>
+</div>
+
+<div class="scene-title" id="sceneTitle">
+  Abrindo o app do banco
+  <small>Passo 1 de 6</small>
+</div>
+
+<script>
+  // ===== QR fake 13×13 =====
+  (function () {
+    const grid = document.getElementById('qrGrid');
+    const seed = (i, j) => ((i * 7 + j * 13 + i * j) % 5 < 2);
+    for (let i = 0; i < 13; i++) {
+      for (let j = 0; j < 13; j++) {
+        const div = document.createElement('div');
+        const inFinder = (i < 3 && j < 3) || (i < 3 && j > 9) || (i > 9 && j < 3);
+        let on = inFinder
+          ? !((i === 1 && j === 1) || (i === 1 && j === 11) || (i === 11 && j === 1))
+          : seed(i, j);
+        if (!on) div.className = 'off';
+        grid.appendChild(div);
+      }
+    }
+  })();
+
+  // ===== Confetes =====
+  (function () {
+    const box = document.getElementById('confettiBox');
+    const colors = ['#facc15', '#ef4444', '#22d3ee', '#a855f7', '#22c55e', '#fb923c', '#f472b6', '#ffffff'];
+    for (let i = 0; i < 60; i++) {
+      const s = document.createElement('span');
+      s.style.left = (Math.random() * 100) + '%';
+      s.style.background = colors[i % colors.length];
+      s.style.setProperty('--dur', (2.5 + Math.random() * 2) + 's');
+      s.style.setProperty('--delay', (Math.random() * 4) + 's');
+      s.style.setProperty('--xoff', ((Math.random() - 0.5) * 200) + 'px');
+      s.style.width = (5 + Math.random() * 6) + 'px';
+      s.style.height = (10 + Math.random() * 8) + 'px';
+      s.style.transform = 'rotate(' + (Math.random() * 360) + 'deg)';
+      box.appendChild(s);
+    }
+  })();
+
+  // ===== Loop ======
+  const scenes = Array.from(document.querySelectorAll('.scene'));
+  const counter = document.getElementById('counter');
+  const dotsEl = document.getElementById('dots');
+  const titleEl = document.getElementById('sceneTitle');
+  const playIcon = document.getElementById('playIcon');
+  const chipsEl = document.getElementById('chips');
+
+  // Build dots and chips
+  scenes.forEach((s, i) => {
+    const dot = document.createElement('i');
+    dotsEl.appendChild(dot);
+
+    const chip = document.createElement('button');
+    chip.className = 'chip';
+    chip.textContent = (i + 1) + '. ' + s.dataset.name;
+    chip.addEventListener('click', () => { show(i); schedule(); });
+    chipsEl.appendChild(chip);
+  });
+  const dots = Array.from(dotsEl.children);
+  const chips = Array.from(chipsEl.children);
+
+  // Duração de cada cena (ms)
+  const DURATIONS = [2200, 3000, 4800, 3400, 3200, 5000];
+
+  let current = 0;
+  let timerId = null;
+  let playing = true;
+
+  function show(idx) {
+    scenes.forEach((s, i) => s.classList.toggle('is-active', i === idx));
+    dots.forEach((d, i) => d.classList.toggle('is-on', i === idx));
+    chips.forEach((c, i) => c.classList.toggle('is-on', i === idx));
+    counter.textContent = (idx + 1) + '/' + scenes.length;
+    titleEl.innerHTML = scenes[idx].dataset.name + '<small>' + scenes[idx].dataset.step + '</small>';
+    current = idx;
+    scenes[idx].offsetHeight; // reflow
+  }
+
+  function schedule() {
+    clearTimeout(timerId);
+    if (!playing) return;
+    timerId = setTimeout(() => {
+      const next = (current + 1) % scenes.length;
+      show(next);
+      schedule();
+    }, DURATIONS[current]);
+  }
+
+  function setPlay(on) {
+    playing = on;
+    playIcon.innerHTML = on
+      ? '<rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/>'
+      : '<polygon points="7,5 19,12 7,19"/>';
+    if (on) schedule(); else clearTimeout(timerId);
+  }
+
+  document.getElementById('prevBtn').addEventListener('click', () => {
+    show((current - 1 + scenes.length) % scenes.length);
+    schedule();
+  });
+  document.getElementById('nextBtn').addEventListener('click', () => {
+    show((current + 1) % scenes.length);
+    schedule();
+  });
+  document.getElementById('playBtn').addEventListener('click', () => setPlay(!playing));
+
+  // Keyboard
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') { show((current - 1 + scenes.length) % scenes.length); schedule(); }
+    if (e.key === 'ArrowRight') { show((current + 1) % scenes.length); schedule(); }
+    if (e.key === ' ') { e.preventDefault(); setPlay(!playing); }
+  });
+
+  show(0);
+  schedule();
+</script>
+</body>
+</html>

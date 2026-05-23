@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
+<title>Totem · Capitaliza+</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Nunito:wght@400;600;700;800&family=Poppins:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="hiperxcap-design-system/tokens.css">
+<style>
+  *,*::before,*::after{box-sizing:border-box}
+  html,body{margin:0;padding:0;width:100%;height:100%;background:#000;color:#fff;font-family:var(--font-body,'Poppins',sans-serif);overflow:hidden;-webkit-font-smoothing:antialiased}
+  button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer;padding:0}
+  #root{position:fixed;inset:0}
+
+  /* screen fill — paleta HiperXCAP (azul 500 → azul 900) */
+  .screen{position:absolute;inset:0;width:100%;height:100%;overflow:hidden;color:#fff}
+  .screen-bg-gradient{background:linear-gradient(180deg,#0166B3 0%, #1A2F51 50%, #0C1628 100%)}
+  .screen-bg-dark{background:linear-gradient(180deg,#0C1628 0%, #1A2F51 100%)}
+  .screen-bg-success{background:linear-gradient(180deg,#1A2F51 0%, #0166B3 60%, #0C1628 100%)}
+
+  /* buttons — altura 6.4vh ≈ 48px (6× base 8pt) */
+  .btn{display:flex;align-items:center;justify-content:center;gap:2vw;border-radius:99px;height:6.4vh;min-height:44px;font-family:var(--font-body,'Poppins',sans-serif);font-weight:700;font-size:4vw;letter-spacing:.03em;cursor:pointer;transition:transform .12s ease,box-shadow .2s ease,filter .2s ease;width:100%}
+  .btn:active{transform:translateY(1px) scale(.997)}
+  .btn:focus-visible{outline:3px solid rgba(243,146,8,.8);outline-offset:3px}
+  .btn-primary{background:linear-gradient(135deg,#F39208 0%,#F8AF4F 100%);color:#fff;box-shadow:0 0 20px rgba(243,146,8,.55), 0 8px 24px rgba(243,146,8,.28), inset 0 -3px 0 rgba(0,0,0,.12)}
+  .btn-primary:hover{filter:brightness(1.06)}
+  .btn-success{background:#A7C945;color:#1A2F51;box-shadow:0 0 14px rgba(167,201,69,.5), 0 8px 24px rgba(167,201,69,.3)}
+  .btn-success:hover{filter:brightness(1.06)}
+  .btn-secondary{background:transparent;border:2px solid #F39208;color:#F39208}
+  .btn-secondary:hover{background:rgba(243,146,8,.1)}
+  .btn-danger{background:#B26F9A;color:#fff;box-shadow:0 0 16px rgba(178,111,154,.5), 0 8px 24px rgba(178,111,154,.3)}
+
+  /* qty pill — botões hollow sobre painel colorido */
+  .qty-pill{display:flex;flex-direction:column;align-items:center;justify-content:space-around;gap:.8vh;height:100%;padding:1.6vh 2vw}
+  .qty-btn{width:8vw;height:8vw;min-width:36px;min-height:36px;border-radius:50%;background:transparent;border:2px solid rgba(255,255,255,.8);display:flex;align-items:center;justify-content:center;font-size:4.4vw;font-weight:700;line-height:1;color:#fff;transition:transform .1s ease,opacity .15s ease}
+  .qty-btn:active{transform:scale(.88)}
+  .qty-btn:focus-visible{outline:3px solid rgba(243,146,8,.8);outline-offset:2px}
+  .qty-btn:hover{background:rgba(255,255,255,.15)}
+  .qty-num{font-family:'Nunito',sans-serif;font-weight:700;font-size:5.6vw;color:#fff;min-width:2ch;text-align:center}
+
+  /* total bar — espaçamento generoso entre label e valor */
+  .totalbar{position:absolute;left:0;right:0;bottom:0;background:#0C1628;padding:2.4vh 5vw 3.2vh;display:flex;flex-direction:column;gap:2vh;border-top:1px solid rgba(255,255,255,.08)}
+  .totalbar-row{display:flex;justify-content:space-between;align-items:flex-end}
+  .totalbar-label{font-family:'Poppins',sans-serif;font-weight:600;font-size:2.4vw;opacity:.7;letter-spacing:.04em;margin-bottom:1.2vh}
+  .totalbar-value{font-family:'Poppins',sans-serif;font-weight:700;font-size:4.4vw;color:#fff;line-height:1}
+  .totalbar-total{font-family:'Nunito',sans-serif;font-weight:900;font-size:5.6vw;color:#F39208;line-height:1;text-shadow:0 0 16px rgba(243,146,8,.45)}
+  .totalbar .btn-row{display:flex;flex-direction:column;gap:1.6vh}
+
+  /* layout toggle — acima da progress bar */
+  .layout-toggle{position:absolute;left:50%;transform:translateX(-50%);top:7.2vh;display:flex;background:rgba(0,0,0,.5);border:1px solid rgba(243,146,8,.4);border-radius:99px;padding:4px;backdrop-filter:blur(10px);z-index:50}
+  .layout-toggle button{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.8vw;letter-spacing:.08em;text-transform:uppercase;color:#fff;padding:.7vh 2.4vw;border-radius:99px;opacity:.55;transition:background .2s,opacity .2s}
+  .layout-toggle button.on{background:#F39208;color:#fff;opacity:1}
+
+  /* Card option 02 — altura 20vh */
+  .product-card-02{position:relative;width:100%;height:20vh;border-radius:3.2vw;background:#1A2F51;border:2.5px solid #F39208;display:flex;align-items:stretch;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,.35)}
+  .product-card-02.selected{box-shadow:0 0 0 4px rgba(243,146,8,.4), 0 12px 40px rgba(0,0,0,.4)}
+  .pc02-left{flex:1;padding:1.6vh 2.4vw;display:flex;flex-direction:column;justify-content:center;gap:.6vh;min-width:0}
+  .pc02-thumb{width:13.6vw;height:13.6vw;border-radius:2vw;background:transparent;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden}
+  .pc02-thumb img{width:100%;height:100%;object-fit:contain;border-radius:2vw}
+  .pc02-title-row{display:flex;align-items:center;gap:2vw;min-width:0}
+  .pc02-title{font-family:'Montserrat',sans-serif;font-weight:700;font-size:3.6vw;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .pc02-price{font-family:'Nunito',sans-serif;font-weight:800;font-size:4.4vw;color:#F39208;line-height:1}
+  .pc02-price small{font-size:3vw;color:rgba(255,255,255,.7);font-weight:600;margin-left:.6vw}
+  .pc02-divider{height:1px;background:rgba(255,255,255,.16);margin:.4vh 0;flex-shrink:0}
+  .pc02-meta{display:flex;align-items:flex-start;gap:2vw;min-width:0}
+  .pc02-meta-block{display:flex;gap:1.4vw;align-items:flex-start;flex:1;min-width:0}
+  .pc02-meta-icon{width:5.6vw;height:5.6vw;min-width:20px;min-height:20px;border-radius:50%;background:rgba(158,215,235,.18);border:1.5px solid #9ED7EB;display:flex;align-items:center;justify-content:center;color:#9ED7EB;flex-shrink:0;margin-top:.2vh}
+  .pc02-meta-text{font-family:'Nunito',sans-serif;font-size:1.8vw;color:#fff;line-height:1.3;min-width:0}
+  .pc02-meta-text strong{display:block;font-weight:700;font-size:2vw;color:#F39208;margin-top:2px}
+  .pc02-meta-text .label{opacity:.75;font-size:1.6vw;display:block}
+  .pc02-meta-text .value{display:block;font-size:1.7vw;opacity:.9;line-height:1.4;word-break:break-word}
+  .pc02-right{width:16vw;min-width:48px;flex-shrink:0;background:linear-gradient(135deg,#F39208 0%, #F8AF4F 100%);border-radius:0 2.4vw 2.4vw 0;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:1.6vh 0}
+
+  /* Card option 01 */
+  .product-card-01{position:relative;width:100%;height:20vh;border-radius:3.2vw;border:2.5px solid #F39208;display:flex;align-items:stretch;overflow:hidden;background:#fff;box-shadow:0 6px 20px rgba(0,0,0,.35)}
+  .pc01-img{flex:1;background-size:cover;background-position:center;border-radius:2.4vw 0 0 2.4vw;position:relative}
+  .pc01-right{width:16vw;background:linear-gradient(180deg,#0166B3 0%, #1A2F51 100%);border-radius:0 2.4vw 2.4vw 0;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:1.6vh 0}
+  .product-card-01.unselected .pc01-right{background:#fff;color:#000}
+
+  /* checkbox tile */
+  .checktile{display:flex;align-items:center;gap:1.6vw;font-family:'Poppins',sans-serif;font-weight:600;font-size:2.4vw}
+  .checktile .box{width:3.2vw;height:3.2vw;border-radius:4px;background:#fff;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+  .checktile .box svg{width:80%;height:80%;color:#000}
+
+  /* spinner */
+  .spinner{width:12vw;height:12vw;min-width:48px;min-height:48px;border-radius:50%;border:.8vw solid rgba(255,255,255,.15);border-top-color:#F39208;animation:spin 1s linear infinite;box-shadow:0 0 14px rgba(243,146,8,.4)}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* fades */
+  .fadein{animation:fade .35s ease both}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  /* scrollbar da tela de Produtos */
+  .produtos-scroll::-webkit-scrollbar{width:5px}
+  .produtos-scroll::-webkit-scrollbar-track{background:rgba(255,255,255,.06);border-radius:3px}
+  .produtos-scroll::-webkit-scrollbar-thumb{background:rgba(255,255,255,.32);border-radius:3px}
+  .produtos-scroll::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.55)}
+</style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <!-- 1. Compartilhados: dados, utilitários e componentes reutilizáveis -->
+  <script type="text/babel" src="components/shared.jsx"></script>
+
+  <!-- 2. Telas — uma por arquivo -->
+  <script type="text/babel" src="screens/Intro.jsx"></script>
+  <script type="text/babel" src="screens/Produtos.jsx"></script>
+  <script type="text/babel" src="screens/Logar.jsx"></script>
+  <script type="text/babel" src="screens/Resumo.jsx"></script>
+  <script type="text/babel" src="screens/Pix.jsx"></script>
+  <script type="text/babel" src="screens/Cartao.jsx"></script>
+  <script type="text/babel" src="screens/Loading.jsx"></script>
+  <script type="text/babel" src="screens/Sucesso.jsx"></script>
+  <script type="text/babel" src="screens/Enviando.jsx"></script>
+  <script type="text/babel" src="screens/QrFinalizar.jsx"></script>
+  <script type="text/babel" src="screens/PixRecusado.jsx"></script>
+
+  <!-- 3. App raiz -->
+  <script type="text/babel" src="app.jsx"></script>
+</body>
+</html>

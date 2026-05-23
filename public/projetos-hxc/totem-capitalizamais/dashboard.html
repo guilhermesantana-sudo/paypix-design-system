@@ -1,0 +1,1464 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Capitaliza+ Totem · Backlog & Documentação MVP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Montserrat:wght@500;600;700;800;900&family=Nunito:wght@400;600;700;800;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box}
+  :root{
+    --bg-0:#0a0c10; --bg-1:#0e1116; --bg-card:#15181d; --bg-card-2:#1a1e25; --bg-elev:#1f242b;
+    --line:rgba(255,255,255,.06); --line-2:rgba(255,255,255,.12); --line-3:rgba(255,255,255,.20);
+    --txt:#fff; --txt-soft:rgba(255,255,255,.72); --txt-mute:rgba(255,255,255,.50); --txt-dim:rgba(255,255,255,.35);
+    --yellow:#ffd600; --yellow-soft:rgba(255,214,0,.14);
+    --green:#00c951; --green-soft:rgba(0,201,81,.14);
+    --red:#ff5252; --red-soft:rgba(255,82,82,.14);
+    --orange:#ff9f43; --orange-soft:rgba(255,159,67,.14);
+    --blue:#3b82f6; --blue-soft:rgba(59,130,246,.14);
+    --purple:#a855f7; --purple-soft:rgba(168,85,247,.14);
+    --cyan:#22d3ee; --cyan-soft:rgba(34,211,238,.14);
+    --pink:#ec4899; --pink-soft:rgba(236,72,153,.14);
+    --track:rgba(255,255,255,.06);
+  }
+  html,body{margin:0;padding:0;min-height:100%;background:var(--bg-0);color:var(--txt);font-family:'Poppins',sans-serif;-webkit-font-smoothing:antialiased}
+  button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit}
+  a{color:var(--yellow);text-decoration:none}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.92em;background:rgba(255,255,255,.06);padding:1px 6px;border-radius:5px;color:#ffe979}
+  .wrap{max-width:1340px;margin:0 auto;padding:28px 28px 80px}
+
+  /* ============ HEADER ============ */
+  header.top{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+  .logo-box{width:64px;height:64px;border-radius:14px;background:var(--yellow);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'Montserrat';font-weight:900;font-size:24px;color:#000;letter-spacing:-.02em}
+  .head-text{flex:1;min-width:240px}
+  .head-text h1{margin:0;font-family:'Montserrat';font-weight:800;font-size:clamp(20px,2.4vw,26px);letter-spacing:.005em;line-height:1.15}
+  .head-text .meta{display:flex;align-items:center;gap:14px;margin-top:4px;flex-wrap:wrap;font-family:'Poppins';font-weight:500;font-size:13px;color:var(--txt-mute)}
+  .head-text .meta .edit-date{cursor:pointer;color:var(--yellow);border-bottom:1px dashed rgba(255,214,0,.3);padding-bottom:1px;transition:color .15s}
+  .head-text .meta .edit-date:hover{color:#ffe979}
+  .head-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .sync{display:inline-flex;align-items:center;gap:8px;background:var(--green-soft);border:1.5px solid rgba(0,201,81,.55);border-radius:99px;padding:9px 16px;font-family:'Poppins';font-weight:700;font-size:12px;color:var(--green);letter-spacing:.02em}
+  .new-task{background:var(--yellow);color:#000;border-radius:99px;padding:10px 18px;font-family:'Poppins';font-weight:700;font-size:13px;letter-spacing:.02em;display:inline-flex;align-items:center;gap:8px;transition:filter .15s,transform .1s}
+  .new-task:hover{filter:brightness(1.06)}
+  .new-task:active{transform:scale(.98)}
+
+  .lede{margin:0 0 18px;font-family:'Poppins';font-weight:500;font-size:14px;color:var(--txt-soft);max-width:80ch}
+
+  /* ============ KPIs TOP ============ */
+  .kpis-top{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:24px}
+  @media(max-width:980px){.kpis-top{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:500px){.kpis-top{grid-template-columns:1fr}}
+  .kpi{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;position:relative;overflow:hidden}
+  .kpi::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px}
+  .kpi.y::before{background:var(--yellow)} .kpi.r::before{background:var(--red)} .kpi.b::before{background:var(--blue)} .kpi.g::before{background:var(--green)} .kpi.o::before{background:var(--orange)} .kpi.p::before{background:var(--purple)}
+  .kpi .label{font-family:'Poppins';font-weight:700;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--txt-mute)}
+  .kpi .value{font-family:'Bungee',sans-serif;font-size:clamp(28px,3.8vw,42px);line-height:1;margin:8px 0 6px;color:var(--txt);letter-spacing:.005em}
+  .kpi .value.y{color:var(--yellow)}
+  .kpi .value.r{color:var(--red)}
+  .kpi .sub{font-family:'Poppins';font-weight:500;font-size:11.5px;color:var(--txt-mute)}
+
+  /* ============ TABS ============ */
+  nav.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:22px;overflow-x:auto;scrollbar-width:none}
+  nav.tabs::-webkit-scrollbar{display:none}
+  nav.tabs button{font-family:'Poppins';font-weight:600;font-size:13px;color:var(--txt-mute);padding:12px 16px;border-bottom:2px solid transparent;transition:color .15s,border-color .15s;white-space:nowrap;display:inline-flex;align-items:center;gap:7px}
+  nav.tabs button:hover{color:var(--txt)}
+  nav.tabs button.active{color:var(--yellow);border-bottom-color:var(--yellow)}
+
+  /* ============ SECTIONS ============ */
+  section.tab{display:none}
+  section.tab.active{display:block}
+  section.tab > h2{margin:0 0 6px;font-family:'Bungee',sans-serif;font-size:clamp(22px,3vw,30px);color:var(--txt);letter-spacing:.005em}
+  section.tab > h2 .accent{color:var(--yellow)}
+  section.tab > p.sub{margin:0 0 22px;font-family:'Poppins';font-weight:500;font-size:14px;color:var(--txt-soft)}
+  .block{background:var(--bg-card);border:1px solid var(--line);border-radius:16px;padding:22px 24px;margin-bottom:16px}
+  .block > h3{margin:0 0 16px;font-family:'Montserrat';font-weight:800;font-size:17px;color:var(--yellow);letter-spacing:.005em}
+  .block > p.sub-h{margin:-10px 0 16px;font-family:'Poppins';font-weight:500;font-size:13px;color:var(--txt-mute)}
+
+  /* ============ DASHBOARD ============ */
+  .progress-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+  @media(max-width:700px){.progress-2{grid-template-columns:1fr}}
+  .progress-card{background:var(--bg-card);border:1px solid var(--line);border-radius:16px;padding:24px 28px;display:flex;flex-direction:column;gap:14px}
+  .progress-card .label{font-family:'Poppins';font-weight:700;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--txt-mute)}
+  .progress-card .pct{font-family:'Bungee',sans-serif;font-size:clamp(40px,6vw,56px);line-height:1;color:var(--yellow)}
+  .progress-card .pct.green{color:var(--green)}
+  .progress-card .bar{height:6px;background:var(--track);border-radius:99px;overflow:hidden}
+  .progress-card .bar > span{display:block;height:100%;background:linear-gradient(90deg,var(--yellow),#ffea7e);transition:width .5s ease}
+  .progress-card .bar > span.green{background:linear-gradient(90deg,var(--green),#5ee895)}
+  .progress-card .caption{font-family:'Poppins';font-weight:500;font-size:13px;color:var(--txt-mute)}
+
+  .rows{display:flex;flex-direction:column;gap:4px}
+  .row{display:grid;grid-template-columns:minmax(180px,260px) 1fr minmax(140px,180px);gap:18px;align-items:center;padding:9px 8px;border-radius:8px;transition:background .15s}
+  .row:hover{background:rgba(255,255,255,.025)}
+  @media(max-width:780px){.row{grid-template-columns:1fr;gap:6px}.row .stat{text-align:left}}
+  .row .label{font-family:'Poppins';font-weight:600;font-size:13.5px;color:var(--txt);display:flex;align-items:center;gap:9px}
+  .row .label .ico{font-size:16px;line-height:1}
+  .row .bar{height:8px;background:var(--track);border-radius:99px;overflow:hidden}
+  .row .bar > span{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--yellow),#ffea7e);transition:width .5s ease}
+  .row .bar > span.done{background:linear-gradient(90deg,var(--green),#5ee895)}
+  .row .stat{font-family:'Poppins';font-weight:600;font-size:12.5px;color:var(--txt-mute);text-align:right;white-space:nowrap}
+  .row .stat strong{color:var(--txt);font-weight:800;font-family:'Nunito'}
+  .row .stat strong.green{color:var(--green)} .row .stat strong.yellow{color:var(--yellow)}
+
+  .status-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  @media(max-width:780px){.status-grid{grid-template-columns:repeat(2,1fr)}}
+  .status-box{background:var(--bg-card-2);border:1px solid var(--line);border-radius:14px;padding:18px 20px;position:relative;text-align:center;overflow:hidden}
+  .status-box::before{content:"";position:absolute;top:0;left:0;right:0;height:3px}
+  .status-box.todo::before{background:rgba(255,255,255,.4)} .status-box.doing::before{background:var(--orange)} .status-box.review::before{background:var(--blue)} .status-box.done::before{background:var(--green)}
+  .status-box .ico{font-size:24px;margin-bottom:8px}
+  .status-box .n{font-family:'Bungee',sans-serif;font-size:36px;line-height:1;margin-bottom:4px}
+  .status-box.todo .n{color:rgba(255,255,255,.85)} .status-box.doing .n{color:var(--orange)} .status-box.review .n{color:var(--blue)} .status-box.done .n{color:var(--green)}
+  .status-box .name{font-family:'Poppins';font-weight:600;font-size:13px;color:var(--txt)}
+  .status-box .pct{font-family:'Poppins';font-weight:500;font-size:11px;color:var(--txt-mute);margin-top:2px}
+
+  /* ============ KANBAN ============ */
+  .kanban{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  @media(max-width:980px){.kanban{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:580px){.kanban{grid-template-columns:1fr}}
+  .col{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:14px 12px;min-height:400px}
+  .col.drag-over{background:rgba(255,214,0,.04);border-color:rgba(255,214,0,.4)}
+  .col .col-header{display:flex;align-items:center;justify-content:space-between;padding:0 4px 12px;margin-bottom:10px;border-bottom:1px solid var(--line)}
+  .col .col-title{font-family:'Poppins';font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+  .col .col-title .dot{width:8px;height:8px;border-radius:99px}
+  .col.todo .col-title .dot{background:rgba(255,255,255,.6)} .col.doing .col-title .dot{background:var(--orange)} .col.review .col-title .dot{background:var(--blue)} .col.done .col-title .dot{background:var(--green)}
+  .col .col-count{background:rgba(255,255,255,.08);font-family:'Nunito';font-weight:800;font-size:11px;color:var(--txt-soft);padding:3px 9px;border-radius:99px}
+  .col .col-list{display:flex;flex-direction:column;gap:8px}
+  .kcard{background:var(--bg-elev);border:1px solid var(--line-2);border-radius:10px;padding:12px;cursor:grab;transition:transform .12s,box-shadow .15s,border-color .15s}
+  .kcard:hover{border-color:var(--line-3);box-shadow:0 4px 16px rgba(0,0,0,.25)}
+  .kcard:active{cursor:grabbing}
+  .kcard.dragging{opacity:.5}
+  .kcard .top{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:7px}
+  .kcard .epic-tag{font-family:'Poppins';font-weight:700;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--txt-mute)}
+  .kcard .pts{font-family:'Nunito';font-weight:800;font-size:11px;color:#000;background:var(--yellow);padding:2px 8px;border-radius:99px}
+  .kcard .title{font-family:'Poppins';font-weight:600;font-size:13px;line-height:1.4;color:var(--txt);margin-bottom:8px}
+  .kcard .meta{display:flex;flex-wrap:wrap;gap:5px}
+  .tag{font-family:'Poppins';font-weight:600;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;border-radius:99px;padding:2px 8px;white-space:nowrap;border:1px solid transparent}
+  .tag.area{background:var(--blue-soft);color:#9cc1ff;border-color:rgba(59,130,246,.3)}
+  .tag.sprint{background:var(--purple-soft);color:#d6b6ff;border-color:rgba(168,85,247,.3)}
+  .tag.must{background:var(--red-soft);color:#ffaeae;border-color:rgba(255,82,82,.35)}
+  .tag.should{background:var(--orange-soft);color:#ffce9e;border-color:rgba(255,159,67,.35)}
+  .tag.could{background:rgba(255,255,255,.08);color:var(--txt-mute);border-color:var(--line-2)}
+
+  /* ============ BACKLOG ============ */
+  .filters{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px;align-items:center}
+  .filters select,.filters input{background:var(--bg-card);border:1px solid var(--line-2);color:var(--txt);border-radius:8px;padding:8px 10px;font-family:'Poppins';font-size:12.5px;font-weight:500;outline:none;transition:border-color .15s}
+  .filters select:focus,.filters input:focus{border-color:var(--yellow)}
+  .filters input{min-width:200px}
+  .filters .reset-btn{font-family:'Poppins';font-weight:600;font-size:11.5px;color:var(--txt-mute);padding:8px 12px;border-radius:8px;transition:color .15s}
+  .filters .reset-btn:hover{color:var(--red)}
+
+  table.backlog{width:100%;border-collapse:separate;border-spacing:0;background:var(--bg-card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  table.backlog th,table.backlog td{padding:11px 14px;font-size:12.5px;text-align:left;border-bottom:1px solid var(--line);vertical-align:middle}
+  table.backlog th{background:rgba(0,0,0,.25);font-family:'Poppins';font-weight:700;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--txt-mute);position:sticky;top:0}
+  table.backlog tr:last-child td{border-bottom:0}
+  table.backlog tr:hover td{background:rgba(255,255,255,.025)}
+  table.backlog tr.hidden{display:none}
+  table.backlog td.tid{font-family:'Nunito';font-weight:700;color:var(--txt-mute);font-size:11px;white-space:nowrap}
+  table.backlog td.ttitle{font-weight:600;color:var(--txt);max-width:480px}
+  table.backlog td.ttitle small{display:block;font-size:11px;color:var(--txt-mute);font-weight:400;margin-top:3px;line-height:1.4}
+  .status-pill{display:inline-flex;align-items:center;gap:6px;font-family:'Poppins';font-weight:700;font-size:10px;letter-spacing:.06em;text-transform:uppercase;border-radius:99px;padding:4px 10px;cursor:pointer;border:0;transition:filter .15s}
+  .status-pill:hover{filter:brightness(1.1)}
+  .status-pill.todo{background:rgba(255,255,255,.08);color:var(--txt-soft)}
+  .status-pill.doing{background:var(--orange-soft);color:var(--orange);box-shadow:inset 0 0 0 1px rgba(255,159,67,.4)}
+  .status-pill.review{background:var(--blue-soft);color:var(--blue);box-shadow:inset 0 0 0 1px rgba(59,130,246,.4)}
+  .status-pill.done{background:var(--green-soft);color:var(--green);box-shadow:inset 0 0 0 1px rgba(0,201,81,.5)}
+
+  /* ============ SPRINTS ============ */
+  .sprint-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+  .sprint-card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;display:flex;flex-direction:column;gap:10px}
+  .sprint-card .header{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+  .sprint-card .title{font-family:'Montserrat';font-weight:800;font-size:16px;color:var(--txt)}
+  .sprint-card .subtitle{font-family:'Poppins';font-weight:500;font-size:11.5px;color:var(--txt-mute);margin-top:2px}
+  .sprint-card .progress-mini{height:6px;background:var(--track);border-radius:99px;overflow:hidden}
+  .sprint-card .progress-mini > span{display:block;height:100%;background:linear-gradient(90deg,var(--yellow),#ffea7e);transition:width .5s}
+  .sprint-card .progress-mini > span.green{background:linear-gradient(90deg,var(--green),#5ee895)}
+  .sprint-card .stats{display:flex;justify-content:space-between;font-family:'Poppins';font-weight:600;font-size:11.5px;color:var(--txt-mute)}
+  .sprint-card .stats strong{color:var(--txt);font-family:'Nunito';font-weight:800}
+
+  /* ============ VISÃO GERAL ============ */
+  .epic-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px;margin-bottom:24px}
+  .epic-card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;position:relative;overflow:hidden;border-left:4px solid var(--yellow)}
+  .epic-card.must{border-left-color:var(--red)}
+  .epic-card.should{border-left-color:var(--orange)}
+  .epic-card.could{border-left-color:var(--blue)}
+  .epic-card h4{margin:0 0 6px;font-family:'Montserrat';font-weight:800;font-size:15px;color:var(--txt)}
+  .epic-card .desc{margin:0 0 10px;font-family:'Poppins';font-weight:500;font-size:12.5px;color:var(--txt-soft);line-height:1.5}
+  .epic-card .footer{display:flex;gap:14px;font-family:'Poppins';font-weight:600;font-size:11px;color:var(--txt-mute)}
+  .epic-card .footer strong{color:var(--txt);font-family:'Nunito';font-weight:800;font-size:13px}
+
+  .vg-sub{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 18px}
+  .vg-sub button{font-family:'Poppins';font-weight:600;font-size:12px;color:var(--txt-mute);padding:7px 13px;border-radius:99px;background:var(--bg-card);border:1px solid var(--line);transition:all .15s}
+  .vg-sub button:hover{color:var(--txt);border-color:var(--line-2)}
+  .vg-sub button.active{background:var(--yellow);color:#000;border-color:var(--yellow)}
+  .vg-section{display:none}
+  .vg-section.active{display:block}
+
+  .screen-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:14px}
+  .screen-card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:flex;flex-direction:column;gap:10px}
+  .screen-card h4{margin:0;font-family:'Montserrat';font-weight:800;font-size:14.5px;display:flex;align-items:center;gap:9px}
+  .screen-card .num{font-family:'Nunito';font-weight:800;font-size:11px;color:#000;background:var(--yellow);border-radius:5px;padding:2px 7px}
+  .screen-card .file{font-family:'Poppins';font-weight:600;font-size:10px;letter-spacing:.04em;color:#9cc1ff;background:var(--blue-soft);border:1px solid rgba(59,130,246,.3);border-radius:99px;padding:3px 9px;display:inline-block;width:fit-content}
+  .screen-card .desc{margin:0;font-size:12.5px;color:var(--txt-soft);line-height:1.5}
+  .screen-card .mini{background:rgba(0,0,0,.18);border:1px solid var(--line);border-radius:8px;padding:9px 11px}
+  .screen-card .mini .h{font-family:'Poppins';font-weight:700;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--txt-mute);margin-bottom:5px}
+  .screen-card .mini ul{margin:0;padding-left:15px;font-size:11.5px;color:var(--txt);line-height:1.55}
+  .screen-card .mini ul li{margin-bottom:2px}
+  .screen-card .twocol{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  @media(max-width:520px){.screen-card .twocol{grid-template-columns:1fr}}
+
+  .flow-block{background:var(--bg-card-2);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:12px}
+  .flow-block .h{font-family:'Poppins';font-weight:700;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--txt-mute);margin-bottom:10px}
+  .flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .node{background:var(--bg-elev);border:1.5px solid var(--line-2);border-radius:10px;padding:8px 13px;font-family:'Montserrat';font-weight:700;font-size:12px;text-align:center;min-width:110px}
+  .node.start{border-color:var(--yellow);box-shadow:0 0 0 2px rgba(255,214,0,.16)}
+  .node.error{border-color:var(--red);background:rgba(255,82,82,.06)}
+  .node.success{border-color:var(--green);background:rgba(0,201,81,.07)}
+  .arrow{color:var(--txt-mute);font-weight:700;font-size:16px}
+
+  table.matrix{width:100%;border-collapse:separate;border-spacing:0;background:var(--bg-card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  table.matrix th,table.matrix td{padding:11px 13px;font-size:12.5px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+  table.matrix th{background:rgba(0,0,0,.22);font-family:'Poppins';font-weight:700;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--txt-mute)}
+  table.matrix tr:last-child td{border-bottom:0}
+  .pill{display:inline-block;font-family:'Poppins';font-weight:700;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;border-radius:99px;padding:3px 9px}
+  .pill.ok{background:var(--green-soft);color:var(--green)}
+  .pill.no{background:var(--red-soft);color:var(--red)}
+  .pill.maybe{background:var(--orange-soft);color:var(--orange)}
+
+  /* ============ RISCOS / GAPS ============ */
+  .risk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:12px}
+  .risk-card{background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;border-left:4px solid var(--orange)}
+  .risk-card.crit{border-left-color:var(--red)}
+  .risk-card.low{border-left-color:var(--blue)}
+  .risk-card .h4row{display:flex;justify-content:space-between;align-items:flex-start;gap:6px;margin-bottom:6px}
+  .risk-card h4{margin:0;font-family:'Montserrat';font-weight:800;font-size:14px;color:var(--txt)}
+  .risk-card .sev{font-family:'Poppins';font-weight:700;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;border-radius:99px;padding:3px 8px;white-space:nowrap}
+  .risk-card.crit .sev{background:var(--red-soft);color:var(--red)}
+  .risk-card .sev{background:var(--orange-soft);color:var(--orange)}
+  .risk-card.low .sev{background:var(--blue-soft);color:#9cc1ff}
+  .risk-card .desc{margin:0;font-size:12.5px;color:var(--txt-soft);line-height:1.5}
+
+  /* ============ DESIGN SYSTEM ============ */
+  .ds-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+  .ds-card{background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .ds-card h4{margin:0 0 12px;font-family:'Montserrat';font-weight:800;font-size:13px;color:var(--yellow);letter-spacing:.05em;text-transform:uppercase}
+  .ds-card .swatch{display:flex;align-items:center;gap:10px;margin-bottom:8px;font-family:'Poppins';font-weight:500;font-size:12px}
+  .ds-card .swatch .sq{width:28px;height:28px;border-radius:6px;flex-shrink:0;border:1px solid var(--line-2)}
+  .ds-card .swatch code{font-size:11px}
+  .ds-card .font-sample{font-size:18px;margin-bottom:6px;color:var(--txt)}
+  .ds-card .font-sample small{font-family:'Poppins';font-weight:500;font-size:11px;color:var(--txt-mute);display:block;margin-top:2px}
+
+  /* ============ UPDATES (timeline) ============ */
+  .timeline{display:flex;flex-direction:column;gap:10px}
+  .update{background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;border-left:4px solid var(--blue)}
+  .update.create{border-left-color:var(--green)}
+  .update.warn{border-left-color:var(--orange)}
+  .update .date{font-family:'Poppins';font-weight:600;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--txt-mute);margin-bottom:5px}
+  .update .title{font-family:'Montserrat';font-weight:700;font-size:14px;margin-bottom:4px}
+  .update .desc{font-family:'Poppins';font-weight:500;font-size:12.5px;color:var(--txt-soft);line-height:1.5}
+
+  /* ============ ANALYTICS ============ */
+  .stat-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:14px}
+  .stat-card{background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+  .stat-card .l{font-family:'Poppins';font-weight:700;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--txt-mute);margin-bottom:6px}
+  .stat-card .v{font-family:'Bungee';font-size:28px;line-height:1;color:var(--yellow)}
+  .stat-card .v.green{color:var(--green)}
+  .stat-card .s{font-family:'Poppins';font-weight:500;font-size:11px;color:var(--txt-mute);margin-top:4px}
+
+  /* ============ MODAL ============ */
+  .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:100;padding:20px}
+  .modal-bg.show{display:flex}
+  .modal{background:var(--bg-card);border:1px solid var(--line-2);border-radius:16px;padding:26px;width:100%;max-width:520px;display:flex;flex-direction:column;gap:12px;max-height:90vh;overflow-y:auto}
+  .modal h3{margin:0;font-family:'Montserrat';font-weight:800;font-size:17px;color:var(--yellow)}
+  .modal label{display:flex;flex-direction:column;gap:5px;font-family:'Poppins';font-weight:600;font-size:11px;color:var(--txt-soft);letter-spacing:.04em;text-transform:uppercase}
+  .modal input,.modal select,.modal textarea{background:rgba(255,255,255,.06);border:1.5px solid var(--line-2);color:var(--txt);border-radius:9px;padding:9px 11px;font-family:'Poppins';font-size:13.5px;font-weight:500;outline:none;transition:border-color .15s}
+  .modal input:focus,.modal select:focus,.modal textarea:focus{border-color:var(--yellow)}
+  .modal textarea{resize:vertical;min-height:60px;font-family:inherit}
+  .modal .actions{display:flex;gap:10px;justify-content:flex-end;margin-top:8px}
+  .modal .actions button{padding:9px 18px;border-radius:99px;font-family:'Poppins';font-weight:700;font-size:12.5px;letter-spacing:.02em;transition:filter .15s}
+  .modal .actions .cancel{background:rgba(255,255,255,.08);color:var(--txt-soft)}
+  .modal .actions .save{background:var(--yellow);color:#000}
+  .modal .actions .delete{background:var(--red-soft);color:var(--red);margin-right:auto}
+  .modal .actions button:hover{filter:brightness(1.1)}
+  .modal .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+  footer{margin-top:42px;text-align:center;font-size:11.5px;color:var(--txt-mute)}
+  footer a{color:var(--yellow)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HEADER -->
+  <header class="top">
+    <div class="logo-box">C+</div>
+    <div class="head-text">
+      <h1>Backlog &amp; Documentação MVP</h1>
+      <div class="meta">
+        <span>Entrega: <span class="edit-date" id="deadline-display" title="Clique para editar a data de entrega">—/—/——</span></span>
+        <span>·</span>
+        <span><strong style="color:var(--txt)">Capitaliza+ Totem</strong></span>
+      </div>
+    </div>
+    <div class="head-actions">
+      <span class="sync">✓ Sincronizado</span>
+      <button class="new-task" id="btn-new">＋ Nova tarefa</button>
+    </div>
+  </header>
+
+  <p class="lede">Painel vivo do backlog, sprints, eventos de analytics e riscos. <strong style="color:var(--yellow)">Nada iniciado pelo dev.</strong> Use as tabs abaixo para navegar pelas visões do produto.</p>
+
+  <!-- KPIs TOP -->
+  <div class="kpis-top" id="kpis-top"></div>
+
+  <!-- TABS -->
+  <nav class="tabs" id="tabs">
+    <button data-tab="dashboard" class="active">📊 Dashboard</button>
+    <button data-tab="kanban">🎯 Kanban</button>
+    <button data-tab="backlog">📋 Backlog</button>
+    <button data-tab="sprints">🗓 Sprints</button>
+    <button data-tab="atualizacoes">📰 Atualizações</button>
+    <button data-tab="visao">🗂 Visão geral</button>
+    <button data-tab="analytics">📈 Analytics</button>
+    <button data-tab="riscos">⚠️ Riscos</button>
+    <button data-tab="design">🎨 Design System</button>
+  </nav>
+
+  <!-- ============ DASHBOARD ============ -->
+  <section id="tab-dashboard" class="tab active">
+    <h2><span class="accent">DASHBOARD</span> DO PROJETO</h2>
+    <p class="sub">Quanto do MVP está pronto, por área, sprint e épico.</p>
+
+    <div class="progress-2">
+      <div class="progress-card">
+        <span class="label">Progresso geral (tarefas)</span>
+        <div class="pct" id="pct-tasks">0%</div>
+        <div class="bar"><span id="bar-tasks"></span></div>
+        <span class="caption" id="cap-tasks">0 de 0 tarefas concluídas</span>
+      </div>
+      <div class="progress-card">
+        <span class="label">Progresso por esforço (pontos)</span>
+        <div class="pct" id="pct-pts">0%</div>
+        <div class="bar"><span id="bar-pts"></span></div>
+        <span class="caption" id="cap-pts">0 de 0 pts entregues</span>
+      </div>
+    </div>
+
+    <div class="block">
+      <h3>Por área de trabalho</h3>
+      <div class="rows" id="rows-areas"></div>
+    </div>
+
+    <div class="block">
+      <h3>Por sprint</h3>
+      <div class="rows" id="rows-sprints"></div>
+    </div>
+
+    <div class="block">
+      <h3>Por épico</h3>
+      <div class="rows" id="rows-epics"></div>
+    </div>
+
+    <div class="block">
+      <h3>Distribuição atual de status</h3>
+      <div class="status-grid" id="status-grid"></div>
+    </div>
+  </section>
+
+  <!-- ============ KANBAN ============ -->
+  <section id="tab-kanban" class="tab">
+    <h2>KANBAN</h2>
+    <p class="sub">Arraste cards entre colunas para mudar o status. Clique em um card para editar/excluir.</p>
+    <div class="filters">
+      <select id="k-epic"><option value="">Todos os épicos</option></select>
+      <select id="k-area"><option value="">Todas as áreas</option></select>
+      <select id="k-sprint"><option value="">Todas as sprints</option></select>
+      <select id="k-prio"><option value="">Todas as prioridades</option><option value="must">Must</option><option value="should">Should</option><option value="could">Could</option></select>
+    </div>
+    <div class="kanban" id="kanban"></div>
+  </section>
+
+  <!-- ============ BACKLOG ============ -->
+  <section id="tab-backlog" class="tab">
+    <h2>BACKLOG</h2>
+    <p class="sub">Lista completa de tarefas. Filtre, busque e clique para detalhar.</p>
+    <div class="filters">
+      <input id="b-search" placeholder="🔍 Buscar por título, ID, descrição..."/>
+      <select id="b-epic"><option value="">Todos os épicos</option></select>
+      <select id="b-area"><option value="">Todas as áreas</option></select>
+      <select id="b-sprint"><option value="">Todas as sprints</option></select>
+      <select id="b-prio"><option value="">Todas as prioridades</option><option value="must">Must</option><option value="should">Should</option><option value="could">Could</option></select>
+      <select id="b-status"><option value="">Todos os status</option><option value="todo">A fazer</option><option value="doing">Em andamento</option><option value="review">Em teste</option><option value="done">Concluído</option></select>
+      <button class="reset-btn" onclick="resetFilters('b')">Limpar filtros</button>
+    </div>
+    <table class="backlog" id="backlog-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Tarefa</th>
+          <th>Épico</th>
+          <th>Área</th>
+          <th>Sprint</th>
+          <th>Prio.</th>
+          <th>Pts</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="backlog-body"></tbody>
+    </table>
+  </section>
+
+  <!-- ============ SPRINTS ============ -->
+  <section id="tab-sprints" class="tab">
+    <h2>SPRINTS</h2>
+    <p class="sub">Distribuição das sprints ao longo da execução do MVP.</p>
+    <div class="sprint-grid" id="sprint-grid"></div>
+  </section>
+
+  <!-- ============ ATUALIZAÇÕES ============ -->
+  <section id="tab-atualizacoes" class="tab">
+    <h2>ATUALIZAÇÕES</h2>
+    <p class="sub">Histórico de mudanças do projeto. Atualizações futuras feitas pelos devs aparecem aqui.</p>
+    <div class="timeline" id="timeline"></div>
+  </section>
+
+  <!-- ============ VISÃO GERAL ============ -->
+  <section id="tab-visao" class="tab">
+    <h2>VISÃO GERAL DO <span class="accent">PRODUTO</span></h2>
+    <p class="sub">Cards de épicos, mapeamento das 12 telas, fluxos de navegação, cenários de erro e sucesso, gaps & riscos, regras globais.</p>
+
+    <div class="vg-sub" id="vg-sub">
+      <button data-vg="epicos" class="active">Épicos</button>
+      <button data-vg="telas">Telas (12)</button>
+      <button data-vg="fluxo">Fluxo de navegação</button>
+      <button data-vg="erros">Cenários de erro</button>
+      <button data-vg="sucesso">Cenários de sucesso</button>
+      <button data-vg="gaps">Gaps</button>
+      <button data-vg="regras">Regras globais</button>
+    </div>
+
+    <div id="vg-epicos" class="vg-section active">
+      <div class="epic-grid" id="epic-grid"></div>
+    </div>
+
+    <div id="vg-telas" class="vg-section">
+      <div class="screen-grid" id="screen-grid"></div>
+    </div>
+
+    <div id="vg-fluxo" class="vg-section">
+      <div class="flow-block">
+        <div class="h">Golden path (PIX aprovado)</div>
+        <div class="flow">
+          <div class="node start">01 · Intro</div><span class="arrow">→</span>
+          <div class="node">02 · Produtos</div><span class="arrow">→</span>
+          <div class="node">03 · Resumo</div><span class="arrow">→</span>
+          <div class="node">04 · PIX (QR)</div><span class="arrow">→</span>
+          <div class="node">05 · Loading</div><span class="arrow">→</span>
+          <div class="node success">06 · Sucesso</div><span class="arrow">→</span>
+          <div class="node">07 · Enviando WhatsApp</div><span class="arrow">→</span>
+          <div class="node success">08 · QR Finalizar</div><span class="arrow">↺</span>
+          <div class="node start">Intro</div>
+        </div>
+      </div>
+      <div class="flow-block">
+        <div class="h">Ramo cartão (alternativo)</div>
+        <div class="flow">
+          <div class="node">03 · Resumo</div><span class="arrow">→</span>
+          <div class="node">Cartão · aguarde</div><span class="arrow">→</span>
+          <div class="node success">Cartão · aprovado</div><span class="arrow">→</span>
+          <div class="node success">Sucesso</div>
+        </div>
+        <div class="flow" style="margin-top:8px">
+          <div class="node">Cartão · aguarde</div><span class="arrow">→</span>
+          <div class="node error">Cartão · recusado</div><span class="arrow">→</span>
+          <div class="node">Resumo (trocar)</div>
+        </div>
+      </div>
+      <div class="flow-block">
+        <div class="h">Ramos de erro</div>
+        <div class="flow">
+          <div class="node">PIX (timer 4:59)</div><span class="arrow">→</span>
+          <div class="node error">PIX Recusado</div><span class="arrow">→</span>
+          <div class="node">Retry ou Resumo</div>
+        </div>
+        <div class="flow" style="margin-top:8px">
+          <div class="node">Qualquer tela</div><span class="arrow">→</span>
+          <div class="node error">Idle timeout (60-120s)</div><span class="arrow">↺</span>
+          <div class="node start">Intro</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="vg-erros" class="vg-section">
+      <table class="matrix">
+        <thead><tr><th style="width:30%">Cenário</th><th style="width:18%">Tela</th><th style="width:14%">Tratado?</th><th>Solução</th></tr></thead>
+        <tbody id="erros-body"></tbody>
+      </table>
+    </div>
+
+    <div id="vg-sucesso" class="vg-section">
+      <table class="matrix">
+        <thead><tr><th style="width:32%">Cenário</th><th style="width:18%">Tela</th><th style="width:14%">Mapeado?</th><th>Critério de aceite</th></tr></thead>
+        <tbody id="sucesso-body"></tbody>
+      </table>
+    </div>
+
+    <div id="vg-gaps" class="vg-section">
+      <div class="risk-grid" id="gaps-grid"></div>
+    </div>
+
+    <div id="vg-regras" class="vg-section">
+      <div class="epic-grid" id="regras-grid"></div>
+    </div>
+  </section>
+
+  <!-- ============ ANALYTICS ============ -->
+  <section id="tab-analytics" class="tab">
+    <h2>ANALYTICS</h2>
+    <p class="sub">Métricas do projeto. Atualizadas conforme o time muda status no Kanban.</p>
+    <div class="stat-cards" id="analytics-stats"></div>
+    <div class="block">
+      <h3>Top 5 maiores tarefas (mais pontos)</h3>
+      <div class="rows" id="top-tasks"></div>
+    </div>
+    <div class="block">
+      <h3>Distribuição por área</h3>
+      <div class="rows" id="dist-areas"></div>
+    </div>
+  </section>
+
+  <!-- ============ RISCOS ============ -->
+  <section id="tab-riscos" class="tab">
+    <h2>RISCOS</h2>
+    <p class="sub">Riscos identificados que podem impactar o go-live. Marcados por gravidade.</p>
+    <div class="risk-grid" id="riscos-grid"></div>
+  </section>
+
+  <!-- ============ DESIGN SYSTEM ============ -->
+  <section id="tab-design" class="tab">
+    <h2>DESIGN SYSTEM</h2>
+    <p class="sub">Tokens, tipografia e componentes-base do Totem Capitaliza+.</p>
+    <div class="ds-grid">
+      <div class="ds-card">
+        <h4>Cores principais</h4>
+        <div class="swatch"><span class="sq" style="background:#ffd600"></span><span>Yellow primário <code>#ffd600</code></span></div>
+        <div class="swatch"><span class="sq" style="background:#00c951"></span><span>Green sucesso <code>#00c951</code></span></div>
+        <div class="swatch"><span class="sq" style="background:#ff5252"></span><span>Red erro <code>#ff5252</code></span></div>
+        <div class="swatch"><span class="sq" style="background:#ff9f43"></span><span>Orange alerta <code>#ff9f43</code></span></div>
+      </div>
+      <div class="ds-card">
+        <h4>Backgrounds</h4>
+        <div class="swatch"><span class="sq" style="background:#011331"></span><span>Dark base <code>#011331</code></span></div>
+        <div class="swatch"><span class="sq" style="background:#021a44"></span><span>Dark soft <code>#021a44</code></span></div>
+        <div class="swatch"><span class="sq" style="background:linear-gradient(135deg,#012a7e,#0044d0)"></span><span>Gradient brand</span></div>
+        <div class="swatch"><span class="sq" style="background:linear-gradient(135deg,#0a3a26,#032b1a)"></span><span>Gradient success</span></div>
+      </div>
+      <div class="ds-card">
+        <h4>Tipografia</h4>
+        <div class="font-sample" style="font-family:'Bungee'">Bungee<small>Display · KPIs e títulos grandes</small></div>
+        <div class="font-sample" style="font-family:'Montserrat';font-weight:800">Montserrat<small>Headlines de tela</small></div>
+        <div class="font-sample" style="font-family:'Nunito';font-weight:900">Nunito 0123<small>Valores e números</small></div>
+        <div class="font-sample" style="font-family:'Poppins';font-weight:600">Poppins<small>UI e textos de corpo</small></div>
+        <div style="font-family:'Poppins';font-size:11px;color:var(--red);margin-top:8px">⚠ Proibido: Fredoka, Press Start 2P</div>
+      </div>
+      <div class="ds-card">
+        <h4>Botões</h4>
+        <button class="new-task" style="margin-bottom:8px">Primário (.btn-primary)</button>
+        <button style="background:#00c951;color:#fff;padding:9px 16px;border-radius:99px;font-weight:700;font-size:12.5px;margin-bottom:8px">Sucesso (.btn-success)</button>
+        <button style="background:transparent;color:#ffd600;border:2px solid #ffd600;padding:7px 14px;border-radius:99px;font-weight:700;font-size:12.5px;margin-bottom:8px">Secundário (.btn-secondary)</button>
+        <button style="background:#ff5252;color:#fff;padding:9px 16px;border-radius:99px;font-weight:700;font-size:12.5px">Perigo (.btn-danger)</button>
+      </div>
+      <div class="ds-card">
+        <h4>Primitives criados</h4>
+        <div style="font-family:'Poppins';font-size:12.5px;color:var(--txt-soft);line-height:1.7">
+          <code>.ds-wallet</code> · cartão dark padrão<br/>
+          <code>.ds-screen-header</code> · header de tela<br/>
+          <code>.ds-close</code> · botão fechar<br/>
+          <code>.ds-bell</code> · sino de notificação<br/>
+        </div>
+      </div>
+      <div class="ds-card">
+        <h4>Regras absolutas</h4>
+        <div style="font-family:'Poppins';font-size:12px;color:var(--txt-soft);line-height:1.65">
+          ✓ Dark-first sempre<br/>
+          ✗ Nunca fonte escura sobre fundo claro<br/>
+          ✓ Mesmo componente · mesmo visual em toda tela<br/>
+          ✓ Toques mínimos 44×44px<br/>
+          ✓ Toggle prod/demo atrás de flag em produção
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Dashboard de PM · estado em <code>localStorage['cap-pm-v2']</code> · <a href="#" onclick="if(confirm('Resetar TODO o backlog (status, deadline, custom tasks)?')){localStorage.removeItem('cap-pm-v2');location.reload();}">Resetar tudo</a>
+  </footer>
+</div>
+
+<!-- ============ MODAL ============ -->
+<div class="modal-bg" id="modal">
+  <div class="modal">
+    <h3 id="modal-title">+ Nova tarefa</h3>
+    <input type="hidden" id="m-id"/>
+    <label>Título<input id="m-title" type="text" placeholder="Ex: Integrar webhook do gateway PIX"/></label>
+    <label>Descrição técnica<textarea id="m-desc" placeholder="Ex: Endpoint POST /webhooks/pix com idempotência via header X-Idempotency-Key..."></textarea></label>
+    <div class="row2">
+      <label>Épico<select id="m-epic"></select></label>
+      <label>Área<select id="m-area"></select></label>
+    </div>
+    <div class="row2">
+      <label>Sprint<select id="m-sprint"></select></label>
+      <label>Prioridade
+        <select id="m-prio">
+          <option value="must">Must (crítico)</option>
+          <option value="should">Should (importante)</option>
+          <option value="could">Could (opcional)</option>
+        </select>
+      </label>
+    </div>
+    <div class="row2">
+      <label>Pontos<input id="m-pts" type="number" min="0" max="21" value="3"/></label>
+      <label>Status
+        <select id="m-status">
+          <option value="todo">A fazer</option>
+          <option value="doing">Em andamento</option>
+          <option value="review">Em teste</option>
+          <option value="done">Concluído</option>
+        </select>
+      </label>
+    </div>
+    <div class="actions">
+      <button class="delete" id="m-delete" style="display:none" onclick="deleteTask()">🗑 Excluir</button>
+      <button class="cancel" onclick="closeModal()">Cancelar</button>
+      <button class="save" onclick="saveModal()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ===========================================================
+   DADOS — backlog completo do Capitaliza+ Totem MVP
+   ============================================================ */
+const EPICS = [
+  {id:"E0",  name:"Discovery & Setup",          ico:"🔍", prio:"must",   desc:"Personas, KPIs, validação com cliente. Setup do repo, ambiente dev e branch protection."},
+  {id:"E1",  name:"Onboarding & Atrator",       ico:"🎬", prio:"must",   desc:"Tela Intro com vídeo loop, fallback de autoplay, pré-carregamento e tap-to-continue."},
+  {id:"E2",  name:"Catálogo & Carrinho",        ico:"🛒", prio:"must",   desc:"API de produtos, banner de prêmios animado, seletor de qty, persistência de carrinho."},
+  {id:"E3",  name:"Pagamento PIX",              ico:"💸", prio:"must",   desc:"Integração com PSP, QR dinâmico, webhook idempotente, polling, retry e tela de erro."},
+  {id:"E4",  name:"Pagamento Cartão",           ico:"💳", prio:"could",  desc:"SDK de maquininha (Stone/Cielo), aguarde/aprovado/recusado. Pode ficar pra MVP2."},
+  {id:"E5",  name:"Sorteio & Sucesso",          ico:"🎰", prio:"must",   desc:"Geração server-side dos números, código de bilhete, tela de sucesso com confetti e QR de continuidade."},
+  {id:"E6",  name:"Notificações WhatsApp",      ico:"💬", prio:"must",   desc:"Integração com gateway (Z-API/Twilio/Meta), template HSM, fila assíncrona e fallback SMS."},
+  {id:"E7",  name:"Termos & LGPD",              ico:"⚖️", prio:"must",   desc:"Texto jurídico, modal de termos, política de privacidade, log de consentimento."},
+  {id:"E8",  name:"Admin & Backoffice",         ico:"⚙️", prio:"should", desc:"Auth JWT, CRUDs (produtos/sorteios), painel web, dashboards em tempo real, export CSV."},
+  {id:"E9",  name:"Sessão & Idle Timer",        ico:"⏱", prio:"must",   desc:"Reset por inatividade (60-120s), hard-reset de state, retomada de sessão de 24h."},
+  {id:"E10", name:"Hardening & Antifraude",     ico:"🛡️", prio:"must",   desc:"Rate-limit, validação DDD, limite/dia por celular, HTTPS, CSP, headers de segurança."},
+  {id:"E11", name:"QA & Acessibilidade",        ico:"🧪", prio:"should", desc:"E2E Playwright, WCAG AA, teste de carga, unitários backend >80%."},
+  {id:"E12", name:"DevOps & Deploy",            ico:"🔌", prio:"must",   desc:"CI/CD, Docker, service worker PWA, OTA updates dos totens, Sentry."},
+  {id:"E13", name:"Analytics & Observabilidade",ico:"📈", prio:"should", desc:"Telemetria (PostHog/Mixpanel), funil de conversão, dashboard BI de operação."},
+  {id:"E14", name:"Go-live & Piloto",           ico:"🚀", prio:"must",   desc:"Piloto em 1 ponto físico, treinamento da operação, documentação de manutenção."},
+];
+
+const AREAS = [
+  {id:"backend",   name:"Backend",   ico:"🔧"},
+  {id:"frontend",  name:"Frontend",  ico:"💻"},
+  {id:"design",    name:"Design",    ico:"🎨"},
+  {id:"produto",   name:"Produto",   ico:"🎯"},
+  {id:"analytics", name:"Analytics", ico:"📊"},
+  {id:"copy",      name:"Copy",      ico:"✍️"},
+  {id:"devops",    name:"DevOps",    ico:"🔌"},
+  {id:"qa",        name:"QA",        ico:"🧪"},
+  {id:"legal",     name:"Legal",     ico:"⚖️"},
+];
+
+const SPRINTS = [
+  {id:"S1", name:"S1 · Foundation",   weeks:2, desc:"Discovery, setup, planejamento técnico"},
+  {id:"S2", name:"S2 · Core UI",      weeks:2, desc:"Catálogo, resumo, termos, splash"},
+  {id:"S3", name:"S3 · PIX & Sucesso",weeks:3, desc:"Integração de pagamento e sorteio"},
+  {id:"S4", name:"S4 · Cartão & Admin",weeks:3, desc:"Cartão, admin, antifraude, QA"},
+  {id:"S5", name:"S5 · Go-live",      weeks:2, desc:"Piloto, observabilidade, treinamento"},
+];
+
+const TASKS = [
+  /* ===== E0 — DISCOVERY & SETUP (5t / 18pts) ===== */
+  {id:"T0.1", epic:"E0", area:"produto",  sprint:"S1", title:"Mapeamento de personas e jornadas", pts:3, prio:"must",   desc:"Documentar 3 personas (turista, comprador frequente, primeira vez) e fluxos por persona."},
+  {id:"T0.2", epic:"E0", area:"analytics",sprint:"S1", title:"Definir KPIs e métricas do MVP",   pts:3, prio:"must",   desc:"KPIs: taxa de conversão por totem, abandono por tela, tempo médio de compra, falhas PIX."},
+  {id:"T0.3", epic:"E0", area:"produto",  sprint:"S1", title:"Aprovação do fluxo final com cliente", pts:2, prio:"must", desc:"Walkthrough do protótipo atual com L4/Idea Maker, ata de aprovação assinada."},
+  {id:"T0.4", epic:"E0", area:"devops",   sprint:"S1", title:"Setup repo Git + branch protection", pts:2, prio:"must", desc:"Branches main protegida, PR template, code review obrigatório, .gitignore correto."},
+  {id:"T0.5", epic:"E0", area:"frontend", sprint:"S1", title:"Migração para stack Vite + React + TypeScript", pts:8, prio:"must", desc:"Sair do Babel standalone in-browser. Configurar Vite, TS estrito, ESLint, Prettier, path aliases."},
+
+  /* ===== E1 — ONBOARDING (4t / 12pts) ===== */
+  {id:"T1.1", epic:"E1", area:"frontend", sprint:"S2", title:"Tela Intro com vídeo loop",                pts:3, prio:"must",   desc:"Componente Intro consumindo assets/intro.mp4, autoplay, muted como fallback, tap-to-continue."},
+  {id:"T1.2", epic:"E1", area:"frontend", sprint:"S2", title:"Pré-carregamento + skeleton de loading",   pts:3, prio:"should", desc:"Pré-cachear o vídeo via service worker; spinner se demorar > 3s."},
+  {id:"T1.3", epic:"E1", area:"frontend", sprint:"S2", title:"Fallback se vídeo não carregar",           pts:2, prio:"should", desc:"Mostrar imagem estática + CTA funcional se a tag <video> falhar."},
+  {id:"T1.4", epic:"E1", area:"frontend", sprint:"S4", title:"Som / feedback auditivo opcional",         pts:4, prio:"could",  desc:"Tocar sample de boas-vindas em ambientes silenciosos; mute-toggle visível."},
+
+  /* ===== E2 — CATÁLOGO (9t / 32pts) ===== */
+  {id:"T2.1", epic:"E2", area:"backend",  sprint:"S2", title:"Modelar tabela products no banco",          pts:3, prio:"must",   desc:"Postgres: id, name, price, prize_value, banner_url, thumb_url, next_draw_at, active, created_at."},
+  {id:"T2.2", epic:"E2", area:"backend",  sprint:"S2", title:"API GET /products com cache",               pts:5, prio:"must",   desc:"Retorna lista ativa, ordenada. Cache Redis 60s. Inclui prize_total agregado."},
+  {id:"T2.3", epic:"E2", area:"frontend", sprint:"S2", title:"Tela Produtos responsiva",                  pts:5, prio:"must",   desc:"Consumir API, layout 1/2 colunas, integrar com seletor de qty e total."},
+  {id:"T2.4", epic:"E2", area:"frontend", sprint:"S2", title:"Banner animado de prêmios (Total a concorrer)", pts:3, prio:"should", desc:"Animação de contagem easeOutExpo, pop ao mudar; usa prize_value de cada produto selecionado."},
+  {id:"T2.5", epic:"E2", area:"frontend", sprint:"S2", title:"Seletor de quantidade (+/-) com validação", pts:3, prio:"must",   desc:"Min 0, max configurável. Disabled state. Acessível via tap em 44×44px."},
+  {id:"T2.6", epic:"E2", area:"backend",  sprint:"S2", title:"Limite máximo de qty por produto/compra",   pts:3, prio:"must",   desc:"Validação server-side. Configurável por produto. Retorna 422 com mensagem ao exceder."},
+  {id:"T2.7", epic:"E2", area:"frontend", sprint:"S2", title:"Persistir carrinho na sessão",              pts:3, prio:"should", desc:"sessionStorage + reset ao Nova Compra. Restaurar se voltar para Produtos."},
+  {id:"T2.8", epic:"E2", area:"frontend", sprint:"S3", title:"Tela 'Em manutenção' (catálogo offline)",   pts:5, prio:"must",   desc:"Se GET /products falhar 3x, mostrar tela com retry + telefone de suporte."},
+  {id:"T2.9", epic:"E2", area:"devops",   sprint:"S3", title:"Feature flag prod/demo",                    pts:2, prio:"must",   desc:"Esconder toggle Op01/Op02, simulador, botões 'Simular aprovar/recusar' em build de produção."},
+
+  /* ===== E3 — PIX (10t / 50pts) ===== */
+  {id:"T3.1", epic:"E3", area:"backend",  sprint:"S3", title:"Integração SDK do PSP (escolher entre MP/EFI/Stone)", pts:13, prio:"must", desc:"POC com 2 provedores. Decidir baseado em taxa, SLA e suporte. Documentar trade-offs."},
+  {id:"T3.2", epic:"E3", area:"backend",  sprint:"S3", title:"Endpoint POST /payments/pix (gerar QR)",    pts:5, prio:"must",   desc:"Recebe cart + cel, retorna { qr_image_base64, qr_code_string, expires_at, payment_id }."},
+  {id:"T3.3", epic:"E3", area:"backend",  sprint:"S3", title:"Webhook POST /webhooks/pix (idempotente)",  pts:8, prio:"must",   desc:"Header X-Idempotency-Key. Validar assinatura HMAC do PSP. Atualizar status no banco."},
+  {id:"T3.4", epic:"E3", area:"frontend", sprint:"S3", title:"Polling GET /payments/:id no frontend",     pts:3, prio:"must",   desc:"Intervalo 2s; quando status=paid → avança Loading → Sucesso."},
+  {id:"T3.5", epic:"E3", area:"frontend", sprint:"S3", title:"Renderizar QR code dinâmico real",          pts:3, prio:"must",   desc:"Trocar mock por imagem do PSP ou gerar via qrcode.js do qr_code_string EMV."},
+  {id:"T3.6", epic:"E3", area:"frontend", sprint:"S3", title:"Timer real do TTL do gateway",              pts:3, prio:"must",   desc:"Calcular ttl = expires_at - now. Mudar cores (verde→laranja<60s→vermelho=0)."},
+  {id:"T3.7", epic:"E3", area:"frontend", sprint:"S3", title:"Remover advance otimista do 'Já paguei'",   pts:2, prio:"must",   desc:"Botão CTA não deve avançar sem confirmação do webhook. Mostrar 'Aguardando confirmação'."},
+  {id:"T3.8", epic:"E3", area:"frontend", sprint:"S3", title:"Tela de erro do gateway (falha gerar QR)",  pts:3, prio:"must",   desc:"Quando POST /payments/pix retorna 5xx ou timeout: mostrar erro + tentar de novo + atendimento."},
+  {id:"T3.9", epic:"E3", area:"frontend", sprint:"S4", title:"Limite de 3 retries + saída para humano",   pts:3, prio:"should", desc:"Após 3 falhas, sugerir telefone/totem ao lado/loja. Logar no Sentry."},
+  {id:"T3.10",epic:"E3", area:"backend",  sprint:"S3", title:"Tabela payments + audit log",               pts:7, prio:"must",   desc:"Postgres: id, totem_id, cart_json, status, psp_txid, created_at, paid_at. Audit log imutável."},
+
+  /* ===== E4 — CARTÃO (5t / 22pts) ===== */
+  {id:"T4.1", epic:"E4", area:"backend",  sprint:"S4", title:"Integração SDK maquininha Stone/Cielo",     pts:8, prio:"could",  desc:"Pareamento via Bluetooth/USB. Implementar charge() e estado de polling."},
+  {id:"T4.2", epic:"E4", area:"frontend", sprint:"S4", title:"Tela 'Aguardando pagamento'",               pts:3, prio:"could",  desc:"Spinner + cancelar. Polling do estado da maquininha a cada 1s."},
+  {id:"T4.3", epic:"E4", area:"frontend", sprint:"S4", title:"Telas aprovado / recusado com motivo",      pts:3, prio:"could",  desc:"Mostrar resultado real do SDK (saldo, senha errada, cancelado, etc.)."},
+  {id:"T4.4", epic:"E4", area:"frontend", sprint:"S4", title:"Tela 'Maquininha indisponível'",            pts:3, prio:"could",  desc:"Sem comunicação BT/USB: instrução para usar PIX. Botão de retry."},
+  {id:"T4.5", epic:"E4", area:"frontend", sprint:"S4", title:"Auto-redirect 2s após aprovação",           pts:5, prio:"could",  desc:"UX de totem: não deixar usuário esperando o tap. Auto-avançar para Sucesso."},
+
+  /* ===== E5 — SORTEIO & SUCESSO (7t / 28pts) ===== */
+  {id:"T5.1", epic:"E5", area:"backend",  sprint:"S3", title:"Gerar números da sorte server-side",        pts:5, prio:"must",   desc:"Algoritmo certificado (RNG criptográfico). Salvar em lucky_numbers. Sortear de range definido."},
+  {id:"T5.2", epic:"E5", area:"backend",  sprint:"S3", title:"Gerar código único do bilhete",             pts:3, prio:"must",   desc:"Formato: PREFIXO-XXXXXX-YY (ex: HC-487231-2A). Verificar unicidade."},
+  {id:"T5.3", epic:"E5", area:"backend",  sprint:"S3", title:"Endpoint GET /tickets/:id",                 pts:3, prio:"must",   desc:"Retorna bilhete completo: produto, números, código, sorteio, data."},
+  {id:"T5.4", epic:"E5", area:"frontend", sprint:"S3", title:"Tela Sucesso (confetti, tabs, bolinhas)",   pts:5, prio:"must",   desc:"Refatorar Sucesso.jsx para consumir API real. Manter UI atual mas com dados do backend."},
+  {id:"T5.5", epic:"E5", area:"frontend", sprint:"S3", title:"Remover botão 'Simulação Pix Recusado' em prod", pts:1, prio:"must", desc:"Atrás da feature flag prod/demo."},
+  {id:"T5.6", epic:"E5", area:"frontend", sprint:"S4", title:"Tela QR Finalizar (deeplink portal)",       pts:3, prio:"should", desc:"Definir URL real do portal pós-compra. Gerar QR dinâmico do ticket_id."},
+  {id:"T5.7", epic:"E5", area:"backend",  sprint:"S4", title:"Próximo sorteio dinâmico (cron)",           pts:8, prio:"should", desc:"Configurar próximo sorteio no admin. Cron diário para atualizar 'next_draw_at' nos products."},
+
+  /* ===== E6 — NOTIFICAÇÕES (6t / 21pts) ===== */
+  {id:"T6.1", epic:"E6", area:"backend",  sprint:"S3", title:"Integração Z-API ou Twilio (escolher)",     pts:5, prio:"must",   desc:"POC com Z-API (mais barato, sem aprovação Meta) e Meta Cloud. Decidir baseado em custo/escala."},
+  {id:"T6.2", epic:"E6", area:"backend",  sprint:"S3", title:"Template HSM aprovado",                     pts:3, prio:"must",   desc:"Texto: 'Olá! Sua compra Capitaliza+ está confirmada. Bilhete: {{code}}. Números: {{numbers}}.'"},
+  {id:"T6.3", epic:"E6", area:"backend",  sprint:"S3", title:"Fila assíncrona (BullMQ + Redis)",          pts:5, prio:"must",   desc:"Enfileirar envio. Retry com backoff exponencial. DLQ após 5 falhas."},
+  {id:"T6.4", epic:"E6", area:"backend",  sprint:"S4", title:"Fallback SMS via Twilio",                   pts:3, prio:"should", desc:"Se WhatsApp falhar > 3x, enviar SMS. Logar canal usado em audit log."},
+  {id:"T6.5", epic:"E6", area:"frontend", sprint:"S3", title:"Tela 'Enviando' com animação WhatsApp",     pts:2, prio:"must",   desc:"Refatorar Enviando.jsx para refletir status real (POST /notifications)."},
+  {id:"T6.6", epic:"E6", area:"copy",     sprint:"S2", title:"Texto da mensagem (LGPD-compliant)",        pts:3, prio:"must",   desc:"Validar com legal. Incluir opt-out claro: 'Para parar de receber, responda SAIR'."},
+
+  /* ===== E7 — TERMOS & LGPD (5t / 21pts) ===== */
+  {id:"T7.1", epic:"E7", area:"legal",    sprint:"S2", title:"Texto completo dos termos de uso",          pts:5, prio:"must",   desc:"Redação jurídica completa. Incluir cláusulas SUSEP, jurisdição, foro."},
+  {id:"T7.2", epic:"E7", area:"legal",    sprint:"S2", title:"Política de privacidade LGPD",              pts:5, prio:"must",   desc:"Finalidade do uso do celular, prazo de retenção, direitos do titular, DPO contato."},
+  {id:"T7.3", epic:"E7", area:"frontend", sprint:"S2", title:"Modal de termos completos (tela Resumo)",   pts:3, prio:"must",   desc:"Clicar no link 'termos de uso' abre modal scrollável com texto completo."},
+  {id:"T7.4", epic:"E7", area:"backend",  sprint:"S2", title:"Log de consentimento (auditoria)",          pts:3, prio:"must",   desc:"Salvar IP/totem_id/timestamp/versão dos termos a cada aceite. Tabela imutável."},
+  {id:"T7.5", epic:"E7", area:"backend",  sprint:"S5", title:"Painel para titular exercer direitos LGPD", pts:5, prio:"should", desc:"Portal web onde cliente consulta dados, solicita exclusão, etc. (LGPD art. 18)."},
+
+  /* ===== E8 — ADMIN (7t / 36pts) ===== */
+  {id:"T8.1", epic:"E8", area:"backend",  sprint:"S4", title:"Autenticação admin (JWT + refresh)",        pts:5, prio:"must",   desc:"Login email/senha. JWT 15min + refresh 7d. Bcrypt. Roles (admin, operador)."},
+  {id:"T8.2", epic:"E8", area:"backend",  sprint:"S4", title:"CRUD de produtos",                          pts:5, prio:"must",   desc:"GET/POST/PUT/DELETE /admin/products. Validações. Soft-delete (active flag)."},
+  {id:"T8.3", epic:"E8", area:"backend",  sprint:"S4", title:"CRUD de sorteios e prêmios",                pts:5, prio:"should", desc:"Modelar tabela draws. Vincular ao product. Validar não-sobreposição."},
+  {id:"T8.4", epic:"E8", area:"frontend", sprint:"S4", title:"Painel admin web (React + Vite)",           pts:8, prio:"should", desc:"App separado /admin. Login, listagem, edição. UI minimal (Tailwind ou shadcn)."},
+  {id:"T8.5", epic:"E8", area:"frontend", sprint:"S5", title:"Dashboard de transações em tempo real",     pts:5, prio:"could",  desc:"WebSocket ou polling: vendas por minuto/totem. Gráfico de linha."},
+  {id:"T8.6", epic:"E8", area:"backend",  sprint:"S5", title:"Export de relatórios CSV/Excel",            pts:3, prio:"should", desc:"Relatórios por período: vendas, abandono, falhas de pagamento, comissão por totem."},
+  {id:"T8.7", epic:"E8", area:"backend",  sprint:"S5", title:"Gerenciamento de totens (status, versão)",  pts:5, prio:"should", desc:"Cada totem reporta heartbeat + versão. Admin vê online/offline/desatualizados."},
+
+  /* ===== E9 — SESSÃO & IDLE (4t / 14pts) ===== */
+  {id:"T9.1", epic:"E9", area:"frontend", sprint:"S3", title:"Idle timer global (60–120s)",               pts:5, prio:"must",   desc:"Hook useIdleTimer. Resetar para Intro após inatividade. Configurável."},
+  {id:"T9.2", epic:"E9", area:"frontend", sprint:"S3", title:"Hard reset de state ao 'Nova Compra'",      pts:3, prio:"must",   desc:"Limpar qty, form, sessão. Atualmente algumas variáveis persistem."},
+  {id:"T9.3", epic:"E9", area:"frontend", sprint:"S4", title:"Tela 'Inatividade detectada' (countdown 5s)", pts:3, prio:"should", desc:"Antes do reset, mostrar overlay com botão 'Continuar' e countdown."},
+  {id:"T9.4", epic:"E9", area:"backend",  sprint:"S4", title:"Salvar sessão para retomada (24h)",         pts:3, prio:"could",  desc:"Se cliente pagou mas não viu Sucesso, permitir retomar pelo código enviado por WhatsApp."},
+
+  /* ===== E10 — HARDENING (6t / 24pts) ===== */
+  {id:"T10.1", epic:"E10", area:"backend", sprint:"S4", title:"Rate-limit por IP / celular",              pts:5, prio:"must",   desc:"Express-rate-limit + Redis. Limites: 60 req/min por IP, 10 compras/dia por celular."},
+  {id:"T10.2", epic:"E10", area:"backend", sprint:"S2", title:"Validação de DDD + formato telefone",      pts:3, prio:"must",   desc:"Lista de DDDs válidos do Brasil. Validar 11 dígitos + 9 inicial após DDD."},
+  {id:"T10.3", epic:"E10", area:"backend", sprint:"S4", title:"Antifraude: limite/dia mesmo celular",     pts:5, prio:"should", desc:"Máximo 10 compras/dia/celular. Bloquear cel suspeito (lista). Audit log."},
+  {id:"T10.4", epic:"E10", area:"devops",  sprint:"S4", title:"HTTPS + CSP + headers de segurança",       pts:3, prio:"must",   desc:"HSTS, CSP estrita, X-Frame-Options DENY, X-Content-Type nosniff, Referrer-Policy."},
+  {id:"T10.5", epic:"E10", area:"qa",      sprint:"S5", title:"Pen-test interno (OWASP top 10)",          pts:5, prio:"should", desc:"Checklist OWASP. SQLi, XSS, CSRF, IDOR, etc. Relatório + correções."},
+  {id:"T10.6", epic:"E10", area:"devops",  sprint:"S4", title:"Backup automático do banco",               pts:3, prio:"must",   desc:"Snapshot diário + retenção 30d. Restauração testada mensalmente."},
+
+  /* ===== E11 — QA & ACESSIBILIDADE (5t / 28pts) ===== */
+  {id:"T11.1", epic:"E11", area:"qa", sprint:"S4", title:"Testes E2E do fluxo PIX (Playwright)",          pts:8, prio:"must",   desc:"Golden path + ramos de erro (timer expira, gateway down, qty inválida)."},
+  {id:"T11.2", epic:"E11", area:"qa", sprint:"S4", title:"Testes E2E ramos de erro",                      pts:5, prio:"should", desc:"Idle timeout, catálogo offline, falha WhatsApp, limite excedido."},
+  {id:"T11.3", epic:"E11", area:"qa", sprint:"S4", title:"Auditoria WCAG AA + correções",                 pts:5, prio:"must",   desc:"axe-core no CI. Contraste, tamanho de touch, leitor de tela, alt em imagens."},
+  {id:"T11.4", epic:"E11", area:"qa", sprint:"S5", title:"Teste de carga (k6 ou Artillery)",              pts:5, prio:"should", desc:"100 totens simultâneos, 10 compras/min. Identificar gargalos no PSP e DB."},
+  {id:"T11.5", epic:"E11", area:"backend", sprint:"S4", title:"Testes unitários backend (>80%)",          pts:5, prio:"must",   desc:"Vitest. Cobrir webhook idempotência, geração de números, rate-limit."},
+
+  /* ===== E12 — DEVOPS (5t / 28pts) ===== */
+  {id:"T12.1", epic:"E12", area:"devops", sprint:"S2", title:"Pipeline CI/CD (GitHub Actions)",           pts:5, prio:"must",   desc:"Lint, type-check, test, build. Deploy automático em main para staging."},
+  {id:"T12.2", epic:"E12", area:"devops", sprint:"S2", title:"Containerização (Docker)",                  pts:5, prio:"must",   desc:"Dockerfile multi-stage para frontend e backend. docker-compose para dev local."},
+  {id:"T12.3", epic:"E12", area:"devops", sprint:"S2", title:"Deploy backend (Railway/Render/AWS)",       pts:5, prio:"must",   desc:"Comparar custos. Railway pro MVP, AWS ECS pro Go-live. Variáveis seguras."},
+  {id:"T12.4", epic:"E12", area:"devops", sprint:"S3", title:"Build estático + service worker (PWA)",     pts:5, prio:"must",   desc:"Workbox: cache offline de assets + intro.mp4. Update sem reload obrigatório."},
+  {id:"T12.5", epic:"E12", area:"devops", sprint:"S5", title:"OTA updates dos totens",                    pts:8, prio:"should", desc:"Frontend faz check de versão; baixa nova versão; auto-aplica em horário definido."},
+
+  /* ===== E13 — ANALYTICS (4t / 16pts) ===== */
+  {id:"T13.1", epic:"E13", area:"analytics", sprint:"S4", title:"Telemetria (PostHog ou Mixpanel)",       pts:5, prio:"should", desc:"Eventos: view_screen, add_to_cart, checkout_start, payment_success, payment_fail, idle_timeout."},
+  {id:"T13.2", epic:"E13", area:"analytics", sprint:"S4", title:"Funnel de conversão por totem",          pts:3, prio:"should", desc:"Conversão: visualizou intro → produtos → resumo → PIX → sucesso. Por totem físico."},
+  {id:"T13.3", epic:"E13", area:"devops",    sprint:"S2", title:"Sentry para erros frontend e backend",   pts:3, prio:"must",   desc:"SDK no React e Node. Source maps. Alertas no Slack."},
+  {id:"T13.4", epic:"E13", area:"analytics", sprint:"S5", title:"Dashboard BI para operação (Metabase)",  pts:5, prio:"could",  desc:"Conectar ao Postgres replica. Dashboards: vendas/hora, top produtos, falhas."},
+
+  /* ===== E14 — GO-LIVE (3t / 16pts) ===== */
+  {id:"T14.1", epic:"E14", area:"produto", sprint:"S5", title:"Piloto em 1 ponto físico (1 semana)",      pts:8, prio:"must",   desc:"Operação real, monitoramento intensivo, daily de retrospectiva. Critério de sucesso: >70% conversão."},
+  {id:"T14.2", epic:"E14", area:"produto", sprint:"S5", title:"Treinamento da equipe de operação",        pts:3, prio:"must",   desc:"Manual de operação, troubleshooting, contato de suporte. Vídeo de treinamento."},
+  {id:"T14.3", epic:"E14", area:"produto", sprint:"S5", title:"Documentação de manutenção",               pts:5, prio:"must",   desc:"Runbook: como reiniciar, como atualizar, como ver logs, contatos. Em PDF + Notion."},
+];
+
+/* ===========================================================
+   TELAS (do mapeamento anterior)
+   ============================================================ */
+const SCREENS = [
+  {num:"01", id:"intro",          title:"Intro / Atrator",            file:"screens/Intro.jsx",         desc:"Splash com vídeo em loop e CTA único. Qualquer toque avança.",
+   rules:["Vídeo autoplay; fallback muted","State global limpo aqui","Sem header (imersão)"],
+   dev:["Confirmar H.264 ≤ 30s","Reset de state após inatividade","muted obrigatório"],
+   success:["Toque → Produtos"], errors:["Vídeo não carrega → frame estático + CTA"]},
+  {num:"02", id:"produtos",       title:"Escolha de produtos",        file:"screens/Produtos.jsx",
+   desc:"Lista HiperCap (R$2) e ValeCap (R$15) com qty. Banner anima prêmios. Toggle Op01/Op02 (apenas demo).",
+   rules:["CONTINUAR só com qty > 0","Cada produto conta 1× no prêmio","Sem limite máx (gap)"],
+   dev:["Definir limite máx","API real","Esconder demo toggles","Datas vindas do backend"],
+   success:["Ajusta qty → Resumo"], errors:["Catálogo vazio → manutenção (faltando)","Qty > limite → bloquear"]},
+  {num:"03", id:"resumo",         title:"Resumo + dados + pagamento", file:"screens/Resumo.jsx",
+   desc:"Mostra itens, total, captura celular (máscara BR) + termos. Único método visível: PIX.",
+   rules:["Cel = 11 dígitos","Termos obrigatórios","PIX só habilita com ambos"],
+   dev:["Validar DDD","Modal termos completos","Rate-limit por cel","Decidir Cartão MVP"],
+   success:["Cel + termos → PIX"], errors:["Cel inválido → desabilita (ok)"]},
+  {num:"04", id:"pix",            title:"Pagamento PIX",              file:"screens/Pix.jsx",
+   desc:"QR (mock), timer 4:59, tutorial 6 passos, badge segurança, 'JÁ PAGUEI'.",
+   rules:["Timer 299s; cores trocam","0s → PIX recusado","Tutorial 6 cenas SVG"],
+   dev:["Gateway real (QR EMV)","Webhook ao invés de 'JÁ PAGUEI'","Tela de erro do gateway"],
+   success:["Pagou → Loading → Sucesso"], errors:["Timer expira → recusado (ok)","'Já paguei' falso → grave em prod"]},
+  {num:"04b",id:"pix_recusado",   title:"PIX recusado / expirado",    file:"screens/PixRecusado.jsx",
+   desc:"Mensagem de falha + botões: tentar PIX ou trocar pagamento.",
+   rules:["Acessível via timer 0 ou simulação","Progress = step 3"],
+   dev:["Diferenciar expirado de recusado","Log de incidentes","Limite de tentativas"],
+   success:["Retry → novo QR"], errors:["Loop infinito → falta limite + saída humana"]},
+  {num:"05", id:"cartao",         title:"Cartão · aguardando",        file:"screens/Cartao.jsx",
+   desc:"Insira/aproxime cartão. Spinner 'Aguardando'. Botões de simulação só em demo.",
+   rules:["CANCELAR volta para Resumo","Sem entry point em prod (decidir)"],
+   dev:["SDK Stone/Cielo","Timeout polling","Tela sem comunicação"],
+   success:["Aprova → Sucesso"], errors:["Sem maquininha (faltando tela)"]},
+  {num:"05a",id:"cartao_paga",    title:"Cartão aprovado",            file:"screens/Cartao.jsx",
+   desc:"Botão verde 'PAGAMENTO APROVADO!'. Encaminha para Sucesso.",
+   rules:["Auto-avanço em 2s ideal"], dev:["Auto-redirect 2s"], success:["Aprovado → Sucesso"], errors:[]},
+  {num:"05b",id:"cartao_recusado",title:"Cartão recusado",            file:"screens/Cartao.jsx",
+   desc:"Barra vermelha + 'TROCAR FORMA DE PAGAMENTO'.",
+   rules:["Progress = 0 (revisar)"], dev:["Mostrar motivo","Sugerir PIX direto"], success:["Troca → PIX"], errors:["Desiste → reset"]},
+  {num:"06", id:"loading",        title:"Loading / processando",      file:"screens/Loading.jsx",
+   desc:"Spinner 1.4s. Avança auto para window.__nextScreen.",
+   rules:["Duração fixa (1.4s)"], dev:["Substituir por polling real"], success:["Transição suave"], errors:["Timeout → retentativa"]},
+  {num:"07", id:"sucesso",        title:"Sucesso · bilhetes",         file:"screens/Sucesso.jsx",
+   desc:"Confetti + check + tabs por produto + números + sorteio. CTA FINALIZAR.",
+   rules:["Números pseudo-aleatórios (frontend)","Simulação Pix Recusado em prod (remover)"],
+   dev:["Números server-side","Código real","Remover simulação"],
+   success:["Vê números → FINALIZAR"], errors:["Backend não retorna → fallback"]},
+  {num:"08", id:"enviando",       title:"Enviando WhatsApp",          file:"screens/Enviando.jsx",
+   desc:"Animação WhatsApp + barra 0→100% em 3.2s. Avança para QR Finalizar.",
+   rules:["Progress só visual"], dev:["Gateway real","Fallback SMS","Tela de erro"],
+   success:["Enviou → QR Finalizar"], errors:["Falha → continuar + reenfileirar"]},
+  {num:"09", id:"qrcode",         title:"QR Finalizar / Nova compra", file:"screens/QrFinalizar.jsx",
+   desc:"QR opcional + NOVA COMPRA → Intro. Selos L4 + Ideamaker.",
+   rules:["Sempre reseta para Intro"],
+   dev:["URL real do QR","Auto-reset inatividade","Versão final dos selos"],
+   success:["Nova compra ou foto QR"], errors:[]},
+];
+
+const ERRORS = [
+  ["PIX expirado (timer = 0)","PIX","ok","Cai em PixRecusado; regerar QR no 'Tentar novamente'."],
+  ["Botão 'Já paguei' sem pagar de verdade","PIX","no","Só avançar via webhook do gateway."],
+  ["Gateway PIX não responde / erro ao gerar QR","PIX","no","Tela de erro técnico + retry + fallback humano."],
+  ["Pagamento confirmado fora do timer","PIX → Loading","maybe","Aceitar mesmo após timer 0 (graça)."],
+  ["Cartão sem comunicação com maquininha","Cartão","no","Tela 'Maquininha indisponível, use PIX'."],
+  ["Cartão recusado por saldo / senha","Cartão recusado","maybe","Mostrar motivo se SDK retornar."],
+  ["WhatsApp falhou ao enviar","Enviando","no","Continuar + fallback SMS + fila de reenvio."],
+  ["Número de celular inválido","Resumo","maybe","Falta validar DDD + 9 inicial."],
+  ["Inatividade no totem","Qualquer","no","Idle timer global (60-120s) → Intro."],
+  ["Catálogo vazio (API offline)","Produtos","no","Tela 'Em manutenção'."],
+  ["Backend não retorna números","Sucesso","no","Fallback + reenvio via WhatsApp."],
+  ["Cliente passa de Sucesso sem finalizar","Sucesso","no","Bilhete pago → enviar WhatsApp automático após N s."],
+  ["Quantidade acima do limite","Produtos","no","Definir limite + bloquear."],
+  ["Tentativas excessivas de pagamento","PIX/Cartão","no","Após N falhas, atendimento humano."],
+  ["Termos rejeitados","Resumo","ok","Botão desabilitado (ok)."],
+  ["Acessibilidade — contraste/touch","Todas","maybe","Auditar WCAG AA."],
+];
+
+const SUCCESSES = [
+  ["Fluxo PIX feliz: Intro → Sucesso → WhatsApp","Todas","ok","Cliente recebe números + WhatsApp em <30s do pagamento."],
+  ["Fluxo Cartão feliz","Cartão → Sucesso","maybe","Sem entry point em Resumo hoje — decidir MVP."],
+  ["Múltiplos produtos / quantidades","Produtos","ok","Total e prêmio acumulado corretos."],
+  ["Voltar de Resumo sem perder dados","Resumo","ok","State global preserva qty + form."],
+  ["Tutorial PIX abre e fecha sem perder QR","PIX","ok","Overlay 6 cenas + botão PULAR."],
+  ["Após Sucesso, nova compra reseta tudo","QR Finalizar → Intro","maybe","Hoje volta para Intro mas state pode persistir — revisar."],
+  ["Polling retorna ANTES do timer","PIX → Loading","no","Implementar; hoje só avança no clique."],
+  ["Reset por inatividade após pago","QR Finalizar","no","Idle timer + UX clara."],
+];
+
+const GAPS = [
+  {title:"Confirmação real do PIX",            desc:"'Já paguei' avança sem checar gateway. Risco financeiro.", crit:true},
+  {title:"Idle timer global",                  desc:"Sem reset por inatividade. Obrigatório em totem físico.", crit:true},
+  {title:"Erro de gateway PIX",                desc:"Sem tela para falha ao gerar QR.", crit:true},
+  {title:"Manutenção / catálogo offline",      desc:"API down quebra a tela Produtos.", crit:true},
+  {title:"Build / deploy do totem",            desc:"Babel standalone in-browser → migrar para Vite + service worker.", crit:true},
+  {title:"Modo demo vs produção",              desc:"Toggle Op01/Op02, simuladores precisam sair em prod.", crit:true},
+  {title:"Reenvio WhatsApp",                   desc:"Sem fallback SMS, sem fila."},
+  {title:"Limites de compra",                  desc:"Sem teto de quantidade."},
+  {title:"Termos completos",                   desc:"Só checkbox; falta modal/tela com texto completo."},
+  {title:"Validação DDD",                      desc:"Hoje só 11 dígitos; aceita DDDs inválidos."},
+  {title:"LGPD — consentimento",               desc:"Sem registro de finalidade/duração do uso do celular."},
+  {title:"Acessibilidade (PCD)",               desc:"Sem audio cue, sem alto-contraste, fontes pequenas em blocos."},
+  {title:"Observabilidade",                    desc:"Sem telemetria, sem logs, sem Sentry."},
+  {title:"Reset state ao Nova Compra",         desc:"Pode persistir qty/form. Garantir hard reset."},
+  {title:"Cartão no MVP?",                     desc:"UI existe mas sem entry point. Decidir."},
+  {title:"Som / feedback auditivo",            desc:"Sem som de sucesso/erro em ambiente barulhento."},
+  {title:"Impressão térmica de bilhete",       desc:"Sem suporte se o hardware tiver impressora."},
+  {title:"Antifraude",                         desc:"Mesmo celular compra repetidamente sem limite."},
+];
+
+const REGRAS = [
+  {title:"Design dark-first",        desc:"Nunca fonte escura sobre fundo claro. Background sempre escuro."},
+  {title:"Tipografia oficial",       desc:"Montserrat (títulos 800/900), Poppins (UI 500/600/700), Nunito (números 700/800/900), Bungee (display). Proibido Fredoka, Press Start 2P."},
+  {title:"Cor de marca",             desc:"#ffd600 = primário/destaque. #00c951 = sucesso. #ff5252 = erro. #ff9f43 = alerta."},
+  {title:"Header padrão",            desc:"Logo + Susep + Progress + BackButton. Componentes em components/shared.jsx."},
+  {title:"Botão primário",           desc:".btn-primary amarelo, ALL CAPS, ArrowRight à direita. Mínimo 44px (acessibilidade)."},
+  {title:"Toque & área",             desc:"Totem = sem hover real. Todo hover-state deve ter equivalente tap. Mín 44×44px."},
+  {title:"Idioma",                   desc:"pt-BR apenas. Sem i18n por enquanto."},
+  {title:"Persistência de state",    desc:"State único em App (useState). qty e form preservados; resetar só em Nova Compra."},
+  {title:"Animações",                desc:"Fade-in 0.35s. Pop no banner de prêmio. Confetti no Sucesso. Manter performance em hardware modesto."},
+  {title:"Legal / SUSEP",            desc:"'Autorizado SUSEP' sempre visível. Hospital de Amor (Barretos) mencionado no Sucesso."},
+];
+
+const UPDATES = [
+  {date:"2026-05-20", type:"create", title:"Backlog inicial criado", desc:"85 tarefas distribuídas em 15 épicos. Nada iniciado pelo dev. Aguardando alocação e definição de deadline."},
+  {date:"2026-05-20", type:"warn",   title:"Migração de stack obrigatória", desc:"Protótipo atual roda com Babel standalone in-browser. Antes de qualquer feature, migrar para Vite + React + TypeScript (T0.5)."},
+  {date:"2026-05-20", type:"info",   title:"3 gaps críticos identificados", desc:"Idle timer, confirmação real do PIX e tela de catálogo offline são bloqueadores do go-live."},
+];
+
+/* ===========================================================
+   STATE & PERSISTÊNCIA
+   ============================================================ */
+const STORE = "cap-pm-v2";
+function load(){
+  try { return JSON.parse(localStorage.getItem(STORE)) || {status:{}, custom:[], deadline:null}; }
+  catch(e){ return {status:{}, custom:[], deadline:null}; }
+}
+function persist(s){ localStorage.setItem(STORE, JSON.stringify(s)); }
+function allTasks(){ const s = load(); return [...TASKS, ...s.custom]; }
+function getStatus(id){ return load().status[id] || allTasks().find(t=>t.id===id)?.status || "todo"; }
+function setStatus(id, val){ const s = load(); s.status[id] = val; persist(s); }
+
+/* ===========================================================
+   AGREGAÇÕES
+   ============================================================ */
+function agg(filterFn){
+  const t = allTasks().filter(filterFn);
+  const done = t.filter(x => getStatus(x.id) === "done");
+  const ptsT = t.reduce((s,x)=>s+x.pts,0);
+  const ptsD = done.reduce((s,x)=>s+x.pts,0);
+  return {total:t.length, done:done.length, ptsT, ptsD, pct: t.length?Math.round(done.length/t.length*100):0, pctPts: ptsT?Math.round(ptsD/ptsT*100):0};
+}
+
+/* ===========================================================
+   HEADER KPIs
+   ============================================================ */
+function renderHeaderKPIs(){
+  const all = agg(()=>true);
+  const must = agg(t=>t.prio==="must");
+  const sprintCount = SPRINTS.length;
+  const ptsAvg = sprintCount ? Math.round(all.ptsT / sprintCount) : 0;
+  const deadline = load().deadline;
+  const dias = deadline ? Math.max(0, Math.ceil((new Date(deadline) - new Date()) / (1000*60*60*24))) : null;
+  const deadlineLabel = deadline ? new Date(deadline).toLocaleDateString("pt-BR") : "—/—/——";
+
+  document.getElementById("deadline-display").textContent = deadlineLabel;
+
+  document.getElementById("kpis-top").innerHTML = `
+    <div class="kpi y">
+      <div class="label">Dias até a entrega</div>
+      <div class="value y">${dias !== null ? dias : "—"}</div>
+      <div class="sub">${dias !== null ? "dias corridos" : "Defina uma deadline →"}</div>
+    </div>
+    <div class="kpi b">
+      <div class="label">Stories no backlog</div>
+      <div class="value">${all.total}</div>
+      <div class="sub">em ${EPICS.length} épicos</div>
+    </div>
+    <div class="kpi r">
+      <div class="label">MUST (críticas)</div>
+      <div class="value r">${must.total}</div>
+      <div class="sub">bloqueiam o go-live</div>
+    </div>
+    <div class="kpi p">
+      <div class="label">Pontos totais</div>
+      <div class="value">${all.ptsT}</div>
+      <div class="sub">${ptsAvg} pts/sprint média</div>
+    </div>
+    <div class="kpi g">
+      <div class="label">Concluído</div>
+      <div class="value ${all.pct===100?"":""}">${all.pct}%</div>
+      <div class="sub">${all.done} de ${all.total} · ${all.ptsD}/${all.ptsT} pts</div>
+    </div>
+  `;
+}
+
+/* ===========================================================
+   DASHBOARD TAB
+   ============================================================ */
+function renderDashboard(){
+  const all = agg(()=>true);
+  document.getElementById("pct-tasks").textContent = all.pct + "%";
+  document.getElementById("bar-tasks").style.width = all.pct + "%";
+  document.getElementById("bar-tasks").className = all.pct===100?"green":"";
+  document.getElementById("cap-tasks").innerHTML = `<strong>${all.done}</strong> de <strong>${all.total}</strong> tarefas concluídas`;
+  document.getElementById("pct-pts").textContent = all.pctPts + "%";
+  document.getElementById("bar-pts").style.width = all.pctPts + "%";
+  document.getElementById("bar-pts").className = all.pctPts===100?"green":"";
+  document.getElementById("cap-pts").innerHTML = `<strong>${all.ptsD}</strong> de <strong>${all.ptsT}</strong> pts entregues`;
+
+  document.getElementById("rows-areas").innerHTML = AREAS.map(a=>{
+    const x = agg(t=>t.area===a.id);
+    return rowHtml(a.ico+" "+a.name, x);
+  }).join("");
+  document.getElementById("rows-sprints").innerHTML = SPRINTS.map(sp=>{
+    const x = agg(t=>t.sprint===sp.id);
+    return rowHtml(sp.id, x);
+  }).join("");
+  document.getElementById("rows-epics").innerHTML = [...EPICS].sort((a,b)=>a.id.localeCompare(b.id)).map(e=>{
+    const x = agg(t=>t.epic===e.id);
+    return rowHtml(`${e.id} · ${e.name}`, x);
+  }).join("");
+
+  const counts = {todo:0, doing:0, review:0, done:0};
+  allTasks().forEach(t => counts[getStatus(t.id)]++);
+  const total = allTasks().length;
+  const pct = (n) => total ? Math.round(n/total*100) : 0;
+  document.getElementById("status-grid").innerHTML = `
+    <div class="status-box todo"><div class="ico">📋</div><div class="n">${counts.todo}</div><div class="name">A fazer</div><div class="pct">${pct(counts.todo)}%</div></div>
+    <div class="status-box doing"><div class="ico">🔄</div><div class="n">${counts.doing}</div><div class="name">Em andamento</div><div class="pct">${pct(counts.doing)}%</div></div>
+    <div class="status-box review"><div class="ico">🧪</div><div class="n">${counts.review}</div><div class="name">Em teste</div><div class="pct">${pct(counts.review)}%</div></div>
+    <div class="status-box done"><div class="ico">✅</div><div class="n">${counts.done}</div><div class="name">Concluído</div><div class="pct">${pct(counts.done)}%</div></div>
+  `;
+}
+function rowHtml(label, x){
+  return `
+    <div class="row">
+      <span class="label">${label}</span>
+      <div class="bar"><span class="${x.pct===100?'done':''}" style="width:${x.pct}%"></span></div>
+      <span class="stat"><strong class="${x.pct===100?'green':x.pct>0?'yellow':''}">${x.pct}%</strong> · ${x.done}/${x.total} · ${x.ptsD}/${x.ptsT} pts</span>
+    </div>`;
+}
+
+/* ===========================================================
+   KANBAN TAB (com drag-drop)
+   ============================================================ */
+function fillKanbanFilters(){
+  document.getElementById("k-epic").innerHTML = `<option value="">Todos os épicos</option>` + EPICS.map(e=>`<option value="${e.id}">${e.id} · ${e.name}</option>`).join("");
+  document.getElementById("k-area").innerHTML = `<option value="">Todas as áreas</option>` + AREAS.map(a=>`<option value="${a.id}">${a.ico} ${a.name}</option>`).join("");
+  document.getElementById("k-sprint").innerHTML = `<option value="">Todas as sprints</option>` + SPRINTS.map(s=>`<option value="${s.id}">${s.name}</option>`).join("");
+}
+function kanbanFilters(){
+  return {
+    epic: document.getElementById("k-epic").value,
+    area: document.getElementById("k-area").value,
+    sprint: document.getElementById("k-sprint").value,
+    prio: document.getElementById("k-prio").value,
+  };
+}
+function renderKanban(){
+  const cols = [
+    {id:"todo",   name:"A fazer"},
+    {id:"doing",  name:"Em andamento"},
+    {id:"review", name:"Em teste"},
+    {id:"done",   name:"Concluído"},
+  ];
+  const f = kanbanFilters();
+  const visible = allTasks().filter(t =>
+    (!f.epic || t.epic===f.epic) && (!f.area || t.area===f.area) && (!f.sprint || t.sprint===f.sprint) && (!f.prio || t.prio===f.prio)
+  );
+  document.getElementById("kanban").innerHTML = cols.map(c => {
+    const list = visible.filter(t => getStatus(t.id) === c.id);
+    return `
+      <div class="col ${c.id}" data-col="${c.id}" ondragover="event.preventDefault();this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="onDrop(event,'${c.id}')">
+        <div class="col-header">
+          <span class="col-title"><span class="dot"></span>${c.name}</span>
+          <span class="col-count">${list.length}</span>
+        </div>
+        <div class="col-list">${list.map(kcardHtml).join("")}</div>
+      </div>`;
+  }).join("");
+}
+function kcardHtml(t){
+  const epicName = EPICS.find(e=>e.id===t.epic)?.name || t.epic;
+  const areaName = AREAS.find(a=>a.id===t.area)?.name || t.area;
+  return `
+    <div class="kcard" draggable="true"
+      ondragstart="event.dataTransfer.setData('id','${t.id}');this.classList.add('dragging')"
+      ondragend="this.classList.remove('dragging')"
+      onclick="openModal('${t.id}')">
+      <div class="top">
+        <span class="epic-tag">${t.epic} · ${epicName}</span>
+        <span class="pts">${t.pts} pts</span>
+      </div>
+      <div class="title">${t.title}</div>
+      <div class="meta">
+        <span class="tag area">${areaName}</span>
+        <span class="tag sprint">${t.sprint}</span>
+        <span class="tag ${t.prio}">${t.prio.toUpperCase()}</span>
+      </div>
+    </div>`;
+}
+function onDrop(e, col){
+  e.preventDefault();
+  document.querySelectorAll(".col").forEach(c=>c.classList.remove("drag-over"));
+  const id = e.dataTransfer.getData("id");
+  if (!id) return;
+  setStatus(id, col);
+  renderAll();
+}
+["k-epic","k-area","k-sprint","k-prio"].forEach(id=>{
+  // bind later in init
+});
+
+/* ===========================================================
+   BACKLOG TAB
+   ============================================================ */
+function fillBacklogFilters(){
+  document.getElementById("b-epic").innerHTML = `<option value="">Todos os épicos</option>` + EPICS.map(e=>`<option value="${e.id}">${e.id} · ${e.name}</option>`).join("");
+  document.getElementById("b-area").innerHTML = `<option value="">Todas as áreas</option>` + AREAS.map(a=>`<option value="${a.id}">${a.ico} ${a.name}</option>`).join("");
+  document.getElementById("b-sprint").innerHTML = `<option value="">Todas as sprints</option>` + SPRINTS.map(s=>`<option value="${s.id}">${s.name}</option>`).join("");
+}
+function backlogFilters(){
+  return {
+    q: (document.getElementById("b-search").value||"").trim().toLowerCase(),
+    epic: document.getElementById("b-epic").value,
+    area: document.getElementById("b-area").value,
+    sprint: document.getElementById("b-sprint").value,
+    prio: document.getElementById("b-prio").value,
+    status: document.getElementById("b-status").value,
+  };
+}
+function renderBacklog(){
+  const f = backlogFilters();
+  const sorted = [...allTasks()].sort((a,b)=>a.id.localeCompare(b.id, "en", {numeric:true}));
+  const html = sorted.map(t => {
+    const hay = (t.id+" "+t.title+" "+(t.desc||"")).toLowerCase();
+    const st = getStatus(t.id);
+    const hide = (f.q && !hay.includes(f.q)) || (f.epic && t.epic!==f.epic) || (f.area && t.area!==f.area) || (f.sprint && t.sprint!==f.sprint) || (f.prio && t.prio!==f.prio) || (f.status && st!==f.status);
+    const areaName = AREAS.find(a=>a.id===t.area)?.name || t.area;
+    const stLabel = ({todo:"A fazer", doing:"Em andamento", review:"Em teste", done:"Concluído"})[st];
+    return `
+      <tr class="${hide?'hidden':''}" onclick="if(event.target.tagName!=='BUTTON')openModal('${t.id}')" style="cursor:pointer">
+        <td class="tid">${t.id}</td>
+        <td class="ttitle">${t.title}<small>${t.desc || ""}</small></td>
+        <td>${t.epic}</td>
+        <td>${areaName}</td>
+        <td>${t.sprint}</td>
+        <td><span class="tag ${t.prio}">${t.prio.toUpperCase()}</span></td>
+        <td><span style="font-family:Nunito;font-weight:800;color:var(--yellow)">${t.pts}</span></td>
+        <td><button class="status-pill ${st}" onclick="event.stopPropagation();cycleStatus('${t.id}')">${stLabel}</button></td>
+      </tr>`;
+  }).join("");
+  document.getElementById("backlog-body").innerHTML = html;
+}
+function cycleStatus(id){
+  const order = ["todo","doing","review","done"];
+  const curr = getStatus(id);
+  const next = order[(order.indexOf(curr)+1) % order.length];
+  setStatus(id, next);
+  renderAll();
+}
+function resetFilters(prefix){
+  ["search","epic","area","sprint","prio","status"].forEach(k=>{
+    const el = document.getElementById(prefix+"-"+k);
+    if (el) el.value = "";
+  });
+  renderBacklog();
+}
+
+/* ===========================================================
+   SPRINTS TAB
+   ============================================================ */
+function renderSprints(){
+  document.getElementById("sprint-grid").innerHTML = SPRINTS.map(sp=>{
+    const x = agg(t=>t.sprint===sp.id);
+    return `
+      <div class="sprint-card">
+        <div class="header">
+          <div>
+            <div class="title">${sp.name}</div>
+            <div class="subtitle">${sp.weeks} semanas · ${sp.desc}</div>
+          </div>
+          <span class="tag ${x.pct===100?'must':x.pct>0?'should':'could'}" style="${x.pct===100?'background:var(--green-soft);color:var(--green);border-color:rgba(0,201,81,.4)':''}">${x.pct}%</span>
+        </div>
+        <div class="progress-mini"><span class="${x.pct===100?'green':''}" style="width:${x.pct}%"></span></div>
+        <div class="stats">
+          <span><strong>${x.done}</strong>/${x.total} tarefas</span>
+          <span><strong>${x.ptsD}</strong>/${x.ptsT} pts</span>
+        </div>
+      </div>`;
+  }).join("");
+}
+
+/* ===========================================================
+   ATUALIZAÇÕES TAB
+   ============================================================ */
+function renderUpdates(){
+  document.getElementById("timeline").innerHTML = UPDATES.map(u=>`
+    <div class="update ${u.type}">
+      <div class="date">${new Date(u.date).toLocaleDateString("pt-BR", {day:"2-digit", month:"long", year:"numeric"})}</div>
+      <div class="title">${u.title}</div>
+      <div class="desc">${u.desc}</div>
+    </div>`).join("");
+}
+
+/* ===========================================================
+   VISÃO GERAL TAB
+   ============================================================ */
+function renderVisaoGeral(){
+  // épicos
+  document.getElementById("epic-grid").innerHTML = [...EPICS].sort((a,b)=>a.id.localeCompare(b.id)).map(e=>{
+    const x = agg(t=>t.epic===e.id);
+    return `
+      <div class="epic-card ${e.prio}">
+        <h4>${e.id} · ${e.name} ${e.ico}</h4>
+        <p class="desc">${e.desc}</p>
+        <div class="footer">
+          <span>Stories: <strong>${x.total}</strong></span>
+          <span>Pontos: <strong>${x.ptsT}</strong></span>
+          <span>Concluído: <strong>${x.pct}%</strong></span>
+        </div>
+      </div>`;
+  }).join("");
+
+  // telas
+  document.getElementById("screen-grid").innerHTML = SCREENS.map(s=>`
+    <div class="screen-card">
+      <h4><span class="num">${s.num}</span>${s.title}</h4>
+      <span class="file">${s.file}</span>
+      <p class="desc">${s.desc}</p>
+      <div class="twocol">
+        <div class="mini"><div class="h">Regras</div><ul>${s.rules.map(r=>`<li>${r}</li>`).join("")}</ul></div>
+        <div class="mini"><div class="h">Para dev</div><ul>${s.dev.map(r=>`<li>${r}</li>`).join("")}</ul></div>
+      </div>
+      <div class="twocol">
+        <div class="mini"><div class="h">✔ Sucessos</div><ul>${(s.success.length?s.success:["—"]).map(r=>`<li>${r}</li>`).join("")}</ul></div>
+        <div class="mini"><div class="h">✖ Erros</div><ul>${(s.errors.length?s.errors:["—"]).map(r=>`<li>${r}</li>`).join("")}</ul></div>
+      </div>
+    </div>`).join("");
+
+  // erros
+  document.getElementById("erros-body").innerHTML = ERRORS.map(([c,o,t,h])=>`
+    <tr><td><strong>${c}</strong></td><td>${o}</td><td><span class="pill ${t}">${t==="ok"?"Sim":t==="no"?"Não":"Parcial"}</span></td><td>${h}</td></tr>`).join("");
+  // sucesso
+  document.getElementById("sucesso-body").innerHTML = SUCCESSES.map(([c,o,t,h])=>`
+    <tr><td><strong>${c}</strong></td><td>${o}</td><td><span class="pill ${t}">${t==="ok"?"Sim":t==="no"?"Não":"Parcial"}</span></td><td>${h}</td></tr>`).join("");
+  // gaps
+  document.getElementById("gaps-grid").innerHTML = GAPS.map(g=>`
+    <div class="risk-card ${g.crit?'crit':''}">
+      <div class="h4row"><h4>${g.title}</h4><span class="sev">${g.crit?"Crítico":"Importante"}</span></div>
+      <p class="desc">${g.desc}</p>
+    </div>`).join("");
+  // regras
+  document.getElementById("regras-grid").innerHTML = REGRAS.map(r=>`
+    <div class="epic-card">
+      <h4>${r.title}</h4>
+      <p class="desc">${r.desc}</p>
+    </div>`).join("");
+}
+
+/* ===========================================================
+   ANALYTICS TAB
+   ============================================================ */
+function renderAnalytics(){
+  const all = agg(()=>true);
+  const must = agg(t=>t.prio==="must");
+  const should = agg(t=>t.prio==="should");
+  const could = agg(t=>t.prio==="could");
+  const ptsAvg = SPRINTS.length ? Math.round(all.ptsT / SPRINTS.length) : 0;
+
+  document.getElementById("analytics-stats").innerHTML = `
+    <div class="stat-card"><div class="l">Total de tarefas</div><div class="v">${all.total}</div><div class="s">Em ${EPICS.length} épicos</div></div>
+    <div class="stat-card"><div class="l">Total de pontos</div><div class="v">${all.ptsT}</div><div class="s">${ptsAvg} pts/sprint</div></div>
+    <div class="stat-card"><div class="l">Must (crítico)</div><div class="v" style="color:var(--red)">${must.total}</div><div class="s">${must.ptsT} pts · bloqueia go-live</div></div>
+    <div class="stat-card"><div class="l">Should</div><div class="v" style="color:var(--orange)">${should.total}</div><div class="s">${should.ptsT} pts</div></div>
+    <div class="stat-card"><div class="l">Could</div><div class="v" style="color:var(--blue)">${could.total}</div><div class="s">${could.ptsT} pts</div></div>
+    <div class="stat-card"><div class="l">Velocidade ideal</div><div class="v green">${ptsAvg}</div><div class="s">pts/sprint para entregar</div></div>
+  `;
+
+  const top = [...allTasks()].sort((a,b)=>b.pts-a.pts).slice(0,5);
+  document.getElementById("top-tasks").innerHTML = top.map(t=>`
+    <div class="row">
+      <span class="label">${t.id} · ${t.title}</span>
+      <div class="bar"><span style="width:${(t.pts/21)*100}%"></span></div>
+      <span class="stat"><strong class="yellow">${t.pts} pts</strong></span>
+    </div>`).join("");
+
+  document.getElementById("dist-areas").innerHTML = AREAS.map(a=>{
+    const tasks = allTasks().filter(t=>t.area===a.id);
+    const pts = tasks.reduce((s,t)=>s+t.pts,0);
+    const maxPts = Math.max(1, ...AREAS.map(ar=>allTasks().filter(t=>t.area===ar.id).reduce((s,t)=>s+t.pts,0)));
+    return `
+      <div class="row">
+        <span class="label">${a.ico} ${a.name}</span>
+        <div class="bar"><span style="width:${pts/maxPts*100}%"></span></div>
+        <span class="stat"><strong>${tasks.length}</strong> tarefas · <strong class="yellow">${pts} pts</strong></span>
+      </div>`;
+  }).join("");
+}
+
+/* ===========================================================
+   RISCOS TAB
+   ============================================================ */
+const RISCOS = [
+  {sev:"crit", title:"PIX sem confirmação real (T3.7)",        desc:"Botão 'JÁ PAGUEI' avança sem checar gateway. Risco financeiro direto: cliente sai sem ter pago."},
+  {sev:"crit", title:"Sem idle timer (T9.1)",                  desc:"Totem físico travado em tela de pagamento se cliente desistir. Próximo usuário vê tela do anterior."},
+  {sev:"crit", title:"Migração de stack pendente (T0.5)",      desc:"Babel in-browser não suporta deploy real. Pode invalidar parte do trabalho de UI atual."},
+  {sev:"crit", title:"Modo demo em produção",                  desc:"Toggles e simuladores podem vazar para o cliente final."},
+  {sev:"crit", title:"Deadline indefinida",                    desc:"Sem data de entrega não há sprint planning real. Definir com cliente urgentemente."},
+  {sev:"high", title:"WhatsApp sem fallback",                  desc:"Se WhatsApp do Meta cair, cliente não recebe bilhete. SMS como plano B."},
+  {sev:"high", title:"LGPD não atendida totalmente",           desc:"Sem texto de finalidade, sem log de consentimento, sem portal de exercício de direitos."},
+  {sev:"high", title:"Cartão indefinido",                      desc:"Entra ou não no MVP? Se entrar, precisa SDK + hardware + 22 pts de trabalho."},
+  {sev:"high", title:"Antifraude inexistente",                 desc:"Mesmo celular pode fazer 1000 compras. Sem rate-limit no MVP atual."},
+  {sev:"low",  title:"Acessibilidade WCAG",                    desc:"Fontes pequenas e contraste em alguns blocos. Auditoria necessária antes do go-live."},
+  {sev:"low",  title:"Som / feedback auditivo",                desc:"Em shopping/lojas barulhentas, ajuda mas não é obrigatório."},
+  {sev:"low",  title:"Impressora térmica",                     desc:"Se totem tiver impressora, será necessário driver. Confirmar com hardware."},
+];
+function renderRiscos(){
+  document.getElementById("riscos-grid").innerHTML = RISCOS.map(r=>`
+    <div class="risk-card ${r.sev==='crit'?'crit':r.sev==='low'?'low':''}">
+      <div class="h4row"><h4>${r.title}</h4><span class="sev">${r.sev==='crit'?'Crítico':r.sev==='high'?'Alto':'Baixo'}</span></div>
+      <p class="desc">${r.desc}</p>
+    </div>`).join("");
+}
+
+/* ===========================================================
+   MODAL (criar/editar tarefa)
+   ============================================================ */
+let editingId = null;
+function openModal(taskId){
+  editingId = taskId || null;
+  const m = document.getElementById("modal");
+  document.getElementById("m-epic").innerHTML = EPICS.map(e=>`<option value="${e.id}">${e.id} · ${e.name}</option>`).join("");
+  document.getElementById("m-area").innerHTML = AREAS.map(a=>`<option value="${a.id}">${a.ico} ${a.name}</option>`).join("");
+  document.getElementById("m-sprint").innerHTML = SPRINTS.map(s=>`<option value="${s.id}">${s.name}</option>`).join("");
+
+  const t = taskId ? allTasks().find(x=>x.id===taskId) : null;
+  document.getElementById("modal-title").textContent = t ? `Editar tarefa · ${t.id}` : "+ Nova tarefa";
+  document.getElementById("m-id").value = t ? t.id : "";
+  document.getElementById("m-title").value = t ? t.title : "";
+  document.getElementById("m-desc").value = t ? (t.desc || "") : "";
+  document.getElementById("m-epic").value = t ? t.epic : EPICS[0].id;
+  document.getElementById("m-area").value = t ? t.area : AREAS[0].id;
+  document.getElementById("m-sprint").value = t ? t.sprint : SPRINTS[0].id;
+  document.getElementById("m-prio").value = t ? t.prio : "should";
+  document.getElementById("m-pts").value = t ? t.pts : 3;
+  document.getElementById("m-status").value = t ? getStatus(t.id) : "todo";
+
+  // mostrar delete só pra custom tasks
+  const isCustom = t && load().custom.some(c=>c.id===t.id);
+  document.getElementById("m-delete").style.display = isCustom ? "inline-flex" : "none";
+
+  m.classList.add("show");
+  setTimeout(()=>document.getElementById("m-title").focus(), 50);
+}
+function closeModal(){ document.getElementById("modal").classList.remove("show"); editingId = null; }
+function saveModal(){
+  const title = document.getElementById("m-title").value.trim();
+  if (!title) { alert("Informe um título"); return; }
+  const s = load();
+  const payload = {
+    title,
+    desc: document.getElementById("m-desc").value.trim(),
+    epic: document.getElementById("m-epic").value,
+    area: document.getElementById("m-area").value,
+    sprint: document.getElementById("m-sprint").value,
+    prio: document.getElementById("m-prio").value,
+    pts: parseInt(document.getElementById("m-pts").value) || 0,
+  };
+  const newStatus = document.getElementById("m-status").value;
+
+  if (editingId) {
+    // editar — só permite título/desc para hardcoded; tudo para custom
+    const idx = s.custom.findIndex(c=>c.id===editingId);
+    if (idx >= 0) {
+      s.custom[idx] = {...s.custom[idx], ...payload};
+    }
+    s.status[editingId] = newStatus;
+  } else {
+    // criar custom
+    const seq = s.custom.length + 1;
+    const id = `TC.${seq}`;
+    s.custom.push({id, ...payload, status:"todo"});
+    s.status[id] = newStatus;
+  }
+  persist(s);
+  closeModal();
+  renderAll();
+}
+function deleteTask(){
+  if (!editingId) return;
+  if (!confirm("Excluir esta tarefa?")) return;
+  const s = load();
+  s.custom = s.custom.filter(c=>c.id!==editingId);
+  delete s.status[editingId];
+  persist(s);
+  closeModal();
+  renderAll();
+}
+
+/* ===========================================================
+   DEADLINE
+   ============================================================ */
+function editDeadline(){
+  const curr = load().deadline || "";
+  const input = prompt("Data de entrega (formato AAAA-MM-DD):", curr);
+  if (input === null) return;
+  const s = load();
+  s.deadline = input.trim() || null;
+  persist(s);
+  renderHeaderKPIs();
+}
+
+/* ===========================================================
+   TABS
+   ============================================================ */
+function activateTab(name){
+  document.querySelectorAll("nav.tabs button").forEach(b=>b.classList.toggle("active", b.dataset.tab===name));
+  document.querySelectorAll("section.tab").forEach(s=>s.classList.toggle("active", s.id==="tab-"+name));
+}
+function activateVG(name){
+  document.querySelectorAll("#vg-sub button").forEach(b=>b.classList.toggle("active", b.dataset.vg===name));
+  document.querySelectorAll(".vg-section").forEach(s=>s.classList.toggle("active", s.id==="vg-"+name));
+}
+
+/* ===========================================================
+   RENDER ALL
+   ============================================================ */
+function renderAll(){
+  renderHeaderKPIs();
+  renderDashboard();
+  renderKanban();
+  renderBacklog();
+  renderSprints();
+  renderUpdates();
+  renderVisaoGeral();
+  renderAnalytics();
+  renderRiscos();
+}
+
+/* ===========================================================
+   INIT
+   ============================================================ */
+fillKanbanFilters();
+fillBacklogFilters();
+renderAll();
+
+document.getElementById("tabs").addEventListener("click", e=>{
+  const b = e.target.closest("button[data-tab]");
+  if (b) activateTab(b.dataset.tab);
+});
+document.getElementById("vg-sub").addEventListener("click", e=>{
+  const b = e.target.closest("button[data-vg]");
+  if (b) activateVG(b.dataset.vg);
+});
+["k-epic","k-area","k-sprint","k-prio"].forEach(id=>{
+  document.getElementById(id).addEventListener("change", renderKanban);
+});
+["b-search","b-epic","b-area","b-sprint","b-prio","b-status"].forEach(id=>{
+  document.getElementById(id).addEventListener("input", renderBacklog);
+  document.getElementById(id).addEventListener("change", renderBacklog);
+});
+document.getElementById("btn-new").addEventListener("click", ()=>openModal(null));
+document.getElementById("deadline-display").addEventListener("click", editDeadline);
+document.getElementById("modal").addEventListener("click", e=>{ if(e.target.id==="modal") closeModal(); });
+document.addEventListener("keydown", e=>{ if(e.key==="Escape") closeModal(); });
+</script>
+</body>
+</html>

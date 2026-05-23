@@ -170,15 +170,24 @@
           </div>
         </div>
 
-        <!-- Slot 04 -->
-        <div class="client-card client-card--soon">
-          <span class="client-card__chip client-card__chip--soon">Em breve</span>
-          <div class="client-card__soon-body">
-            <svg class="client-card__soon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <rect x="4" y="11" width="16" height="10" rx="2"/>
-              <path d="M8 11V7a4 4 0 0 1 8 0v4"/>
-              <circle cx="12" cy="16" r="1.2" fill="currentColor"/>
-            </svg>
+        <!-- Slot 04 — Projetos HXC (workspace) -->
+        <div class="client-card client-card--active client-card--projetos"
+             onclick="window.location.href='projetos-hxc/'"
+             role="link" tabindex="0"
+             onkeydown="if(event.key==='Enter')window.location.href='projetos-hxc/'"
+             aria-label="Abrir workspace de Projetos HXC">
+          <span class="client-card__chip client-card__chip--projetos">Workspace</span>
+          <div class="client-card__header">
+            <div class="client-card__logo client-card__logo--projetos">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+              </svg>
+            </div>
+            <div class="client-card__brand">Projetos <em>HXC</em></div>
+          </div>
+          <p class="client-card__desc">Telas e fluxos em desenvolvimento — Ecosistema HXC e Totem Capitaliza+. Workspace ativo para iterar, ajustar e validar antes da entrega ao DS.</p>
+          <div class="client-card__actions">
+            <a href="projetos-hxc/" class="client-card__cta">Abrir workspace →</a>
           </div>
         </div>
 

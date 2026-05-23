@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<title>Preview — Animações PIX com Mockup</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #e8e5e0;
+    font-family: -apple-system, "Inter", system-ui, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px 80px;
+    gap: 48px;
+  }
+  h1 { font-size: 17px; font-weight: 700; color: #1f2937; letter-spacing: -.2px; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 48px 36px;
+    width: 100%;
+    max-width: 1200px;
+  }
+  .card { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .card-label { font-size: 12px; font-weight: 600; color: #6b7280; letter-spacing: .4px; text-transform: uppercase; }
+
+  /* Proporção 3:2 — igual à do PNG (1536×1024) */
+  .mockup-stage {
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    border-radius: 6px;
+    overflow: hidden;
+    background: transparent;
+  }
+  /* Cena 6 — terminal — aspecto próprio */
+  .terminal-stage {
+    width: 100%;
+    aspect-ratio: 10 / 7;
+    border-radius: 6px;
+    overflow: hidden;
+    background: transparent;
+  }
+
+  #status {
+    font-size: 13px; color: #9ca3af; margin-top: -24px;
+  }
+</style>
+</head>
+<body>
+<h1>Animações PIX — Mockup Celular</h1>
+<p id="status">Carregando…</p>
+<div class="grid" id="grid"></div>
+
+<!-- React UMD (não usa módulos — mais compatível com eval) -->
+<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
+
+<script>
+// Carrega cada JSX em ordem, transforma com Babel e executa no escopo global.
+// Usa new Function() para que as variáveis declaradas com var/window fiquem globais.
+async function loadJSX(file) {
+  const res  = await fetch(file);
+  const src  = await res.text();
+  const code = Babel.transform(src, {
+    presets: ['react'],
+    filename: file,
+  }).code;
+  // eslint-disable-next-line no-new-func
+  new Function('React', 'ReactDOM', code)(React, ReactDOM);
+}
+
+const FILES = [
+  'scenes.jsx',
+  'scene1.jsx', 'scene2.jsx', 'scene3.jsx',
+  'scene4.jsx', 'scene5.jsx', 'scene6.jsx',
+];
+
+const SCENES = [
+  { key: 'Scene1', label: 'Cena 1 · App do banco',        terminal: false },
+  { key: 'Scene2', label: 'Cena 2 · Logo PIX',            terminal: false },
+  { key: 'Scene3', label: 'Cena 3 · QR Code',             terminal: false },
+  { key: 'Scene4', label: 'Cena 4 · Confirmação',         terminal: false },
+  { key: 'Scene5', label: 'Cena 5 · Pagamento realizado', terminal: false },
+  { key: 'Scene6', label: 'Cena 6 · Totem PARABÉNS',      terminal: true  },
+];
+
+(async () => {
+  try {
+    for (const f of FILES) await loadJSX(f);
+
+    document.getElementById('status').textContent = '';
+    const grid = document.getElementById('grid');
+
+    SCENES.forEach(({ key, label, terminal }) => {
+      const Comp = window[key];
+      if (!Comp) { console.warn(key, 'not found'); return; }
+
+      const card = document.createElement('div');
+      card.className = 'card';
+
+      const lbl  = document.createElement('span');
+      lbl.className = 'card-label';
+      lbl.textContent = label;
+
+      const stage = document.createElement('div');
+      stage.className = terminal ? 'terminal-stage' : 'mockup-stage';
+      stage.id = 'mount-' + key;
+
+      card.appendChild(lbl);
+      card.appendChild(stage);
+      grid.appendChild(card);
+
+      ReactDOM.createRoot(stage).render(React.createElement(Comp));
+    });
+  } catch (e) {
+    document.getElementById('status').textContent = 'Erro: ' + e.message;
+    console.error(e);
+  }
+})();
+</script>
+</body>
+</html>

@@ -680,9 +680,26 @@
   background: rgba(10, 26, 48, 0.75);
   text-decoration: none;
 }
-.client-card--paypix { --brand: 243, 146, 8; }
-.client-card--iadm   { --brand: 158, 215, 235; }
-.client-card--apcap  { --brand: 240, 185, 9; }
+.client-card--paypix   { --brand: 243, 146, 8; }
+.client-card--iadm     { --brand: 158, 215, 235; }
+.client-card--apcap    { --brand: 240, 185, 9; }
+/* Card destacado em amarelo — workspace de projetos */
+.client-card--projetos {
+  --brand: 240, 185, 9;
+  background: linear-gradient(180deg,
+    rgba(240, 185, 9, 0.10) 0%,
+    rgba(10, 26, 48, 0.55) 100%);
+  border-color: rgba(240, 185, 9, 0.55);
+  box-shadow: 0 0 22px rgba(240, 185, 9, 0.16);
+}
+.client-card--projetos:hover {
+  border-color: rgba(240, 185, 9, 0.85);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35),
+              0 0 28px rgba(240, 185, 9, 0.40);
+  background: linear-gradient(180deg,
+    rgba(240, 185, 9, 0.16) 0%,
+    rgba(10, 26, 48, 0.75) 100%);
+}
 .client-card--soon {
   background: rgba(10, 26, 48, 0.55);
   border: 1px dashed rgba(255, 255, 255, 0.28);
@@ -799,6 +816,26 @@
   border: none;
 }
 .client-card__logo--apcap img { object-fit: cover; }
+
+.client-card__logo--projetos {
+  background: rgba(240, 185, 9, 0.18);
+  border: 1px solid rgba(240, 185, 9, 0.55);
+  color: var(--yellow-500);
+  box-shadow: 0 0 12px rgba(240, 185, 9, 0.35);
+}
+
+.client-card__chip--projetos {
+  background: rgba(240, 185, 9, 0.15);
+  border: 1px solid rgba(240, 185, 9, 0.55);
+  color: var(--yellow-500);
+}
+.client-card__chip--projetos::before {
+  content: '';
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--yellow-500);
+  box-shadow: 0 0 6px rgba(240, 185, 9, 0.85);
+}
 .client-card__brand {
   font-family: var(--font-body);
   font-style: normal;

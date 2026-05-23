@@ -1,0 +1,60 @@
+/* ============================================================
+   HiperXCAP — Design System tokens
+   ------------------------------------------------------------
+   Auto-gerado de css/variables.css
+   Atualizado: 2026-05-22T16:02:25.080Z
+   47 tokens
+   ------------------------------------------------------------
+   Uso: importe este arquivo antes dos seus styles globais.
+        @import './tokens.css';
+   ============================================================ */
+
+:root {
+  --blue-500: #0166B3;
+  --blue-900: #1A2F51;
+  --blue-950: #0C1628;
+  --orange-500: #F39208;
+  --orange-300: #F8AF4F;
+  --gray-100: #EEEEEE;
+  --coral-500: #EF7E5A;
+  --coral-300: #F4A495;
+  --yellow-500: #F0B909;
+  --beige-500: #DBC69E;
+  --green-500: #A7C945;
+  --green-300: #B6D37B;
+  --teal-500: #54BBAB;
+  --lavender-500: #B4B3BC;
+  --purple-500: #B26F9A;
+  --skyblue-500: #9ED7EB;
+  --white: #FFFFFF;
+  --black: #000000;
+  --fb-success: #A7C945;
+  --fb-success-bg: rgba(167, 201, 69, 0.12);
+  --fb-danger: #B26F9A;
+  --fb-danger-bg: rgba(178, 111, 154, 0.14);
+  --fb-warning: #F39208;
+  --fb-warning-bg: rgba(243, 146, 8, 0.12);
+  --fb-info: #9ED7EB;
+  --fb-info-bg: rgba(158, 215, 235, 0.14);
+  --fb-special: #EF7E5A;
+  --fb-special-bg: rgba(239, 126, 90, 0.14);
+  --glow-orange: 0 0 20px rgba(243, 146, 8, 0.70), 0 0 44px rgba(243, 146, 8, 0.35), 0 0 72px rgba(243, 146, 8, 0.15);
+  --glow-orange-sm: 0 0 14px rgba(243, 146, 8, 0.60), 0 0 28px rgba(243, 146, 8, 0.20);
+  --glow-blue: 0 0 18px rgba(1, 102, 179, 0.65), 0 0 36px rgba(1, 102, 179, 0.25);
+  --glow-coral: 0 0 18px rgba(239, 126, 90, 0.65), 0 0 36px rgba(239, 126, 90, 0.25);
+  --glow-green: 0 0 18px rgba(167, 201, 69, 0.65), 0 0 36px rgba(167, 201, 69, 0.25);
+  --glow-purple: 0 0 18px rgba(178, 111, 154, 0.65), 0 0 36px rgba(178, 111, 154, 0.25);
+  --grad-blue: linear-gradient(135deg, #0166B3 0%, #1A2F51 100%);
+  --grad-orange: linear-gradient(135deg, #F39208 0%, #F8AF4F 100%);
+  --grad-deep: linear-gradient(180deg, #1A2F51 0%, #0166B3 100%);
+  --grad-special: linear-gradient(135deg, #B26F9A 0%, #EF7E5A 100%);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.10);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.18);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.22);
+  --r-sm: 6px;
+  --r-md: 10px;
+  --r-lg: 14px;
+  --r-xl: 20px;
+  --font-display: 'Bitner', 'Poppins', 'Helvetica Neue', Arial, sans-serif;
+  --font-body: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+}

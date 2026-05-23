@@ -4942,7 +4942,7 @@
 
   .ct-card {
     width: 100%;
-    max-width: 560px;
+    max-width: var(--app-max-width, 480px);  /* alinhado com o limite do app */
     background:
       linear-gradient(180deg, rgba(28, 16, 40, 0.97), rgba(10, 6, 20, 0.99)),
       radial-gradient(ellipse at 50% 0%, rgba(243, 146, 8, 0.15), transparent 60%);
@@ -5527,6 +5527,74 @@
   .ct-submit > * { position: relative; z-index: 2; }
 
   /* ============================================================
+     DISCIPLINA TIPOGRÁFICA — DS HXC oficial
+     ------------------------------------------------------------
+     Bitner (font-display) é SOMENTE para títulos, valores grandes
+     e CTAs (texto ≥ 14px). Toda label, badge, descrição, meta,
+     chip e texto pequeno descritivo usa Poppins (font-body).
+     Esta regra está no final do <style> para vencer regras
+     anteriores pela ordem (sem precisar de !important).
+     ============================================================ */
+  .bm-chip,
+  .qty-eyebrow,
+  .qty-tag,
+  .qty-summary,
+  .qty-stepper-label,
+  .pay-chip,
+  .pay-meta,
+  .pay-pin-hint,
+  .picker-label,
+  .scenarios-label,
+  .scenario .desc,
+  .home-sub,
+  .home-foot,
+  .mechanics-card,
+  .mechanics-card strong,
+  .info-banner .lbl,
+  .info-banner .ttl,
+  .status-strip,
+  .status-strip .badge,
+  .campaign-tag,
+  .conteg-head .meta,
+  .conteg-row .titulo-num,
+  .conteg-row .you-tag,
+  .conteg-row .name .city,
+  .conteg-rule,
+  .steps-badge,
+  .step-desc,
+  .pix-hint,
+  .receipt .label,
+  .receipt .sub,
+  .footer-disclaimer,
+  .paypix-id-meta,
+  .paypix-id-meta .dupla-chance,
+  .live-banner__sub,
+  .live-banner__label,
+  .home-title small,
+  .doc-hero p {
+    font-family: var(--font-body) !important;
+  }
+
+  /* ============================================================
+     ICONS — biblioteca flat SVG (substitui emojis 3D do sistema)
+     stroke: currentColor — herda a cor do contexto pai
+     ============================================================ */
+  svg.ico {
+    display: inline-block;
+    flex-shrink: 0;
+    vertical-align: middle;
+    color: currentColor;
+  }
+  svg.ico-lg { width: 28px; height: 28px; }
+  svg.ico-sm { width: 16px; height: 16px; }
+  .campaign-icon svg.ico,
+  .prize-medal svg.ico,
+  .info-banner .ic svg.ico,
+  .info-banner .icon svg.ico,
+  .sorteio-banner .icon svg.ico,
+  .icon > svg.ico { width: 24px; height: 24px; }
+
+  /* ============================================================
      RESPONSIVIDADE — fixes de mobile/tablet
      ============================================================ */
   @media (max-width: 768px) {
@@ -5703,6 +5771,52 @@
     opacity: 0.55;
     margin-bottom: 4px;
   }
+
+
+  /* ============================================================
+     ANIMAÇÕES DE ENTRADA — DS HXC
+     Aplicar via classe utilitária ou data-attribute.
+     ============================================================ */
+  @keyframes hxc-slide-down {
+    0%   { opacity: 0; transform: translateY(-24px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes hxc-fade-up {
+    0%   { opacity: 0; transform: translateY(16px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes hxc-pop-in {
+    0%   { opacity: 0; transform: scale(0.6); }
+    60%  { opacity: 1; transform: scale(1.06); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+  @keyframes hxc-qr-flip {
+    0%   { opacity: 0; transform: perspective(720px) rotateY(-180deg) scale(0.5); }
+    60%  { opacity: 1; transform: perspective(720px) rotateY(12deg) scale(1.04); }
+    100% { opacity: 1; transform: perspective(720px) rotateY(0deg) scale(1); }
+  }
+  /* Utilitárias */
+  .hxc-anim-slide-down  { animation: hxc-slide-down 0.5s cubic-bezier(.4,0,.2,1) both; }
+  .hxc-anim-fade-up     { animation: hxc-fade-up    0.5s cubic-bezier(.4,0,.2,1) both; }
+  .hxc-anim-pop-in      { animation: hxc-pop-in     0.6s cubic-bezier(.34,1.56,.64,1) both; }
+  .hxc-anim-qr-flip     { animation: hxc-qr-flip    0.9s cubic-bezier(.4,0,.2,1) both;
+                          transform-style: preserve-3d; }
+  /* Stagger automático em filhos diretos (cards de tutorial, dezenas, etc) */
+  .hxc-stagger > * { animation: hxc-fade-up 0.5s cubic-bezier(.4,0,.2,1) both; }
+  .hxc-stagger > *:nth-child(1) { animation-delay:  60ms; }
+  .hxc-stagger > *:nth-child(2) { animation-delay: 140ms; }
+  .hxc-stagger > *:nth-child(3) { animation-delay: 220ms; }
+  .hxc-stagger > *:nth-child(4) { animation-delay: 300ms; }
+  .hxc-stagger > *:nth-child(5) { animation-delay: 380ms; }
+  .hxc-stagger > *:nth-child(6) { animation-delay: 460ms; }
+  @media (prefers-reduced-motion: reduce) {
+    .hxc-anim-slide-down,
+    .hxc-anim-fade-up,
+    .hxc-anim-pop-in,
+    .hxc-anim-qr-flip,
+    .hxc-stagger > * { animation: none !important; }
+  }
+
 </style>
 </head>
 <body class="theme-orange">
@@ -5926,7 +6040,7 @@
     <div class="hero-promo">
       <!-- Banner promocional principal — arte oficial enviada pelo time -->
       <div class="promo-banner" aria-hidden="true">
-        <div class="banner-placeholder banner-placeholder--lg" data-banner-slot="promo-principal" role="img" aria-label="Espaço reservado para banner promocional principal">
+        <div class="banner-placeholder banner-placeholder--lg hxc-anim-fade-up" data-banner-slot="promo-principal" role="img" aria-label="Espaço reservado para banner promocional principal">
           <svg class="banner-placeholder__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <rect x="3" y="3" width="18" height="18" rx="2"/>
             <circle cx="8.5" cy="8.5" r="1.5"/>
@@ -6114,7 +6228,7 @@
         </div>
       </div>
 
-      <div class="steps-track">
+      <div class="steps-track hxc-stagger">
         <button type="button" class="step" onclick="navTo('state-pay')">
           <div class="step-num">1</div>
           <div class="step-svg">
@@ -6473,7 +6587,7 @@
         <span class="campaign-period">Sorteio 17/05/2026 · 21h30</span>
       </div>
       <div class="campaign-body">
-        <div class="campaign-icon">🏆</div>
+        <div class="campaign-icon"><svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0V4z"/><path d="M17 5h2a2 2 0 0 1 0 4h-2M7 5H5a2 2 0 0 0 0 4h2"/></svg></div>
         <div class="campaign-text">
           <div class="campaign-title" data-prize="detail-title">Um Milhão de Reais em prêmios</div>
           <div class="campaign-sub" data-prize="detail-sub">No 4° sorteio, concorra a <b>R$ 1.000.000,00</b>. Nos demais sorteios, <b>R$ 30 mil</b> cada — mais <b>R$ 15 mil</b> na trave e <b>R$ 5 mil</b> em cada um dos 30 números do Hiper Giro.</div>
@@ -6481,7 +6595,7 @@
       </div>
       <div class="campaign-prizes">
         <div class="prize-item hero-prize">
-          <span class="prize-medal jackpot">🏆</span>
+          <span class="prize-medal jackpot"><svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0V4z"/><path d="M17 5h2a2 2 0 0 1 0 4h-2M7 5H5a2 2 0 0 0 0 4h2"/></svg></span>
           <div class="prize-info">
             <span class="prize-when">4° Sorteio · 20 acertos</span>
             <span class="prize-val" data-prize="d-main">R$ 1.000.000</span>
@@ -6495,7 +6609,7 @@
           </div>
         </div>
         <div class="prize-item">
-          <span class="prize-medal jackpot">🎯</span>
+          <span class="prize-medal jackpot"><svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>
           <div class="prize-info">
             <span class="prize-when">1°·2°·3° Sorteio · 20 acertos</span>
             <span class="prize-val" data-prize="d-3each">R$ 30.000 cada</span>
@@ -6523,12 +6637,12 @@
           </svg>
           Sorteio em <b>5d 22h</b>
         </span>
-        <span class="campaign-tag">📺 RedeTV! · Record News · YouTube</span>
+        <span class="campaign-tag"><svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="13" rx="2"/><path d="M8 21h8"/><path d="M10 10l4 2.5L10 15z" fill="currentColor"/></svg> RedeTV! · Record News · YouTube</span>
       </div>
     </div>
 
     <!-- Banner Hospital de Amor — arte oficial enviada pelo time -->
-    <div class="banner-placeholder banner-placeholder--sm" data-banner-slot="hospital-amor" role="img" aria-label="Espaço reservado para banner do Hospital de Amor">
+    <div class="banner-placeholder banner-placeholder--sm hxc-anim-fade-up" data-banner-slot="hospital-amor" role="img" aria-label="Espaço reservado para banner do Hospital de Amor">
       <svg class="banner-placeholder__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <rect x="3" y="3" width="18" height="18" rx="2"/>
         <circle cx="8.5" cy="8.5" r="1.5"/>
@@ -6596,7 +6710,7 @@
     <h1 class="state-title anim-pop" style="animation-delay:0.3s">Suas dezenas e<br/>números da sorte<br/><span class="gold">foram revelados!</span></h1>
 
     <div class="sorteio-banner anim-rise" style="animation-delay:0.65s">
-      <div class="icon">📺</div>
+      <div class="icon"><svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="13" rx="2"/><path d="M8 21h8"/><path d="M10 10l4 2.5L10 15z" fill="currentColor"/></svg></div>
       <div class="text">
         <div class="label">Próximo sorteio · Ao vivo</div>
         <div class="value">Domingo · 17/05/2026 · 21h30</div>
@@ -6671,7 +6785,7 @@
 
     <div class="campaign compact">
       <div class="campaign-body">
-        <div class="campaign-icon">🏆</div>
+        <div class="campaign-icon"><svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0V4z"/><path d="M17 5h2a2 2 0 0 1 0 4h-2M7 5H5a2 2 0 0 0 0 4h2"/></svg></div>
         <div class="campaign-text">
           <div class="campaign-title">Você está concorrendo a tudo isso</div>
           <div class="campaign-sub">Confira os prêmios que seu título disputa no sorteio de domingo.</div>
@@ -6679,7 +6793,7 @@
       </div>
       <div class="campaign-prizes">
         <div class="prize-item hero-prize">
-          <span class="prize-medal jackpot">🏆</span>
+          <span class="prize-medal jackpot"><svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0V4z"/><path d="M17 5h2a2 2 0 0 1 0 4h-2M7 5H5a2 2 0 0 0 0 4h2"/></svg></span>
           <div class="prize-info">
             <span class="prize-when">4° Sorteio · 20 acertos</span>
             <span class="prize-val" data-prize="d-main">R$ 1.000.000</span>
@@ -6693,7 +6807,7 @@
           </div>
         </div>
         <div class="prize-item">
-          <span class="prize-medal jackpot">🎯</span>
+          <span class="prize-medal jackpot"><svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>
           <div class="prize-info">
             <span class="prize-when">1°·2°·3° Sorteio · 20 acertos</span>
             <span class="prize-val" data-prize="d-3each">R$ 30.000 cada</span>
@@ -6758,7 +6872,7 @@
     <h1 class="state-title">Suas dezenas e<br/>números da sorte<br/><span class="gold">foram revelados</span></h1>
 
     <div class="sorteio-banner">
-      <div class="icon">📺</div>
+      <div class="icon"><svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="13" rx="2"/><path d="M8 21h8"/><path d="M10 10l4 2.5L10 15z" fill="currentColor"/></svg></div>
       <div class="text">
         <div class="label">Próximo sorteio · Ao vivo</div>
         <div class="value">Domingo · 17/05/2026 · 21h30</div>
@@ -6801,7 +6915,7 @@
 
     <div class="campaign compact">
       <div class="campaign-body">
-        <div class="campaign-icon">🏆</div>
+        <div class="campaign-icon"><svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0V4z"/><path d="M17 5h2a2 2 0 0 1 0 4h-2M7 5H5a2 2 0 0 0 0 4h2"/></svg></div>
         <div class="campaign-text">
           <div class="campaign-title">Seu título concorre a</div>
           <div class="campaign-sub">Acompanhe o sorteio ao vivo e confira o resultado depois.</div>
@@ -6809,7 +6923,7 @@
       </div>
       <div class="campaign-prizes">
         <div class="prize-item hero-prize">
-          <span class="prize-medal jackpot">🏆</span>
+          <span class="prize-medal jackpot"><svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0V4z"/><path d="M17 5h2a2 2 0 0 1 0 4h-2M7 5H5a2 2 0 0 0 0 4h2"/></svg></span>
           <div class="prize-info">
             <span class="prize-when">4° Sorteio · 20 acertos</span>
             <span class="prize-val" data-prize="d-main">R$ 1.000.000</span>
@@ -6823,7 +6937,7 @@
           </div>
         </div>
         <div class="prize-item">
-          <span class="prize-medal jackpot">🎯</span>
+          <span class="prize-medal jackpot"><svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>
           <div class="prize-info">
             <span class="prize-when">1°·2°·3° Sorteio · 20 acertos</span>
             <span class="prize-val" data-prize="d-3each">R$ 30.000 cada</span>
@@ -6888,7 +7002,7 @@
     <p class="state-message">Seu título foi premiado nos sorteios desta semana.</p>
 
     <div class="sorteio-banner">
-      <div class="icon">📺</div>
+      <div class="icon"><svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="13" rx="2"/><path d="M8 21h8"/><path d="M10 10l4 2.5L10 15z" fill="currentColor"/></svg></div>
       <div class="text">
         <div class="label">Sorteio realizado · Ao vivo</div>
         <div class="value">Domingo · 10/05/2026 · 21h30</div>
@@ -6899,7 +7013,7 @@
 
     <div class="campaign compact recap">
       <div class="campaign-body">
-        <div class="campaign-icon">🏆</div>
+        <div class="campaign-icon"><svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0V4z"/><path d="M17 5h2a2 2 0 0 1 0 4h-2M7 5H5a2 2 0 0 0 0 4h2"/></svg></div>
         <div class="campaign-text">
           <div class="campaign-title">Premiação desta semana</div>
           <div class="campaign-sub">Seu título foi premiado — veja o resultado completo do sorteio.</div>
@@ -6907,7 +7021,7 @@
       </div>
       <div class="campaign-prizes">
         <div class="prize-item hero-prize">
-          <span class="prize-medal jackpot">🏆</span>
+          <span class="prize-medal jackpot"><svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0V4z"/><path d="M17 5h2a2 2 0 0 1 0 4h-2M7 5H5a2 2 0 0 0 0 4h2"/></svg></span>
           <div class="prize-info">
             <span class="prize-when">4° Sorteio · 20 acertos</span>
             <span class="prize-val" data-prize="d-main">R$ 1.000.000</span>
@@ -6921,7 +7035,7 @@
           </div>
         </div>
         <div class="prize-item">
-          <span class="prize-medal jackpot">🎯</span>
+          <span class="prize-medal jackpot"><svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>
           <div class="prize-info">
             <span class="prize-when">1°·2°·3° Sorteio · 20 acertos</span>
             <span class="prize-val" data-prize="d-3each">R$ 30.000 cada</span>
@@ -6989,7 +7103,7 @@
           <div class="cell hit">56</div><div class="cell hit">60</div><div class="cell hit">01</div><div class="cell hit">18</div><div class="cell hit">27</div>
         </div>
         <div class="sc-acertos">
-          <span>🏆 Chance 2 fez 20 acertos · Contemplado</span>
+          <span><svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0V4z"/><path d="M17 5h2a2 2 0 0 1 0 4h-2M7 5H5a2 2 0 0 0 0 4h2"/></svg> Chance 2 fez 20 acertos · Contemplado</span>
           <span class="count">20 acertos</span>
         </div>
       </div>
@@ -7180,7 +7294,7 @@
     <!-- ============== CONTEMPLADOS DESTA SEMANA ============== -->
     <div class="contemplados is-collapsed">
       <div class="contemplados-head">
-        <div class="ico">🏆</div>
+        <div class="ico"><svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0V4z"/><path d="M17 5h2a2 2 0 0 1 0 4h-2M7 5H5a2 2 0 0 0 0 4h2"/></svg></div>
         <div class="text">
           <strong>Contemplados desta semana</strong>
           <small>Todos os títulos premiados nos 4 sorteios + Hiper Giro</small>
@@ -7673,7 +7787,7 @@
     <p class="state-message">Suas dezenas não atingiram 19 ou 20 acertos por chance, e seu Giro da Sorte não foi sorteado nesta semana.</p>
 
     <!-- Banner Hospital de Amor — arte oficial enviada pelo time -->
-    <div class="banner-placeholder banner-placeholder--sm" data-banner-slot="hospital-amor" role="img" aria-label="Espaço reservado para banner do Hospital de Amor">
+    <div class="banner-placeholder banner-placeholder--sm hxc-anim-fade-up" data-banner-slot="hospital-amor" role="img" aria-label="Espaço reservado para banner do Hospital de Amor">
       <svg class="banner-placeholder__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <rect x="3" y="3" width="18" height="18" rx="2"/>
         <circle cx="8.5" cy="8.5" r="1.5"/>
@@ -7684,7 +7798,7 @@
     </div>
 
     <div class="sorteio-banner">
-      <div class="icon">📺</div>
+      <div class="icon"><svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="13" rx="2"/><path d="M8 21h8"/><path d="M10 10l4 2.5L10 15z" fill="currentColor"/></svg></div>
       <div class="text">
         <div class="label">Sorteio realizado · Ao vivo</div>
         <div class="value">Domingo · 10/05/2026 · 21h30</div>
@@ -7695,7 +7809,7 @@
 
     <div class="campaign compact recap">
       <div class="campaign-body">
-        <div class="campaign-icon">🏆</div>
+        <div class="campaign-icon"><svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0V4z"/><path d="M17 5h2a2 2 0 0 1 0 4h-2M7 5H5a2 2 0 0 0 0 4h2"/></svg></div>
         <div class="campaign-text">
           <div class="campaign-title">Prêmios deste sorteio</div>
           <div class="campaign-sub">Não foi desta vez — mas o que sua próxima surpresinha pode ganhar continua o mesmo.</div>
@@ -7703,7 +7817,7 @@
       </div>
       <div class="campaign-prizes">
         <div class="prize-item hero-prize">
-          <span class="prize-medal jackpot">🏆</span>
+          <span class="prize-medal jackpot"><svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0V4z"/><path d="M17 5h2a2 2 0 0 1 0 4h-2M7 5H5a2 2 0 0 0 0 4h2"/></svg></span>
           <div class="prize-info">
             <span class="prize-when">4° Sorteio · 20 acertos</span>
             <span class="prize-val" data-prize="d-main">R$ 1.000.000</span>
@@ -7717,7 +7831,7 @@
           </div>
         </div>
         <div class="prize-item">
-          <span class="prize-medal jackpot">🎯</span>
+          <span class="prize-medal jackpot"><svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>
           <div class="prize-info">
             <span class="prize-when">1°·2°·3° Sorteio · 20 acertos</span>
             <span class="prize-val" data-prize="d-3each">R$ 30.000 cada</span>
@@ -7970,7 +8084,7 @@
     <!-- ============== CONTEMPLADOS DESTA SEMANA ============== -->
     <div class="contemplados is-collapsed">
       <div class="contemplados-head">
-        <div class="ico">🏆</div>
+        <div class="ico"><svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0V4z"/><path d="M17 5h2a2 2 0 0 1 0 4h-2M7 5H5a2 2 0 0 0 0 4h2"/></svg></div>
         <div class="text">
           <strong>Contemplados desta semana</strong>
           <small>Todos os títulos premiados nos 4 sorteios + Hiper Giro</small>
@@ -8426,7 +8540,7 @@
       </div>
     </div>
 
-    <div class="goodluck">💪 Sua próxima surpresinha já está disponível</div>
+    <div class="goodluck"> Sua próxima surpresinha já está disponível</div>
   </div>
 </section>
 
@@ -8465,7 +8579,7 @@
       <span class="pay-halo s2"></span>
       <span class="pay-halo s3"></span>
 
-      <div class="pay-qr-wrap">
+      <div class="pay-qr-wrap hxc-anim-qr-flip">
         <div class="pay-qr-corners">
           <span class="corner tl"></span>
           <span class="corner tr"></span>
@@ -8681,7 +8795,7 @@
     <!-- CTA: abrir app do banco -->
     <div class="pay-banks">
       <div class="pay-banks-head">
-        <span class="pay-banks-title">📱 Abra o app do seu banco</span>
+        <span class="pay-banks-title"><svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg> Abra o app do seu banco</span>
         <span class="pay-banks-sub">Toque para abrir direto na área Pix</span>
       </div>
       <div class="pay-banks-grid">
@@ -9302,7 +9416,7 @@
       };
       const name = names[bank] || 'app do seu banco';
       // simulação: avisa o usuário
-      alert('🔓 Demo · Abriria o ' + name + '\n\nNa produção, o link abre direto a área Pix do app do banco (deep link).');
+      alert('<svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg> Demo · Abriria o ' + name + '\n\nNa produção, o link abre direto a área Pix do app do banco (deep link).');
     };
 
     // ---------- COPY PIX CODE ----------
@@ -10002,7 +10116,7 @@
       document.getElementById('ctResultNextCount').textContent = '0';
       const empty = document.createElement('div');
       empty.className = 'ct-empty';
-      empty.innerHTML = '🔍 <b>Nenhum título encontrado</b><br>Este CPF não tem Surpresinhas compradas. <br><br><span style="font-size:11px;color:#7e93b0">Experimente <b style="color:#F39208">123.456.789-00</b> ou <b style="color:#F39208">111.222.333-44</b> para ver dados de demonstração.</span>';
+      empty.innerHTML = '<svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> <b>Nenhum título encontrado</b><br>Este CPF não tem Surpresinhas compradas. <br><br><span style="font-size:11px;color:#7e93b0">Experimente <b style="color:#F39208">123.456.789-00</b> ou <b style="color:#F39208">111.222.333-44</b> para ver dados de demonstração.</span>';
       list.appendChild(empty);
       return;
     }

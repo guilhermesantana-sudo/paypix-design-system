@@ -3031,6 +3031,88 @@
     .success-icon { width: 80px; height: 80px; }
     .success-icon svg { width: 40px; height: 40px; }
   }
+
+  /* ============================================================
+     DISCIPLINA TIPOGRÁFICA — Bitner só ≥ 14px (regra DS HXC)
+     ============================================================ */
+  .product-banner-trocar,
+  .qty-section-label,
+  .qty-card-badge,
+  .phone-recommended-badge,
+  .qr-status,
+  .sending-success-badge,
+  .ct-section-title,
+  .ct-draw-head-status {
+    font-family: var(--font-body) !important;
+  }
+
+
+  /* ============================================================
+     ICONS — biblioteca flat SVG (substitui emojis 3D do sistema)
+     stroke: currentColor — herda a cor do contexto pai
+     ============================================================ */
+  .ico {
+    display: inline-block;
+    flex-shrink: 0;
+    vertical-align: middle;
+    color: currentColor;
+  }
+  .ico-lg { width: 28px; height: 28px; }
+  .ico-sm { width: 16px; height: 16px; }
+  /* Ajuste fino — quando ícone aparece dentro de classe que era emoji */
+  .campaign-icon .ico,
+  .prize-medal .ico,
+  .info-banner .ic .ico,
+  .info-banner .icon .ico,
+  .sorteio-banner .icon .ico,
+  .icon > .ico { width: 24px; height: 24px; }
+
+
+
+  /* ============================================================
+     ANIMAÇÕES DE ENTRADA — DS HXC
+     Aplicar via classe utilitária ou data-attribute.
+     ============================================================ */
+  @keyframes hxc-slide-down {
+    0%   { opacity: 0; transform: translateY(-24px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes hxc-fade-up {
+    0%   { opacity: 0; transform: translateY(16px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes hxc-pop-in {
+    0%   { opacity: 0; transform: scale(0.6); }
+    60%  { opacity: 1; transform: scale(1.06); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+  @keyframes hxc-qr-flip {
+    0%   { opacity: 0; transform: perspective(720px) rotateY(-180deg) scale(0.5); }
+    60%  { opacity: 1; transform: perspective(720px) rotateY(12deg) scale(1.04); }
+    100% { opacity: 1; transform: perspective(720px) rotateY(0deg) scale(1); }
+  }
+  /* Utilitárias */
+  .hxc-anim-slide-down  { animation: hxc-slide-down 0.5s cubic-bezier(.4,0,.2,1) both; }
+  .hxc-anim-fade-up     { animation: hxc-fade-up    0.5s cubic-bezier(.4,0,.2,1) both; }
+  .hxc-anim-pop-in      { animation: hxc-pop-in     0.6s cubic-bezier(.34,1.56,.64,1) both; }
+  .hxc-anim-qr-flip     { animation: hxc-qr-flip    0.9s cubic-bezier(.4,0,.2,1) both;
+                          transform-style: preserve-3d; }
+  /* Stagger automático em filhos diretos (cards de tutorial, dezenas, etc) */
+  .hxc-stagger > * { animation: hxc-fade-up 0.5s cubic-bezier(.4,0,.2,1) both; }
+  .hxc-stagger > *:nth-child(1) { animation-delay:  60ms; }
+  .hxc-stagger > *:nth-child(2) { animation-delay: 140ms; }
+  .hxc-stagger > *:nth-child(3) { animation-delay: 220ms; }
+  .hxc-stagger > *:nth-child(4) { animation-delay: 300ms; }
+  .hxc-stagger > *:nth-child(5) { animation-delay: 380ms; }
+  .hxc-stagger > *:nth-child(6) { animation-delay: 460ms; }
+  @media (prefers-reduced-motion: reduce) {
+    .hxc-anim-slide-down,
+    .hxc-anim-fade-up,
+    .hxc-anim-pop-in,
+    .hxc-anim-qr-flip,
+    .hxc-stagger > * { animation: none !important; }
+  }
+
 </style>
 </head>
 <body>
@@ -3107,7 +3189,7 @@
             <p class="attract-placeholder-sub">Filantropia premiável · concorra a prêmios milionários e ajude o Hospital de Amor</p>
             <div class="attract-headlines">
               <div class="attract-headlines-track">
-                <span>🎁 HiperXCap · até R$ 1 milhão</span>
+                <span><svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg> HiperXCap · até R$ 1 milhão</span>
                 <span>🎟️ Vale Cap · em breve</span>
                 <span>🍀 ApCap da Sorte · em breve</span>
               </div>
@@ -3126,7 +3208,7 @@
 
         <div class="attract-perks">
           <div class="attract-perk">💰 Até <b>R$ 1 milhão</b> de prêmio</div>
-          <div class="attract-perk">📱 PDF no <b>WhatsApp</b></div>
+          <div class="attract-perk"><svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg> PDF no <b>WhatsApp</b></div>
           <div class="attract-perk">❤️ <b>Hospital de Amor</b></div>
         </div>
       </div>
@@ -3417,7 +3499,7 @@
       </div>
 
       <div class="payment-right">
-        <div class="qr-stage">
+        <div class="qr-stage hxc-anim-qr-flip">
           <span class="qr-halo"></span>
           <span class="qr-halo s2"></span>
           <span class="qr-halo s3"></span>
@@ -3596,7 +3678,7 @@
           Acesse sua Surpresinha pelo <b style="color:var(--gold-bright)">CPF do pagador</b> no app oficial.
         </p>
         <div style="display:flex;gap:10px;align-items:center;justify-content:center;padding:10px 18px;background:rgba(0,0,0,0.5);border:1px dashed rgba(251,191,36,0.4);border-radius:10px;font-family:'Manrope',sans-serif;font-size:13px;color:var(--muted);text-align:center;line-height:1.4">
-          <span>📱</span>
+          <span><svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></span>
           <span>Acesse <b style="color:var(--gold-bright);font-family:'Archivo Black',sans-serif;letter-spacing:0.06em">surpresinha.app.br</b> e informe o CPF usado no Pix</span>
         </div>
       </div>
@@ -4492,7 +4574,7 @@
       document.getElementById('ctResultNextCount').textContent = '0';
       const empty = document.createElement('div');
       empty.className = 'ct-empty';
-      empty.innerHTML = '🔍 <b>Nenhum título encontrado</b><br>Este CPF não tem Surpresinhas compradas. <br><br><span style="font-size:11px;color:#7e93b0">Experimente <b style="color:#F39208">123.456.789-00</b> ou <b style="color:#F39208">111.222.333-44</b> para ver dados de demonstração.</span>';
+      empty.innerHTML = '<svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> <b>Nenhum título encontrado</b><br>Este CPF não tem Surpresinhas compradas. <br><br><span style="font-size:11px;color:#7e93b0">Experimente <b style="color:#F39208">123.456.789-00</b> ou <b style="color:#F39208">111.222.333-44</b> para ver dados de demonstração.</span>';
       list.appendChild(empty);
       return;
     }

@@ -1879,6 +1879,60 @@
     z-index: 1;
   }
   .submit-btn > *, .ct-submit > * { position: relative; z-index: 2; }
+
+  /* ============================================================
+     BANNER PLACEHOLDER — espaço reservado para arte enviada
+     depois pelo time. Mesmo componente do app web surpresinha.
+     ============================================================ */
+  .banner-placeholder {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 14px;
+    background:
+      linear-gradient(135deg, rgba(243, 146, 8, 0.06) 0%, rgba(26, 47, 81, 0.30) 100%),
+      repeating-linear-gradient(45deg,
+        rgba(255, 255, 255, 0.02) 0 14px,
+        rgba(255, 255, 255, 0.05) 14px 28px);
+    border: 1.5px dashed rgba(243, 146, 8, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
+    color: rgba(255, 255, 255, 0.55);
+    font-family: var(--font-body, 'Poppins', sans-serif);
+    overflow: hidden;
+    margin: 0 0 16px;
+  }
+  .banner-placeholder--sm { aspect-ratio: 21 / 9; }
+  .banner-placeholder--lg { aspect-ratio: 4 / 3; }
+  .banner-placeholder__label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(243, 146, 8, 0.75);
+  }
+  .banner-placeholder__hint {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.45);
+    font-weight: 400;
+  }
+  .banner-placeholder__icon {
+    width: 32px; height: 32px;
+    opacity: 0.55;
+    margin-bottom: 4px;
+  }
+
+  /* ============================================================
+     RESPONSIVIDADE — fixes mobile
+     ============================================================ */
+  @media (max-width: 768px) {
+    .banner-placeholder--lg { aspect-ratio: 4 / 3; }
+    .banner-placeholder__label { font-size: 10px; letter-spacing: 0.14em; }
+    .banner-placeholder__hint { font-size: 11px; text-align: center; padding: 0 14px; }
+  }
 </style>
 </head>
 <body data-step="1">
@@ -1920,12 +1974,15 @@
       <div class="loterico-hash" id="locHash">SURP-LOT237-20260514-XK2P9</div>
     </div>
 
-    <!-- Promo banner -->
-    <div class="promo-banner">
-      <span class="promo-prefix">CONCORRA A</span>
-      <span class="promo-main">UM MILHÃO</span>
-      <span class="promo-value">R$ 1.000.000,00</span>
-      <span class="promo-sub">+ 4 sorteios semanais e 30 prêmios no Hiper Giro</span>
+    <!-- Banner promocional principal — arte oficial enviada pelo time -->
+    <div class="banner-placeholder banner-placeholder--lg" data-banner-slot="promo-principal" role="img" aria-label="Espaço reservado para banner promocional principal">
+      <svg class="banner-placeholder__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="3" y="3" width="18" height="18" rx="2"/>
+        <circle cx="8.5" cy="8.5" r="1.5"/>
+        <polyline points="21 15 16 10 5 21"/>
+      </svg>
+      <div class="banner-placeholder__label">Banner promocional</div>
+      <div class="banner-placeholder__hint">Aguardando arte enviada pelo time</div>
     </div>
 
     <!-- Submit (logo após o banner, ação primária) -->
@@ -2763,6 +2820,26 @@
     document.getElementById('ctCpfError').textContent = '';
   };
 
+  // Valida CPF pelo algoritmo dos dígitos verificadores
+  function _isValidCpf(raw) {
+    if (raw.length !== 11) return false;
+    // Rejeita sequências triviais (11111111111, 22222222222, etc.)
+    if (/^(\d)\1{10}$/.test(raw)) return false;
+    const digits = raw.split('').map(Number);
+    // Primeiro dígito verificador
+    let sum = 0;
+    for (let i = 0; i < 9; i++) sum += digits[i] * (10 - i);
+    let dv1 = (sum * 10) % 11;
+    if (dv1 === 10) dv1 = 0;
+    if (dv1 !== digits[9]) return false;
+    // Segundo dígito verificador
+    sum = 0;
+    for (let i = 0; i < 10; i++) sum += digits[i] * (11 - i);
+    let dv2 = (sum * 10) % 11;
+    if (dv2 === 10) dv2 = 0;
+    return dv2 === digits[10];
+  }
+
   // ============ SUBMIT ============
   window.ctSubmit = function() {
     const cpfInp = document.getElementById('ctCpfInput');
@@ -2773,9 +2850,24 @@
     cpfInp.classList.remove('error');
     errEl.textContent = '';
 
+    if (raw.length === 0) {
+      cpfInp.classList.add('error');
+      errEl.textContent = 'Digite o CPF do pagador para consultar.';
+      cpfInp.focus();
+      return;
+    }
     if (raw.length !== 11) {
       cpfInp.classList.add('error');
-      errEl.textContent = 'Informe um CPF válido (11 dígitos)';
+      errEl.textContent = 'CPF incompleto — são 11 dígitos.';
+      cpfInp.focus();
+      return;
+    }
+    // CPFs de demonstração: 12345678900 e 11122233344 — aceitos sem
+    // check digit por serem mock data registrados no MOCK_DB.
+    const isDemoCpf = (raw === '12345678900' || raw === '11122233344');
+    if (!isDemoCpf && !_isValidCpf(raw)) {
+      cpfInp.classList.add('error');
+      errEl.textContent = 'CPF inválido. Confira o número e tente novamente.';
       cpfInp.focus();
       return;
     }
@@ -2783,6 +2875,7 @@
     if (isNaN(answer) || answer !== captchaAnswer) {
       errEl.textContent = 'Resposta da verificação incorreta. Tente novamente.';
       refreshCaptcha();
+      capInp.value = '';
       capInp.focus();
       return;
     }

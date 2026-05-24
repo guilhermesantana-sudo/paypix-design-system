@@ -9602,7 +9602,6 @@
     // LOGIN MODAL HANDLER
     // ====================================================================
     const LOGIN_STORAGE_KEY = 'surpresinha_demo_auth';
-    const DEMO_CPF = '11122233344';
 
     function isAuthenticated() {
       try {
@@ -9677,22 +9676,12 @@
       submitBtn.classList.add('loading');
       submitBtn.disabled = true;
 
-      // Simulate validation delay
+      // Simulate validation delay — fluxo ilustrativo: aceita qualquer CPF de 11 dígitos
       setTimeout(function() {
-        if (cpf === DEMO_CPF) {
-          // Success
-          setAuthenticated();
-          hideLoginModal();
-          submitBtn.classList.remove('loading');
-          submitBtn.disabled = false;
-        } else {
-          // Wrong CPF
-          submitBtn.classList.remove('loading');
-          submitBtn.disabled = false;
-          showLoginError('CPF não encontrado. Confira e tente novamente.');
-          cpfInput.classList.add('error');
-          cpfInput.focus();
-        }
+        setAuthenticated();
+        hideLoginModal();
+        submitBtn.classList.remove('loading');
+        submitBtn.disabled = false;
       }, 700);
     };
 

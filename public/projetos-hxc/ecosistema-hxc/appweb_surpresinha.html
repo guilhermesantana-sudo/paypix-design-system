@@ -2116,49 +2116,19 @@
     justify-content: center;
   }
 
-  /* ---------- PROMO BANNER (cinema poster style) ---------- */
+  /* ---------- PROMO BANNER (container limpo, banner ocupa 100%) ---------- */
   .promo-banner {
     position: relative;
     width: 100%;
-    aspect-ratio: 16 / 9;
-    max-height: 280px;
-    min-height: 220px;
-    border-radius: 18px;
-    overflow: hidden;
-    background:
-      radial-gradient(ellipse at 50% 100%, rgba(168, 85, 247, 0.5), transparent 60%),
-      radial-gradient(ellipse at 0% 30%, rgba(217, 70, 239, 0.35), transparent 55%),
-      radial-gradient(ellipse at 100% 30%, rgba(99, 102, 241, 0.4), transparent 55%),
-      linear-gradient(165deg, #2e1065 0%, #4c1d95 35%, #6b21a8 65%, #581c87 100%);
-    box-shadow:
-      0 12px 36px rgba(88, 28, 135, 0.5),
-      0 0 0 1px rgba(248, 175, 79, 0.3) inset,
-      0 2px 0 rgba(255, 255, 255, 0.08) inset;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    padding: 14px 18px 0;
+    display: block;
   }
-  /* spotlight from center top */
-  .promo-banner::before {
-    content: '';
-    position: absolute;
-    top: -20%; left: 50%;
-    transform: translateX(-50%);
-    width: 80%; height: 70%;
-    background: radial-gradient(ellipse, rgba(255, 255, 255, 0.18), transparent 60%);
-    pointer-events: none;
-    z-index: 1;
-  }
-  /* dotted texture overlay */
-  .promo-banner::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
-    background-size: 14px 14px;
-    pointer-events: none;
-    z-index: 1;
+  .promo-banner .banner-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0;
+    border-radius: 14px;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
   }
 
   .pb-bg-shapes {
@@ -3641,15 +3611,15 @@
   }
   .mini-grid .dezena { font-size: clamp(10px, 2.2vw, 12px); }
 
-  /* state 4 drawn results: 6 cols */
+  /* state 4 drawn results: 6 cols — bolas um pouco menores para não grudar */
   .draw-grid {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    gap: 6px;
-    max-width: 320px;
+    gap: 10px;
+    max-width: 280px;
     margin: 0 auto 8px;
   }
-  .draw-grid .dezena { font-size: clamp(11px, 2.8vw, 13px); }
+  .draw-grid .dezena { font-size: clamp(10px, 2.4vw, 12px); }
 
   /* drawn ball — white with gold rim */
   .dezena.draw {
@@ -3698,41 +3668,40 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(180deg, #F8AF4F 0%, #F8AF4F 100%);
+    background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
     color: #0C1628;
     font-family: var(--font-display); font-style: italic; font-weight: 800;
     font-variant-numeric: tabular-nums;
-    border: 1px solid #F39208;
+    border: 1px solid rgba(15, 23, 42, 0.18);
     border-radius: 4px;
     position: relative;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.5);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.7);
     font-size: clamp(13px, 3.2vw, 16px);
   }
 
-  /* Hit cell — keeps the yellow body, adds hand-drawn green circle over the number */
+  /* Hit cell — mantém fundo branco e adiciona círculo azul "à mão" sobre o número */
   .cell.hit {
-    /* keep yellow background and dark number — only add an overlay */
-    background: linear-gradient(180deg, #F8AF4F 0%, #F8AF4F 100%);
+    background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
     color: #0C1628;
-    border-color: #F39208;
+    border-color: rgba(15, 23, 42, 0.18);
   }
-  /* hand-drawn green pen circle */
+  /* hand-drawn blue pen circle */
   .cell.hit::before {
     content: '';
     position: absolute;
     inset: 8%;
-    border: 2.5px solid #A7C945;
+    border: 2.5px solid #3B82F6;
     border-radius: 50%;
     /* uneven stroke — slightly thicker on one side, fade on the other */
-    border-top-color: #A7C945;
-    border-right-color: rgba(22, 163, 74, 0.55);
-    border-bottom-color: #166534;
-    border-left-color: rgba(21, 128, 61, 0.85);
+    border-top-color: #3B82F6;
+    border-right-color: rgba(37, 99, 235, 0.55);
+    border-bottom-color: #1E3A8A;
+    border-left-color: rgba(30, 64, 175, 0.85);
     /* slight tilt + tiny squish for handmade feel */
     transform: rotate(-8deg) scaleY(0.94);
     box-shadow:
-      inset 0 0 0 0.5px rgba(22, 163, 74, 0.3),
-      0 1px 2px rgba(22, 163, 74, 0.25);
+      inset 0 0 0 0.5px rgba(37, 99, 235, 0.3),
+      0 1px 2px rgba(37, 99, 235, 0.25);
     pointer-events: none;
     z-index: 1;
   }
@@ -3741,10 +3710,10 @@
     content: '';
     position: absolute;
     inset: 11%;
-    border: 1.5px solid rgba(167, 201, 69, 0.5);
+    border: 1.5px solid rgba(59, 130, 246, 0.5);
     border-radius: 50%;
     border-top-color: transparent;
-    border-right-color: rgba(167, 201, 69, 0.7);
+    border-right-color: rgba(59, 130, 246, 0.7);
     transform: rotate(14deg) translateX(0.5px);
     pointer-events: none;
     z-index: 1;

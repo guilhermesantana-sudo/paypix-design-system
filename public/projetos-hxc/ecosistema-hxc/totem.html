@@ -455,6 +455,23 @@
     border-radius: 12px;
     text-align: center;
   }
+  /* Variante com banner semanal — sem chrome, banner ocupa todo o slot */
+  .catalog-card-prize--banner {
+    padding: 8px;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.55), rgba(26, 47, 81, 0.25));
+    border: 1px solid rgba(243, 146, 8, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .catalog-card-banner {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+  }
   .catalog-card-prize-label {
     font-family: var(--font-body);
     font-size: 10px;
@@ -3118,9 +3135,9 @@
               <div class="catalog-card-tag">Sorteio semanal · Domingo</div>
             </div>
           </div>
-          <div class="catalog-card-prize">
-            <div class="catalog-card-prize-label">Prêmio máximo</div>
-            <div class="catalog-card-prize-value">R$ 1.000.000</div>
+          <!-- Banner semanal da praça — arte oficial do sorteio da semana -->
+          <div class="catalog-card-prize catalog-card-prize--banner" data-banner-slot="catalog-hxc-week">
+            <img class="catalog-card-banner" src="../banners/Home_22.png" alt="HiperXCAP · Concorra a Um Milhão de Reais" />
             <span class="catalog-card-prize-sub">+ 4 sorteios e 30 prêmios Hiper Giro</span>
           </div>
           <div class="catalog-card-desc">

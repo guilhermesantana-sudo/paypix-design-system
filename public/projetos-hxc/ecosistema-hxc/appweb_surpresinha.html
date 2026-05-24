@@ -3653,13 +3653,13 @@
     pointer-events: none;
   }
 
-  /* state 2 globos: 4 cols (1-20 = 4×5) — mais respiro entre dezenas */
+  /* state 2 globos: 5 cols × 4 rows (1-20 = 5×4) */
   .globo-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
     width: 100%;
-    max-width: 300px;
+    max-width: 320px;
     margin: 0 auto 14px;
   }
   .globo-grid .dezena { font-size: clamp(11px, 2.8vw, 13px); }
@@ -3719,11 +3719,11 @@
     gap: 4px;
     box-shadow: inset 0 2px 6px rgba(0,0,0,0.45);
   }
-  /* override mini-grid → 4 cols × 5 rows quando for cartela (1-20) */
+  /* override mini-grid → 5 cols × 4 rows quando for cartela (1-20) */
   .mini-grid:has(.cell) {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-    max-width: 300px;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+    max-width: 320px;
     margin-left: auto;
     margin-right: auto;
   }
@@ -5640,26 +5640,26 @@
     .qty-mult { font-size: 20px !important; }
     .qty-price { font-size: 13px !important; }
     .qty-tag, .qty-badge { font-size: 9px !important; }
-    /* Globo grid: 4 colunas (1-20 = 4×5) com respiro */
+    /* Globo grid: 5 colunas × 4 fileiras (1-20 = 5×4) */
     .globo-grid {
-      grid-template-columns: repeat(4, 1fr) !important;
-      gap: 8px !important;
+      grid-template-columns: repeat(5, 1fr) !important;
+      gap: 6px !important;
     }
     .globo-grid .cell {
-      font-size: 14px !important;
+      font-size: 13px !important;
       padding: 6px 0 !important;
     }
     /* Mini-grid (state-4 "Dezenas sorteadas") — em mobile reduz cols
        pra bolas brancas não estourarem o card de 480px */
     .mini-grid {
-      grid-template-columns: repeat(6, 1fr) !important;
-      gap: 5px !important;
+      grid-template-columns: repeat(5, 1fr) !important;
+      gap: 6px !important;
     }
     .mini-grid .dezena {
       font-size: clamp(10px, 2.4vw, 12px) !important;
     }
     .mini-grid:has(.cell) {
-      grid-template-columns: repeat(4, 1fr) !important;
+      grid-template-columns: repeat(5, 1fr) !important;
     }
     .mini-grid:has(.cell) .cell {
       font-size: clamp(11px, 2.6vw, 14px) !important;
@@ -5715,7 +5715,7 @@
     /* Em telas muito pequenas (≤ iPhone SE), reduz ainda mais */
     .qty-options { gap: 8px !important; }
     .globo-grid {
-      grid-template-columns: repeat(4, 1fr) !important;
+      grid-template-columns: repeat(5, 1fr) !important;
     }
     .globo-grid .cell { font-size: 12px !important; }
     /* Mini-grid em telas tiny: 5 cols pra dezenas brancas */
@@ -5725,7 +5725,7 @@
     }
     .mini-grid .dezena { font-size: 10px !important; }
     .mini-grid:has(.cell) {
-      grid-template-columns: repeat(4, 1fr) !important;
+      grid-template-columns: repeat(5, 1fr) !important;
     }
     .banner-placeholder__label { font-size: 10px; letter-spacing: 0.14em; }
     .banner-placeholder__hint { font-size: 11px; text-align: center; padding: 0 14px; }
@@ -6924,14 +6924,6 @@
         </div>
         <div class="mini-grid">
           <div class="dezena draw">01</div><div class="dezena draw">03</div><div class="dezena draw">05</div><div class="dezena draw">07</div><div class="dezena draw">09</div><div class="dezena draw">11</div><div class="dezena draw">13</div><div class="dezena draw">15</div><div class="dezena draw">17</div><div class="dezena draw">19</div>
-        </div><div class="dezena draw">02</div><div class="dezena draw">03</div><div class="dezena draw">04</div><div class="dezena draw">05</div>
-          <div class="dezena draw">06</div><div class="dezena draw">07</div><div class="dezena draw">08</div><div class="dezena draw">09</div><div class="dezena draw">11</div>
-          <div class="dezena draw">12</div><div class="dezena draw">14</div><div class="dezena draw">16</div><div class="dezena draw">17</div><div class="dezena draw">18</div>
-          <div class="dezena draw">19</div><div class="dezena draw">22</div><div class="dezena draw">23</div><div class="dezena draw">25</div><div class="dezena draw">27</div>
-          <div class="dezena draw">28</div><div class="dezena draw">29</div><div class="dezena draw">30</div><div class="dezena draw">31</div><div class="dezena draw">33</div>
-          <div class="dezena draw">35</div><div class="dezena draw">38</div><div class="dezena draw">40</div><div class="dezena draw">41</div><div class="dezena draw">45</div>
-          <div class="dezena draw">47</div><div class="dezena draw">49</div><div class="dezena draw">52</div><div class="dezena draw">53</div><div class="dezena draw">56</div>
-          <div class="dezena draw">60</div>
         </div>
         <div class="set-row">
           <span class="set-lbl">Chance 1</span>
@@ -6971,13 +6963,6 @@
         </div>
         <div class="mini-grid">
           <div class="dezena draw">02</div><div class="dezena draw">04</div><div class="dezena draw">06</div><div class="dezena draw">08</div><div class="dezena draw">10</div><div class="dezena draw">12</div><div class="dezena draw">14</div><div class="dezena draw">16</div><div class="dezena draw">18</div><div class="dezena draw">20</div>
-        </div><div class="dezena draw">03</div><div class="dezena draw">04</div><div class="dezena draw">05</div><div class="dezena draw">06</div>
-          <div class="dezena draw">07</div><div class="dezena draw">09</div><div class="dezena draw">11</div><div class="dezena draw">12</div><div class="dezena draw">13</div>
-          <div class="dezena draw">14</div><div class="dezena draw">15</div><div class="dezena draw">16</div><div class="dezena draw">17</div><div class="dezena draw">19</div>
-          <div class="dezena draw">22</div><div class="dezena draw">23</div><div class="dezena draw">24</div><div class="dezena draw">28</div><div class="dezena draw">29</div>
-          <div class="dezena draw">30</div><div class="dezena draw">31</div><div class="dezena draw">33</div><div class="dezena draw">35</div><div class="dezena draw">36</div>
-          <div class="dezena draw">37</div><div class="dezena draw">41</div><div class="dezena draw">44</div><div class="dezena draw">47</div><div class="dezena draw">49</div>
-          <div class="dezena draw">52</div><div class="dezena draw">53</div><div class="dezena draw">55</div><div class="dezena draw">58</div><div class="dezena draw">60</div>
         </div>
         <div class="set-row winner">
           <span class="set-lbl">Chance 1 <span class="check">✓</span></span>
@@ -7017,13 +7002,6 @@
         </div>
         <div class="mini-grid">
           <div class="dezena draw">01</div><div class="dezena draw">04</div><div class="dezena draw">06</div><div class="dezena draw">09</div><div class="dezena draw">11</div><div class="dezena draw">13</div><div class="dezena draw">15</div><div class="dezena draw">16</div><div class="dezena draw">18</div><div class="dezena draw">20</div>
-        </div><div class="dezena draw">03</div><div class="dezena draw">04</div><div class="dezena draw">05</div><div class="dezena draw">06</div>
-          <div class="dezena draw">08</div><div class="dezena draw">09</div><div class="dezena draw">10</div><div class="dezena draw">11</div><div class="dezena draw">13</div>
-          <div class="dezena draw">15</div><div class="dezena draw">16</div><div class="dezena draw">18</div><div class="dezena draw">20</div><div class="dezena draw">21</div>
-          <div class="dezena draw">23</div><div class="dezena draw">24</div><div class="dezena draw">25</div><div class="dezena draw">26</div><div class="dezena draw">27</div>
-          <div class="dezena draw">28</div><div class="dezena draw">31</div><div class="dezena draw">32</div><div class="dezena draw">35</div><div class="dezena draw">37</div>
-          <div class="dezena draw">38</div><div class="dezena draw">41</div><div class="dezena draw">42</div><div class="dezena draw">45</div><div class="dezena draw">46</div>
-          <div class="dezena draw">48</div><div class="dezena draw">53</div><div class="dezena draw">56</div><div class="dezena draw">57</div><div class="dezena draw">59</div>
         </div>
         <div class="set-row">
           <span class="set-lbl">Chance 1</span>
@@ -7063,14 +7041,6 @@
         </div>
         <div class="mini-grid">
           <div class="dezena draw">02</div><div class="dezena draw">03</div><div class="dezena draw">05</div><div class="dezena draw">07</div><div class="dezena draw">10</div><div class="dezena draw">12</div><div class="dezena draw">14</div><div class="dezena draw">17</div><div class="dezena draw">19</div><div class="dezena draw">20</div>
-        </div><div class="dezena draw">02</div><div class="dezena draw">03</div><div class="dezena draw">04</div><div class="dezena draw">05</div>
-          <div class="dezena draw">06</div><div class="dezena draw">07</div><div class="dezena draw">08</div><div class="dezena draw">09</div><div class="dezena draw">11</div>
-          <div class="dezena draw">12</div><div class="dezena draw">13</div><div class="dezena draw">14</div><div class="dezena draw">16</div><div class="dezena draw">17</div>
-          <div class="dezena draw">19</div><div class="dezena draw">20</div><div class="dezena draw">22</div><div class="dezena draw">23</div><div class="dezena draw">25</div>
-          <div class="dezena draw">26</div><div class="dezena draw">27</div><div class="dezena draw">28</div><div class="dezena draw">29</div><div class="dezena draw">30</div>
-          <div class="dezena draw">31</div><div class="dezena draw">33</div><div class="dezena draw">36</div><div class="dezena draw">38</div><div class="dezena draw">41</div>
-          <div class="dezena draw">42</div><div class="dezena draw">47</div><div class="dezena draw">49</div><div class="dezena draw">52</div><div class="dezena draw">53</div>
-          <div class="dezena draw">60</div>
         </div>
         <div class="set-row">
           <span class="set-lbl">Chance 1</span>
@@ -7707,22 +7677,15 @@
       <!-- Globo 1: 10/9 hits, não premiada -->
       <div class="sorteio-card">
         <div class="sc-head">
-          <div class="sc-title">1° Sorteio · Globo da Sorte <small>32 dezenas sorteadas</small></div>
+          <div class="sc-title">1° Sorteio · Globo da Sorte <small>10 dezenas sorteadas</small></div>
           <div class="sc-prize"><span class="amount" style="color:var(--muted)" data-prize="g-30k">R$ 30.000</span><small class="trave" style="color:var(--muted-2)">Não premiada</small></div>
         </div>
         <div class="set-row">
           <span class="set-lbl">Dezenas sorteadas</span>
-          <span class="set-count">32 bolas</span>
+          <span class="set-count">10 bolas</span>
         </div>
         <div class="mini-grid">
           <div class="dezena draw">01</div><div class="dezena draw">02</div><div class="dezena draw">05</div><div class="dezena draw">08</div><div class="dezena draw">10</div><div class="dezena draw">11</div><div class="dezena draw">14</div><div class="dezena draw">16</div><div class="dezena draw">19</div><div class="dezena draw">20</div>
-        </div><div class="dezena draw">04</div><div class="dezena draw">05</div><div class="dezena draw">06</div><div class="dezena draw">09</div>
-          <div class="dezena draw">11</div><div class="dezena draw">12</div><div class="dezena draw">13</div><div class="dezena draw">14</div><div class="dezena draw">16</div>
-          <div class="dezena draw">17</div><div class="dezena draw">19</div><div class="dezena draw">20</div><div class="dezena draw">21</div><div class="dezena draw">22</div>
-          <div class="dezena draw">23</div><div class="dezena draw">25</div><div class="dezena draw">26</div><div class="dezena draw">28</div><div class="dezena draw">29</div>
-          <div class="dezena draw">30</div><div class="dezena draw">32</div><div class="dezena draw">36</div><div class="dezena draw">39</div><div class="dezena draw">41</div>
-          <div class="dezena draw">42</div><div class="dezena draw">45</div><div class="dezena draw">47</div><div class="dezena draw">48</div><div class="dezena draw">51</div>
-          <div class="dezena draw">52</div><div class="dezena draw">60</div>
         </div>
         <div class="set-row">
           <span class="set-lbl">Chance 1</span>
@@ -7753,22 +7716,15 @@
       <!-- Globo 2: 11/10 hits, não premiada -->
       <div class="sorteio-card">
         <div class="sc-head">
-          <div class="sc-title">2° Sorteio · Globo da Sorte <small>33 dezenas sorteadas</small></div>
+          <div class="sc-title">2° Sorteio · Globo da Sorte <small>10 dezenas sorteadas</small></div>
           <div class="sc-prize"><span class="amount" style="color:var(--muted)" data-prize="g-30k">R$ 30.000</span><small class="trave" style="color:var(--muted-2)">Não premiada</small></div>
         </div>
         <div class="set-row">
           <span class="set-lbl">Dezenas sorteadas</span>
-          <span class="set-count">33 bolas</span>
+          <span class="set-count">10 bolas</span>
         </div>
         <div class="mini-grid">
-          <div class="dezena draw">01</div><div class="dezena draw">03</div><div class="dezena draw">05</div><div class="dezena draw">07</div><div class="dezena draw">09</div><div class="dezena draw">11</div><div class="dezena draw">13</div><div class="dezena draw">15</div><div class="dezena draw">17</div><div class="dezena draw">19</div>
-        </div><div class="dezena draw">02</div><div class="dezena draw">03</div><div class="dezena draw">04</div><div class="dezena draw">05</div>
-          <div class="dezena draw">06</div><div class="dezena draw">07</div><div class="dezena draw">09</div><div class="dezena draw">12</div><div class="dezena draw">13</div>
-          <div class="dezena draw">14</div><div class="dezena draw">18</div><div class="dezena draw">19</div><div class="dezena draw">20</div><div class="dezena draw">21</div>
-          <div class="dezena draw">22</div><div class="dezena draw">23</div><div class="dezena draw">25</div><div class="dezena draw">26</div><div class="dezena draw">28</div>
-          <div class="dezena draw">29</div><div class="dezena draw">30</div><div class="dezena draw">32</div><div class="dezena draw">35</div><div class="dezena draw">36</div>
-          <div class="dezena draw">39</div><div class="dezena draw">41</div><div class="dezena draw">42</div><div class="dezena draw">47</div><div class="dezena draw">48</div>
-          <div class="dezena draw">49</div><div class="dezena draw">52</div><div class="dezena draw">53</div>
+          <div class="dezena draw">03</div><div class="dezena draw">04</div><div class="dezena draw">07</div><div class="dezena draw">09</div><div class="dezena draw">12</div><div class="dezena draw">14</div><div class="dezena draw">15</div><div class="dezena draw">17</div><div class="dezena draw">18</div><div class="dezena draw">20</div>
         </div>
         <div class="set-row">
           <span class="set-lbl">Chance 1</span>
@@ -7807,14 +7763,7 @@
           <span class="set-count">10 bolas</span>
         </div>
         <div class="mini-grid">
-          <div class="dezena draw">02</div><div class="dezena draw">04</div><div class="dezena draw">06</div><div class="dezena draw">08</div><div class="dezena draw">10</div><div class="dezena draw">12</div><div class="dezena draw">14</div><div class="dezena draw">16</div><div class="dezena draw">18</div><div class="dezena draw">20</div>
-        </div><div class="dezena draw">05</div><div class="dezena draw">06</div><div class="dezena draw">08</div><div class="dezena draw">09</div>
-          <div class="dezena draw">12</div><div class="dezena draw">13</div><div class="dezena draw">14</div><div class="dezena draw">15</div><div class="dezena draw">16</div>
-          <div class="dezena draw">19</div><div class="dezena draw">20</div><div class="dezena draw">21</div><div class="dezena draw">22</div><div class="dezena draw">23</div>
-          <div class="dezena draw">25</div><div class="dezena draw">26</div><div class="dezena draw">28</div><div class="dezena draw">30</div><div class="dezena draw">31</div>
-          <div class="dezena draw">32</div><div class="dezena draw">36</div><div class="dezena draw">37</div><div class="dezena draw">38</div><div class="dezena draw">39</div>
-          <div class="dezena draw">41</div><div class="dezena draw">42</div><div class="dezena draw">47</div><div class="dezena draw">48</div><div class="dezena draw">49</div>
-          <div class="dezena draw">50</div><div class="dezena draw">51</div><div class="dezena draw">54</div><div class="dezena draw">56</div><div class="dezena draw">60</div>
+          <div class="dezena draw">01</div><div class="dezena draw">06</div><div class="dezena draw">08</div><div class="dezena draw">10</div><div class="dezena draw">11</div><div class="dezena draw">13</div><div class="dezena draw">15</div><div class="dezena draw">16</div><div class="dezena draw">19</div><div class="dezena draw">20</div>
         </div>
         <div class="set-row">
           <span class="set-lbl">Chance 1</span>
@@ -7845,22 +7794,15 @@
       <!-- Globo 4: 9/11 hits, não premiada -->
       <div class="sorteio-card">
         <div class="sc-head">
-          <div class="sc-title">4° Sorteio · <span style="color:var(--gold-bright)">Um Milhão</span> <small>34 dezenas sorteadas</small></div>
+          <div class="sc-title">4° Sorteio · <span style="color:var(--gold-bright)">Um Milhão</span> <small>10 dezenas sorteadas</small></div>
           <div class="sc-prize"><span class="amount" style="color:var(--muted)" data-prize="g-1m">R$ 1.000.000</span><small class="trave" style="color:var(--muted-2)">Não premiada</small></div>
         </div>
         <div class="set-row">
           <span class="set-lbl">Dezenas sorteadas</span>
-          <span class="set-count">34 bolas</span>
+          <span class="set-count">10 bolas</span>
         </div>
         <div class="mini-grid">
-          <div class="dezena draw">01</div><div class="dezena draw">04</div><div class="dezena draw">06</div><div class="dezena draw">09</div><div class="dezena draw">11</div><div class="dezena draw">13</div><div class="dezena draw">15</div><div class="dezena draw">16</div><div class="dezena draw">18</div><div class="dezena draw">20</div>
-        </div><div class="dezena draw">05</div><div class="dezena draw">06</div><div class="dezena draw">07</div><div class="dezena draw">09</div>
-          <div class="dezena draw">13</div><div class="dezena draw">14</div><div class="dezena draw">19</div><div class="dezena draw">20</div><div class="dezena draw">21</div>
-          <div class="dezena draw">23</div><div class="dezena draw">24</div><div class="dezena draw">25</div><div class="dezena draw">26</div><div class="dezena draw">27</div>
-          <div class="dezena draw">28</div><div class="dezena draw">29</div><div class="dezena draw">32</div><div class="dezena draw">33</div><div class="dezena draw">36</div>
-          <div class="dezena draw">38</div><div class="dezena draw">39</div><div class="dezena draw">40</div><div class="dezena draw">41</div><div class="dezena draw">42</div>
-          <div class="dezena draw">47</div><div class="dezena draw">48</div><div class="dezena draw">49</div><div class="dezena draw">51</div><div class="dezena draw">52</div>
-          <div class="dezena draw">53</div><div class="dezena draw">54</div><div class="dezena draw">55</div><div class="dezena draw">60</div>
+          <div class="dezena draw">02</div><div class="dezena draw">05</div><div class="dezena draw">07</div><div class="dezena draw">08</div><div class="dezena draw">10</div><div class="dezena draw">12</div><div class="dezena draw">14</div><div class="dezena draw">17</div><div class="dezena draw">18</div><div class="dezena draw">20</div>
         </div>
         <div class="set-row">
           <span class="set-lbl">Chance 1</span>

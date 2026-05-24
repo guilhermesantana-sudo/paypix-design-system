@@ -37,31 +37,11 @@
   }
   .hero { text-align: center; margin-bottom: 64px; }
   .hero-brand {
-    display: inline-flex; align-items: center; gap: 16px;
-    padding: 10px 22px 10px 14px;
-    background: linear-gradient(135deg, rgba(243, 146, 8, 0.18), rgba(243, 146, 8, 0.04));
-    border: 1.5px solid rgba(243, 146, 8, 0.45);
-    border-radius: var(--r-xl); margin-bottom: 26px;
+    display: inline-flex; align-items: center; justify-content: center;
+    margin-bottom: 26px;
   }
-  .hero-brand-mark {
-    width: 44px; height: 44px;
-    background: linear-gradient(135deg, var(--hxcap-orange-300), var(--hxcap-orange-500) 50%, #c97500);
-    border-radius: 12px; display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 6px 18px rgba(243, 146, 8, 0.45);
-  }
-  .hero-brand-mark svg { width: 24px; height: 24px; color: #2b1607; }
-  .hero-brand-text { display: flex; flex-direction: column; gap: 2px; text-align: left; }
-  .hero-brand-name {
-    font-family: var(--font-display); font-style: italic; font-weight: 800;
-    font-size: 16px; color: var(--white);
-    letter-spacing: 0.18em; line-height: 1;
-    font-style: italic;
-  }
-  .hero-brand-name .teal { color: var(--hxcap-orange-500); }
-  .hero-brand-sub {
-    font-family: var(--font-body);
-    font-size: 10px; font-weight: 700; color: var(--muted);
-    letter-spacing: 0.22em; text-transform: uppercase;
+  .hero-brand img {
+    height: 64px; width: auto; display: block;
   }
   .hero-title {
     font-family: var(--font-display); font-style: italic; font-weight: 800;
@@ -591,20 +571,7 @@
 
   <section class="hero">
     <div class="hero-brand">
-      <div class="hero-brand-mark">
-        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <g fill="currentColor">
-            <path d="M32 6 L45 19 L39 19 L32 12 L25 19 L19 19 Z"/>
-            <path d="M32 58 L45 45 L39 45 L32 52 L25 45 L19 45 Z"/>
-            <path d="M6 32 L19 19 L19 25 L12 32 L19 39 L19 45 Z"/>
-            <path d="M58 32 L45 19 L45 25 L52 32 L45 39 L45 45 Z"/>
-          </g>
-        </svg>
-      </div>
-      <div class="hero-brand-text">
-        <span class="hero-brand-name">HIPER<span class="teal">XCAP</span></span>
-        <span class="hero-brand-sub">Título de Capitalização · Filantropia Premiável</span>
-      </div>
+      <img src="../logos/hiperxcap.svg" alt="HiperXCAP" />
     </div>
 
     <h1 class="hero-title">

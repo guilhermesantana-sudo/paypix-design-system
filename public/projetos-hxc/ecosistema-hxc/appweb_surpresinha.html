@@ -102,13 +102,15 @@
     gap: 12px;
   }
   .logo {
-    font-family: var(--font-display); font-style: italic; font-weight: 800;
-    font-size: 24px;
-    letter-spacing: -0.02em;
+    display: inline-flex;
+    align-items: center;
     line-height: 1;
   }
-  .logo .hiper { color: var(--skyblue-500, #9ED7EB); text-shadow: 0 2px 0 rgba(0,0,0,0.5); }
-  .logo .xcap  { color: #F39208; text-shadow: 0 2px 0 rgba(0,0,0,0.5); }
+  .logo img {
+    height: 28px;
+    width: auto;
+    display: block;
+  }
   .top .tagline {
     font-size: 10px;
     letter-spacing: 0.22em;
@@ -563,10 +565,10 @@
     align-items: center;
     justify-content: center;
     gap: 6px;
-    /* min-height fixo garante TODOS os botões com mesma altura,
-       independente de ter badge ou não */
-    min-height: 108px;
-    padding: 16px 8px 14px;
+    /* altura fixa + box-sizing garantem cards idênticos em todas as colunas */
+    height: 116px;
+    box-sizing: border-box;
+    padding: 16px 6px 14px;
     background: linear-gradient(180deg, rgba(28, 16, 6, 0.85), rgba(0, 0, 0, 0.7));
     border: 1.5px solid rgba(243, 146, 8, 0.18);
     border-radius: 12px;
@@ -577,6 +579,9 @@
                 border-color 0.18s,
                 box-shadow 0.18s;
   }
+  .qty-option .qty-mult,
+  .qty-option .qty-price,
+  .qty-option .qty-tag { white-space: nowrap; }
   .qty-option:hover {
     transform: translateY(-2px);
     border-color: rgba(243, 146, 8, 0.5);
@@ -3205,19 +3210,19 @@
   }
 
   .step {
-    flex: 0 0 130px;
-    min-width: 130px;
+    flex: 0 0 156px;
+    min-width: 156px;
     scroll-snap-align: start;
     background: linear-gradient(180deg, rgba(28, 16, 6, 0.92), rgba(0, 0, 0, 0.7));
     border: 1px solid rgba(248, 175, 79, 0.18);
     border-radius: 14px;
-    padding: 12px 10px 10px;
+    padding: 14px 12px 12px;
     cursor: pointer;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: 8px;
+    gap: 10px;
     position: relative;
     z-index: 2;
     transition: transform 0.25s var(--ease-out, cubic-bezier(0.2,0.7,0.2,1)),
@@ -3260,15 +3265,28 @@
   }
 
   .step-svg {
-    width: 64px; height: 64px;
+    width: 56px; height: 56px;
     margin-top: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
+    background: linear-gradient(135deg, rgba(243, 146, 8, 0.14), rgba(243, 146, 8, 0.04));
+    border: 1.5px solid rgba(243, 146, 8, 0.35);
+    border-radius: 14px;
+    color: var(--gold-bright, #F39208);
   }
   .step-svg svg {
-    width: 100%; height: 100%;
+    width: 28px; height: 28px;
     display: block;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+  }
+  .step:hover .step-svg {
+    border-color: var(--gold-bright);
+    background: linear-gradient(135deg, rgba(243, 146, 8, 0.22), rgba(243, 146, 8, 0.08));
   }
 
   .step-info {
@@ -3302,9 +3320,10 @@
     text-transform: uppercase;
     color: var(--muted);
     background: rgba(0, 0, 0, 0.4);
-    padding: 5px 10px;
+    padding: 5px 12px;
     border-radius: 20px;
     border: 1px solid var(--line);
+    white-space: nowrap;
     transition: color 0.25s, background 0.25s;
   }
 
@@ -3589,13 +3608,13 @@
     pointer-events: none;
   }
 
-  /* state 2 globos: 5 cols, capped width */
+  /* state 2 globos: 4 cols (1-20 = 4×5) — mais respiro entre dezenas */
   .globo-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 7px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
     width: 100%;
-    max-width: 320px;
+    max-width: 300px;
     margin: 0 auto 14px;
   }
   .globo-grid .dezena { font-size: clamp(11px, 2.8vw, 13px); }
@@ -3655,10 +3674,11 @@
     gap: 4px;
     box-shadow: inset 0 2px 6px rgba(0,0,0,0.45);
   }
-  /* override mini-grid 10-col default → 5 cols × 4 rows when it's a cartela */
+  /* override mini-grid → 4 cols × 5 rows quando for cartela (1-20) */
   .mini-grid:has(.cell) {
-    grid-template-columns: repeat(5, 1fr);
-    max-width: 340px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    max-width: 300px;
     margin-left: auto;
     margin-right: auto;
   }
@@ -4596,13 +4616,16 @@
     margin-bottom: 18px;
   }
   .login-logo {
-    font-family: var(--font-display); font-style: italic; font-weight: 800;
-    font-size: 22px;
-    letter-spacing: 0.02em;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     line-height: 1;
   }
-  .login-logo .hiper { color: var(--skyblue-500, #9ED7EB); }
-  .login-logo .xcap  { color: #F8AF4F; }
+  .login-logo img {
+    height: 36px;
+    width: auto;
+    display: block;
+  }
   .login-tagline {
     font-family: var(--font-body);
     font-size: 9px;
@@ -5562,10 +5585,10 @@
     .qty-mult { font-size: 20px !important; }
     .qty-price { font-size: 13px !important; }
     .qty-tag, .qty-badge { font-size: 9px !important; }
-    /* Globo grid: 5 colunas, dezenas menores */
+    /* Globo grid: 4 colunas (1-20 = 4×5) com respiro */
     .globo-grid {
-      grid-template-columns: repeat(5, 1fr) !important;
-      gap: 6px !important;
+      grid-template-columns: repeat(4, 1fr) !important;
+      gap: 8px !important;
     }
     .globo-grid .cell {
       font-size: 14px !important;
@@ -5581,7 +5604,7 @@
       font-size: clamp(10px, 2.4vw, 12px) !important;
     }
     .mini-grid:has(.cell) {
-      grid-template-columns: repeat(5, 1fr) !important;
+      grid-template-columns: repeat(4, 1fr) !important;
     }
     .mini-grid:has(.cell) .cell {
       font-size: clamp(11px, 2.6vw, 14px) !important;
@@ -5814,7 +5837,7 @@
   <div class="login-card">
     <div class="login-brand">
       <div class="login-logo">
-        <span class="hiper">Hiper</span><span class="xcap">XCAP</span>
+        <img src="../logos/hiperxcap.svg" alt="HiperXCAP" />
       </div>
       <div class="login-tagline">SURPRESINHA · CONSULTA DE TÍTULOS</div>
     </div>
@@ -5882,7 +5905,7 @@
 
 <header class="top">
   <div>
-    <div class="logo"><span class="hiper">Hiper</span><span class="xcap">XCAP</span></div>
+    <div class="logo"><img src="../logos/hiperxcap.svg" alt="HiperXCAP" /></div>
     <div class="tagline">Filantropia premiável</div>
   </div>
   <button type="button" class="ct-btn" onclick="ctOpen()" aria-label="Consultar meus títulos" style="margin-right:8px">
@@ -5994,7 +6017,6 @@
       <span class="brand-flank brand-flank-l" aria-hidden="true"></span>
       SURPRESINHA
       <span class="brand-flank brand-flank-r" aria-hidden="true"></span>
-      <small>HIPERXCAP · FILANTROPIA PREMIÁVEL</small>
     </div>
     <div class="hero-promo">
       <!-- Banner promocional principal — arte oficial -->
@@ -6084,13 +6106,13 @@
             <span class="qty-badge">POPULAR</span>
             <span class="qty-mult">5×</span>
             <span class="qty-price" data-qty-price="5">R$ 50,00</span>
-            <span class="qty-tag">5× mais chances</span>
+            <span class="qty-tag">+4 chances</span>
           </button>
           <button type="button" class="qty-option top" data-qty="10" onclick="selectQty(10)">
             <span class="qty-badge top">TOP</span>
             <span class="qty-mult">10×</span>
             <span class="qty-price" data-qty-price="10">R$ 100,00</span>
-            <span class="qty-tag">10× mais chances</span>
+            <span class="qty-tag">+9 chances</span>
           </button>
         </div>
 
@@ -6183,97 +6205,20 @@
         <button type="button" class="step" onclick="navTo('state-pay')">
           <div class="step-num">1</div>
           <div class="step-svg">
-            <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <defs>
-                <linearGradient id="surpBg" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#4c1d95"/>
-                  <stop offset="50%" stop-color="#6b21a8"/>
-                  <stop offset="100%" stop-color="#581c87"/>
-                </linearGradient>
-                <linearGradient id="surpGold" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#F8AF4F"/>
-                  <stop offset="50%" stop-color="#F39208"/>
-                  <stop offset="100%" stop-color="#F39208"/>
-                </linearGradient>
-              </defs>
-
-              <!-- Surpresinha cartaz miniatura -->
-              <rect x="8" y="6" width="48" height="68" rx="3" fill="url(#surpBg)" stroke="#F39208" stroke-width="0.8"/>
-
-              <!-- Header strip "SURPRESINHA" -->
-              <rect x="10" y="8" width="44" height="6" rx="1" fill="rgba(0,0,0,0.3)"/>
-              <text x="32" y="12.5" text-anchor="middle" font-family="Archivo Black, sans-serif" font-size="3.2" fill="#F39208" letter-spacing="0.3">SURPRESINHA</text>
-
-              <!-- Prize highlight: "UM MILHÃO" -->
-              <text x="32" y="22" text-anchor="middle" font-family="Manrope, sans-serif" font-size="2.5" fill="rgba(255,255,255,0.7)" font-weight="800" letter-spacing="0.4">UM</text>
-              <text x="32" y="32" text-anchor="middle" font-family="Archivo Black, sans-serif" font-size="9" fill="url(#surpGold)" font-weight="900" letter-spacing="0.2">MILHÃO</text>
-              <text x="32" y="37" text-anchor="middle" font-family="Manrope, sans-serif" font-size="2.5" fill="white" font-weight="700">R$ 1.000.000</text>
-
-              <!-- 3 mini prize pills -->
-              <rect x="11" y="40" width="13" height="5" rx="1" fill="rgba(0,0,0,0.4)" stroke="#F39208" stroke-width="0.4"/>
-              <text x="17.5" y="43.6" text-anchor="middle" font-family="Archivo Black, sans-serif" font-size="2.5" fill="#F39208">30 MIL</text>
-
-              <rect x="25.5" y="40" width="13" height="5" rx="1" fill="rgba(0,0,0,0.4)" stroke="#4ade80" stroke-width="0.4"/>
-              <text x="32" y="43.6" text-anchor="middle" font-family="Archivo Black, sans-serif" font-size="2.5" fill="var(--green-300, #B6D37B)">15 MIL</text>
-
-              <rect x="40" y="40" width="13" height="5" rx="1" fill="rgba(0,0,0,0.4)" stroke="var(--skyblue-500, #9ED7EB)" stroke-width="0.4"/>
-              <text x="46.5" y="43.6" text-anchor="middle" font-family="Archivo Black, sans-serif" font-size="2.5" fill="var(--skyblue-500, #9ED7EB)">5 MIL</text>
-
-              <!-- QR Code box (the target) -->
-              <rect x="20" y="49" width="24" height="20" rx="1.5" fill="#F8AF4F" stroke="#0C1628" stroke-width="0.5"/>
-              <!-- QR pattern -->
-              <rect x="22" y="51" width="4" height="4" fill="#0C1628"/>
-              <rect x="38" y="51" width="4" height="4" fill="#0C1628"/>
-              <rect x="22" y="63" width="4" height="4" fill="#0C1628"/>
-              <rect x="23" y="52" width="2" height="2" fill="#F8AF4F"/>
-              <rect x="39" y="52" width="2" height="2" fill="#F8AF4F"/>
-              <rect x="23" y="64" width="2" height="2" fill="#F8AF4F"/>
-              <rect x="28" y="51" width="1" height="1" fill="#0C1628"/>
-              <rect x="30" y="52" width="1" height="1" fill="#0C1628"/>
-              <rect x="32" y="51" width="1" height="1" fill="#0C1628"/>
-              <rect x="34" y="53" width="1" height="1" fill="#0C1628"/>
-              <rect x="27" y="56" width="1" height="1" fill="#0C1628"/>
-              <rect x="29" y="55" width="1" height="1" fill="#0C1628"/>
-              <rect x="31" y="56" width="1" height="1" fill="#0C1628"/>
-              <rect x="33" y="55" width="1" height="1" fill="#0C1628"/>
-              <rect x="35" y="56" width="1" height="1" fill="#0C1628"/>
-              <rect x="27" y="58" width="1" height="1" fill="#0C1628"/>
-              <rect x="29" y="59" width="1" height="1" fill="#0C1628"/>
-              <rect x="32" y="58" width="1" height="1" fill="#0C1628"/>
-              <rect x="34" y="59" width="1" height="1" fill="#0C1628"/>
-              <rect x="36" y="58" width="1" height="1" fill="#0C1628"/>
-              <rect x="38" y="58" width="1" height="1" fill="#0C1628"/>
-              <rect x="27" y="61" width="1" height="1" fill="#0C1628"/>
-              <rect x="29" y="62" width="1" height="1" fill="#0C1628"/>
-              <rect x="31" y="63" width="1" height="1" fill="#0C1628"/>
-              <rect x="33" y="61" width="1" height="1" fill="#0C1628"/>
-              <rect x="35" y="62" width="1" height="1" fill="#0C1628"/>
-              <rect x="37" y="63" width="1" height="1" fill="#0C1628"/>
-              <rect x="28" y="65" width="1" height="1" fill="#0C1628"/>
-              <rect x="30" y="66" width="1" height="1" fill="#0C1628"/>
-              <rect x="33" y="65" width="1" height="1" fill="#0C1628"/>
-              <rect x="35" y="66" width="1" height="1" fill="#0C1628"/>
-              <rect x="37" y="65" width="1" height="1" fill="#0C1628"/>
-              <rect x="38" y="64" width="1" height="1" fill="#0C1628"/>
-              <!-- Pix logo center -->
-              <circle cx="32" cy="59" r="2.5" fill="#F8AF4F" stroke="#F39208" stroke-width="0.6"/>
-              <text x="32" y="60.5" text-anchor="middle" font-family="Archivo Black, sans-serif" font-size="2.8" fill="#F39208" font-weight="900">P</text>
-
-              <!-- Bottom strip "PIX" -->
-              <rect x="10" y="70" width="44" height="3" rx="0.5" fill="rgba(0,0,0,0.4)"/>
-              <text x="32" y="72.4" text-anchor="middle" font-family="Manrope, sans-serif" font-size="1.8" fill="#F39208" font-weight="800" letter-spacing="0.4">PAGUE COM PIX</text>
-
-              <!-- Hand-drawn circle highlighting the QR Code (annotation style) -->
-              <ellipse cx="32" cy="59" rx="16" ry="14" fill="none" stroke="#A7C945" stroke-width="1.8" transform="rotate(-6 32 59)" opacity="0.95"/>
-              <ellipse cx="32" cy="59" rx="15.5" ry="13.2" fill="none" stroke="#A7C945" stroke-width="1.2" stroke-dasharray="0.5 1" transform="rotate(8 32 59)" opacity="0.6"/>
-
-              <!-- Pointing arrow from outside -->
-              <path d="M 62 30 Q 58 38 52 49" fill="none" stroke="#A7C945" stroke-width="1.6" stroke-linecap="round" opacity="0.9"/>
-              <path d="M 53 47 L 52 49 L 54 50" fill="none" stroke="#A7C945" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
-
-              <!-- Annotation tag near arrow -->
-              <text x="68" y="22" text-anchor="middle" font-family="Manrope, sans-serif" font-size="3" fill="#A7C945" font-weight="900" letter-spacing="0.2">AQUI</text>
-              <text x="68" y="26" text-anchor="middle" font-family="Manrope, sans-serif" font-size="2.2" fill="var(--green-300, #B6D37B)" font-weight="700">↓</text>
+            <!-- Lucide: qr-code -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+              <rect width="5" height="5" x="3" y="3" rx="1"/>
+              <rect width="5" height="5" x="16" y="3" rx="1"/>
+              <rect width="5" height="5" x="3" y="16" rx="1"/>
+              <path d="M21 16h-3a2 2 0 0 0-2 2v3"/>
+              <path d="M21 21v.01"/>
+              <path d="M12 7v3a2 2 0 0 1-2 2H7"/>
+              <path d="M3 12h.01"/>
+              <path d="M12 3h.01"/>
+              <path d="M12 16v.01"/>
+              <path d="M16 12h1"/>
+              <path d="M21 12v.01"/>
+              <path d="M12 21v-1"/>
             </svg>
           </div>
           <div class="step-info">
@@ -6286,44 +6231,12 @@
         <button type="button" class="step" onclick="navTo('state-2')">
           <div class="step-num">2</div>
           <div class="step-svg">
-            <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <defs>
-                <linearGradient id="ballG1" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#F8AF4F"/>
-                  <stop offset="100%" stop-color="#F8AF4F"/>
-                </linearGradient>
-              </defs>
-              <!-- Mini cartela -->
-              <g transform="translate(8, 14)">
-                <!-- 4x4 grid of cells -->
-                <rect x="0" y="0" width="14" height="14" rx="2" fill="url(#ballG1)" stroke="#F39208" stroke-width="0.6"/>
-                <rect x="16" y="0" width="14" height="14" rx="2" fill="url(#ballG1)" stroke="#F39208" stroke-width="0.6"/>
-                <rect x="32" y="0" width="14" height="14" rx="2" fill="url(#ballG1)" stroke="#F39208" stroke-width="0.6"/>
-                <rect x="48" y="0" width="14" height="14" rx="2" fill="url(#ballG1)" stroke="#F39208" stroke-width="0.6"/>
-
-                <rect x="0" y="16" width="14" height="14" rx="2" fill="url(#ballG1)" stroke="#F39208" stroke-width="0.6"/>
-                <rect x="16" y="16" width="14" height="14" rx="2" fill="url(#ballG1)" stroke="#F39208" stroke-width="0.6"/>
-                <!-- Green circle marker on hit cells -->
-                <circle cx="23" cy="23" r="6" fill="none" stroke="#A7C945" stroke-width="1.5" transform="rotate(-8 23 23)"/>
-                <rect x="32" y="16" width="14" height="14" rx="2" fill="url(#ballG1)" stroke="#F39208" stroke-width="0.6"/>
-                <rect x="48" y="16" width="14" height="14" rx="2" fill="url(#ballG1)" stroke="#F39208" stroke-width="0.6"/>
-                <circle cx="55" cy="23" r="6" fill="none" stroke="#A7C945" stroke-width="1.5" transform="rotate(-5 55 23)"/>
-
-                <rect x="0" y="32" width="14" height="14" rx="2" fill="url(#ballG1)" stroke="#F39208" stroke-width="0.6"/>
-                <circle cx="7" cy="39" r="6" fill="none" stroke="#A7C945" stroke-width="1.5" transform="rotate(12 7 39)"/>
-                <rect x="16" y="32" width="14" height="14" rx="2" fill="url(#ballG1)" stroke="#F39208" stroke-width="0.6"/>
-                <rect x="32" y="32" width="14" height="14" rx="2" fill="url(#ballG1)" stroke="#F39208" stroke-width="0.6"/>
-                <circle cx="39" cy="39" r="6" fill="none" stroke="#A7C945" stroke-width="1.5" transform="rotate(-15 39 39)"/>
-                <rect x="48" y="32" width="14" height="14" rx="2" fill="url(#ballG1)" stroke="#F39208" stroke-width="0.6"/>
-
-                <rect x="0" y="48" width="14" height="14" rx="2" fill="url(#ballG1)" stroke="#F39208" stroke-width="0.6"/>
-                <rect x="16" y="48" width="14" height="14" rx="2" fill="url(#ballG1)" stroke="#F39208" stroke-width="0.6"/>
-                <circle cx="23" cy="55" r="6" fill="none" stroke="#A7C945" stroke-width="1.5" transform="rotate(8 23 55)"/>
-                <rect x="32" y="48" width="14" height="14" rx="2" fill="url(#ballG1)" stroke="#F39208" stroke-width="0.6"/>
-                <rect x="48" y="48" width="14" height="14" rx="2" fill="url(#ballG1)" stroke="#F39208" stroke-width="0.6"/>
-              </g>
-              <!-- Sparkle reveal -->
-              <text x="68" y="14" font-family="Anton, sans-serif" font-size="10" fill="#F39208">✨</text>
+            <!-- Lucide: layout-grid -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+              <rect width="7" height="7" x="3" y="3" rx="1"/>
+              <rect width="7" height="7" x="14" y="3" rx="1"/>
+              <rect width="7" height="7" x="14" y="14" rx="1"/>
+              <rect width="7" height="7" x="3" y="14" rx="1"/>
             </svg>
           </div>
           <div class="step-info">
@@ -6336,31 +6249,10 @@
         <button type="button" class="step" onclick="navTo('state-3')">
           <div class="step-num">3</div>
           <div class="step-svg">
-            <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <!-- TV frame -->
-              <rect x="10" y="14" width="60" height="44" rx="4" fill="#1a0f06" stroke="#F39208" stroke-width="1.8"/>
-              <rect x="14" y="18" width="52" height="36" rx="2" fill="#0C1628"/>
-              <!-- TV stand -->
-              <rect x="33" y="58" width="14" height="3" fill="#F39208"/>
-              <rect x="28" y="61" width="24" height="2" rx="1" fill="#F39208"/>
-              <!-- AO VIVO badge -->
-              <rect x="44" y="22" width="20" height="7" rx="1" fill="#dc2626"/>
-              <text x="54" y="27" text-anchor="middle" font-family="Archivo Black, sans-serif" font-size="5" fill="white" font-weight="900" letter-spacing="0.5">AO VIVO</text>
-              <!-- Sortition globe inside -->
-              <circle cx="32" cy="40" r="11" fill="none" stroke="#F39208" stroke-width="1.3"/>
-              <circle cx="32" cy="40" r="11" fill="url(#globeG)" opacity="0.4"/>
-              <defs>
-                <radialGradient id="globeG" cx="35%" cy="35%">
-                  <stop offset="0%" stop-color="#F8AF4F"/>
-                  <stop offset="100%" stop-color="#F39208"/>
-                </radialGradient>
-              </defs>
-              <!-- Ball numbers -->
-              <circle cx="29" cy="37" r="2.5" fill="#F8AF4F" stroke="#F39208" stroke-width="0.5"/>
-              <circle cx="35" cy="40" r="2.5" fill="#F8AF4F" stroke="#F39208" stroke-width="0.5"/>
-              <circle cx="30" cy="43" r="2.5" fill="#F8AF4F" stroke="#F39208" stroke-width="0.5"/>
-              <!-- play arrow accent -->
-              <path d="M 52 38 L 60 42 L 52 46 Z" fill="#F39208" opacity="0.8"/>
+            <!-- Lucide: tv -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m17 2-5 5-5-5"/>
+              <rect width="20" height="15" x="2" y="7" rx="2"/>
             </svg>
           </div>
           <div class="step-info">
@@ -6373,31 +6265,14 @@
         <button type="button" class="step" onclick="navTo('state-4')">
           <div class="step-num">4</div>
           <div class="step-svg">
-            <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <defs>
-                <linearGradient id="trophyG" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#F8AF4F"/>
-                  <stop offset="55%" stop-color="#F39208"/>
-                  <stop offset="100%" stop-color="#F39208"/>
-                </linearGradient>
-              </defs>
-              <!-- Glow background -->
-              <circle cx="40" cy="40" r="28" fill="url(#trophyG)" opacity="0.18"/>
-              <!-- Trophy cup -->
-              <path d="M 28 26 L 28 36 Q 28 46 40 46 Q 52 46 52 36 L 52 26 Z" fill="url(#trophyG)" stroke="#F39208" stroke-width="1"/>
-              <!-- Handles -->
-              <path d="M 28 28 Q 18 28 18 36 Q 18 40 24 40" fill="none" stroke="url(#trophyG)" stroke-width="2.5" stroke-linecap="round"/>
-              <path d="M 52 28 Q 62 28 62 36 Q 62 40 56 40" fill="none" stroke="url(#trophyG)" stroke-width="2.5" stroke-linecap="round"/>
-              <!-- Trophy base -->
-              <rect x="36" y="46" width="8" height="6" fill="url(#trophyG)" stroke="#F39208" stroke-width="0.8"/>
-              <rect x="30" y="52" width="20" height="3" rx="1" fill="url(#trophyG)" stroke="#F39208" stroke-width="0.8"/>
-              <!-- Star inside trophy -->
-              <text x="40" y="40" text-anchor="middle" font-family="Anton, sans-serif" font-size="12" fill="#F39208" font-weight="900">★</text>
-              <!-- Sparkles around -->
-              <text x="18" y="18" font-size="8" fill="#F39208">✦</text>
-              <text x="60" y="22" font-size="6" fill="#F8AF4F">✦</text>
-              <text x="64" y="60" font-size="8" fill="#F39208">✦</text>
-              <text x="14" y="58" font-size="6" fill="#F8AF4F">✦</text>
+            <!-- Lucide: trophy -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
+              <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
+              <path d="M4 22h16"/>
+              <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/>
+              <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/>
+              <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
             </svg>
           </div>
           <div class="step-info">
@@ -6410,24 +6285,12 @@
         <button type="button" class="step" onclick="navTo('state-5')">
           <div class="step-num">5</div>
           <div class="step-svg">
-            <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <defs>
-                <linearGradient id="restartG" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="var(--purple-500, #B26F9A)"/>
-                  <stop offset="100%" stop-color="var(--purple-500, #B26F9A)"/>
-                </linearGradient>
-              </defs>
-              <!-- Heart background -->
-              <path d="M40 60 C40 60 18 48 18 30 C18 23 23 18 30 18 C34 18 38 21 40 24 C42 21 46 18 50 18 C57 18 62 23 62 30 C62 48 40 60 40 60 Z"
-                    fill="url(#restartG)" opacity="0.18"/>
-              <!-- Circular arrow (restart icon) -->
-              <path d="M 40 22 A 18 18 0 1 1 22 40"
-                    fill="none" stroke="#F39208" stroke-width="3" stroke-linecap="round"/>
-              <!-- Arrow head -->
-              <path d="M 40 22 L 32 22 L 40 14 Z" fill="#F39208"/>
-              <!-- Heart small inside -->
-              <path d="M40 48 C40 48 32 42 32 36 C32 33.5 34 32 36.5 32 C38 32 39.5 33 40 34 C40.5 33 42 32 43.5 32 C46 32 48 33.5 48 36 C48 42 40 48 40 48 Z"
-                    fill="var(--purple-500, #B26F9A)"/>
+            <!-- Lucide: heart-handshake -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/>
+              <path d="M12 5 9.04 7.96a2.17 2.17 0 0 0 0 3.08v0c.82.82 2.13.85 3 .07l2.07-1.9a2.82 2.82 0 0 1 3.79 0l2.96 2.66"/>
+              <path d="m18 15-2-2"/>
+              <path d="m15 18-2-2"/>
             </svg>
           </div>
           <div class="step-info">
@@ -8488,7 +8351,6 @@
       <span class="brand-flank brand-flank-l" aria-hidden="true"></span>
       SURPRESINHA
       <span class="brand-flank brand-flank-r" aria-hidden="true"></span>
-      <small>HIPERXCAP · FILANTROPIA PREMIÁVEL</small>
     </div>
 
     <div class="pay-chip">

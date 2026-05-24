@@ -118,23 +118,26 @@
     color: var(--muted);
     font-weight: 700;
   }
+  .top-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
   .back-btn {
     background: rgba(0,0,0,0.35);
     border: 1px solid var(--accent-border);
     color: var(--white);
-    font-family: var(--font-body);
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    padding: 8px 14px;
-    border-radius: 20px;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border-radius: 50%;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    justify-content: center;
     transition: all 0.25s var(--ease-out);
   }
+  .back-btn svg { width: 16px; height: 16px; }
   .back-btn:hover { background: rgba(0,0,0,0.5); border-color: var(--accent-glow); }
 
   .screen { width: 100%; max-width: var(--app-max-width, 480px); position: relative; z-index: 2; }
@@ -482,11 +485,10 @@
     margin-top: 4px;
     padding: 18px 16px 16px;
     background:
-      linear-gradient(180deg, rgba(243, 146, 8, 0.06), rgba(0, 0, 0, 0.4) 60%),
-      radial-gradient(ellipse at 50% 0%, rgba(248, 175, 79, 0.14), transparent 60%);
-    border: 1px solid rgba(248, 175, 79, 0.35);
+      linear-gradient(180deg, rgba(26, 47, 81, 0.78), rgba(12, 22, 40, 0.92));
+    border: 1px solid rgba(158, 215, 235, 0.22);
     border-radius: 16px;
-    box-shadow: 0 6px 22px rgba(243, 146, 8, 0.12);
+    box-shadow: 0 6px 22px rgba(12, 22, 40, 0.45);
     position: relative;
     overflow: hidden;
   }
@@ -497,8 +499,8 @@
     margin-top: 12px;
     padding: 14px 12px;
     background:
-      linear-gradient(180deg, rgba(243, 146, 8, 0.04), rgba(0, 0, 0, 0.25));
-    border-color: rgba(248, 175, 79, 0.22);
+      linear-gradient(180deg, rgba(26, 47, 81, 0.55), rgba(12, 22, 40, 0.75));
+    border-color: rgba(158, 215, 235, 0.16);
     box-shadow: none;
   }
   .qty-selector::before {
@@ -569,8 +571,8 @@
     height: 116px;
     box-sizing: border-box;
     padding: 16px 6px 14px;
-    background: linear-gradient(180deg, rgba(28, 16, 6, 0.85), rgba(0, 0, 0, 0.7));
-    border: 1.5px solid rgba(243, 146, 8, 0.18);
+    background: linear-gradient(180deg, rgba(12, 22, 40, 0.85), rgba(8, 16, 30, 0.95));
+    border: 1.5px solid rgba(158, 215, 235, 0.18);
     border-radius: 12px;
     cursor: pointer;
     font-family: inherit;
@@ -588,8 +590,8 @@
   }
   .qty-option.active {
     border-color: var(--gold-bright);
-    background: linear-gradient(180deg, rgba(243, 146, 8, 0.18), rgba(28, 16, 6, 0.85));
-    box-shadow: 0 6px 22px rgba(243, 146, 8, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    background: linear-gradient(180deg, rgba(243, 146, 8, 0.22), rgba(12, 22, 40, 0.9));
+    box-shadow: 0 6px 22px rgba(243, 146, 8, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.08);
     transform: translateY(-2px);
   }
   .qty-option.active::after {
@@ -659,11 +661,46 @@
   .qty-summary {
     margin-top: 12px;
     padding: 12px 14px;
-    background: rgba(0, 0, 0, 0.45);
-    border: 1px dashed rgba(243, 146, 8, 0.25);
+    background: rgba(12, 22, 40, 0.6);
+    border: 1px dashed rgba(158, 215, 235, 0.22);
     border-radius: 10px;
     position: relative;
     z-index: 1;
+  }
+  /* Stat cards horizontais (3 colunas: chances · dezenas · giros) */
+  .qty-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .qty-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    padding: 8px 4px;
+    background: rgba(26, 47, 81, 0.7);
+    border: 1px solid rgba(158, 215, 235, 0.18);
+    border-radius: 8px;
+    text-align: center;
+  }
+  .qty-stat-value {
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 16px;
+    color: var(--gold-bright);
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+  .qty-stat-label {
+    font-family: var(--font-body);
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    line-height: 1.2;
   }
 
   /* ===== QUANTITY STEPPER (manual increment — escondido por padrão, expande sob "Outro valor") ===== */
@@ -1533,7 +1570,7 @@
       0 2px 0 rgba(120, 53, 15, 0.55),
       0 4px 14px rgba(0, 0, 0, 0.75),
       0 0 2px rgba(243, 146, 8, 0.9);
-    margin: 0 0 18px;
+    margin: 0 0 6px;
     padding: 4px 0 2px;
     text-align: center;
     line-height: 1;
@@ -2115,7 +2152,7 @@
   .hero-promo {
     position: relative;
     width: 100%;
-    margin: 8px 0 18px;
+    margin: 0 0 18px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2554,11 +2591,11 @@
 
   .status-strip {
     width: 100%;
-    background: rgba(0,0,0,0.4);
+    background: rgba(12, 22, 40, 0.6);
     border: 1px solid var(--accent-border-soft);
     border-radius: 14px;
     padding: 12px 14px;
-    display: flex; align-items: center; gap: 12px;
+    display: flex; align-items: center; justify-content: center; gap: 12px;
     margin-bottom: 14px;
   }
   .status-spinner {
@@ -2570,7 +2607,7 @@
     flex-shrink: 0;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
-  .status-strip .text { text-align: left; flex: 1; }
+  .status-strip .text { text-align: center; flex: 1; }
   .status-strip .text strong { display: block; font-size: 13px; font-weight: 700; margin-bottom: 2px; }
   .status-strip .text span { font-size: 11px; color: var(--muted); }
   .status-strip .badge {
@@ -2668,8 +2705,10 @@
     z-index: 2;
     display: flex;
     gap: 14px;
-    align-items: center;
+    align-items: flex-start;
+    text-align: left;
   }
+  .campaign-body .campaign-text { text-align: left; }
   .campaign-icon {
     width: 52px; height: 52px;
     flex-shrink: 0;
@@ -3426,8 +3465,9 @@
   .paypix-id::after  { right: -7px; }
 
   .paypix-id-tag {
-    display: inline-flex;
+    display: flex;
     align-items: center;
+    justify-content: center;
     gap: 6px;
     font-family: var(--font-body);
     font-size: 9.5px;
@@ -3436,6 +3476,7 @@
     text-transform: uppercase;
     color: var(--muted-2);
     margin-bottom: 8px;
+    text-align: center;
   }
   .paypix-id-tag svg {
     color: var(--gold-bright);
@@ -3450,8 +3491,10 @@
     margin-bottom: 8px;
     display: flex;
     align-items: baseline;
+    justify-content: center;
     flex-wrap: wrap;
     gap: 2px;
+    text-align: center;
   }
   .paypix-id-num .seg.produto { color: var(--gold-bright); }
   .paypix-id-num .seg.serie   { color: #F8AF4F; }
@@ -3463,6 +3506,8 @@
   .paypix-id-meta {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
     gap: 4px 14px;
     padding-top: 8px;
     border-top: 1px dashed rgba(255, 255, 255, 0.08);
@@ -3470,6 +3515,7 @@
     font-size: 10px;
     color: var(--muted-2);
     letter-spacing: 0.02em;
+    text-align: center;
   }
   .paypix-id-meta b {
     color: var(--muted);
@@ -3477,7 +3523,6 @@
   }
   /* Dupla Chance selo */
   .paypix-id-meta .dupla-chance {
-    margin-left: auto;
     padding: 3px 9px;
     background: linear-gradient(135deg, rgba(243, 146, 8, 0.25), rgba(217, 119, 6, 0.12));
     border: 1px solid var(--gold-bright);
@@ -4883,10 +4928,20 @@
   }
   .ct-btn:active { transform: scale(0.97); }
   .ct-btn svg { width: 14px; height: 14px; }
+  /* Icon-only variant used no header (sem texto, lado a lado com voltar) */
+  .ct-btn--icon {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    gap: 0;
+    border-radius: 50%;
+    justify-content: center;
+  }
+  .ct-btn--icon svg { width: 16px; height: 16px; }
   .ct-btn-label-full { display: inline; }
   .ct-btn-label-short { display: none; }
   @media (max-width: 480px) {
-    .ct-btn { padding: 8px 12px; font-size: 11px; gap: 6px; }
+    .ct-btn:not(.ct-btn--icon) { padding: 8px 12px; font-size: 11px; gap: 6px; }
     .ct-btn-label-full { display: none; }
     .ct-btn-label-short { display: inline; }
   }
@@ -5906,18 +5961,21 @@
 <header class="top">
   <div>
     <div class="logo"><img src="../logos/hiperxcap.svg" alt="HiperXCAP" /></div>
-    <div class="tagline">Filantropia premiável</div>
   </div>
-  <button type="button" class="ct-btn" onclick="ctOpen()" aria-label="Consultar meus títulos" style="margin-right:8px">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <rect x="3" y="4" width="18" height="16" rx="2"/>
-      <circle cx="12" cy="10" r="2.5"/>
-      <path d="M7 17c.8-2.5 3-3.5 5-3.5s4.2 1 5 3.5"/>
-    </svg>
-    <span class="ct-btn-label-full">Meus títulos</span>
-    <span class="ct-btn-label-short">Meus títulos</span>
-  </button>
-  <button type="button" class="back-btn" id="back-btn" style="display:none" onclick="navBack()">← Voltar</button>
+  <div class="top-actions">
+    <button type="button" class="back-btn" id="back-btn" style="display:none" onclick="navBack()" aria-label="Voltar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+    </button>
+    <button type="button" class="ct-btn ct-btn--icon" onclick="ctOpen()" aria-label="Consultar meus títulos">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="3" y="4" width="18" height="16" rx="2"/>
+        <circle cx="12" cy="10" r="2.5"/>
+        <path d="M7 17c.8-2.5 3-3.5 5-3.5s4.2 1 5 3.5"/>
+      </svg>
+    </button>
+  </div>
 </header>
 
 <!-- ============================================================
@@ -6109,7 +6167,6 @@
             <span class="qty-tag">+4 chances</span>
           </button>
           <button type="button" class="qty-option top" data-qty="10" onclick="selectQty(10)">
-            <span class="qty-badge top">TOP</span>
             <span class="qty-mult">10×</span>
             <span class="qty-price" data-qty-price="10">R$ 100,00</span>
             <span class="qty-tag">+9 chances</span>
@@ -6157,10 +6214,19 @@
             <span class="qty-sum-label">Total</span>
             <span class="qty-sum-value" id="qtyTotal">R$ 10,00</span>
           </div>
-          <div class="qty-sum-detail" id="qtyDetail">
-            <span><strong id="qtyChances">2</strong> chances · 20 dezenas cada</span>
-            <span class="sep">·</span>
-            <span><strong id="qtyGiros">1</strong> número Hiper Giro</span>
+          <div class="qty-stats" id="qtyDetail">
+            <div class="qty-stat">
+              <span class="qty-stat-value" id="qtyChances">2</span>
+              <span class="qty-stat-label">Chances</span>
+            </div>
+            <div class="qty-stat">
+              <span class="qty-stat-value">20</span>
+              <span class="qty-stat-label">Dezenas cada</span>
+            </div>
+            <div class="qty-stat">
+              <span class="qty-stat-value" id="qtyGiros">1</span>
+              <span class="qty-stat-label">Nº Hiper Giro</span>
+            </div>
           </div>
         </div>
       </div>
@@ -6316,29 +6382,7 @@
       </div>
     </section>
 
-    <h1 class="state-title with-clover">
-      <span class="clover-deco" aria-hidden="true">
-        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <radialGradient id="leafGrad" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="var(--green-300, #B6D37B)"/>
-              <stop offset="60%" stop-color="#A7C945"/>
-              <stop offset="100%" stop-color="#A7C945"/>
-            </radialGradient>
-          </defs>
-          <g>
-            <!-- 4 heart-shaped leaves -->
-            <path d="M24 22 C20 14 10 14 12 22 C14 26 22 26 24 22 Z" fill="url(#leafGrad)"/>
-            <path d="M24 22 C28 14 38 14 36 22 C34 26 26 26 24 22 Z" fill="url(#leafGrad)"/>
-            <path d="M24 26 C20 34 10 34 12 26 C14 22 22 22 24 26 Z" fill="url(#leafGrad)"/>
-            <path d="M24 26 C28 34 38 34 36 26 C34 22 26 22 24 26 Z" fill="url(#leafGrad)"/>
-            <!-- center highlight -->
-            <circle cx="24" cy="24" r="2" fill="#F8AF4F" opacity="0.7"/>
-            <!-- stem -->
-            <path d="M24 28 Q26 36 24 44" stroke="#A7C945" stroke-width="1.6" fill="none" stroke-linecap="round"/>
-          </g>
-        </svg>
-      </span>
+    <h1 class="state-title">
       Suas dezenas e<br/>números da sorte<br/><span class="accent">ainda não foram revelados</span>
     </h1>
 
@@ -6527,57 +6571,57 @@
     <!-- Globo Chance 1 -->
     <div class="section-header anim-rise" style="animation-delay:0.8s">
       <span class="label">Globo · Chance 1</span>
-      <span class="hint">20 dezenas · 01-60</span>
+      <span class="hint">20 dezenas · 01-20</span>
     </div>
     <div class="globo-grid">
-      <div class="cell anim-ball" style="animation-delay:0.95s">02</div>
-      <div class="cell anim-ball" style="animation-delay:0.97s">07</div>
-      <div class="cell anim-ball" style="animation-delay:0.99s">12</div>
-      <div class="cell anim-ball" style="animation-delay:1.01s">15</div>
-      <div class="cell anim-ball" style="animation-delay:1.03s">19</div>
-      <div class="cell anim-ball" style="animation-delay:1.05s">22</div>
-      <div class="cell anim-ball" style="animation-delay:1.07s">24</div>
-      <div class="cell anim-ball" style="animation-delay:1.09s">28</div>
-      <div class="cell anim-ball" style="animation-delay:1.11s">30</div>
-      <div class="cell anim-ball" style="animation-delay:1.13s">33</div>
-      <div class="cell anim-ball" style="animation-delay:1.15s">37</div>
-      <div class="cell anim-ball" style="animation-delay:1.17s">41</div>
-      <div class="cell anim-ball" style="animation-delay:1.19s">44</div>
-      <div class="cell anim-ball" style="animation-delay:1.21s">47</div>
-      <div class="cell anim-ball" style="animation-delay:1.23s">50</div>
-      <div class="cell anim-ball" style="animation-delay:1.25s">52</div>
-      <div class="cell anim-ball" style="animation-delay:1.27s">55</div>
-      <div class="cell anim-ball" style="animation-delay:1.29s">58</div>
-      <div class="cell anim-ball" style="animation-delay:1.31s">03</div>
-      <div class="cell anim-ball" style="animation-delay:1.33s">17</div>
+      <div class="cell anim-ball" style="animation-delay:0.95s">01</div>
+      <div class="cell anim-ball" style="animation-delay:0.97s">02</div>
+      <div class="cell anim-ball" style="animation-delay:0.99s">03</div>
+      <div class="cell anim-ball" style="animation-delay:1.01s">04</div>
+      <div class="cell anim-ball" style="animation-delay:1.03s">05</div>
+      <div class="cell anim-ball" style="animation-delay:1.05s">06</div>
+      <div class="cell anim-ball" style="animation-delay:1.07s">07</div>
+      <div class="cell anim-ball" style="animation-delay:1.09s">08</div>
+      <div class="cell anim-ball" style="animation-delay:1.11s">09</div>
+      <div class="cell anim-ball" style="animation-delay:1.13s">10</div>
+      <div class="cell anim-ball" style="animation-delay:1.15s">11</div>
+      <div class="cell anim-ball" style="animation-delay:1.17s">12</div>
+      <div class="cell anim-ball" style="animation-delay:1.19s">13</div>
+      <div class="cell anim-ball" style="animation-delay:1.21s">14</div>
+      <div class="cell anim-ball" style="animation-delay:1.23s">15</div>
+      <div class="cell anim-ball" style="animation-delay:1.25s">16</div>
+      <div class="cell anim-ball" style="animation-delay:1.27s">17</div>
+      <div class="cell anim-ball" style="animation-delay:1.29s">18</div>
+      <div class="cell anim-ball" style="animation-delay:1.31s">19</div>
+      <div class="cell anim-ball" style="animation-delay:1.33s">20</div>
     </div>
 
     <!-- Globo Chance 2 -->
     <div class="section-header anim-rise" style="animation-delay:1.4s">
       <span class="label">Globo · Chance 2</span>
-      <span class="hint">20 dezenas · 01-60</span>
+      <span class="hint">20 dezenas · 01-20</span>
     </div>
     <div class="globo-grid">
-      <div class="cell anim-ball" style="animation-delay:1.55s">04</div>
-      <div class="cell anim-ball" style="animation-delay:1.57s">08</div>
-      <div class="cell anim-ball" style="animation-delay:1.59s">11</div>
-      <div class="cell anim-ball" style="animation-delay:1.61s">14</div>
-      <div class="cell anim-ball" style="animation-delay:1.63s">16</div>
-      <div class="cell anim-ball" style="animation-delay:1.65s">23</div>
-      <div class="cell anim-ball" style="animation-delay:1.67s">25</div>
-      <div class="cell anim-ball" style="animation-delay:1.69s">29</div>
-      <div class="cell anim-ball" style="animation-delay:1.71s">31</div>
-      <div class="cell anim-ball" style="animation-delay:1.73s">35</div>
-      <div class="cell anim-ball" style="animation-delay:1.75s">38</div>
-      <div class="cell anim-ball" style="animation-delay:1.77s">40</div>
-      <div class="cell anim-ball" style="animation-delay:1.79s">45</div>
-      <div class="cell anim-ball" style="animation-delay:1.81s">49</div>
-      <div class="cell anim-ball" style="animation-delay:1.83s">53</div>
-      <div class="cell anim-ball" style="animation-delay:1.85s">56</div>
-      <div class="cell anim-ball" style="animation-delay:1.87s">60</div>
-      <div class="cell anim-ball" style="animation-delay:1.89s">01</div>
-      <div class="cell anim-ball" style="animation-delay:1.91s">18</div>
-      <div class="cell anim-ball" style="animation-delay:1.93s">27</div>
+      <div class="cell anim-ball" style="animation-delay:1.55s">01</div>
+      <div class="cell anim-ball" style="animation-delay:1.57s">02</div>
+      <div class="cell anim-ball" style="animation-delay:1.59s">03</div>
+      <div class="cell anim-ball" style="animation-delay:1.61s">04</div>
+      <div class="cell anim-ball" style="animation-delay:1.63s">05</div>
+      <div class="cell anim-ball" style="animation-delay:1.65s">06</div>
+      <div class="cell anim-ball" style="animation-delay:1.67s">07</div>
+      <div class="cell anim-ball" style="animation-delay:1.69s">08</div>
+      <div class="cell anim-ball" style="animation-delay:1.71s">09</div>
+      <div class="cell anim-ball" style="animation-delay:1.73s">10</div>
+      <div class="cell anim-ball" style="animation-delay:1.75s">11</div>
+      <div class="cell anim-ball" style="animation-delay:1.77s">12</div>
+      <div class="cell anim-ball" style="animation-delay:1.79s">13</div>
+      <div class="cell anim-ball" style="animation-delay:1.81s">14</div>
+      <div class="cell anim-ball" style="animation-delay:1.83s">15</div>
+      <div class="cell anim-ball" style="animation-delay:1.85s">16</div>
+      <div class="cell anim-ball" style="animation-delay:1.87s">17</div>
+      <div class="cell anim-ball" style="animation-delay:1.89s">18</div>
+      <div class="cell anim-ball" style="animation-delay:1.91s">19</div>
+      <div class="cell anim-ball" style="animation-delay:1.93s">20</div>
     </div>
 
     <!-- Giro -->
@@ -6650,7 +6694,7 @@
       </div>
     </div>
 
-    <div class="goodluck anim-rise" style="animation-delay:2.3s">🍀 Boa sorte!</div>
+    <div class="goodluck anim-rise" style="animation-delay:2.3s">Boa sorte!</div>
   </div>
 </section>
 
@@ -6689,25 +6733,25 @@
     <!-- Globo Chance 1 -->
     <div class="section-header">
       <span class="label">Globo · Chance 1</span>
-      <span class="hint">20 dezenas · 01-60</span>
+      <span class="hint">20 dezenas · 01-20</span>
     </div>
     <div class="globo-grid">
-      <div class="cell">02</div><div class="cell">07</div><div class="cell">12</div><div class="cell">15</div><div class="cell">19</div>
-      <div class="cell">22</div><div class="cell">24</div><div class="cell">28</div><div class="cell">30</div><div class="cell">33</div>
-      <div class="cell">37</div><div class="cell">41</div><div class="cell">44</div><div class="cell">47</div><div class="cell">50</div>
-      <div class="cell">52</div><div class="cell">55</div><div class="cell">58</div><div class="cell">03</div><div class="cell">17</div>
+      <div class="cell">01</div><div class="cell">02</div><div class="cell">03</div><div class="cell">04</div><div class="cell">05</div>
+      <div class="cell">06</div><div class="cell">07</div><div class="cell">08</div><div class="cell">09</div><div class="cell">10</div>
+      <div class="cell">11</div><div class="cell">12</div><div class="cell">13</div><div class="cell">14</div><div class="cell">15</div>
+      <div class="cell">16</div><div class="cell">17</div><div class="cell">18</div><div class="cell">19</div><div class="cell">20</div>
     </div>
 
     <!-- Globo Chance 2 -->
     <div class="section-header">
       <span class="label">Globo · Chance 2</span>
-      <span class="hint">20 dezenas · 01-60</span>
+      <span class="hint">20 dezenas · 01-20</span>
     </div>
     <div class="globo-grid">
-      <div class="cell">04</div><div class="cell">08</div><div class="cell">11</div><div class="cell">14</div><div class="cell">16</div>
-      <div class="cell">23</div><div class="cell">25</div><div class="cell">29</div><div class="cell">31</div><div class="cell">35</div>
-      <div class="cell">38</div><div class="cell">40</div><div class="cell">45</div><div class="cell">49</div><div class="cell">53</div>
-      <div class="cell">56</div><div class="cell">60</div><div class="cell">01</div><div class="cell">18</div><div class="cell">27</div>
+      <div class="cell">01</div><div class="cell">02</div><div class="cell">03</div><div class="cell">04</div><div class="cell">05</div>
+      <div class="cell">06</div><div class="cell">07</div><div class="cell">08</div><div class="cell">09</div><div class="cell">10</div>
+      <div class="cell">11</div><div class="cell">12</div><div class="cell">13</div><div class="cell">14</div><div class="cell">15</div>
+      <div class="cell">16</div><div class="cell">17</div><div class="cell">18</div><div class="cell">19</div><div class="cell">20</div>
     </div>
 
     <!-- Giro -->
@@ -6780,7 +6824,7 @@
       </div>
     </div>
 
-    <div class="goodluck">🍀 Boa sorte!</div>
+    <div class="goodluck">Boa sorte!</div>
   </div>
 </section>
 
@@ -6871,15 +6915,16 @@
       <!-- Globo 1: CONTEMPLADO 20/20 (Chance 2) -->
       <div class="sorteio-card jackpot">
         <div class="sc-head">
-          <div class="sc-title">1° Sorteio · Globo da Sorte <small>36 dezenas sorteadas</small></div>
+          <div class="sc-title">1° Sorteio · Globo da Sorte <small>10 dezenas sorteadas</small></div>
           <div class="sc-prize"><span class="amount" data-prize="g-30k">R$ 30.000</span><small class="trave" style="color: var(--gold-bright)">Contemplado</small></div>
         </div>
         <div class="set-row">
           <span class="set-lbl">Dezenas sorteadas</span>
-          <span class="set-count">36 bolas</span>
+          <span class="set-count">10 bolas</span>
         </div>
         <div class="mini-grid">
-          <div class="dezena draw">01</div><div class="dezena draw">02</div><div class="dezena draw">03</div><div class="dezena draw">04</div><div class="dezena draw">05</div>
+          <div class="dezena draw">01</div><div class="dezena draw">03</div><div class="dezena draw">05</div><div class="dezena draw">07</div><div class="dezena draw">09</div><div class="dezena draw">11</div><div class="dezena draw">13</div><div class="dezena draw">15</div><div class="dezena draw">17</div><div class="dezena draw">19</div>
+        </div><div class="dezena draw">02</div><div class="dezena draw">03</div><div class="dezena draw">04</div><div class="dezena draw">05</div>
           <div class="dezena draw">06</div><div class="dezena draw">07</div><div class="dezena draw">08</div><div class="dezena draw">09</div><div class="dezena draw">11</div>
           <div class="dezena draw">12</div><div class="dezena draw">14</div><div class="dezena draw">16</div><div class="dezena draw">17</div><div class="dezena draw">18</div>
           <div class="dezena draw">19</div><div class="dezena draw">22</div><div class="dezena draw">23</div><div class="dezena draw">25</div><div class="dezena draw">27</div>
@@ -6893,20 +6938,20 @@
           <span class="set-count">13/20</span>
         </div>
         <div class="mini-grid">
-          <div class="cell hit">02</div><div class="cell hit">07</div><div class="cell hit">12</div><div class="cell">15</div><div class="cell hit">19</div>
-          <div class="cell hit">22</div><div class="cell">24</div><div class="cell hit">28</div><div class="cell hit">30</div><div class="cell hit">33</div>
-          <div class="cell">37</div><div class="cell hit">41</div><div class="cell">44</div><div class="cell hit">47</div><div class="cell">50</div>
-          <div class="cell hit">52</div><div class="cell">55</div><div class="cell">58</div><div class="cell hit">03</div><div class="cell hit">17</div>
+          <div class="cell hit">01</div><div class="cell hit">02</div><div class="cell hit">03</div><div class="cell">04</div><div class="cell hit">05</div>
+          <div class="cell hit">06</div><div class="cell">07</div><div class="cell hit">08</div><div class="cell hit">09</div><div class="cell hit">10</div>
+          <div class="cell">11</div><div class="cell hit">12</div><div class="cell">13</div><div class="cell hit">14</div><div class="cell">15</div>
+          <div class="cell hit">16</div><div class="cell">17</div><div class="cell">18</div><div class="cell hit">19</div><div class="cell hit">20</div>
         </div>
         <div class="set-row winner">
           <span class="set-lbl">Chance 2 <span class="check">✓</span></span>
           <span class="set-count">20/20 · Contemplado</span>
         </div>
         <div class="mini-grid">
-          <div class="cell hit">04</div><div class="cell hit">08</div><div class="cell hit">11</div><div class="cell hit">14</div><div class="cell hit">16</div>
-          <div class="cell hit">23</div><div class="cell hit">25</div><div class="cell hit">29</div><div class="cell hit">31</div><div class="cell hit">35</div>
-          <div class="cell hit">38</div><div class="cell hit">40</div><div class="cell hit">45</div><div class="cell hit">49</div><div class="cell hit">53</div>
-          <div class="cell hit">56</div><div class="cell hit">60</div><div class="cell hit">01</div><div class="cell hit">18</div><div class="cell hit">27</div>
+          <div class="cell hit">01</div><div class="cell hit">02</div><div class="cell hit">03</div><div class="cell hit">04</div><div class="cell hit">05</div>
+          <div class="cell hit">06</div><div class="cell hit">07</div><div class="cell hit">08</div><div class="cell hit">09</div><div class="cell hit">10</div>
+          <div class="cell hit">11</div><div class="cell hit">12</div><div class="cell hit">13</div><div class="cell hit">14</div><div class="cell hit">15</div>
+          <div class="cell hit">16</div><div class="cell hit">17</div><div class="cell hit">18</div><div class="cell hit">19</div><div class="cell hit">20</div>
         </div>
         <div class="sc-acertos">
           <span><svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0V4z"/><path d="M17 5h2a2 2 0 0 1 0 4h-2M7 5H5a2 2 0 0 0 0 4h2"/></svg> Chance 2 fez 20 acertos · Contemplado</span>
@@ -6917,15 +6962,16 @@
       <!-- Globo 2: NA TRAVE 19/20 (Chance 1) -->
       <div class="sorteio-card win">
         <div class="sc-head">
-          <div class="sc-title">2° Sorteio · Globo da Sorte <small>35 dezenas sorteadas</small></div>
+          <div class="sc-title">2° Sorteio · Globo da Sorte <small>10 dezenas sorteadas</small></div>
           <div class="sc-prize"><span class="amount" data-prize="g-15k">R$ 15.000</span><small class="trave">Na trave</small></div>
         </div>
         <div class="set-row">
           <span class="set-lbl">Dezenas sorteadas</span>
-          <span class="set-count">35 bolas</span>
+          <span class="set-count">10 bolas</span>
         </div>
         <div class="mini-grid">
-          <div class="dezena draw">02</div><div class="dezena draw">03</div><div class="dezena draw">04</div><div class="dezena draw">05</div><div class="dezena draw">06</div>
+          <div class="dezena draw">02</div><div class="dezena draw">04</div><div class="dezena draw">06</div><div class="dezena draw">08</div><div class="dezena draw">10</div><div class="dezena draw">12</div><div class="dezena draw">14</div><div class="dezena draw">16</div><div class="dezena draw">18</div><div class="dezena draw">20</div>
+        </div><div class="dezena draw">03</div><div class="dezena draw">04</div><div class="dezena draw">05</div><div class="dezena draw">06</div>
           <div class="dezena draw">07</div><div class="dezena draw">09</div><div class="dezena draw">11</div><div class="dezena draw">12</div><div class="dezena draw">13</div>
           <div class="dezena draw">14</div><div class="dezena draw">15</div><div class="dezena draw">16</div><div class="dezena draw">17</div><div class="dezena draw">19</div>
           <div class="dezena draw">22</div><div class="dezena draw">23</div><div class="dezena draw">24</div><div class="dezena draw">28</div><div class="dezena draw">29</div>
@@ -6938,20 +6984,20 @@
           <span class="set-count">19/20 · Na trave</span>
         </div>
         <div class="mini-grid">
-          <div class="cell hit">02</div><div class="cell hit">07</div><div class="cell hit">12</div><div class="cell hit">15</div><div class="cell hit">19</div>
-          <div class="cell hit">22</div><div class="cell hit">24</div><div class="cell hit">28</div><div class="cell hit">30</div><div class="cell hit">33</div>
-          <div class="cell hit">37</div><div class="cell hit">41</div><div class="cell hit">44</div><div class="cell hit">47</div><div class="cell">50</div>
-          <div class="cell hit">52</div><div class="cell hit">55</div><div class="cell hit">58</div><div class="cell hit">03</div><div class="cell hit">17</div>
+          <div class="cell hit">01</div><div class="cell hit">02</div><div class="cell hit">03</div><div class="cell hit">04</div><div class="cell hit">05</div>
+          <div class="cell hit">06</div><div class="cell hit">07</div><div class="cell hit">08</div><div class="cell hit">09</div><div class="cell hit">10</div>
+          <div class="cell hit">11</div><div class="cell hit">12</div><div class="cell hit">13</div><div class="cell hit">14</div><div class="cell">15</div>
+          <div class="cell hit">16</div><div class="cell hit">17</div><div class="cell hit">18</div><div class="cell hit">19</div><div class="cell hit">20</div>
         </div>
         <div class="set-row">
           <span class="set-lbl">Chance 2</span>
           <span class="set-count">11/20</span>
         </div>
         <div class="mini-grid">
-          <div class="cell hit">04</div><div class="cell">08</div><div class="cell hit">11</div><div class="cell hit">14</div><div class="cell hit">16</div>
-          <div class="cell hit">23</div><div class="cell">25</div><div class="cell hit">29</div><div class="cell hit">31</div><div class="cell hit">35</div>
-          <div class="cell">38</div><div class="cell">40</div><div class="cell">45</div><div class="cell hit">49</div><div class="cell hit">53</div>
-          <div class="cell">56</div><div class="cell hit">60</div><div class="cell">01</div><div class="cell">18</div><div class="cell">27</div>
+          <div class="cell hit">01</div><div class="cell">02</div><div class="cell hit">03</div><div class="cell hit">04</div><div class="cell hit">05</div>
+          <div class="cell hit">06</div><div class="cell">07</div><div class="cell hit">08</div><div class="cell hit">09</div><div class="cell hit">10</div>
+          <div class="cell">11</div><div class="cell">12</div><div class="cell">13</div><div class="cell hit">14</div><div class="cell hit">15</div>
+          <div class="cell">16</div><div class="cell hit">17</div><div class="cell">18</div><div class="cell">19</div><div class="cell">20</div>
         </div>
         <div class="sc-acertos">
           <span>Faltou apenas a dezena 50</span>
@@ -6962,15 +7008,16 @@
       <!-- Globo 3: não premiada -->
       <div class="sorteio-card">
         <div class="sc-head">
-          <div class="sc-title">3° Sorteio · Globo da Sorte <small>35 dezenas sorteadas</small></div>
+          <div class="sc-title">3° Sorteio · Globo da Sorte <small>10 dezenas sorteadas</small></div>
           <div class="sc-prize"><span class="amount" style="color:var(--muted)" data-prize="g-30k">R$ 30.000</span><small class="trave" style="color:var(--muted-2)">Não premiada</small></div>
         </div>
         <div class="set-row">
           <span class="set-lbl">Dezenas sorteadas</span>
-          <span class="set-count">35 bolas</span>
+          <span class="set-count">10 bolas</span>
         </div>
         <div class="mini-grid">
-          <div class="dezena draw">01</div><div class="dezena draw">03</div><div class="dezena draw">04</div><div class="dezena draw">05</div><div class="dezena draw">06</div>
+          <div class="dezena draw">01</div><div class="dezena draw">04</div><div class="dezena draw">06</div><div class="dezena draw">09</div><div class="dezena draw">11</div><div class="dezena draw">13</div><div class="dezena draw">15</div><div class="dezena draw">16</div><div class="dezena draw">18</div><div class="dezena draw">20</div>
+        </div><div class="dezena draw">03</div><div class="dezena draw">04</div><div class="dezena draw">05</div><div class="dezena draw">06</div>
           <div class="dezena draw">08</div><div class="dezena draw">09</div><div class="dezena draw">10</div><div class="dezena draw">11</div><div class="dezena draw">13</div>
           <div class="dezena draw">15</div><div class="dezena draw">16</div><div class="dezena draw">18</div><div class="dezena draw">20</div><div class="dezena draw">21</div>
           <div class="dezena draw">23</div><div class="dezena draw">24</div><div class="dezena draw">25</div><div class="dezena draw">26</div><div class="dezena draw">27</div>
@@ -6983,20 +7030,20 @@
           <span class="set-count">9/20</span>
         </div>
         <div class="mini-grid">
-          <div class="cell">02</div><div class="cell">07</div><div class="cell hit">12</div><div class="cell hit">15</div><div class="cell">19</div>
-          <div class="cell">22</div><div class="cell hit">24</div><div class="cell hit">28</div><div class="cell">30</div><div class="cell">33</div>
-          <div class="cell hit">37</div><div class="cell hit">41</div><div class="cell">44</div><div class="cell">47</div><div class="cell">50</div>
-          <div class="cell">52</div><div class="cell">55</div><div class="cell">58</div><div class="cell hit">03</div><div class="cell">17</div>
+          <div class="cell">01</div><div class="cell">02</div><div class="cell hit">03</div><div class="cell hit">04</div><div class="cell">05</div>
+          <div class="cell">06</div><div class="cell hit">07</div><div class="cell hit">08</div><div class="cell">09</div><div class="cell">10</div>
+          <div class="cell hit">11</div><div class="cell hit">12</div><div class="cell">13</div><div class="cell">14</div><div class="cell">15</div>
+          <div class="cell">16</div><div class="cell">17</div><div class="cell">18</div><div class="cell hit">19</div><div class="cell">20</div>
         </div>
         <div class="set-row">
           <span class="set-lbl">Chance 2</span>
           <span class="set-count">12/20</span>
         </div>
         <div class="mini-grid">
-          <div class="cell">04</div><div class="cell hit">08</div><div class="cell hit">11</div><div class="cell">14</div><div class="cell hit">16</div>
-          <div class="cell hit">23</div><div class="cell hit">25</div><div class="cell">29</div><div class="cell hit">31</div><div class="cell hit">35</div>
-          <div class="cell hit">38</div><div class="cell">40</div><div class="cell">45</div><div class="cell">49</div><div class="cell hit">53</div>
-          <div class="cell hit">56</div><div class="cell">60</div><div class="cell">01</div><div class="cell">18</div><div class="cell hit">27</div>
+          <div class="cell">01</div><div class="cell hit">02</div><div class="cell hit">03</div><div class="cell">04</div><div class="cell hit">05</div>
+          <div class="cell hit">06</div><div class="cell hit">07</div><div class="cell">08</div><div class="cell hit">09</div><div class="cell hit">10</div>
+          <div class="cell hit">11</div><div class="cell">12</div><div class="cell">13</div><div class="cell">14</div><div class="cell hit">15</div>
+          <div class="cell hit">16</div><div class="cell">17</div><div class="cell">18</div><div class="cell">19</div><div class="cell hit">20</div>
         </div>
         <div class="sc-acertos">
           <span>Prêmio só com 19 ou 20 acertos por chance</span>
@@ -7007,15 +7054,16 @@
       <!-- Globo 4: não premiada (faltou o meio milhão!) -->
       <div class="sorteio-card">
         <div class="sc-head">
-          <div class="sc-title">4° Sorteio · <span style="color:var(--gold-bright)">Um Milhão</span> <small>36 dezenas sorteadas</small></div>
+          <div class="sc-title">4° Sorteio · <span style="color:var(--gold-bright)">Um Milhão</span> <small>10 dezenas sorteadas</small></div>
           <div class="sc-prize"><span class="amount" style="color:var(--muted)" data-prize="g-1m">R$ 1.000.000</span><small class="trave" style="color:var(--muted-2)">Não premiada</small></div>
         </div>
         <div class="set-row">
           <span class="set-lbl">Dezenas sorteadas</span>
-          <span class="set-count">36 bolas</span>
+          <span class="set-count">10 bolas</span>
         </div>
         <div class="mini-grid">
-          <div class="dezena draw">01</div><div class="dezena draw">02</div><div class="dezena draw">03</div><div class="dezena draw">04</div><div class="dezena draw">05</div>
+          <div class="dezena draw">02</div><div class="dezena draw">03</div><div class="dezena draw">05</div><div class="dezena draw">07</div><div class="dezena draw">10</div><div class="dezena draw">12</div><div class="dezena draw">14</div><div class="dezena draw">17</div><div class="dezena draw">19</div><div class="dezena draw">20</div>
+        </div><div class="dezena draw">02</div><div class="dezena draw">03</div><div class="dezena draw">04</div><div class="dezena draw">05</div>
           <div class="dezena draw">06</div><div class="dezena draw">07</div><div class="dezena draw">08</div><div class="dezena draw">09</div><div class="dezena draw">11</div>
           <div class="dezena draw">12</div><div class="dezena draw">13</div><div class="dezena draw">14</div><div class="dezena draw">16</div><div class="dezena draw">17</div>
           <div class="dezena draw">19</div><div class="dezena draw">20</div><div class="dezena draw">22</div><div class="dezena draw">23</div><div class="dezena draw">25</div>
@@ -7029,20 +7077,20 @@
           <span class="set-count">13/20</span>
         </div>
         <div class="mini-grid">
-          <div class="cell hit">02</div><div class="cell hit">07</div><div class="cell hit">12</div><div class="cell">15</div><div class="cell hit">19</div>
-          <div class="cell hit">22</div><div class="cell">24</div><div class="cell hit">28</div><div class="cell hit">30</div><div class="cell hit">33</div>
-          <div class="cell">37</div><div class="cell hit">41</div><div class="cell">44</div><div class="cell hit">47</div><div class="cell">50</div>
-          <div class="cell hit">52</div><div class="cell">55</div><div class="cell">58</div><div class="cell hit">03</div><div class="cell hit">17</div>
+          <div class="cell hit">01</div><div class="cell hit">02</div><div class="cell hit">03</div><div class="cell">04</div><div class="cell hit">05</div>
+          <div class="cell hit">06</div><div class="cell">07</div><div class="cell hit">08</div><div class="cell hit">09</div><div class="cell hit">10</div>
+          <div class="cell">11</div><div class="cell hit">12</div><div class="cell">13</div><div class="cell hit">14</div><div class="cell">15</div>
+          <div class="cell hit">16</div><div class="cell">17</div><div class="cell">18</div><div class="cell hit">19</div><div class="cell hit">20</div>
         </div>
         <div class="set-row">
           <span class="set-lbl">Chance 2</span>
           <span class="set-count">15/20</span>
         </div>
         <div class="mini-grid">
-          <div class="cell hit">04</div><div class="cell hit">08</div><div class="cell hit">11</div><div class="cell hit">14</div><div class="cell hit">16</div>
-          <div class="cell hit">23</div><div class="cell hit">25</div><div class="cell hit">29</div><div class="cell hit">31</div><div class="cell">35</div>
-          <div class="cell hit">38</div><div class="cell">40</div><div class="cell">45</div><div class="cell hit">49</div><div class="cell hit">53</div>
-          <div class="cell">56</div><div class="cell hit">60</div><div class="cell hit">01</div><div class="cell">18</div><div class="cell hit">27</div>
+          <div class="cell hit">01</div><div class="cell hit">02</div><div class="cell hit">03</div><div class="cell hit">04</div><div class="cell hit">05</div>
+          <div class="cell hit">06</div><div class="cell hit">07</div><div class="cell hit">08</div><div class="cell hit">09</div><div class="cell">10</div>
+          <div class="cell hit">11</div><div class="cell">12</div><div class="cell">13</div><div class="cell hit">14</div><div class="cell hit">15</div>
+          <div class="cell">16</div><div class="cell hit">17</div><div class="cell hit">18</div><div class="cell">19</div><div class="cell hit">20</div>
         </div>
         <div class="sc-acertos">
           <span data-prize="g-rule4">20 acertos = R$ 1.000.000 · 2ª maior quantidade = R$ 60.000</span>
@@ -7667,7 +7715,8 @@
           <span class="set-count">32 bolas</span>
         </div>
         <div class="mini-grid">
-          <div class="dezena draw">02</div><div class="dezena draw">04</div><div class="dezena draw">05</div><div class="dezena draw">06</div><div class="dezena draw">09</div>
+          <div class="dezena draw">01</div><div class="dezena draw">02</div><div class="dezena draw">05</div><div class="dezena draw">08</div><div class="dezena draw">10</div><div class="dezena draw">11</div><div class="dezena draw">14</div><div class="dezena draw">16</div><div class="dezena draw">19</div><div class="dezena draw">20</div>
+        </div><div class="dezena draw">04</div><div class="dezena draw">05</div><div class="dezena draw">06</div><div class="dezena draw">09</div>
           <div class="dezena draw">11</div><div class="dezena draw">12</div><div class="dezena draw">13</div><div class="dezena draw">14</div><div class="dezena draw">16</div>
           <div class="dezena draw">17</div><div class="dezena draw">19</div><div class="dezena draw">20</div><div class="dezena draw">21</div><div class="dezena draw">22</div>
           <div class="dezena draw">23</div><div class="dezena draw">25</div><div class="dezena draw">26</div><div class="dezena draw">28</div><div class="dezena draw">29</div>
@@ -7680,20 +7729,20 @@
           <span class="set-count">10/20</span>
         </div>
         <div class="mini-grid">
-          <div class="cell hit">02</div><div class="cell">07</div><div class="cell hit">12</div><div class="cell">15</div><div class="cell hit">19</div>
-          <div class="cell hit">22</div><div class="cell">24</div><div class="cell hit">28</div><div class="cell hit">30</div><div class="cell">33</div>
-          <div class="cell">37</div><div class="cell hit">41</div><div class="cell">44</div><div class="cell hit">47</div><div class="cell">50</div>
-          <div class="cell hit">52</div><div class="cell">55</div><div class="cell">58</div><div class="cell">03</div><div class="cell hit">17</div>
+          <div class="cell hit">01</div><div class="cell">02</div><div class="cell hit">03</div><div class="cell">04</div><div class="cell hit">05</div>
+          <div class="cell hit">06</div><div class="cell">07</div><div class="cell hit">08</div><div class="cell hit">09</div><div class="cell">10</div>
+          <div class="cell">11</div><div class="cell hit">12</div><div class="cell">13</div><div class="cell hit">14</div><div class="cell">15</div>
+          <div class="cell hit">16</div><div class="cell">17</div><div class="cell">18</div><div class="cell">19</div><div class="cell hit">20</div>
         </div>
         <div class="set-row">
           <span class="set-lbl">Chance 2</span>
           <span class="set-count">9/20</span>
         </div>
         <div class="mini-grid">
-          <div class="cell hit">04</div><div class="cell">08</div><div class="cell hit">11</div><div class="cell hit">14</div><div class="cell hit">16</div>
-          <div class="cell hit">23</div><div class="cell hit">25</div><div class="cell hit">29</div><div class="cell">31</div><div class="cell">35</div>
-          <div class="cell">38</div><div class="cell">40</div><div class="cell hit">45</div><div class="cell">49</div><div class="cell">53</div>
-          <div class="cell">56</div><div class="cell hit">60</div><div class="cell">01</div><div class="cell">18</div><div class="cell">27</div>
+          <div class="cell hit">01</div><div class="cell">02</div><div class="cell hit">03</div><div class="cell hit">04</div><div class="cell hit">05</div>
+          <div class="cell hit">06</div><div class="cell hit">07</div><div class="cell hit">08</div><div class="cell">09</div><div class="cell">10</div>
+          <div class="cell">11</div><div class="cell">12</div><div class="cell hit">13</div><div class="cell">14</div><div class="cell">15</div>
+          <div class="cell">16</div><div class="cell hit">17</div><div class="cell">18</div><div class="cell">19</div><div class="cell">20</div>
         </div>
         <div class="sc-acertos">
           <span>Prêmio só com 19 ou 20 acertos por chance</span>
@@ -7712,7 +7761,8 @@
           <span class="set-count">33 bolas</span>
         </div>
         <div class="mini-grid">
-          <div class="dezena draw">01</div><div class="dezena draw">02</div><div class="dezena draw">03</div><div class="dezena draw">04</div><div class="dezena draw">05</div>
+          <div class="dezena draw">01</div><div class="dezena draw">03</div><div class="dezena draw">05</div><div class="dezena draw">07</div><div class="dezena draw">09</div><div class="dezena draw">11</div><div class="dezena draw">13</div><div class="dezena draw">15</div><div class="dezena draw">17</div><div class="dezena draw">19</div>
+        </div><div class="dezena draw">02</div><div class="dezena draw">03</div><div class="dezena draw">04</div><div class="dezena draw">05</div>
           <div class="dezena draw">06</div><div class="dezena draw">07</div><div class="dezena draw">09</div><div class="dezena draw">12</div><div class="dezena draw">13</div>
           <div class="dezena draw">14</div><div class="dezena draw">18</div><div class="dezena draw">19</div><div class="dezena draw">20</div><div class="dezena draw">21</div>
           <div class="dezena draw">22</div><div class="dezena draw">23</div><div class="dezena draw">25</div><div class="dezena draw">26</div><div class="dezena draw">28</div>
@@ -7725,20 +7775,20 @@
           <span class="set-count">11/20</span>
         </div>
         <div class="mini-grid">
-          <div class="cell hit">02</div><div class="cell hit">07</div><div class="cell hit">12</div><div class="cell">15</div><div class="cell hit">19</div>
-          <div class="cell hit">22</div><div class="cell">24</div><div class="cell hit">28</div><div class="cell hit">30</div><div class="cell">33</div>
-          <div class="cell">37</div><div class="cell hit">41</div><div class="cell">44</div><div class="cell hit">47</div><div class="cell">50</div>
-          <div class="cell hit">52</div><div class="cell">55</div><div class="cell">58</div><div class="cell hit">03</div><div class="cell">17</div>
+          <div class="cell hit">01</div><div class="cell hit">02</div><div class="cell hit">03</div><div class="cell">04</div><div class="cell hit">05</div>
+          <div class="cell hit">06</div><div class="cell">07</div><div class="cell hit">08</div><div class="cell hit">09</div><div class="cell">10</div>
+          <div class="cell">11</div><div class="cell hit">12</div><div class="cell">13</div><div class="cell hit">14</div><div class="cell">15</div>
+          <div class="cell hit">16</div><div class="cell">17</div><div class="cell">18</div><div class="cell hit">19</div><div class="cell">20</div>
         </div>
         <div class="set-row">
           <span class="set-lbl">Chance 2</span>
           <span class="set-count">10/20</span>
         </div>
         <div class="mini-grid">
-          <div class="cell hit">04</div><div class="cell">08</div><div class="cell">11</div><div class="cell hit">14</div><div class="cell">16</div>
-          <div class="cell hit">23</div><div class="cell hit">25</div><div class="cell hit">29</div><div class="cell">31</div><div class="cell hit">35</div>
-          <div class="cell">38</div><div class="cell">40</div><div class="cell">45</div><div class="cell hit">49</div><div class="cell hit">53</div>
-          <div class="cell">56</div><div class="cell">60</div><div class="cell hit">01</div><div class="cell hit">18</div><div class="cell">27</div>
+          <div class="cell hit">01</div><div class="cell">02</div><div class="cell">03</div><div class="cell hit">04</div><div class="cell">05</div>
+          <div class="cell hit">06</div><div class="cell hit">07</div><div class="cell hit">08</div><div class="cell">09</div><div class="cell hit">10</div>
+          <div class="cell">11</div><div class="cell">12</div><div class="cell">13</div><div class="cell hit">14</div><div class="cell hit">15</div>
+          <div class="cell">16</div><div class="cell">17</div><div class="cell hit">18</div><div class="cell hit">19</div><div class="cell">20</div>
         </div>
         <div class="sc-acertos">
           <span>Prêmio só com 19 ou 20 acertos por chance</span>
@@ -7749,15 +7799,16 @@
       <!-- Globo 3: 11/10 hits, não premiada -->
       <div class="sorteio-card">
         <div class="sc-head">
-          <div class="sc-title">3° Sorteio · Globo da Sorte <small>35 dezenas sorteadas</small></div>
+          <div class="sc-title">3° Sorteio · Globo da Sorte <small>10 dezenas sorteadas</small></div>
           <div class="sc-prize"><span class="amount" style="color:var(--muted)" data-prize="g-30k">R$ 30.000</span><small class="trave" style="color:var(--muted-2)">Não premiada</small></div>
         </div>
         <div class="set-row">
           <span class="set-lbl">Dezenas sorteadas</span>
-          <span class="set-count">35 bolas</span>
+          <span class="set-count">10 bolas</span>
         </div>
         <div class="mini-grid">
-          <div class="dezena draw">02</div><div class="dezena draw">05</div><div class="dezena draw">06</div><div class="dezena draw">08</div><div class="dezena draw">09</div>
+          <div class="dezena draw">02</div><div class="dezena draw">04</div><div class="dezena draw">06</div><div class="dezena draw">08</div><div class="dezena draw">10</div><div class="dezena draw">12</div><div class="dezena draw">14</div><div class="dezena draw">16</div><div class="dezena draw">18</div><div class="dezena draw">20</div>
+        </div><div class="dezena draw">05</div><div class="dezena draw">06</div><div class="dezena draw">08</div><div class="dezena draw">09</div>
           <div class="dezena draw">12</div><div class="dezena draw">13</div><div class="dezena draw">14</div><div class="dezena draw">15</div><div class="dezena draw">16</div>
           <div class="dezena draw">19</div><div class="dezena draw">20</div><div class="dezena draw">21</div><div class="dezena draw">22</div><div class="dezena draw">23</div>
           <div class="dezena draw">25</div><div class="dezena draw">26</div><div class="dezena draw">28</div><div class="dezena draw">30</div><div class="dezena draw">31</div>
@@ -7770,20 +7821,20 @@
           <span class="set-count">11/20</span>
         </div>
         <div class="mini-grid">
-          <div class="cell hit">02</div><div class="cell">07</div><div class="cell hit">12</div><div class="cell hit">15</div><div class="cell hit">19</div>
-          <div class="cell hit">22</div><div class="cell">24</div><div class="cell hit">28</div><div class="cell hit">30</div><div class="cell">33</div>
-          <div class="cell hit">37</div><div class="cell hit">41</div><div class="cell">44</div><div class="cell hit">47</div><div class="cell hit">50</div>
-          <div class="cell">52</div><div class="cell">55</div><div class="cell">58</div><div class="cell">03</div><div class="cell">17</div>
+          <div class="cell hit">01</div><div class="cell">02</div><div class="cell hit">03</div><div class="cell hit">04</div><div class="cell hit">05</div>
+          <div class="cell hit">06</div><div class="cell">07</div><div class="cell hit">08</div><div class="cell hit">09</div><div class="cell">10</div>
+          <div class="cell hit">11</div><div class="cell hit">12</div><div class="cell">13</div><div class="cell hit">14</div><div class="cell hit">15</div>
+          <div class="cell">16</div><div class="cell">17</div><div class="cell">18</div><div class="cell">19</div><div class="cell">20</div>
         </div>
         <div class="set-row">
           <span class="set-lbl">Chance 2</span>
           <span class="set-count">10/20</span>
         </div>
         <div class="mini-grid">
-          <div class="cell">04</div><div class="cell hit">08</div><div class="cell">11</div><div class="cell hit">14</div><div class="cell hit">16</div>
-          <div class="cell hit">23</div><div class="cell hit">25</div><div class="cell">29</div><div class="cell hit">31</div><div class="cell">35</div>
-          <div class="cell hit">38</div><div class="cell">40</div><div class="cell">45</div><div class="cell hit">49</div><div class="cell">53</div>
-          <div class="cell hit">56</div><div class="cell hit">60</div><div class="cell">01</div><div class="cell">18</div><div class="cell">27</div>
+          <div class="cell">01</div><div class="cell hit">02</div><div class="cell">03</div><div class="cell hit">04</div><div class="cell hit">05</div>
+          <div class="cell hit">06</div><div class="cell hit">07</div><div class="cell">08</div><div class="cell hit">09</div><div class="cell">10</div>
+          <div class="cell hit">11</div><div class="cell">12</div><div class="cell">13</div><div class="cell hit">14</div><div class="cell">15</div>
+          <div class="cell hit">16</div><div class="cell hit">17</div><div class="cell">18</div><div class="cell">19</div><div class="cell">20</div>
         </div>
         <div class="sc-acertos">
           <span>Prêmio só com 19 ou 20 acertos por chance</span>
@@ -7802,7 +7853,8 @@
           <span class="set-count">34 bolas</span>
         </div>
         <div class="mini-grid">
-          <div class="dezena draw">04</div><div class="dezena draw">05</div><div class="dezena draw">06</div><div class="dezena draw">07</div><div class="dezena draw">09</div>
+          <div class="dezena draw">01</div><div class="dezena draw">04</div><div class="dezena draw">06</div><div class="dezena draw">09</div><div class="dezena draw">11</div><div class="dezena draw">13</div><div class="dezena draw">15</div><div class="dezena draw">16</div><div class="dezena draw">18</div><div class="dezena draw">20</div>
+        </div><div class="dezena draw">05</div><div class="dezena draw">06</div><div class="dezena draw">07</div><div class="dezena draw">09</div>
           <div class="dezena draw">13</div><div class="dezena draw">14</div><div class="dezena draw">19</div><div class="dezena draw">20</div><div class="dezena draw">21</div>
           <div class="dezena draw">23</div><div class="dezena draw">24</div><div class="dezena draw">25</div><div class="dezena draw">26</div><div class="dezena draw">27</div>
           <div class="dezena draw">28</div><div class="dezena draw">29</div><div class="dezena draw">32</div><div class="dezena draw">33</div><div class="dezena draw">36</div>
@@ -7815,20 +7867,20 @@
           <span class="set-count">9/20</span>
         </div>
         <div class="mini-grid">
-          <div class="cell">02</div><div class="cell hit">07</div><div class="cell">12</div><div class="cell">15</div><div class="cell hit">19</div>
-          <div class="cell">22</div><div class="cell hit">24</div><div class="cell hit">28</div><div class="cell">30</div><div class="cell hit">33</div>
-          <div class="cell">37</div><div class="cell hit">41</div><div class="cell">44</div><div class="cell hit">47</div><div class="cell">50</div>
-          <div class="cell hit">52</div><div class="cell hit">55</div><div class="cell">58</div><div class="cell">03</div><div class="cell">17</div>
+          <div class="cell">01</div><div class="cell hit">02</div><div class="cell">03</div><div class="cell">04</div><div class="cell hit">05</div>
+          <div class="cell">06</div><div class="cell hit">07</div><div class="cell hit">08</div><div class="cell">09</div><div class="cell hit">10</div>
+          <div class="cell">11</div><div class="cell hit">12</div><div class="cell">13</div><div class="cell hit">14</div><div class="cell">15</div>
+          <div class="cell hit">16</div><div class="cell hit">17</div><div class="cell">18</div><div class="cell">19</div><div class="cell">20</div>
         </div>
         <div class="set-row">
           <span class="set-lbl">Chance 2</span>
           <span class="set-count">11/20</span>
         </div>
         <div class="mini-grid">
-          <div class="cell hit">04</div><div class="cell">08</div><div class="cell">11</div><div class="cell hit">14</div><div class="cell">16</div>
-          <div class="cell hit">23</div><div class="cell hit">25</div><div class="cell hit">29</div><div class="cell">31</div><div class="cell">35</div>
-          <div class="cell hit">38</div><div class="cell hit">40</div><div class="cell">45</div><div class="cell hit">49</div><div class="cell hit">53</div>
-          <div class="cell">56</div><div class="cell hit">60</div><div class="cell">01</div><div class="cell">18</div><div class="cell hit">27</div>
+          <div class="cell hit">01</div><div class="cell">02</div><div class="cell">03</div><div class="cell hit">04</div><div class="cell">05</div>
+          <div class="cell hit">06</div><div class="cell hit">07</div><div class="cell hit">08</div><div class="cell">09</div><div class="cell">10</div>
+          <div class="cell hit">11</div><div class="cell hit">12</div><div class="cell">13</div><div class="cell hit">14</div><div class="cell hit">15</div>
+          <div class="cell">16</div><div class="cell hit">17</div><div class="cell">18</div><div class="cell">19</div><div class="cell hit">20</div>
         </div>
         <div class="sc-acertos">
           <span data-prize="g-rule4">20 acertos = R$ 1.000.000 · 2ª maior quantidade = R$ 60.000</span>

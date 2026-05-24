@@ -391,15 +391,20 @@
   .catalog-card.locked::before {
     content: 'EM BREVE';
     position: absolute;
-    top: 24px; right: -32px;
-    transform: rotate(28deg);
-    padding: 6px 40px;
+    top: 18px;
+    right: -44px;
+    transform: rotate(38deg);
+    transform-origin: center;
+    padding: 5px 50px;
     background: linear-gradient(135deg, #6b5530, #4a3820);
     color: var(--gold-bright);
     font-family: var(--font-display); font-style: italic; font-weight: 800;
     font-size: 11px;
     letter-spacing: 0.2em;
+    text-align: center;
+    white-space: nowrap;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    z-index: 2;
   }
   .catalog-card-header {
     display: flex;
@@ -416,10 +421,23 @@
     font-size: 24px;
     flex-shrink: 0;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    padding: 8px;
+  }
+  .catalog-card-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
   }
   .catalog-card.hiperxcap .catalog-card-icon {
     background: linear-gradient(135deg, var(--gold-bright), var(--gold-deep));
     color: #0C1628;
+  }
+  /* Logo variant — fundo escuro neutro pra logo colorido brilhar */
+  .catalog-card.hiperxcap .catalog-card-icon--logo {
+    background: linear-gradient(135deg, #ffffff, #f1f5f9);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
   }
   .catalog-card.valecap .catalog-card-icon {
     background: linear-gradient(135deg, var(--skyblue-500, #9ED7EB), #1A2F51);
@@ -455,22 +473,20 @@
     border-radius: 12px;
     text-align: center;
   }
-  /* Variante com banner semanal — sem chrome, banner ocupa todo o slot */
+  /* Variante com banner semanal — banner ocupa todo o slot, sem chrome */
   .catalog-card-prize--banner {
-    padding: 8px;
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.55), rgba(26, 47, 81, 0.25));
-    border: 1px solid rgba(243, 146, 8, 0.3);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    overflow: hidden;
+    border-radius: 12px;
   }
   .catalog-card-banner {
     width: 100%;
     height: auto;
     display: block;
-    border-radius: 8px;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+    border-radius: 12px;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.5);
   }
   .catalog-card-prize-label {
     font-family: var(--font-body);
@@ -2811,7 +2827,7 @@
     .catalog-card-prize-value { font-size: 26px; }
     .catalog-card-prize-sub { font-size: 11px; }
     .catalog-card-desc { font-size: 12px; }
-    .catalog-card.locked::before { font-size: 9px; padding: 4px 30px; top: 18px; right: -32px; }
+    .catalog-card.locked::before { font-size: 9px; padding: 4px 38px; top: 14px; right: -36px; }
 
     /* QUANTITY */
     .product-banner { max-width: 100%; border-radius: 14px; }
@@ -3096,7 +3112,7 @@
               <div class="attract-headlines-track">
                 <span>Até R$ 1 milhão · Sorteio Domingo · 21h30</span>
                 <span>Vale Cap · em breve</span>
-                <span>ApCap da Sorte · em breve</span>
+                <span>APCAP da Sorte · em breve</span>
               </div>
             </div>
           </div>
@@ -3129,7 +3145,9 @@
         <!-- HiperXCap (ativo) -->
         <div class="catalog-card hiperxcap active" onclick="selectProduct('hiperxcap')">
           <div class="catalog-card-header">
-            <div class="catalog-card-icon">H</div>
+            <div class="catalog-card-icon catalog-card-icon--logo">
+              <img src="../logos/hiperxcap.svg" alt="HiperXCAP" />
+            </div>
             <div class="catalog-card-title">
               <div class="catalog-card-name">HiperXCap</div>
               <div class="catalog-card-tag">Sorteio semanal · Domingo</div>
@@ -3138,7 +3156,6 @@
           <!-- Banner semanal da praça — arte oficial do sorteio da semana -->
           <div class="catalog-card-prize catalog-card-prize--banner" data-banner-slot="catalog-hxc-week">
             <img class="catalog-card-banner" src="../banners/Home_22.png" alt="HiperXCAP · Concorra a Um Milhão de Reais" />
-            <span class="catalog-card-prize-sub">+ 4 sorteios e 30 prêmios Hiper Giro</span>
           </div>
           <div class="catalog-card-desc">
             4 Globos da Sorte com 20 dezenas cada e 1 Hiper Giro de 30 números. Disponível em R$ 5 e R$ 10.
@@ -3177,12 +3194,12 @@
           </div>
         </div>
 
-        <!-- ApCap da Sorte (em breve) -->
+        <!-- APCAP da Sorte (em breve) -->
         <div class="catalog-card apcap locked">
           <div class="catalog-card-header">
             <div class="catalog-card-icon">A</div>
             <div class="catalog-card-title">
-              <div class="catalog-card-name">ApCap da Sorte</div>
+              <div class="catalog-card-name">APCAP da Sorte</div>
               <div class="catalog-card-tag">Em breve</div>
             </div>
           </div>

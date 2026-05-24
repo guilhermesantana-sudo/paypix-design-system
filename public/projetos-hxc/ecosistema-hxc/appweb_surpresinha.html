@@ -4734,29 +4734,6 @@
     background: rgba(178, 111, 154, 0.08);
   }
 
-  .login-password-wrap {
-    position: relative;
-  }
-  .login-password-wrap input {
-    padding-right: 48px;
-  }
-  .login-eye {
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: transparent;
-    border: none;
-    color: var(--muted);
-    cursor: pointer;
-    padding: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: color 0.2s;
-  }
-  .login-eye:hover { color: var(--gold-bright); }
-
   .login-error {
     min-height: 18px;
     font-size: 12px;
@@ -5798,6 +5775,17 @@
     margin-bottom: 4px;
   }
 
+  /* ============================================================
+     BANNER REAL — arte oficial entregue pelo time
+     ============================================================ */
+  .banner-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 14px;
+    margin: 0 0 16px;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+  }
 
   /* ============================================================
      ANIMAÇÕES DE ENTRADA — DS HXC
@@ -5877,7 +5865,7 @@
     </div>
 
     <h1 class="login-title" id="loginTitle">Acesso seguro</h1>
-    <p class="login-subtitle">Entre com seu CPF e senha para consultar sua Surpresinha</p>
+    <p class="login-subtitle">Informe seu CPF para consultar sua Surpresinha</p>
 
     <form class="login-form" onsubmit="event.preventDefault(); handleLogin();" autocomplete="off" novalidate>
       <div class="login-field">
@@ -5891,30 +5879,6 @@
           autocomplete="off"
           required
         />
-      </div>
-
-      <div class="login-field">
-        <label for="loginPassword">Senha</label>
-        <div class="login-password-wrap">
-          <input
-            id="loginPassword"
-            type="password"
-            maxlength="32"
-            placeholder="Sua senha"
-            autocomplete="off"
-            required
-          />
-          <button type="button" class="login-eye" onclick="togglePassword(this)" aria-label="Mostrar/ocultar senha">
-            <svg class="eye-show" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-              <circle cx="12" cy="12" r="3"/>
-            </svg>
-            <svg class="eye-hide" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
-              <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/>
-              <line x1="1" y1="1" x2="23" y2="23"/>
-            </svg>
-          </button>
-        </div>
       </div>
 
       <div class="login-error" id="loginError" aria-live="polite"></div>
@@ -6064,17 +6028,9 @@
       <small>HIPERXCAP · FILANTROPIA PREMIÁVEL</small>
     </div>
     <div class="hero-promo">
-      <!-- Banner promocional principal — arte oficial enviada pelo time -->
+      <!-- Banner promocional principal — arte oficial -->
       <div class="promo-banner" aria-hidden="true">
-        <div class="banner-placeholder banner-placeholder--lg hxc-anim-fade-up" data-banner-slot="promo-principal" role="img" aria-label="Espaço reservado para banner promocional principal">
-          <svg class="banner-placeholder__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="3" y="3" width="18" height="18" rx="2"/>
-            <circle cx="8.5" cy="8.5" r="1.5"/>
-            <polyline points="21 15 16 10 5 21"/>
-          </svg>
-          <div class="banner-placeholder__label">Banner promocional</div>
-          <div class="banner-placeholder__hint">Aguardando arte enviada pelo time</div>
-        </div>
+        <img class="banner-img hxc-anim-fade-up" src="../banners/Home_01.png" alt="Concorra a Um Milhão de Reais — HiperXCAP" data-banner-slot="promo-principal" />
       </div>
 
       <!-- Lock on top of the banner (opaque) -->
@@ -6667,16 +6623,8 @@
       </div>
     </div>
 
-    <!-- Banner Hospital de Amor — arte oficial enviada pelo time -->
-    <div class="banner-placeholder banner-placeholder--sm hxc-anim-fade-up" data-banner-slot="hospital-amor" role="img" aria-label="Espaço reservado para banner do Hospital de Amor">
-      <svg class="banner-placeholder__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <rect x="3" y="3" width="18" height="18" rx="2"/>
-        <circle cx="8.5" cy="8.5" r="1.5"/>
-        <polyline points="21 15 16 10 5 21"/>
-      </svg>
-      <div class="banner-placeholder__label">Banner · Hospital de Amor</div>
-      <div class="banner-placeholder__hint">Aguardando arte enviada pelo time</div>
-    </div>
+    <!-- Banner Hospital de Amor — arte oficial -->
+    <img class="banner-img hxc-anim-fade-up" src="../banners/Home_22.png" alt="Concorra a Um Milhão de Reais — Hospital de Amor" data-banner-slot="hospital-amor" />
 
     <div class="info-banners-row">
       <div class="info-banner tv">
@@ -7812,16 +7760,8 @@
     <h1 class="state-title">Não foi <span class="accent">desta vez</span></h1>
     <p class="state-message">Suas dezenas não atingiram 19 ou 20 acertos por chance, e seu Giro da Sorte não foi sorteado nesta semana.</p>
 
-    <!-- Banner Hospital de Amor — arte oficial enviada pelo time -->
-    <div class="banner-placeholder banner-placeholder--sm hxc-anim-fade-up" data-banner-slot="hospital-amor" role="img" aria-label="Espaço reservado para banner do Hospital de Amor">
-      <svg class="banner-placeholder__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <rect x="3" y="3" width="18" height="18" rx="2"/>
-        <circle cx="8.5" cy="8.5" r="1.5"/>
-        <polyline points="21 15 16 10 5 21"/>
-      </svg>
-      <div class="banner-placeholder__label">Banner · Hospital de Amor</div>
-      <div class="banner-placeholder__hint">Aguardando arte enviada pelo time</div>
-    </div>
+    <!-- Banner Hospital de Amor — arte oficial -->
+    <img class="banner-img hxc-anim-fade-up" src="../banners/Home_22.png" alt="Concorra a Um Milhão de Reais — Hospital de Amor" data-banner-slot="hospital-amor" />
 
     <div class="sorteio-banner">
       <div class="icon"><svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="13" rx="2"/><path d="M8 21h8"/><path d="M10 10l4 2.5L10 15z" fill="currentColor"/></svg></div>
@@ -9663,7 +9603,6 @@
     // ====================================================================
     const LOGIN_STORAGE_KEY = 'surpresinha_demo_auth';
     const DEMO_CPF = '11122233344';
-    const DEMO_PASSWORD = '2026';
 
     function isAuthenticated() {
       try {
@@ -9716,29 +9655,12 @@
       }, 400);
     }
 
-    window.togglePassword = function(btn) {
-      const input = document.getElementById('loginPassword');
-      const show = btn.querySelector('.eye-show');
-      const hide = btn.querySelector('.eye-hide');
-      if (input.type === 'password') {
-        input.type = 'text';
-        show.style.display = 'none';
-        hide.style.display = 'inline';
-      } else {
-        input.type = 'password';
-        show.style.display = 'inline';
-        hide.style.display = 'none';
-      }
-    };
-
     window.handleLogin = function() {
       const cpfInput = document.getElementById('loginCpf');
-      const pwInput  = document.getElementById('loginPassword');
       const submitBtn = document.getElementById('loginSubmit');
       const errorEl  = document.getElementById('loginError');
 
       const cpf = (cpfInput.value || '').replace(/\D/g, '');
-      const pw  = pwInput.value || '';
 
       // Validation
       if (cpf.length !== 11) {
@@ -9747,15 +9669,8 @@
         cpfInput.focus();
         return;
       }
-      if (pw.length < 4) {
-        showLoginError('Senha muito curta.');
-        pwInput.classList.add('error');
-        pwInput.focus();
-        return;
-      }
 
       cpfInput.classList.remove('error');
-      pwInput.classList.remove('error');
       errorEl.textContent = '';
 
       // Loading state
@@ -9764,21 +9679,19 @@
 
       // Simulate validation delay
       setTimeout(function() {
-        if (cpf === DEMO_CPF && pw === DEMO_PASSWORD) {
+        if (cpf === DEMO_CPF) {
           // Success
           setAuthenticated();
           hideLoginModal();
           submitBtn.classList.remove('loading');
           submitBtn.disabled = false;
         } else {
-          // Wrong creds
+          // Wrong CPF
           submitBtn.classList.remove('loading');
           submitBtn.disabled = false;
-          showLoginError('CPF ou senha inválidos. Confira e tente novamente.');
+          showLoginError('CPF não encontrado. Confira e tente novamente.');
           cpfInput.classList.add('error');
-          pwInput.classList.add('error');
-          pwInput.value = '';
-          pwInput.focus();
+          cpfInput.focus();
         }
       }, 700);
     };
@@ -9804,14 +9717,6 @@
         showLoginError('');
       });
     }
-    const pwInput = document.getElementById('loginPassword');
-    if (pwInput) {
-      pwInput.addEventListener('focus', function() {
-        pwInput.classList.remove('error');
-        showLoginError('');
-      });
-    }
-
     // Check auth status on load
     if (!isAuthenticated()) {
       showLoginModal();

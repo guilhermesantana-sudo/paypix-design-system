@@ -180,7 +180,23 @@ Visual de bilhete arcade com recortes laterais via mask radial. Variantes `--dar
 - `.loading-dots` (3 bolas pulando, alternando laranja/coral/roxo)
 - `.skeleton` (shimmer linear) — `.skeleton--short` para 60% width
 
-### 2.9 Hub L4 — `.hub-nav` + `.client-card`
+### 2.9 Logo institucional — `.logo-frame`
+
+Padrão obrigatório para exibir logos institucionais (Hospital de Amor, Caixa Capitalização) — sempre em moldura branca arredondada para garantir legibilidade contra o tema dark.
+
+```html
+<span class="logo-frame logo-frame--sm">
+  <img src="/logos/hospital-de-amor.png" alt="Hospital de Amor">
+</span>
+```
+
+Variantes:
+- `.logo-frame--sm` — altura 44px, uso inline (banners curtos, lista de parceiros).
+- `.logo-frame--md` — altura 72px, uso hero/destaque ("Título emitido pela …").
+
+Regra: **nunca** colocar essas logos direto no fundo navy — sempre em `.logo-frame`. O recorte branco vem do componente, não da imagem.
+
+### 2.10 Hub L4 — `.hub-nav` + `.client-card`
 
 Cards do hub principal ([index.html](index.html)). Cada cliente tem `--brand` (RGB triplet) injetada via CSS var local, e o hover pinta border/box-shadow nessa cor.
 

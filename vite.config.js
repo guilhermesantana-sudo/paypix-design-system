@@ -140,8 +140,37 @@ function docsPlugin() {
   }
 }
 
+/* ============================================================
+   publicDirIndexPlugin
+   ------------------------------------------------------------
+   Em dev, o Vite não resolve "/dir/" → "public/dir/index.html"
+   automaticamente — ele aplica SPA fallback pro index.html da
+   raiz, o que faz qualquer subpasta em public/ servir o hub
+   (causando recursão de URL com links relativos).
+   Esse middleware reescreve URLs com barra final pra apontar
+   pro index.html quando ele existir em public/. Em produção
+   o Vercel já faz isso nativamente — esse plugin é dev-only.
+   ============================================================ */
+function publicDirIndexPlugin() {
+  return {
+    name: 'public-dir-index',
+    configureServer(server) {
+      server.middlewares.use((req, res, next) => {
+        if (!req.url) return next()
+        const [pathname, query] = req.url.split('?')
+        if (!pathname.endsWith('/') || pathname === '/') return next()
+        const candidate = resolve(__dirname, 'public' + pathname + 'index.html')
+        if (fs.existsSync(candidate)) {
+          req.url = pathname + 'index.html' + (query ? '?' + query : '')
+        }
+        next()
+      })
+    },
+  }
+}
+
 export default defineConfig({
-  plugins: [gitDatePlugin(), tokensPlugin(), docsPlugin()],
+  plugins: [gitDatePlugin(), tokensPlugin(), docsPlugin(), publicDirIndexPlugin()],
   build: {
     rollupOptions: {
       input: {

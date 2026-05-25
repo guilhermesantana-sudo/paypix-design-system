@@ -598,6 +598,7 @@
     color: var(--muted);
     margin: 0;
     line-height: 1.4;
+    text-align: center;
   }
 
   .qr-stage {
@@ -621,9 +622,9 @@
   .qr-halo.s2 { animation-delay: 0.85s; }
   .qr-halo.s3 { animation-delay: 1.7s; }
   @keyframes halo-pulse {
-    0%   { transform: translateX(-50%) scale(0.85); opacity: 0; }
-    20%  { opacity: 0.6; }
-    100% { transform: translateX(-50%) scale(1.45); opacity: 0; }
+    0%   { transform: translateX(-50%) scale(0.95); opacity: 0; }
+    25%  { opacity: 0.30; }
+    100% { transform: translateX(-50%) scale(1.12); opacity: 0; }
   }
   .qr-wrap {
     width: 200px; height: 200px;
@@ -716,11 +717,12 @@
   .wa-confirmation-text { flex: 1; text-align: left; }
   .wa-confirmation-label {
     font-family: var(--font-body);
-    font-size: 10px;
+    font-size: 9.5px;
     font-weight: 800;
     color: var(--green-300, #B6D37B);
-    letter-spacing: 0.18em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
+    white-space: nowrap;
   }
   .wa-confirmation-phone {
     font-family: var(--font-display); font-style: italic; font-weight: 800;
@@ -870,6 +872,18 @@
   }
   .pix-copy-btn.copied .copy-default { opacity: 0; transform: translateY(-8px); }
   .pix-copy-btn.copied .copy-success { opacity: 1; transform: translateY(0); }
+  /* Estado copiado: glow externo também vira verde pra combinar com o gradient interno */
+  .pix-copy-btn.copied {
+    box-shadow:
+      0 6px 22px rgba(167, 201, 69, 0.55),
+      0 0 36px rgba(167, 201, 69, 0.30),
+      inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  }
+  .pix-copy-btn.copied:hover {
+    box-shadow:
+      0 10px 28px rgba(167, 201, 69, 0.65),
+      0 0 44px rgba(167, 201, 69, 0.40);
+  }
   .pix-copy-hint {
     text-align: center;
     font-family: var(--font-body);
@@ -2011,29 +2025,168 @@
      - 3 benefícios em grid (.benefits-grid > .benefit-card)
      - .logo-frame: caixa branca pra logos institucionais (HA, Caixa)
      ============================================================ */
-  .step-1 {
+  /* Wrappers compartilham largura/posicionamento. Display fica
+     separado pra NÃO quebrar o toggle do body[data-step]:
+     - .step-2 herda 'display: none' da regra original
+     - body[data-step="2"] .step-2 reativa pra display: flex */
+  .step-1,
+  .step-2 {
     width: 100%;
     max-width: var(--app-max-width, 480px);
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 18px;
     position: relative;
     z-index: 2;
   }
+  .step-1 {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+  }
   body[data-step="2"] .step-1 { display: none; }
 
-  /* Lotérico block — sem caixa exterior, segue legível mas mais discreto */
-  .step-1 .loterico-block { padding: 14px 16px; }
-  .step-1 .loterico-name { font-size: 15px; }
-  .step-1 .loterico-code { font-size: 12px; letter-spacing: 0.10em; }
-  .step-1 .loterico-addr { font-size: 13px; line-height: 1.4; }
-  .step-1 .loterico-meta { font-size: 12px; }
+  /* Logo HiperXCAP — header centralizado, composição completa
+     (subtítulo · wordmark · subtítulo) — altura suficiente pra subtítulos serem legíveis */
+  .brand-logo {
+    width: 100%;
+    max-width: var(--app-max-width, 480px);
+    display: flex;
+    justify-content: center;
+    margin: 4px 0 14px;
+    position: relative;
+    z-index: 2;
+  }
+  .brand-logo img {
+    height: 56px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+  }
 
-  /* CTA header — tipografia normalizada */
-  .step-1 .cta-head .eyebrow { font-size: 11px; padding: 6px 14px; letter-spacing: 0.18em; }
-  .step-1 .cta-head h1 { font-size: clamp(24px, 6vw, 28px); line-height: 1.1; }
+  /* Lotérico block — compacto pra caber na primeira dobra do app
+     Mesmo padrão compartilhado entre step-1 e step-2 */
+  .step-1 .loterico-block,
+  .step-2 .loterico-block {
+    padding: 12px 14px;
+    gap: 5px;
+  }
+  /* Nome + PDV na mesma linha (head) */
+  .step-1 .loterico-head,
+  .step-2 .loterico-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .step-1 .loterico-name,
+  .step-2 .loterico-name { font-size: 14px; }
+  .step-1 .loterico-code,
+  .step-2 .loterico-code {
+    font-size: 11.5px;
+    letter-spacing: 0.10em;
+    flex-shrink: 0;
+  }
+  .step-1 .loterico-addr { font-size: 12.5px; line-height: 1.35; }
+  .step-1 .loterico-meta,
+  .step-2 .loterico-meta {
+    font-size: 11.5px;
+    margin-top: 4px;
+    padding-top: 6px;
+  }
+  /* Meta (data + cidade) em branco — antes era gold-bright, ficava destaque demais */
+  .step-1 .loterico-meta span b,
+  .step-2 .loterico-meta span b { color: var(--white); }
+
+  /* Código de autenticação — hash em destaque + label discreta logo abaixo
+     Compartilhado entre step-1 e step-2 */
+  .step-1 .loterico-hash,
+  .step-2 .loterico-hash {
+    margin-top: 8px;
+    background: rgba(0, 0, 0, 0.45);
+    border: 1px dashed rgba(255, 255, 255, 0.18);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-family: var(--font-body);
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--white);
+    letter-spacing: 0.06em;
+    text-align: center;
+  }
+  .step-1 .loterico-hash-label,
+  .step-2 .loterico-hash-label {
+    display: block;
+    margin: 3px 0 0;
+    text-align: center;
+    font-family: var(--font-body);
+    font-size: 9px;
+    font-weight: 600;
+    color: var(--muted-2);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  /* CTA header — tipografia normalizada
+     h1 reduzido pra caber em 1 linha dentro de 480px (RECEBA SUAS DEZENAS NO WHATSAPP) */
+  .step-1 .cta-head .eyebrow {
+    font-size: 9.5px;
+    padding: 5px 12px;
+    letter-spacing: 0.16em;
+    margin-bottom: 18px;
+    animation: eyebrow-pulse 2.2s ease-in-out infinite;
+    will-change: transform, box-shadow;
+  }
+  @keyframes eyebrow-pulse {
+    0%, 100% {
+      transform: scale(1);
+      box-shadow: 0 4px 12px rgba(243, 146, 8, 0.35);
+    }
+    50% {
+      transform: scale(1.05);
+      box-shadow: 0 6px 18px rgba(243, 146, 8, 0.55);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .step-1 .cta-head .eyebrow { animation: none; }
+  }
+  .step-1 .cta-head h1 { font-size: clamp(18px, 4.6vw, 22px); line-height: 1.15; letter-spacing: 0.005em; }
   .step-1 .cta-head p { font-size: 14px; line-height: 1.5; color: var(--muted); }
+
+  /* Glow do CTA primário reduzido — antes estava muito forte (0.55 + inset 0.7) */
+  .step-1 .submit-btn {
+    box-shadow:
+      0 6px 18px rgba(243, 146, 8, 0.28),
+      inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  }
+  .step-1 .submit-btn:hover {
+    box-shadow: 0 10px 24px rgba(243, 146, 8, 0.38);
+  }
+
+  /* Botão CTA: alinhar ícone + texto centrados no eixo vertical
+     (.btn-default era inline default, SVG e texto caíam em baseline) */
+  .submit-btn .btn-default {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    line-height: 1;
+  }
+  .submit-btn .btn-default svg { display: block; flex-shrink: 0; }
+
+  /* Separador sutil entre o CTA primário e o bloco de conversão */
+  .cta-sep {
+    width: 100%;
+    height: 1px;
+    border: 0;
+    margin: 6px 0 2px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.18) 25%,
+      rgba(243, 146, 8, 0.45) 50%,
+      rgba(255, 255, 255, 0.18) 75%,
+      transparent 100%
+    );
+  }
 
   /* Banner promocional dentro do step-1 sem card pai */
   .step-1 .banner-img { width: 100%; border-radius: 14px; }
@@ -2121,14 +2274,100 @@
   }
   .logo-frame--md img { height: 50px; max-width: 100%; }
 
-  /* Hospital banner — agora com logo institucional no lugar do coração */
-  .step-1 .hospital-banner {
+  /* Hospital banner — agora com logo institucional no lugar do coração
+     Compartilhado entre step-1 e step-2 */
+  .step-1 .hospital-banner,
+  .step-2 .hospital-banner {
     padding: 12px 14px;
     gap: 12px;
     align-items: center;
   }
-  .step-1 .hospital-banner .text { font-size: 13px; line-height: 1.45; color: var(--white); opacity: 0.85; }
-  .step-1 .hospital-banner .text b { font-weight: 700; opacity: 1; }
+  .step-1 .hospital-banner .text,
+  .step-2 .hospital-banner .text { font-size: 13px; line-height: 1.45; color: var(--white); opacity: 0.85; }
+  .step-1 .hospital-banner .text b,
+  .step-2 .hospital-banner .text b { font-weight: 700; opacity: 1; }
+
+  /* Card "Ver meus títulos" — ação secundária, preenchido no azul brand
+     com mesma animação de shimmer do CTA primário (giro-shimmer) */
+  .meus-titulos-card {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    background: linear-gradient(135deg, var(--blue-500, #0166B3) 0%, #034e8c 100%);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    color: var(--white);
+    cursor: pointer;
+    font-family: inherit;
+    text-align: left;
+    transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease;
+    box-shadow:
+      0 4px 14px rgba(1, 102, 179, 0.30),
+      inset 0 1px 0 rgba(255, 255, 255, 0.14);
+    position: relative;
+    overflow: hidden;
+  }
+  /* Shimmer contínuo — mesma animação giro-shimmer do submit-btn */
+  .meus-titulos-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.28) 50%, transparent 70%);
+    background-size: 200% 100%;
+    animation: giro-shimmer 2.4s linear infinite;
+    pointer-events: none;
+    border-radius: inherit;
+    z-index: 1;
+  }
+  .meus-titulos-card > * { position: relative; z-index: 2; }
+  .meus-titulos-card:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.08);
+    box-shadow:
+      0 8px 22px rgba(1, 102, 179, 0.45),
+      inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  }
+  .meus-titulos-card__icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.16);
+    color: var(--white);
+    flex-shrink: 0;
+  }
+  .meus-titulos-card__icon svg { width: 22px; height: 22px; }
+  .meus-titulos-card__text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+  .meus-titulos-card__title {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.2;
+  }
+  .meus-titulos-card__sub {
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.78);
+    line-height: 1.3;
+  }
+  .meus-titulos-card__chevron {
+    width: 18px;
+    height: 18px;
+    color: rgba(255, 255, 255, 0.85);
+    flex-shrink: 0;
+  }
 
   @media (max-width: 380px) {
     .benefits-grid { gap: 8px; }
@@ -2139,39 +2378,349 @@
     .benefit-sub { font-size: 11px; }
   }
 
+  /* Credit footer — "uma solução PayPix" no fim da landing */
+  .paypix-credit {
+    width: 100%;
+    max-width: var(--app-max-width, 480px);
+    margin: 24px 0 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.55);
+    letter-spacing: 0.04em;
+    position: relative;
+    z-index: 2;
+  }
+  .paypix-credit img {
+    height: 16px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+    opacity: 0.85;
+  }
+
+  /* ============================================================
+     REDESIGN 2026 · MODAL WHATSAPP
+     ------------------------------------------------------------
+     - Fundo navy (igual step-1) + accent verde neon do WhatsApp
+     - Tipografia padronizada (escala do step-1)
+     - Botão herda gloss reduzido do step-1
+     - Compacto pra caber sem rolagem
+     ============================================================ */
+  .phone-modal {
+    background:
+      radial-gradient(ellipse at 50% 18%, rgba(167, 201, 69, 0.16), transparent 55%),
+      radial-gradient(ellipse at 50% 90%, rgba(1, 102, 179, 0.20), transparent 55%),
+      rgba(12, 22, 40, 0.94);
+    padding: 12px;
+  }
+  .phone-modal-card {
+    background:
+      linear-gradient(180deg, rgba(26, 47, 81, 0.96) 0%, rgba(12, 22, 40, 0.99) 100%);
+    border: 1px solid rgba(167, 201, 69, 0.35);
+    padding: 22px 18px 18px;
+    gap: 12px;
+    box-shadow:
+      0 24px 60px rgba(0, 0, 0, 0.6),
+      0 0 44px rgba(167, 201, 69, 0.10),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    max-height: 95vh;
+  }
+  .phone-modal-card::before {
+    background: radial-gradient(ellipse, rgba(167, 201, 69, 0.18), transparent 70%);
+  }
+  .phone-modal-close {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.18);
+    color: rgba(255, 255, 255, 0.85);
+  }
+  .phone-modal-close:hover {
+    background: rgba(167, 201, 69, 0.18);
+    border-color: var(--green-300, #B6D37B);
+    color: var(--green-300, #B6D37B);
+  }
+  .phone-modal-head { margin-bottom: 2px; }
+  /* Topo do head: ícone + título lado a lado, título em 2 linhas */
+  .phone-modal-head-top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+  .phone-modal-card .phone-modal-icon {
+    width: 56px; height: 56px;
+    margin: 0;
+    flex-shrink: 0;
+    box-shadow: 0 6px 18px rgba(167, 201, 69, 0.40);
+  }
+  .phone-modal-card .phone-modal-icon svg { width: 30px; height: 30px; }
+  .phone-modal-card .phone-modal-title {
+    font-size: clamp(22px, 5.4vw, 26px);
+    line-height: 1.08;
+    margin: 0;
+    text-align: left;
+  }
+
+  /* Override autofill do browser — sem o reset, Chrome/Safari pintam o input
+     branco com texto preto quando 'autocomplete=tel' aciona a sugestão. */
+  .phone-modal-card .wa-input:-webkit-autofill,
+  .phone-modal-card .wa-input:-webkit-autofill:hover,
+  .phone-modal-card .wa-input:-webkit-autofill:focus,
+  .phone-modal-card .wa-input:-webkit-autofill:active {
+    -webkit-text-fill-color: var(--white) !important;
+    -webkit-box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.55) inset !important;
+    caret-color: var(--white);
+    transition: background-color 9999s ease-in-out 0s, color 9999s ease-in-out 0s;
+    font-family: var(--font-body) !important;
+  }
+
+  /* ============================================================
+     REDESIGN 2026 · MODAL CONSULTA (Ver meus títulos)
+     ------------------------------------------------------------
+     Mesmo padrão do step-1 e do modal WhatsApp:
+     - Fundo navy (não roxo/marrom)
+     - Tipografia consistente
+     - Botão com gloss reduzido
+     - Padding compacto
+     ============================================================ */
+  .ct-modal {
+    background:
+      radial-gradient(ellipse at 50% 18%, rgba(243, 146, 8, 0.14), transparent 55%),
+      radial-gradient(ellipse at 50% 90%, rgba(1, 102, 179, 0.20), transparent 55%),
+      rgba(12, 22, 40, 0.94);
+    padding: 12px;
+  }
+  .ct-card {
+    background:
+      linear-gradient(180deg, rgba(26, 47, 81, 0.96) 0%, rgba(12, 22, 40, 0.99) 100%);
+    border: 1px solid rgba(243, 146, 8, 0.30);
+    padding: 22px 18px 18px;
+    gap: 12px;
+    box-shadow:
+      0 24px 60px rgba(0, 0, 0, 0.6),
+      0 0 44px rgba(243, 146, 8, 0.10),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    max-height: 95vh;
+  }
+  .ct-close {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.18);
+    color: rgba(255, 255, 255, 0.85);
+  }
+  .ct-close:hover {
+    background: rgba(243, 146, 8, 0.18);
+    border-color: var(--gold-bright);
+    color: var(--gold-bright);
+  }
+  .ct-head { padding-top: 2px; }
+  .ct-head-icon {
+    width: 52px; height: 52px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    box-shadow: 0 6px 18px rgba(243, 146, 8, 0.40);
+  }
+  .ct-head-icon svg { width: 26px; height: 26px; }
+  .ct-head-title {
+    font-size: clamp(20px, 5.2vw, 24px);
+    line-height: 1.1;
+    margin: 0 0 6px;
+  }
+  .ct-head-sub {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.45;
+  }
+
+  /* Campo CPF — fonte body (legível), tamanho do step-1 */
+  .ct-card .ct-form-field { gap: 5px; }
+  .ct-card .ct-form-label {
+    font-size: 9.5px;
+    letter-spacing: 0.20em;
+    color: var(--gold-bright);
+  }
+  .ct-card .ct-form-input {
+    background: rgba(0, 0, 0, 0.45);
+    border: 1.5px solid rgba(243, 146, 8, 0.30);
+    color: var(--white);
+    font-family: var(--font-body);
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    padding: 13px 14px;
+    letter-spacing: 0.06em;
+    border-radius: 12px;
+  }
+  .ct-card .ct-form-input:focus {
+    border-color: var(--gold-bright);
+    background: rgba(0, 0, 0, 0.55);
+    box-shadow: 0 0 0 3px rgba(243, 146, 8, 0.15);
+  }
+  .ct-card .ct-form-error { font-size: 11px; }
+
+  /* Captcha — borda contínua sutil, não tracejada */
+  .ct-card .ct-captcha {
+    background: rgba(0, 0, 0, 0.30);
+    border: 1px solid rgba(243, 146, 8, 0.20);
+    border-style: solid;
+    padding: 10px 12px;
+    gap: 10px;
+  }
+  .ct-card .ct-captcha-label {
+    font-size: 9.5px;
+    letter-spacing: 0.18em;
+    color: var(--muted-2);
+  }
+  .ct-card .ct-captcha-expr {
+    font-size: 16px;
+    color: var(--white);
+  }
+  .ct-card .ct-captcha-input-wrap { width: 76px; }
+  .ct-card .ct-captcha-input {
+    background: rgba(0, 0, 0, 0.50);
+    border: 1.5px solid rgba(243, 146, 8, 0.30);
+    border-style: solid;
+    color: var(--white);
+    font-family: var(--font-body);
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+  }
+
+  /* Botão "Buscar meus títulos" — gloss reduzido pra alinhar com step-1 */
+  .ct-card .ct-submit {
+    padding: 16px 18px;
+    font-size: 14px;
+    letter-spacing: 0.10em;
+    border-radius: 14px;
+    box-shadow:
+      0 6px 18px rgba(243, 146, 8, 0.28),
+      inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  }
+  .ct-card .ct-submit:hover {
+    box-shadow: 0 10px 24px rgba(243, 146, 8, 0.38);
+  }
+
+  /* Foot LGPD compacto */
+  .ct-card .ct-form-foot {
+    font-size: 10.5px;
+    line-height: 1.45;
+  }
+
+  /* Override autofill do CPF (mesmo problema do phone) */
+  .ct-card .ct-form-input:-webkit-autofill,
+  .ct-card .ct-form-input:-webkit-autofill:hover,
+  .ct-card .ct-form-input:-webkit-autofill:focus,
+  .ct-card .ct-form-input:-webkit-autofill:active {
+    -webkit-text-fill-color: var(--white) !important;
+    -webkit-box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.55) inset !important;
+    caret-color: var(--white);
+    transition: background-color 9999s ease-in-out 0s, color 9999s ease-in-out 0s;
+    font-family: var(--font-body) !important;
+  }
+  .phone-modal-sub {
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  /* Campo WhatsApp — labels + input no padrão do step-1 */
+  .phone-modal-card .wa-field { gap: 5px; }
+  .phone-modal-card .wa-field label {
+    font-size: 9.5px;
+    letter-spacing: 0.20em;
+    color: var(--green-300, #B6D37B);
+    justify-content: center;
+  }
+  .phone-modal-card .wa-input {
+    padding: 13px 14px 13px 72px;
+    font-size: 15px;
+    border-color: rgba(167, 201, 69, 0.30);
+  }
+  .phone-modal-card .wa-input:focus {
+    border-color: var(--green-300, #B6D37B);
+    box-shadow: 0 0 0 3px rgba(167, 201, 69, 0.18);
+  }
+  .phone-modal-card .wa-flag { font-size: 13px; left: 12px; gap: 5px; }
+  .phone-modal-card .wa-flag .flag-emoji { font-size: 17px; }
+  .phone-modal-card .wa-error { font-size: 11px; min-height: 14px; }
+
+  /* Consent box — mais compacto, verde no checkbox */
+  .phone-modal-card .consent {
+    padding: 9px 11px;
+    background: rgba(0, 0, 0, 0.30);
+    border-color: rgba(167, 201, 69, 0.18);
+  }
+  .phone-modal-card .consent:hover { border-color: rgba(167, 201, 69, 0.35); }
+  .phone-modal-card .consent input { border-color: rgba(167, 201, 69, 0.45); }
+  .phone-modal-card .consent input:checked {
+    background: var(--green-500, #A7C945);
+    border-color: var(--green-500, #A7C945);
+  }
+  /* O HTML é <label class="consent">, então o texto fica dentro de <span>.
+     Targeto o span (e o próprio .consent como fallback) — antes a regra
+     selecionava .consent label (não-existente) e o texto herdava 16px do body. */
+  .phone-modal-card .consent,
+  .phone-modal-card .consent span { font-size: 11px; line-height: 1.4; }
+
+  /* Botão "Receber PDF" — mesma altura/escala do CTA do step-1 */
+  .phone-modal-card .submit-btn {
+    padding: 16px 18px;
+    font-size: 15px;
+    border-radius: 14px;
+    box-shadow:
+      0 6px 18px rgba(243, 146, 8, 0.28),
+      inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  }
+  .phone-modal-card .submit-btn:hover {
+    box-shadow: 0 10px 24px rgba(243, 146, 8, 0.38);
+  }
+
+  /* Separador "OU" + skip button compactados */
+  .phone-modal-divider { margin: 2px 0; }
+  .phone-modal-divider span { font-size: 9.5px; letter-spacing: 0.24em; }
+  .phone-modal-card .skip-btn { padding: 11px 14px; }
+  .phone-modal-card .skip-btn-title { font-size: 13px; }
+  .phone-modal-card .skip-btn-sub { font-size: 11px; white-space: nowrap; }
+
+  .phone-modal-foot {
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    margin-top: 2px;
+  }
+  .phone-modal-foot svg { color: var(--green-300, #B6D37B); }
+
 </style>
 </head>
 <body data-step="1">
-<div class="ct-btn-floating" style="position:fixed;top:16px;right:16px;z-index:500">
-  <button type="button" class="ct-btn" onclick="ctOpen()" aria-label="Consultar meus títulos">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <rect x="3" y="4" width="18" height="16" rx="2"/>
-      <circle cx="12" cy="10" r="2.5"/>
-      <path d="M7 17c.8-2.5 3-3.5 5-3.5s4.2 1 5 3.5"/>
-    </svg>
-    <span class="ct-btn-label-full">Consultar meus títulos</span>
-    <span class="ct-btn-label-short">Meus títulos</span>
-  </button>
-</div>
-
 <div class="stars"></div>
 <div class="beam"></div>
 <main>
 
+  <!-- Logo HiperXCAP — header da landing (SVG recolorido p/ tema dark) -->
+  <div class="brand-logo">
+    <img src="/logos/hiperxcap.svg" alt="HiperXCAP" />
+  </div>
+
   <!-- ====================== STEP 1: CAPTURE ====================== -->
   <div class="step-1">
 
-    <!-- Lotérico ID block -->
+    <!-- Lotérico ID block (compacto p/ caber na primeira dobra) -->
     <div class="loterico-block">
-      <div class="loterico-name" id="locName">Banca Lopes · Lotérica</div>
-      <div class="loterico-code" id="locCode">PDV 0237 · LO-0237</div>
+      <div class="loterico-head">
+        <div class="loterico-name" id="locName">Banca Lopes · Lotérica</div>
+        <div class="loterico-code" id="locCode">PDV 0237</div>
+      </div>
       <div class="loterico-addr" id="locAddr">Av. das Lojas, 100 · Vila Mariana · São Paulo / SP</div>
       <div class="loterico-meta">
         <span>📅 <b id="locDate">14/05/2026 · 15:42</b></span>
         <span>📍 <b id="locCity">São Paulo / SP</b></span>
       </div>
-      <span class="loterico-hash-label">Código de autenticação</span>
       <div class="loterico-hash" id="locHash">SURP-LOT237-20260514-XK2P9</div>
+      <span class="loterico-hash-label">Código de autenticação</span>
     </div>
 
     <!-- Banner promocional principal — arte oficial -->
@@ -2186,6 +2735,9 @@
         Quero comprar e concorrer
       </span>
     </button>
+
+    <!-- Separador: respiro entre CTA primário e bloco de conversão -->
+    <hr class="cta-sep" aria-hidden="true">
 
     <!-- CTA head (movido pra baixo do botão) -->
     <div class="cta-head">
@@ -2235,10 +2787,31 @@
       </span>
       <span class="text">Cada Surpresinha ajuda o <b>Hospital de Amor</b> a oferecer tratamento gratuito contra o câncer.</span>
     </div>
+
+    <!-- Separador antes do CTA secundário (mesma linha do CTA primário) -->
+    <hr class="cta-sep" aria-hidden="true">
+
+    <!-- Consultar meus títulos — ação secundária no rodapé do step-1 -->
+    <button type="button" class="meus-titulos-card" onclick="ctOpen()" aria-label="Consultar meus títulos">
+      <span class="meus-titulos-card__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="16" rx="2"/>
+          <circle cx="12" cy="10" r="2.5"/>
+          <path d="M7 17c.8-2.5 3-3.5 5-3.5s4.2 1 5 3.5"/>
+        </svg>
+      </span>
+      <span class="meus-titulos-card__text">
+        <span class="meus-titulos-card__title">Ver meus títulos</span>
+        <span class="meus-titulos-card__sub">Já comprei e quero acompanhar</span>
+      </span>
+      <svg class="meus-titulos-card__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M9 6l6 6-6 6"/>
+      </svg>
+    </button>
   </div>
 
   <!-- ====================== STEP 2: CONFIRMATION + QR ====================== -->
-  <div class="card step-2 anim-rise">
+  <div class="step-2 anim-rise">
 
     <div class="success-chip"><span class="check">✓</span><span>Tudo pronto</span></div>
 
@@ -2348,6 +2921,115 @@
             <rect x="30" y="90" width="3" height="3"/><rect x="45" y="90" width="3" height="3"/>
             <rect x="60" y="90" width="3" height="3"/><rect x="75" y="90" width="3" height="3"/>
             <rect x="90" y="90" width="3" height="3"/>
+
+            <!-- Densificação extra — pra parecer um QR real (mais ruído visual) -->
+            <rect x="69" y="6" width="3" height="3"/>
+            <rect x="30" y="9" width="3" height="3"/><rect x="36" y="9" width="3" height="3"/>
+            <rect x="48" y="9" width="3" height="3"/><rect x="54" y="9" width="3" height="3"/>
+            <rect x="60" y="9" width="3" height="3"/><rect x="66" y="9" width="3" height="3"/>
+            <rect x="69" y="12" width="3" height="3"/>
+            <rect x="33" y="15" width="3" height="3"/><rect x="39" y="15" width="3" height="3"/>
+            <rect x="42" y="15" width="3" height="3"/><rect x="51" y="15" width="3" height="3"/>
+            <rect x="57" y="15" width="3" height="3"/><rect x="63" y="15" width="3" height="3"/>
+            <rect x="33" y="18" width="3" height="3"/><rect x="36" y="18" width="3" height="3"/>
+            <rect x="42" y="18" width="3" height="3"/><rect x="60" y="18" width="3" height="3"/>
+            <rect x="69" y="18" width="3" height="3"/>
+            <rect x="30" y="21" width="3" height="3"/><rect x="39" y="21" width="3" height="3"/>
+            <rect x="45" y="21" width="3" height="3"/><rect x="51" y="21" width="3" height="3"/>
+            <rect x="63" y="21" width="3" height="3"/><rect x="66" y="21" width="3" height="3"/>
+            <rect x="36" y="24" width="3" height="3"/><rect x="42" y="24" width="3" height="3"/>
+            <rect x="54" y="24" width="3" height="3"/><rect x="60" y="24" width="3" height="3"/>
+
+            <rect x="15" y="30" width="3" height="3"/><rect x="24" y="30" width="3" height="3"/>
+            <rect x="30" y="30" width="3" height="3"/><rect x="36" y="30" width="3" height="3"/>
+            <rect x="48" y="30" width="3" height="3"/><rect x="51" y="30" width="3" height="3"/>
+            <rect x="54" y="30" width="3" height="3"/><rect x="66" y="30" width="3" height="3"/>
+            <rect x="78" y="30" width="3" height="3"/><rect x="90" y="30" width="3" height="3"/>
+
+            <rect x="3" y="33" width="3" height="3"/><rect x="12" y="33" width="3" height="3"/>
+            <rect x="21" y="33" width="3" height="3"/><rect x="30" y="33" width="3" height="3"/>
+            <rect x="39" y="33" width="3" height="3"/><rect x="48" y="33" width="3" height="3"/>
+            <rect x="63" y="33" width="3" height="3"/><rect x="69" y="33" width="3" height="3"/>
+            <rect x="78" y="33" width="3" height="3"/><rect x="81" y="33" width="3" height="3"/>
+            <rect x="90" y="33" width="3" height="3"/>
+
+            <rect x="15" y="36" width="3" height="3"/><rect x="21" y="36" width="3" height="3"/>
+            <rect x="27" y="36" width="3" height="3"/><rect x="33" y="36" width="3" height="3"/>
+            <rect x="39" y="36" width="3" height="3"/><rect x="45" y="36" width="3" height="3"/>
+            <rect x="57" y="36" width="3" height="3"/><rect x="69" y="36" width="3" height="3"/>
+            <rect x="81" y="36" width="3" height="3"/>
+
+            <rect x="3" y="39" width="3" height="3"/><rect x="9" y="39" width="3" height="3"/>
+            <rect x="21" y="39" width="3" height="3"/><rect x="30" y="39" width="3" height="3"/>
+            <rect x="33" y="39" width="3" height="3"/><rect x="63" y="39" width="3" height="3"/>
+            <rect x="72" y="39" width="3" height="3"/><rect x="84" y="39" width="3" height="3"/>
+            <rect x="90" y="39" width="3" height="3"/>
+
+            <rect x="12" y="42" width="3" height="3"/><rect x="15" y="42" width="3" height="3"/>
+            <rect x="27" y="42" width="3" height="3"/><rect x="33" y="42" width="3" height="3"/>
+            <rect x="36" y="42" width="3" height="3"/><rect x="63" y="42" width="3" height="3"/>
+            <rect x="66" y="42" width="3" height="3"/><rect x="69" y="42" width="3" height="3"/>
+            <rect x="78" y="42" width="3" height="3"/><rect x="87" y="42" width="3" height="3"/>
+
+            <rect x="3" y="48" width="3" height="3"/><rect x="6" y="48" width="3" height="3"/>
+            <rect x="18" y="48" width="3" height="3"/><rect x="33" y="48" width="3" height="3"/>
+            <rect x="36" y="48" width="3" height="3"/><rect x="66" y="48" width="3" height="3"/>
+            <rect x="72" y="48" width="3" height="3"/><rect x="81" y="48" width="3" height="3"/>
+            <rect x="84" y="48" width="3" height="3"/><rect x="93" y="48" width="3" height="3"/>
+
+            <rect x="3" y="54" width="3" height="3"/><rect x="15" y="54" width="3" height="3"/>
+            <rect x="21" y="54" width="3" height="3"/><rect x="24" y="54" width="3" height="3"/>
+            <rect x="36" y="54" width="3" height="3"/><rect x="63" y="54" width="3" height="3"/>
+            <rect x="66" y="54" width="3" height="3"/><rect x="69" y="54" width="3" height="3"/>
+            <rect x="84" y="54" width="3" height="3"/><rect x="87" y="54" width="3" height="3"/>
+
+            <rect x="9" y="60" width="3" height="3"/><rect x="15" y="60" width="3" height="3"/>
+            <rect x="33" y="60" width="3" height="3"/><rect x="36" y="60" width="3" height="3"/>
+            <rect x="48" y="60" width="3" height="3"/><rect x="54" y="60" width="3" height="3"/>
+            <rect x="57" y="60" width="3" height="3"/><rect x="72" y="60" width="3" height="3"/>
+            <rect x="78" y="60" width="3" height="3"/><rect x="87" y="60" width="3" height="3"/>
+            <rect x="93" y="60" width="3" height="3"/>
+
+            <rect x="3" y="66" width="3" height="3"/><rect x="15" y="66" width="3" height="3"/>
+            <rect x="21" y="66" width="3" height="3"/><rect x="36" y="66" width="3" height="3"/>
+            <rect x="42" y="66" width="3" height="3"/><rect x="45" y="66" width="3" height="3"/>
+            <rect x="48" y="66" width="3" height="3"/><rect x="60" y="66" width="3" height="3"/>
+            <rect x="66" y="66" width="3" height="3"/><rect x="69" y="66" width="3" height="3"/>
+            <rect x="84" y="66" width="3" height="3"/><rect x="90" y="66" width="3" height="3"/>
+
+            <rect x="33" y="72" width="3" height="3"/><rect x="42" y="72" width="3" height="3"/>
+            <rect x="51" y="72" width="3" height="3"/><rect x="54" y="72" width="3" height="3"/>
+            <rect x="60" y="72" width="3" height="3"/><rect x="66" y="72" width="3" height="3"/>
+            <rect x="72" y="72" width="3" height="3"/><rect x="78" y="72" width="3" height="3"/>
+            <rect x="84" y="72" width="3" height="3"/><rect x="93" y="72" width="3" height="3"/>
+
+            <rect x="33" y="75" width="3" height="3"/><rect x="42" y="75" width="3" height="3"/>
+            <rect x="51" y="75" width="3" height="3"/><rect x="57" y="75" width="3" height="3"/>
+            <rect x="69" y="75" width="3" height="3"/><rect x="75" y="75" width="3" height="3"/>
+            <rect x="84" y="75" width="3" height="3"/><rect x="90" y="75" width="3" height="3"/>
+
+            <rect x="36" y="78" width="3" height="3"/><rect x="42" y="78" width="3" height="3"/>
+            <rect x="54" y="78" width="3" height="3"/><rect x="60" y="78" width="3" height="3"/>
+            <rect x="72" y="78" width="3" height="3"/><rect x="84" y="78" width="3" height="3"/>
+            <rect x="87" y="78" width="3" height="3"/><rect x="93" y="78" width="3" height="3"/>
+
+            <rect x="36" y="84" width="3" height="3"/><rect x="42" y="84" width="3" height="3"/>
+            <rect x="54" y="84" width="3" height="3"/><rect x="57" y="84" width="3" height="3"/>
+            <rect x="69" y="84" width="3" height="3"/><rect x="75" y="84" width="3" height="3"/>
+            <rect x="87" y="84" width="3" height="3"/><rect x="93" y="84" width="3" height="3"/>
+
+            <rect x="33" y="87" width="3" height="3"/><rect x="39" y="87" width="3" height="3"/>
+            <rect x="48" y="87" width="3" height="3"/><rect x="51" y="87" width="3" height="3"/>
+            <rect x="63" y="87" width="3" height="3"/><rect x="69" y="87" width="3" height="3"/>
+            <rect x="72" y="87" width="3" height="3"/><rect x="84" y="87" width="3" height="3"/>
+            <rect x="87" y="87" width="3" height="3"/><rect x="93" y="87" width="3" height="3"/>
+
+            <rect x="33" y="93" width="3" height="3"/><rect x="36" y="93" width="3" height="3"/>
+            <rect x="42" y="93" width="3" height="3"/><rect x="48" y="93" width="3" height="3"/>
+            <rect x="54" y="93" width="3" height="3"/><rect x="63" y="93" width="3" height="3"/>
+            <rect x="66" y="93" width="3" height="3"/><rect x="69" y="93" width="3" height="3"/>
+            <rect x="78" y="93" width="3" height="3"/><rect x="84" y="93" width="3" height="3"/>
+            <rect x="87" y="93" width="3" height="3"/>
           </g>
           <!-- Pix logo center -->
           <rect x="42" y="42" width="16" height="16" fill="#fff" stroke="#F39208" stroke-width="0.6"/>
@@ -2406,22 +3088,33 @@
       </div>
     </div>
 
-    <!-- Lotérico mini block -->
+    <!-- Lotérico mini block — mesmo padrão compacto do step-1 -->
     <div class="loterico-block">
-      <div class="loterico-name" id="locNameS2">Banca Lopes · Lotérica</div>
+      <div class="loterico-head">
+        <div class="loterico-name" id="locNameS2">Banca Lopes · Lotérica</div>
+        <div class="loterico-code" id="locCodeS2">PDV 0237</div>
+      </div>
       <div class="loterico-meta">
         <span>📅 <b id="locDateS2">14/05/2026 · 15:42</b></span>
       </div>
-      <span class="loterico-hash-label">Código de autenticação</span>
       <div class="loterico-hash" id="locHashS2">SURP-LOT237-20260514-XK2P9</div>
+      <span class="loterico-hash-label">Código de autenticação</span>
     </div>
 
     <!-- Hospital -->
     <div class="hospital-banner">
-      <span class="heart">❤️</span>
+      <span class="logo-frame logo-frame--sm" aria-hidden="true">
+        <img src="/logos/hospital-de-amor.png" alt="" />
+      </span>
       <span class="text">Sua Surpresinha ajuda o <b>Hospital de Amor</b> · Fundação Pio XII.</span>
     </div>
   </div>
+
+  <!-- Credit footer — assinatura discreta da PayPix -->
+  <footer class="paypix-credit">
+    <span>uma solução</span>
+    <img src="/logos/paypix.svg" alt="PayPix" />
+  </footer>
 </main>
 
 <!-- ====================== PHONE CAPTURE MODAL ====================== -->
@@ -2434,14 +3127,15 @@
     </button>
 
     <div class="phone-modal-head">
-      <div class="phone-modal-icon">
-        <svg viewBox="0 0 24 24" fill="white" aria-hidden="true">
-          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-        </svg>
+      <div class="phone-modal-head-top">
+        <div class="phone-modal-icon">
+          <svg viewBox="0 0 24 24" fill="white" aria-hidden="true">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+        </div>
+        <h2 class="phone-modal-title" id="phoneModalTitle">Receba pelo<br><span style="color:#A7C945">WhatsApp</span></h2>
       </div>
-      <span class="phone-modal-badge">⭐ Recomendado</span>
-      <h2 class="phone-modal-title" id="phoneModalTitle">Receba pelo <span style="color:#A7C945">WhatsApp</span></h2>
-      <p class="phone-modal-sub">Receba o PDF com suas dezenas <b style="color:#fff">imediatamente</b> após o pagamento. É a forma mais rápida de guardar seu título.</p>
+      <p class="phone-modal-sub">Receba o PDF com suas dezenas <b style="color:#fff">imediatamente</b> após o pagamento.</p>
     </div>
 
     <!-- WhatsApp input -->
@@ -2455,6 +3149,7 @@
         <input
           type="tel"
           inputmode="numeric"
+          pattern="[0-9]*"
           class="wa-input"
           id="phoneInput"
           placeholder="(11) 9 8765-4321"
@@ -2489,7 +3184,7 @@
 
     <button type="button" class="skip-btn" onclick="skipPhone()">
       <span class="skip-btn-title">Pular esta etapa</span>
-      <span class="skip-btn-sub">Vou consultar minhas dezenas pelo CPF do pagador</span>
+      <span class="skip-btn-sub">Consultar pelo CPF do pagador</span>
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="skip-btn-arrow">
         <path d="M5 12h14M12 5l7 7-7 7"/>
       </svg>
@@ -2561,7 +3256,7 @@
   }
 
   setText('locName', LOTERICO_MOCK.nome + ' · Lotérica');
-  setText('locCode', 'PDV ' + LOTERICO_MOCK.id + ' · ' + LOTERICO_MOCK.codigo);
+  setText('locCode', 'PDV ' + LOTERICO_MOCK.id);
   setText('locAddr', LOTERICO_MOCK.endereco);
   setText('locDate', dateStr);
   setText('locCity', LOTERICO_MOCK.cidade + ' / ' + LOTERICO_MOCK.uf);
@@ -2569,6 +3264,7 @@
 
   // Mirror to step 2
   setText('locNameS2', LOTERICO_MOCK.nome + ' · Lotérica');
+  setText('locCodeS2', 'PDV ' + LOTERICO_MOCK.id);
   setText('locDateS2', dateStr);
   setText('locHashS2', hash);
 
@@ -2606,11 +3302,8 @@
     document.body.classList.add('phone-modal-open');
     modal.style.display = 'flex';
     modal.classList.remove('closing');
-    // Focus on input after animation
-    setTimeout(function() {
-      const inp = document.getElementById('phoneInput');
-      if (inp) inp.focus();
-    }, 350);
+    // Sem auto-focus — evita teclado abrindo sozinho no mobile.
+    // O usuário foca tocando no campo quando quiser digitar.
   };
 
   window.closePhoneModal = function() {
@@ -3075,7 +3768,13 @@
       cpfInp.focus();
       return;
     }
-    const answer = parseInt(capInp.value, 10);
+    const capVal = (capInp.value || '').trim();
+    if (capVal === '') {
+      errEl.textContent = 'Responda a verificação de segurança abaixo para continuar.';
+      capInp.focus();
+      return;
+    }
+    const answer = parseInt(capVal, 10);
     if (isNaN(answer) || answer !== captchaAnswer) {
       errEl.textContent = 'Resposta da verificação incorreta. Tente novamente.';
       refreshCaptcha();

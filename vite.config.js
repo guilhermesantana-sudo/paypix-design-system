@@ -105,8 +105,43 @@ ${Object.entries(tokens).map(([k, v]) => `  ${k}: ${v};`).join('\n')}
   }
 }
 
+/* ============================================================
+   docsPlugin
+   ------------------------------------------------------------
+   Espelha arquivos de documentação da raiz do repo para
+   public/, deixando-os web-acessíveis sem precisar mover a
+   fonte de verdade. Reflete em cada boot do dev/build.
+   ============================================================ */
+function docsPlugin() {
+  const docs = ['design_system.md']
+  function mirror() {
+    const outDir = resolve(__dirname, 'public')
+    fs.mkdirSync(outDir, { recursive: true })
+    docs.forEach(name => {
+      const src = resolve(__dirname, name)
+      if (!fs.existsSync(src)) return
+      fs.copyFileSync(src, resolve(outDir, name))
+    })
+  }
+  return {
+    name: 'docs-mirror',
+    buildStart() { mirror() },
+    configureServer(server) {
+      mirror()
+      // Re-espelha quando o arquivo é editado em dev
+      docs.forEach(name => {
+        const src = resolve(__dirname, name)
+        server.watcher.add(src)
+      })
+      server.watcher.on('change', (file) => {
+        if (docs.some(d => file.endsWith(d))) mirror()
+      })
+    },
+  }
+}
+
 export default defineConfig({
-  plugins: [gitDatePlugin(), tokensPlugin()],
+  plugins: [gitDatePlugin(), tokensPlugin(), docsPlugin()],
   build: {
     rollupOptions: {
       input: {

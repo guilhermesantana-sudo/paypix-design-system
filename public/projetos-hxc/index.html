@@ -211,11 +211,46 @@
     color: var(--text);
     font-weight: 700;
   }
+  .ph-section__actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
   .ph-section__count {
     font-family: 'SF Mono', monospace;
     font-size: 11px;
     color: var(--text-mute);
   }
+  .ph-section__zip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 14px;
+    background: rgba(240, 185, 9, 0.10);
+    border: 1px solid rgba(240, 185, 9, 0.45);
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--accent-2);
+    cursor: pointer;
+    transition: all 160ms ease;
+  }
+  .ph-section__zip:hover:not(:disabled) {
+    background: rgba(240, 185, 9, 0.18);
+    border-color: rgba(240, 185, 9, 0.75);
+    box-shadow: 0 0 16px rgba(240, 185, 9, 0.25);
+  }
+  .ph-section__zip:disabled,
+  .ph-section__zip.is-loading {
+    opacity: 0.65;
+    cursor: progress;
+  }
+  .ph-section__zip svg { flex-shrink: 0; }
+  .ph-section__zip.is-loading svg { animation: ph-zip-spin 0.9s linear infinite; }
+  @keyframes ph-zip-spin { to { transform: rotate(360deg); } }
 
   /* GRID DE TELAS */
   .ph-grid {
@@ -339,7 +374,17 @@
       <div class="ph-section__title">
         Projeto · <strong>Ecosistema HXC</strong>
       </div>
-      <span class="ph-section__count">3 telas + 1 doc</span>
+      <div class="ph-section__actions">
+        <span class="ph-section__count">3 telas + 1 doc</span>
+        <button type="button" class="ph-section__zip" data-slug="ecosistema-hxc" onclick="downloadTabZip('ecosistema-hxc')" aria-label="Baixar kit Ecosistema HXC em ZIP">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Baixar kit (.ZIP)
+        </button>
+      </div>
     </div>
 
     <div class="ph-grid">
@@ -399,7 +444,17 @@
       <div class="ph-section__title">
         Projeto · <strong>Totem Capitaliza+</strong>
       </div>
-      <span class="ph-section__count">2 telas</span>
+      <div class="ph-section__actions">
+        <span class="ph-section__count">2 telas</span>
+        <button type="button" class="ph-section__zip" data-slug="totem-capitalizamais" onclick="downloadTabZip('totem-capitalizamais')" aria-label="Baixar kit Totem Capitaliza+ em ZIP">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Baixar kit (.ZIP)
+        </button>
+      </div>
     </div>
 
     <div class="ph-grid">
@@ -435,6 +490,8 @@
 
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" defer></script>
+
 <script>
   // Toggle de tabs
   document.querySelectorAll('.ph-tab').forEach(tab => {
@@ -460,6 +517,108 @@
     const tab = document.querySelector(`.ph-tab[data-tab="${hash}"]`);
     if (tab) tab.click();
   })();
+
+  // ========================================================================
+  // Baixar kit (.ZIP) por aba
+  // Empacota as telas daquela aba + design_system.md + USING.md.
+  // ========================================================================
+  const TAB_BUNDLES = {
+    'ecosistema-hxc': {
+      label: 'Ecosistema HXC',
+      files: [
+        { url: 'ecosistema-hxc/landing-loterico.html',  path: 'telas/landing-loterico.html' },
+        { url: 'ecosistema-hxc/appweb_surpresinha.html', path: 'telas/appweb_surpresinha.html' },
+        { url: 'ecosistema-hxc/totem.html',              path: 'telas/totem.html' },
+      ],
+    },
+    'totem-capitalizamais': {
+      label: 'Totem Capitaliza+',
+      files: [
+        { url: 'totem-capitalizamais/index.html',     path: 'telas/app-totem.html' },
+        { url: 'totem-capitalizamais/dashboard.html', path: 'telas/dashboard.html' },
+      ],
+    },
+  };
+
+  async function downloadTabZip(slug) {
+    if (typeof JSZip === 'undefined') {
+      alert('JSZip ainda carregando, tente novamente em 1s.');
+      return;
+    }
+    const bundle = TAB_BUNDLES[slug];
+    if (!bundle) return;
+
+    const btn = document.querySelector(`.ph-section__zip[data-slug="${slug}"]`);
+    if (btn) { btn.classList.add('is-loading'); btn.disabled = true; }
+
+    try {
+      const zip = new JSZip();
+      const folder = zip.folder(`${slug}-kit`);
+
+      const fetches = [
+        ...bundle.files.map(f =>
+          fetch(f.url)
+            .then(r => r.ok ? r.text() : null)
+            .then(t => { if (t) folder.file(f.path, t); })
+        ),
+        fetch('/design_system.md')
+          .then(r => r.ok ? r.text() : null)
+          .then(t => { if (t) folder.file('design_system.md', t); }),
+      ];
+
+      await Promise.all(fetches);
+      folder.file('USING.md', buildUsingMd(bundle, slug));
+
+      const blob = await zip.generateAsync({ type: 'blob' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${slug}-kit.zip`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    } catch (err) {
+      console.error('Erro ao gerar ZIP:', err);
+      alert('Não foi possível gerar o ZIP. Tente novamente.');
+    } finally {
+      if (btn) { btn.classList.remove('is-loading'); btn.disabled = false; }
+    }
+  }
+
+  function buildUsingMd(bundle, slug) {
+    const list = bundle.files.map(f => `- \`${f.path}\``).join('\n');
+    return `# ${bundle.label} · Kit de telas
+
+Snapshot das telas em desenvolvimento no workspace **Projetos HXC**, junto com a documentação técnica do Design System.
+
+## Conteúdo
+
+- \`design_system.md\` — guia técnico completo (tokens, componentes, padrões, convenções)
+- \`USING.md\` — este arquivo
+- Telas (na pasta \`telas/\`):
+
+${list}
+
+## Como abrir as telas
+
+As telas referenciam assets externos do repositório (logos, banners, CSS do DS). Para rodá-las localmente com tudo funcionando, clone o repo e sirva via Vite:
+
+\`\`\`bash
+git clone <repo-url> paypix-design-system
+cd paypix-design-system
+npm install
+npm run dev
+# abra http://localhost:5173/projetos-hxc/
+\`\`\`
+
+Para ler só o código/markup, os arquivos HTML são auto-contidos (CSS e JS inline).
+
+## Versão
+
+Gerado em: ${new Date().toISOString()}
+`;
+  }
 </script>
 
 </body>

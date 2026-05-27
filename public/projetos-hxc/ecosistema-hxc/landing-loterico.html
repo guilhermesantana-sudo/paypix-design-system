@@ -2345,14 +2345,40 @@
     padding: 12px 14px;
     gap: 5px;
   }
-  /* Nome + PDV na mesma linha (head) */
+  /* Nome + PDV na mesma linha (head) + botão de expandir à direita */
   .step-1 .loterico-head,
   .step-2 .loterico-head {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     justify-content: space-between;
     gap: 10px;
   }
+  /* Loterico compacto: 2 linhas (nome + PDV); details escondidos por padrão */
+  .loterico-details {
+    display: none;
+    margin-top: 8px;
+    padding-top: 10px;
+    border-top: 1px dashed rgba(243, 146, 8, 0.18);
+    animation: loterico-expand 220ms ease;
+  }
+  .loterico-block.is-expanded .loterico-details { display: block; }
+  @keyframes loterico-expand {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  /* Botão de expandir (lateral) */
+  .loterico-toggle {
+    flex-shrink: 0;
+    width: 26px; height: 26px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(243, 146, 8, 0.35);
+    border-radius: 50%; color: var(--gold-bright); cursor: pointer;
+    transition: background 0.18s, border-color 0.18s, transform 0.18s;
+  }
+  .loterico-toggle:hover { background: rgba(243, 146, 8, 0.12); border-color: var(--gold-bright); }
+  .loterico-toggle svg { width: 14px; height: 14px; transition: transform 0.22s ease; }
+  .loterico-block.is-expanded .loterico-toggle svg { transform: rotate(180deg); }
   .step-1 .loterico-name,
   .step-2 .loterico-name { font-size: 14px; }
   .step-1 .loterico-code,
@@ -2526,13 +2552,14 @@
     color: var(--gold-bright, #F39208);
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    margin: 2px 0 -2px;
+    margin: 18px 0 14px;
   }
   .howto-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
     width: 100%;
+    margin-bottom: 8px;
   }
   .howto-card {
     position: relative;
@@ -3286,7 +3313,7 @@
   body[data-step="await"] .ct-cartela-row { gap: 5px; }
   body[data-step="3"] .ct-bola,
   body[data-step="await"] .ct-bola {
-    font-size: clamp(10px, 2.4vw, 12px);
+    font-size: clamp(15px, 4vw, 19px);
     border-radius: 7px;
   }
   @keyframes reveal-card-pop {
@@ -3371,46 +3398,49 @@
     pointer-events: none;
   }
 
-  /* Chip "WhatsApp salvo" — aparece no step-1 quando o user já cadastrou o número */
+  /* Chip "WhatsApp salvo" — discreto no canto direito superior; layout vertical pra não sobrepor o logo */
   .saved-wa-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 10px 6px 12px;
-    background: rgba(167, 201, 69, 0.10);
-    border: 1px solid rgba(167, 201, 69, 0.40);
-    border-radius: 22px;
+    position: absolute; top: 14px; right: 10px; z-index: 5;
+    display: inline-flex; flex-direction: column; align-items: flex-end; gap: 1px;
+    padding: 5px 9px;
+    background: rgba(0, 0, 0, 0.40);
+    border: 1px solid rgba(167, 201, 69, 0.28);
+    border-radius: 10px;
     color: var(--green-300, #B6D37B);
     font-family: var(--font-body);
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    align-self: center;
-    margin-top: -2px;
+    line-height: 1.15;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    max-width: 42vw;
   }
-  .saved-wa-chip svg {
-    width: 12px; height: 12px;
+  /* Só aparece no step-1 (em outros steps fica oculto) */
+  body:not([data-step="1"]) .saved-wa-chip { display: none !important; }
+  .saved-wa-chip__head {
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .saved-wa-chip__ico {
+    width: 11px; height: 11px;
     flex-shrink: 0;
     color: #A7C945;
   }
-  .saved-wa-text b {
+  .saved-wa-text {
     color: #ffffff;
-    font-weight: 800;
+    font-size: 10.5px;
+    font-weight: 700;
     font-variant-numeric: tabular-nums;
-    margin-left: 2px;
+    letter-spacing: 0.01em;
   }
   .saved-wa-edit {
     background: transparent;
     border: none;
-    padding: 0 6px;
+    padding: 0;
     color: var(--gold-bright, #F39208);
     font-family: var(--font-body);
-    font-size: 10.5px;
+    font-size: 9px;
     font-weight: 800;
     letter-spacing: 0.10em;
     text-transform: uppercase;
     cursor: pointer;
-    border-left: 1px solid rgba(167, 201, 69, 0.30);
     transition: color 0.18s;
   }
   .saved-wa-edit:hover { color: #ffffff; }
@@ -4144,7 +4174,8 @@
     transition: background 0.18s, border-color 0.18s, transform 0.18s;
   }
   body[data-step="qty"] .qty-back-circle,
-  body[data-step="2"] .qty-back-circle { display: flex; }
+  body[data-step="2"] .qty-back-circle,
+  body[data-step="3"] .qty-back-circle { display: flex; }
   .qty-back-circle:hover { background: rgba(243, 146, 8, 0.12); border-color: var(--gold-bright); }
   .qty-back-circle:active { transform: scale(0.92); }
   .qty-back-circle svg { width: 18px; height: 18px; }
@@ -4177,24 +4208,24 @@
     </svg>
   </button>
 
+  <!-- WhatsApp salvo (chip discreto no canto, só no step-1) — layout vertical pra não sobrepor o logo em mobile -->
+  <div class="saved-wa-chip" id="savedWaChip" role="status" aria-live="polite" style="display:none">
+    <div class="saved-wa-chip__head">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="saved-wa-chip__ico">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+      </svg>
+      <button type="button" class="saved-wa-edit" onclick="forgetWhats(event)" aria-label="Trocar número">trocar</button>
+    </div>
+    <span class="saved-wa-text" id="savedWaPhone">—</span>
+  </div>
+
   <!-- ====================== STEP 1: CAPTURE ====================== -->
   <div class="step-1">
 
-    <!-- Lotérico ID block (compacto p/ caber na primeira dobra) -->
-    <div class="loterico-block">
-      <div class="loterico-head">
-        <div class="loterico-name" id="locName">Banca Lopes · Lotérica</div>
-        <div class="loterico-code" id="locCode">PDV 0237</div>
-      </div>
-      <div class="loterico-addr" id="locAddr">Av. das Lojas, 100 · Vila Mariana · São Paulo / SP</div>
-      <div class="loterico-hash" id="locHash">LOT237-20260514-XK2P9</div>
-      <span class="loterico-hash-label">Código de autenticação</span>
-    </div>
+    <!-- Banner promocional (versão reduzida — Home_22) -->
+    <div class="promo-strip"><img src="../banners/Home_22.png" alt="Concorra a mais de R$ 1.000.000,00 — HiperXCAP" loading="lazy" /></div>
 
-    <!-- Banner promocional principal — arte oficial -->
-    <img class="banner-img hxc-anim-fade-up" src="../banners/Home_01.png" alt="Concorra a Um Milhão de Reais — HiperXCAP" data-banner-slot="promo-principal" />
-
-    <!-- Submit (logo após o banner, ação primária) -->
+    <!-- Submit (CTA primário logo após o banner) -->
     <button type="button" class="submit-btn" id="submitBtn" onclick="openPhoneModal()">
       <span class="btn-default">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -4204,13 +4235,19 @@
       </span>
     </button>
 
-    <!-- WhatsApp salvo (chip aparece quando o user já cadastrou; pula o modal na próxima compra) -->
-    <div class="saved-wa-chip" id="savedWaChip" role="status" aria-live="polite" style="display:none">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M20 6L9 17l-5-5"/>
-      </svg>
-      <span class="saved-wa-text">WhatsApp salvo: <b id="savedWaPhone">—</b></span>
-      <button type="button" class="saved-wa-edit" onclick="forgetWhats(event)" aria-label="Trocar número">trocar</button>
+    <!-- Lotérico (compacto: nome+PDV numa linha; botão lateral expande os detalhes) -->
+    <div class="loterico-block" id="lotericoBlock">
+      <div class="loterico-head">
+        <div class="loterico-name" id="locName">Banca Lopes · Lotérica · PDV 0237</div>
+        <button type="button" class="loterico-toggle" onclick="toggleLoterico(this)" aria-label="Mostrar detalhes do lotérico" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+      </div>
+      <div class="loterico-details">
+        <div class="loterico-addr" id="locAddr">Av. das Lojas, 100 · Vila Mariana · São Paulo / SP</div>
+        <div class="loterico-hash" id="locHash">LOT237-20260514-XK2P9</div>
+        <span class="loterico-hash-label">Código de autenticação</span>
+      </div>
     </div>
 
     <!-- Separador: respiro entre CTA primário e bloco de conversão -->
@@ -4396,8 +4433,6 @@
   <div class="step-2 anim-rise">
 
     <div class="promo-strip"><img src="../banners/Home_22.png" alt="Concorra a mais de R$ 1.000.000,00 — HiperXCAP" loading="lazy" /></div>
-
-    <div class="success-chip"><span class="check">✓</span><span>Tudo pronto</span></div>
 
     <h1 class="success-title">Pague pelo <span class="accent">Pix</span></h1>
 
@@ -4625,10 +4660,6 @@
       <span>OU COPIE A CHAVE PIX</span>
     </div>
     <div class="pix-copy-block">
-      <div class="pix-copy-label">
-        <span>Chave Pix copia-e-cola</span>
-        <span class="pix-copy-meta" id="pixCopyMeta">R$ 10,00</span>
-      </div>
       <div class="pix-copy-code" id="pixCodeText">00020126580014BR.GOV.BCB.PIX0136a8f5e3c2-7d4b-4e9a-b3c1-f5e8a9d2c4b75204000053039865802BR5919HIPERXCAP CAIXA CAP6009SAO PAULO62290525HXC2740100527410052741036304</div>
       <button type="button" class="pix-copy-btn" onclick="copyPixCode(this)" aria-label="Copiar código Pix">
         <span class="copy-default">
@@ -4689,12 +4720,16 @@
     <!-- Lotérico block — espelha o card do step-1 -->
     <div class="loterico-block">
       <div class="loterico-head">
-        <div class="loterico-name" id="locNameS2">Banca Lopes · Lotérica</div>
-        <div class="loterico-code" id="locCodeS2">PDV 0237</div>
+        <div class="loterico-name" id="locNameS2">Banca Lopes · Lotérica · PDV 0237</div>
+        <button type="button" class="loterico-toggle" onclick="toggleLoterico(this)" aria-label="Mostrar detalhes do lotérico" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
       </div>
-      <div class="loterico-addr" id="locAddrS2">Av. das Lojas, 100 · Vila Mariana · São Paulo / SP</div>
-      <div class="loterico-hash" id="locHashS2">LOT237-20260514-XK2P9</div>
-      <span class="loterico-hash-label">Código de autenticação</span>
+      <div class="loterico-details">
+        <div class="loterico-addr" id="locAddrS2">Av. das Lojas, 100 · Vila Mariana · São Paulo / SP</div>
+        <div class="loterico-hash" id="locHashS2">LOT237-20260514-XK2P9</div>
+        <span class="loterico-hash-label">Código de autenticação</span>
+      </div>
     </div>
 
     <!-- Hospital -->
@@ -4714,18 +4749,17 @@
     <h1 class="success-title">Seu <span class="accent">título</span> está pronto</h1>
     <p class="success-sub">4 cartelas · concorra em <b class="reveal-prize-inline">todos os 4 sorteios</b> da semana.<br>Toque numa dezena para marcar.</p>
 
-    <!-- Nº do Giro da Sorte -->
+    <!-- 4 cartelas: uma por sorteio (3x R$ 30 mil + final R$ 1 milhão) -->
+    <div class="reveal-cartelas" id="revealCartelas"></div>
+
+    <!-- Nº do Giro da Sorte (depois das cartelas) -->
     <div class="giro-card">
       <div class="label-row">
         <span class="label">Giro da Sorte</span>
-        <span class="hint">7 dígitos · número único</span>
       </div>
       <div class="giro-display" id="giroDisplay">0.000.000</div>
       <div class="giro-extra" id="giroExtra" style="display:none"></div>
     </div>
-
-    <!-- 4 cartelas: uma por sorteio (3x R$ 30 mil + final R$ 1 milhão) -->
-    <div class="reveal-cartelas" id="revealCartelas"></div>
 
     <!-- Bloco com info do título -->
     <dl class="reveal-meta">
@@ -4747,11 +4781,11 @@
       </span>
     </button>
 
-    <button type="button" class="reveal-back-btn" onclick="resetToStep1()">
+    <button type="button" class="reveal-back-btn" onclick="buyMore()">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M19 12H5M12 5l-7 7 7 7"/>
+        <path d="M5 12h14M13 5l7 7-7 7"/>
       </svg>
-      Comprar outro título
+      Comprar mais títulos
     </button>
 
     <!-- Hospital -->
@@ -5079,14 +5113,13 @@
     if (el) el.textContent = value;
   }
 
-  setText('locName', LOTERICO_MOCK.nome + ' · Lotérica');
-  setText('locCode', 'PDV ' + LOTERICO_MOCK.id);
+  const lotericoCaption = LOTERICO_MOCK.nome + ' · Lotérica · PDV ' + LOTERICO_MOCK.id;
+  setText('locName', lotericoCaption);
   setText('locAddr', LOTERICO_MOCK.endereco);
   setText('locHash', hash);
 
   // Mirror to step 2
-  setText('locNameS2', LOTERICO_MOCK.nome + ' · Lotérica');
-  setText('locCodeS2', 'PDV ' + LOTERICO_MOCK.id);
+  setText('locNameS2', lotericoCaption);
   setText('locAddrS2', LOTERICO_MOCK.endereco);
   setText('locHashS2', hash);
 
@@ -5417,7 +5450,7 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Voltar contextual: step-2 → step-qty; step-qty → step-1
+  // Voltar contextual: step-2 → step-qty; step-3/qty → step-1
   window.goBack = function() {
     const step = document.body.dataset.step;
     if (step === '2') {
@@ -5548,9 +5581,8 @@
   window.simulatePayment = function() {
     const overlay = document.getElementById('paySuccessOverlay');
     if (!overlay) return;
-    // Pré-renderiza ambos os steps possíveis pra transição parecer instantânea
+    // Pré-renderiza a cartela do step-3 pra transição parecer instantânea
     renderRevealCartela();
-    renderAwaitCartela();
 
     document.body.style.overflow = 'hidden';
     overlay.classList.remove('exiting');
@@ -5558,10 +5590,10 @@
     overlay.classList.add('show');
 
     // Troca o step underneath enquanto o overlay ainda está visível.
-    // Default: vai pro step-await (sorteio ainda não abriu).
+    // Fluxo do lotérico: vai DIRETO pro step-3 (dezenas reveladas) — sem aguardar.
     setTimeout(function() {
-      document.body.setAttribute('data-step', 'await');
-      startAwaitCountdown();
+      document.body.setAttribute('data-step', '3');
+      spinGiro();
       window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
     }, 1500);
 
@@ -5608,6 +5640,25 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  // "Comprar mais títulos" no step-3 → vai pra seleção de quantidade
+  window.buyMore = function() {
+    // Limpa cartelas reveladas + reseta botão WhatsApp pra próxima rodada
+    ['revealCartelas', 'awaitCartelas'].forEach(function(id) {
+      const wrap = document.getElementById(id);
+      if (wrap) { wrap.innerHTML = ''; delete wrap.dataset.rendered; }
+    });
+    const wbtn = document.getElementById('revealWhatsBtn');
+    if (wbtn) {
+      wbtn.classList.remove('sent');
+      const lbl = wbtn.querySelector('.btn-default');
+      if (lbl && wbtn.dataset.origLabel) lbl.innerHTML = wbtn.dataset.origLabel;
+    }
+    // Reseta qty pra 1 e vai pra step-qty
+    if (window.selectPreset) window.selectPreset(1);
+    document.body.dataset.step = 'qty';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   window.revealShareWhats = function(btn) {
     if (!btn || btn.classList.contains('sent')) return;
     const lbl = btn.querySelector('.btn-default');
@@ -5620,6 +5671,15 @@
         '</svg>' +
         'PDF enviado!';
     }
+  };
+
+  // ---- Loterico expand/collapse ----
+  window.toggleLoterico = function(btn) {
+    const block = btn.closest('.loterico-block');
+    if (!block) return;
+    const open = block.classList.toggle('is-expanded');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    btn.setAttribute('aria-label', open ? 'Ocultar detalhes do lotérico' : 'Mostrar detalhes do lotérico');
   };
 
   // ---- Modal Regulamento ----

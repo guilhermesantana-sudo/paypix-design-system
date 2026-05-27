@@ -7,10 +7,10 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
-<meta name="description" content="Surpresinha HiperXCap · Sua chance de ganhar até R$ 1 milhão." />
+<meta name="description" content="HiperXCAP · Título de Capitalização Filantropia Premiável. Concorra a mais de R$ 1.000.000,00 e contribua com o Hospital de Amor." />
 <meta name="robots" content="noindex, nofollow" />
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%232a0a02'/%3E%3Ctext x='50' y='68' text-anchor='middle' font-family='Arial Black,sans-serif' font-size='60' font-weight='900' fill='%23fbbf24'%3ES%3C/text%3E%3C/svg%3E" />
-<title>Surpresinha HiperXCap · Pegue a sua agora</title>
+<title>HiperXCAP · Título de Capitalização · Pegue o seu agora</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700;1,800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
@@ -27,6 +27,11 @@
     --beam-color: transparent;
     --card-grad: linear-gradient(180deg, rgba(26,47,81,0.88) 0%, rgba(12,22,40,0.96) 100%);
     --line: rgba(243, 146, 8, 0.22);
+    /* Tokens importados do appweb_surpresinha (componentes portados) */
+    --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --gold-pale: #F8AF4F;
+    --accent-border: rgba(243, 146, 8, 0.35);
+    --accent-border-soft: rgba(243, 146, 8, 0.20);
   }
   html, body { background: var(--giro-bg); min-height: 100%; }
   body {
@@ -561,26 +566,27 @@
   .success-chip {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 6px 14px;
+    gap: 6px;
+    padding: 4px 11px;
+    margin-top: 10px;
     background: linear-gradient(135deg, rgba(167, 201, 69, 0.16), rgba(167, 201, 69, 0.04));
     border: 1px solid rgba(167, 201, 69, 0.5);
     color: var(--green-300, #B6D37B);
-    border-radius: 20px;
+    border-radius: 18px;
     font-family: var(--font-display); font-style: italic; font-weight: 800;
-    font-size: 11px;
-    letter-spacing: 0.16em;
+    font-size: 9.5px;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
   }
   .success-chip .check {
-    width: 16px; height: 16px;
+    width: 13px; height: 13px;
     background: var(--success);
     color: white;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 10px;
+    font-size: 8.5px;
     font-weight: 900;
   }
   .success-title {
@@ -1281,7 +1287,7 @@
       rgba(10, 6, 20, 0.94);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    overflow-y: auto;
+    overflow: hidden;
   }
   .ct-modal.open { display: flex; animation: ct-fade-in 0.3s ease-out; }
   .ct-modal.closing { animation: ct-fade-out 0.25s ease-in forwards; }
@@ -1365,7 +1371,16 @@
 
   /* States */
   .ct-state { display: none; }
-  .ct-state.active { display: flex; flex-direction: column; gap: 14px; }
+  .ct-state.active { display: flex; flex-direction: column; gap: 14px; min-height: 0; }
+  /* No estado de resultado o state vira flex-1 pra propagar a altura
+     ao .ct-result-scroll e habilitar o scroll interno do modal. */
+  .ct-state[data-ct-state="result"].active { flex: 1 1 auto; min-height: 0; }
+  /* Quando o state ativo é "result", o card precisa de altura concreta (não
+     só max-height) pra que o flex layout interno tenha espaço pra distribuir.
+     :has() é suportado em todos os browsers modernos. */
+  .ct-card:has(.ct-state[data-ct-state="result"].active) {
+    height: 92vh;
+  }
 
   /* FORM STATE */
   .ct-form-field { display: flex; flex-direction: column; gap: 6px; }
@@ -1469,6 +1484,81 @@
   .ct-captcha-refresh:hover { color: #F39208; }
   .ct-captcha-refresh:active { transform: rotate(180deg); }
   .ct-captcha-refresh svg { width: 16px; height: 16px; }
+
+  /* ============== CLOUDFLARE TURNSTILE (simulado, auto-verificação) ============== */
+  .ct-turnstile {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    padding: 14px 16px;
+    background: #232323;
+    border: 1px solid #3a3a3a;
+    border-radius: 8px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: #e6e6e6;
+    min-height: 64px;
+    transition: border-color 0.25s, box-shadow 0.25s;
+  }
+  .ct-turnstile[data-state="success"] {
+    border-color: rgba(45, 138, 71, 0.55);
+    box-shadow: 0 0 0 1px rgba(45, 138, 71, 0.18) inset;
+  }
+  .ct-ts-check { flex-shrink: 0; display: flex; align-items: center; justify-content: center; width: 26px; height: 26px; }
+  .ct-ts-box {
+    position: relative;
+    display: inline-block;
+    width: 24px; height: 24px;
+    border: 2px solid #6a6a6a;
+    border-radius: 4px;
+    background: transparent;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .ct-turnstile[data-state="verifying"] .ct-ts-box { border-color: transparent; }
+  .ct-turnstile[data-state="success"]   .ct-ts-box { border-color: #2d8a47; background: #2d8a47; }
+  .ct-ts-spinner {
+    position: absolute;
+    inset: -3px;
+    border: 2.5px solid transparent;
+    border-top-color: #F38020;
+    border-right-color: #F38020;
+    border-radius: 50%;
+    opacity: 0;
+    pointer-events: none;
+    animation: ct-ts-spin 0.75s linear infinite;
+  }
+  .ct-turnstile[data-state="verifying"] .ct-ts-spinner { opacity: 1; }
+  @keyframes ct-ts-spin { to { transform: rotate(360deg); } }
+  .ct-ts-tick {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 14px; height: 14px;
+    transform: translate(-50%, -50%) scale(0);
+    color: #fff;
+    transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .ct-turnstile[data-state="success"] .ct-ts-tick { transform: translate(-50%, -50%) scale(1); }
+
+  .ct-ts-text { flex: 1; min-width: 0; font-size: 14px; line-height: 1.3; color: #e6e6e6; font-weight: 400; }
+  .ct-ts-text .ct-ts-label { display: none; }
+  .ct-turnstile[data-state="idle"]      .ct-ts-label[data-ts-idle],
+  .ct-turnstile[data-state="verifying"] .ct-ts-label[data-ts-verifying],
+  .ct-turnstile[data-state="success"]   .ct-ts-label[data-ts-success] { display: inline; }
+
+  .ct-ts-brand {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-left: 10px;
+    border-left: 1px solid #3a3a3a;
+  }
+  .ct-ts-brand-mark { display: block; }
+  .ct-ts-brand-text { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.15; }
+  .ct-ts-brand-name { font-size: 11px; font-weight: 600; color: #d4d4d4; letter-spacing: 0.01em; }
+  .ct-ts-brand-links { font-size: 9px; color: #9a9a9a; letter-spacing: 0.02em; }
+
+  /* Erro do Turnstile reaproveita .ct-form-error já existente */
 
   .ct-submit {
     width: 100%;
@@ -1578,7 +1668,10 @@
 
   .ct-result-scroll {
     flex: 1;
+    min-height: 0;
     overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
     padding-right: 4px;
     margin-right: -4px;
     display: flex;
@@ -1628,18 +1721,35 @@
   }
 
   .ct-draw-head {
-    padding: 12px 16px;
+    padding: 12px 14px;
     background: rgba(0, 0, 0, 0.35);
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 10px;
+    gap: 12px;
     cursor: pointer;
     user-select: none;
   }
   .ct-draw-head:hover { background: rgba(0, 0, 0, 0.5); }
+  .ct-draw-thumb {
+    width: 52px;
+    height: 52px;
+    border-radius: 10px;
+    overflow: hidden;
+    flex-shrink: 0;
+    border: 1px solid rgba(243, 146, 8, 0.45);
+    background: linear-gradient(135deg, #1A2F51, #0C1628);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+  .ct-draw-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
   .ct-draw-head-date {
+    flex: 1;
+    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: 2px;
@@ -1690,6 +1800,19 @@
     color: #c7d6e8;
     border: 1px solid rgba(110, 110, 136, 0.4);
   }
+  .ct-draw-head-status.awaiting {
+    background: rgba(243, 146, 8, 0.10);
+    color: #F8AF4F;
+    border: 1px solid rgba(243, 146, 8, 0.40);
+  }
+  .ct-draw-head-status.awaiting::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: #F8AF4F;
+    border-radius: 50%;
+    box-shadow: 0 0 6px #F8AF4F;
+    animation: ct-pulse 1.4s infinite;
+  }
   .ct-draw-head-status.win {
     background: linear-gradient(135deg, #F39208, #F39208);
     color: #0C1628;
@@ -1718,23 +1841,27 @@
     padding-bottom: 0;
   }
 
-  /* Title item */
+  /* Title item — layout vertical: head (produto + prêmio) → meta → cartela(s) */
   .ct-item {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: stretch;
     gap: 12px;
-    padding: 10px 12px;
+    padding: 12px;
     background: rgba(0, 0, 0, 0.35);
     border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 10px;
-    cursor: pointer;
-    transition: border-color 0.18s, background 0.18s, transform 0.15s;
+    border-radius: 12px;
+    transition: border-color 0.18s, background 0.18s;
   }
   .ct-item:hover { border-color: rgba(243, 146, 8, 0.5); background: rgba(0, 0, 0, 0.5); }
-  .ct-item:active { transform: scale(0.99); }
   .ct-item.win {
     border-color: rgba(243, 146, 8, 0.6);
     background: linear-gradient(135deg, rgba(243, 146, 8, 0.08), rgba(0, 0, 0, 0.4));
+  }
+  .ct-item-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
   }
   .ct-item-ico {
     width: 36px; height: 36px;
@@ -1801,6 +1928,155 @@
   }
   .ct-item.win .ct-item-status-label { color: #F39208; }
   .ct-item.lost .ct-item-status-value { color: #7e93b0; }
+
+  /* === CARTELINHA (suas dezenas) === */
+  .ct-cartelas {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .ct-cartela {
+    background: rgba(0, 0, 0, 0.40);
+    border: 1px solid rgba(243, 146, 8, 0.18);
+    border-radius: 12px;
+    padding: 10px 12px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .ct-cartela--win {
+    border-color: rgba(243, 146, 8, 0.55);
+    background: linear-gradient(180deg, rgba(243, 146, 8, 0.10), rgba(0, 0, 0, 0.40));
+    box-shadow: 0 4px 14px rgba(243, 146, 8, 0.15);
+  }
+  .ct-cartela-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .ct-cartela-label {
+    font-family: var(--font-body);
+    font-size: 9.5px;
+    font-weight: 800;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #7e93b0;
+  }
+  .ct-cartela-tag {
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    color: #c7d6e8;
+  }
+  .ct-cartela-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 7px;
+  }
+  /* Default: chip de cartela tipo bingo — quadrado branco com número escuro.
+     Bola redonda gold só aparece quando `.ct-bola--drawn` (estado pós-sorteio). */
+  .ct-bola {
+    aspect-ratio: 1;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg, #ffffff 0%, #e8edf2 100%);
+    color: #0C1628;
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    font-size: clamp(11px, 3vw, 14px);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow:
+      0 2px 6px rgba(0, 0, 0, 0.35),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9),
+      inset 0 -2px 4px rgba(0, 0, 0, 0.08);
+    position: relative;
+    letter-spacing: -0.01em;
+  }
+  /* Bolinha gold redonda — dezena sorteada ao vivo */
+  .ct-bola--drawn {
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 25%, #F8AF4F 0%, #F39208 45%, #C97500 100%);
+    color: #0C1628;
+    border: none;
+    box-shadow:
+      0 4px 10px rgba(0, 0, 0, 0.45),
+      inset 0 2px 3px rgba(255, 255, 255, 0.55),
+      inset 0 -2px 4px rgba(0, 0, 0, 0.18);
+  }
+  .ct-bola--drawn::after {
+    content: '';
+    position: absolute;
+    top: 12%; left: 20%;
+    width: 28%; height: 22%;
+    background: radial-gradient(ellipse at center, rgba(255,255,255,0.85), transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  /* Hit: número da cartela que casou com sorteio — chip verde marcado */
+  .ct-bola--hit {
+    background: linear-gradient(180deg, #C7E089 0%, #A7C945 100%);
+    border-color: rgba(167, 201, 69, 0.55);
+    box-shadow:
+      0 0 0 2px rgba(167, 201, 69, 0.30),
+      0 2px 8px rgba(167, 201, 69, 0.40),
+      inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  }
+  .ct-bola--miss {
+    opacity: 0.55;
+    filter: grayscale(0.3) saturate(0.55);
+  }
+  /* Chip selecionado pelo usuário (clique no step-3) — azul claro da paleta */
+  .ct-bola--selected {
+    background: linear-gradient(180deg, #B6E5F2 0%, #9ED7EB 100%);
+    color: #0C1628;
+    border-color: rgba(158, 215, 235, 0.65);
+    box-shadow:
+      0 0 0 2px rgba(158, 215, 235, 0.30),
+      0 2px 8px rgba(158, 215, 235, 0.40),
+      inset 0 1px 0 rgba(255, 255, 255, 0.65);
+  }
+  /* Interatividade: cursor + reaction sutil quando clicável */
+  .ct-bola[role="button"] {
+    cursor: pointer;
+    transition: transform 0.10s ease, box-shadow 0.18s ease, background 0.18s ease;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .ct-bola[role="button"]:active { transform: scale(0.94); }
+  .ct-bola[role="button"]:focus-visible {
+    outline: 2px solid #9ED7EB;
+    outline-offset: 2px;
+  }
+  /* Placeholder "?" — dezena ainda não gerada (status awaiting) */
+  .ct-bola--placeholder {
+    background: linear-gradient(180deg, #2a3550 0%, #1a2238 100%);
+    color: rgba(255, 255, 255, 0.30);
+    border-color: rgba(243, 146, 8, 0.18);
+    box-shadow:
+      0 2px 6px rgba(0, 0, 0, 0.30),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    cursor: default;
+  }
+  .ct-cartela--await {
+    border-color: rgba(243, 146, 8, 0.30);
+    background: linear-gradient(180deg, rgba(243, 146, 8, 0.05), rgba(0, 0, 0, 0.42));
+  }
+  .ct-cr-await {
+    color: #F8AF4F;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+  }
+  .ct-cartela-result {
+    font-family: var(--font-body);
+    font-size: 11px;
+    color: #c7d6e8;
+    letter-spacing: 0.02em;
+  }
+  .ct-cartela-result b { color: #F8AF4F; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .ct-cartela-result .ct-cr-win { color: #B6D37B; }
 
   .ct-empty {
     padding: 24px 16px;
@@ -2051,7 +2327,7 @@
     max-width: var(--app-max-width, 480px);
     display: flex;
     justify-content: center;
-    margin: 4px 0 14px;
+    margin: 4px 0 22px;
     position: relative;
     z-index: 2;
   }
@@ -2118,10 +2394,10 @@
     margin: 3px 0 0;
     text-align: center;
     font-family: var(--font-body);
-    font-size: 9px;
+    font-size: 7.5px;
     font-weight: 600;
     color: var(--muted-2);
-    letter-spacing: 0.18em;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
   }
 
@@ -2239,6 +2515,84 @@
     font-weight: 500;
     color: var(--muted);
     line-height: 1.35;
+  }
+
+  /* === "Como pagar em 3 passos" — 3 cards verticais (mesmo padrão dos benefícios) === */
+  .howto-title {
+    width: 100%;
+    text-align: center;
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 11px;
+    color: var(--gold-bright, #F39208);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    margin: 2px 0 -2px;
+  }
+  .howto-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    width: 100%;
+  }
+  .howto-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    padding: 26px 8px 12px;
+    background: linear-gradient(180deg, rgba(26, 47, 81, 0.55), rgba(12, 22, 40, 0.75));
+    border: 1px solid rgba(243, 146, 8, 0.22);
+    border-radius: 12px;
+    text-align: center;
+  }
+  .howto-card-num {
+    position: absolute;
+    top: -11px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 22px; height: 22px;
+    background: linear-gradient(135deg, var(--gold-bright, #F39208), var(--gold-deep, #C97500));
+    color: #0C1628;
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 12px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 10px rgba(243, 146, 8, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  }
+  .howto-card-icon {
+    margin-top: 6px;
+    width: 38px; height: 38px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 10px;
+    background: linear-gradient(135deg, rgba(243, 146, 8, 0.20), rgba(243, 146, 8, 0.06));
+    color: var(--gold-bright, #F39208);
+    flex-shrink: 0;
+  }
+  .howto-card-icon svg { width: 20px; height: 20px; }
+  .howto-card-title {
+    font-family: var(--font-body);
+    font-size: 12.5px;
+    font-weight: 800;
+    color: var(--white, #fff);
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+  }
+  .howto-card-sub {
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--muted, #c7d6e8);
+    line-height: 1.3;
+  }
+  @media (max-width: 380px) {
+    .howto-grid { gap: 8px; }
+    .howto-card { padding: 24px 6px 10px; gap: 6px; }
+    .howto-card-icon { width: 34px; height: 34px; }
+    .howto-card-icon svg { width: 18px; height: 18px; }
+    .howto-card-title { font-size: 11.5px; }
+    .howto-card-sub { font-size: 10.5px; }
   }
 
   /* ============== Logo institucional em moldura branca ==============
@@ -2693,6 +3047,1117 @@
   }
   .phone-modal-foot svg { color: var(--green-300, #B6D37B); }
 
+  /* ============================================================
+     PAGAMENTO — botão "Já paguei" + overlay sucesso + step-3
+  ============================================================ */
+  /* DEV-only: botão sutil só com ícone de check, à direita do QR.
+     Em produção a confirmação vem do webhook do PSP — este botão não existe. */
+  .pay-confirm-btn {
+    position: absolute;
+    top: 50%; right: 4px;
+    transform: translateY(-50%);
+    width: 30px; height: 30px;
+    padding: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(0, 0, 0, 0.45);
+    border: 1px dashed rgba(167, 201, 69, 0.40);
+    color: #B6D37B;
+    border-radius: 50%;
+    cursor: pointer;
+    opacity: 0.45;
+    z-index: 3;
+    transition: opacity 0.18s, border-color 0.18s, background 0.18s, transform 0.18s;
+  }
+  .pay-confirm-btn:hover { opacity: 1; border-color: #A7C945; background: rgba(167, 201, 69, 0.14); }
+  .pay-confirm-btn:active { transform: translateY(-50%) scale(0.92); }
+  .pay-confirm-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+  /* === OVERLAY FULLSCREEN DE PAGAMENTO APROVADO === */
+  .pay-success-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background:
+      radial-gradient(ellipse at 50% 30%, rgba(255, 255, 255, 0.18), transparent 60%),
+      linear-gradient(135deg, #6F8C2F 0%, #A7C945 55%, #B6D37B 100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.40s ease, visibility 0s linear 0.40s;
+  }
+  .pay-success-overlay.show {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.35s ease;
+  }
+  .pay-success-overlay.exiting {
+    opacity: 0;
+    transition: opacity 0.50s ease;
+  }
+  .pay-success-inner {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    transform: translateY(10px) scale(0.94);
+    opacity: 0;
+    transition: opacity 0.40s ease, transform 0.45s var(--ease-out, cubic-bezier(0.34, 1.56, 0.64, 1));
+  }
+  .pay-success-overlay.show .pay-success-inner {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  .pay-success-ring {
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:
+      0 0 0 8px rgba(255, 255, 255, 0.10),
+      0 18px 50px rgba(0, 0, 0, 0.28),
+      inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    position: relative;
+  }
+  .pay-success-ring::before {
+    content: '';
+    position: absolute;
+    inset: -14px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.55);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .pay-success-overlay.show .pay-success-ring::before {
+    animation: pay-ring-pulse 1.6s ease-out 0.6s infinite;
+  }
+  @keyframes pay-ring-pulse {
+    0%   { transform: scale(0.95); opacity: 0.6; }
+    100% { transform: scale(1.28); opacity: 0; }
+  }
+  .pay-success-svg {
+    width: 76px; height: 76px;
+    display: block;
+    overflow: visible;
+  }
+  .pay-success-circle {
+    fill: none;
+    stroke: #ffffff;
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-dasharray: 220;
+    stroke-dashoffset: 220;
+    transform-origin: 40px 40px;
+    transform: rotate(-90deg);
+  }
+  .pay-success-check {
+    fill: none;
+    stroke: #ffffff;
+    stroke-width: 6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 80;
+    stroke-dashoffset: 80;
+  }
+  .pay-success-overlay.show .pay-success-circle {
+    animation: pay-circle-draw 0.55s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+  }
+  .pay-success-overlay.show .pay-success-check {
+    animation: pay-check-draw 0.45s cubic-bezier(0.65, 0, 0.45, 1) 0.45s forwards;
+  }
+  @keyframes pay-circle-draw { to { stroke-dashoffset: 0; } }
+  @keyframes pay-check-draw { to { stroke-dashoffset: 0; } }
+  .pay-success-title {
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: clamp(26px, 6.5vw, 34px);
+    color: #ffffff;
+    margin: 0;
+    letter-spacing: 0.01em;
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.18);
+  }
+  .pay-success-sub {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.94);
+    margin: 0;
+    letter-spacing: 0.02em;
+  }
+
+  /* === STEP 3 — DEZENAS REVELADAS === */
+  .step-3 { display: none; }
+  body[data-step="3"] .step-1,
+  body[data-step="3"] .step-2 { display: none; }
+  body[data-step="3"] .step-3 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: var(--app-max-width, 480px);
+    gap: 16px;
+    animation: rise 0.5s var(--ease-out, ease-out);
+  }
+  .success-chip--paid {
+    background: linear-gradient(135deg, rgba(167, 201, 69, 0.22), rgba(167, 201, 69, 0.06));
+    border-color: rgba(167, 201, 69, 0.6);
+  }
+  .reveal-prize-inline {
+    color: #F8AF4F;
+    font-weight: 800;
+  }
+  /* Step-3 e step-await: título/sub mais compactos pra dar respiro */
+  body[data-step="3"] .step-3,
+  body[data-step="await"] .step-await { gap: 12px; padding: 0 4px; }
+  body[data-step="3"] .success-title,
+  body[data-step="await"] .success-title {
+    font-size: clamp(22px, 5.6vw, 26px);
+    line-height: 1.1;
+    text-wrap: balance;
+  }
+  body[data-step="3"] .success-sub,
+  body[data-step="await"] .success-sub {
+    font-size: 12.5px;
+    line-height: 1.4;
+    max-width: 90%;
+    margin: 0 auto;
+  }
+  /* Wrap de 4 cartelas (uma por sorteio) */
+  .reveal-cartelas {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .ct-cartela--reveal {
+    width: 100%;
+    padding: 10px 12px 12px;
+    border-color: rgba(243, 146, 8, 0.40);
+    background: linear-gradient(180deg, rgba(243, 146, 8, 0.08), rgba(0, 0, 0, 0.42));
+    box-shadow: 0 6px 18px rgba(243, 146, 8, 0.15);
+    animation: reveal-card-pop 0.50s var(--ease-out, cubic-bezier(0.34, 1.56, 0.64, 1)) backwards;
+  }
+  .reveal-cartelas .ct-cartela--reveal:nth-child(1) { animation-delay: 0.05s; }
+  .reveal-cartelas .ct-cartela--reveal:nth-child(2) { animation-delay: 0.15s; }
+  .reveal-cartelas .ct-cartela--reveal:nth-child(3) { animation-delay: 0.25s; }
+  .reveal-cartelas .ct-cartela--reveal:nth-child(4) { animation-delay: 0.35s; }
+  /* Cartela do prêmio principal (jackpot) — destaque adicional */
+  .ct-cartela--jackpot {
+    border-color: rgba(243, 146, 8, 0.75) !important;
+    background: linear-gradient(180deg, rgba(243, 146, 8, 0.18), rgba(0, 0, 0, 0.45)) !important;
+    box-shadow:
+      0 8px 24px rgba(243, 146, 8, 0.30),
+      0 0 0 1px rgba(243, 146, 8, 0.35) inset !important;
+  }
+  /* Label da cartela com sub-info em itálico (data do sorteio) */
+  .ct-cartela-label i {
+    font-family: var(--font-body);
+    font-style: normal;
+    font-weight: 600;
+    color: var(--muted, #c7d6e8);
+    letter-spacing: 0.02em;
+    text-transform: none;
+  }
+  /* Tag de prêmio (R$ 30 mil / R$ 1 milhão) */
+  .reveal-tag-prize {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    background: rgba(243, 146, 8, 0.16);
+    border: 1px solid rgba(243, 146, 8, 0.40);
+    color: #F8AF4F;
+    border-radius: 12px;
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+  }
+  .reveal-tag-jackpot {
+    background: linear-gradient(135deg, #F8AF4F, #F39208);
+    color: #0C1628;
+    border-color: #F39208;
+    box-shadow: 0 2px 8px rgba(243, 146, 8, 0.45);
+  }
+  /* Cartela compacta — chip menor pra caber 4 grids confortavelmente */
+  body[data-step="3"] .ct-cartela-row,
+  body[data-step="await"] .ct-cartela-row { gap: 5px; }
+  body[data-step="3"] .ct-bola,
+  body[data-step="await"] .ct-bola {
+    font-size: clamp(10px, 2.4vw, 12px);
+    border-radius: 7px;
+  }
+  @keyframes reveal-card-pop {
+    from { opacity: 0; transform: scale(0.95) translateY(6px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  /* Animação das dezenas: ver ".ct-cartela--reveal .ct-bola" (ball-in) no bloco importado */
+  .reveal-meta {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.40);
+    border: 1px solid rgba(243, 146, 8, 0.18);
+    border-radius: 12px;
+    padding: 10px 12px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 12px;
+    row-gap: 6px;
+    margin: 0;
+    align-items: center;
+  }
+  .reveal-meta dt {
+    font-family: var(--font-body);
+    font-size: 9px;
+    font-weight: 800;
+    color: var(--muted-2, #7e93b0);
+    letter-spacing: 0.20em;
+    text-transform: uppercase;
+  }
+  .reveal-meta dd {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 12px;
+    color: #ffffff;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+  .reveal-meta dd.reveal-mono {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+  }
+  .reveal-meta dd.reveal-prize {
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    color: #F8AF4F;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+  }
+  .reveal-back-btn {
+    margin-top: 2px;
+    align-self: stretch;
+    padding: 11px 16px;
+    background: transparent;
+    border: 1.5px solid rgba(243, 146, 8, 0.35);
+    color: var(--gold-bright, #F39208);
+    border-radius: 14px;
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: border-color 0.18s, background 0.18s, color 0.18s, transform 0.18s;
+  }
+  .reveal-back-btn:hover {
+    border-color: #F39208;
+    background: rgba(243, 146, 8, 0.10);
+    color: #ffffff;
+  }
+  .reveal-back-btn:active { transform: scale(0.98); }
+  .reveal-back-btn svg { width: 14px; height: 14px; }
+
+  /* WhatsApp button "sent" state quando o user clica em "Receber PDF no WhatsApp" */
+  #revealWhatsBtn.sent {
+    background: linear-gradient(135deg, #C7E089, #A7C945 50%, #8FB438);
+    color: #0C1628;
+    pointer-events: none;
+  }
+
+  /* Chip "WhatsApp salvo" — aparece no step-1 quando o user já cadastrou o número */
+  .saved-wa-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px 6px 12px;
+    background: rgba(167, 201, 69, 0.10);
+    border: 1px solid rgba(167, 201, 69, 0.40);
+    border-radius: 22px;
+    color: var(--green-300, #B6D37B);
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    align-self: center;
+    margin-top: -2px;
+  }
+  .saved-wa-chip svg {
+    width: 12px; height: 12px;
+    flex-shrink: 0;
+    color: #A7C945;
+  }
+  .saved-wa-text b {
+    color: #ffffff;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    margin-left: 2px;
+  }
+  .saved-wa-edit {
+    background: transparent;
+    border: none;
+    padding: 0 6px;
+    color: var(--gold-bright, #F39208);
+    font-family: var(--font-body);
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-left: 1px solid rgba(167, 201, 69, 0.30);
+    transition: color 0.18s;
+  }
+  .saved-wa-edit:hover { color: #ffffff; }
+
+  /* ============================================================
+     STEP AWAIT — Pagou, mas o sorteio ainda não abriu
+  ============================================================ */
+  .step-await { display: none; }
+  body[data-step="await"] .step-1,
+  body[data-step="await"] .step-2,
+  body[data-step="await"] .step-3 { display: none; }
+  body[data-step="await"] .step-await {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: var(--app-max-width, 480px);
+    gap: 14px;
+    animation: rise 0.5s var(--ease-out, ease-out);
+  }
+
+  /* Cross-sell CTA: comprar mais (cor gold, contraste alto) */
+  .await-cross-cta {
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 16px;
+    background: linear-gradient(135deg, rgba(243, 146, 8, 0.18), rgba(243, 146, 8, 0.04));
+    border: 1.5px solid rgba(243, 146, 8, 0.55);
+    color: #ffffff;
+    border-radius: 14px;
+    cursor: pointer;
+    text-align: left;
+    transition: border-color 0.18s, background 0.18s, transform 0.18s, box-shadow 0.18s;
+    box-shadow: 0 6px 18px rgba(243, 146, 8, 0.18);
+    font-family: inherit;
+  }
+  .await-cross-cta:hover {
+    border-color: #F39208;
+    background: linear-gradient(135deg, rgba(243, 146, 8, 0.28), rgba(243, 146, 8, 0.08));
+    box-shadow: 0 10px 28px rgba(243, 146, 8, 0.30);
+  }
+  .await-cross-cta:active { transform: scale(0.98); }
+  .await-cross-cta-ico {
+    width: 38px; height: 38px;
+    background: linear-gradient(135deg, #F8AF4F, #F39208);
+    color: #0C1628;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 22px;
+    box-shadow: 0 4px 10px rgba(243, 146, 8, 0.40);
+  }
+  .await-cross-cta-text { display: flex; flex-direction: column; gap: 1px; line-height: 1.25; }
+  .await-cross-cta-text b {
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 14.5px;
+    color: #ffffff;
+    letter-spacing: 0.02em;
+  }
+  .await-cross-cta-text small {
+    font-family: var(--font-body);
+    font-size: 11px;
+    color: var(--muted, #c7d6e8);
+    font-weight: 600;
+  }
+  .await-cross-cta-arrow {
+    width: 18px; height: 18px;
+    color: var(--gold-bright, #F39208);
+    flex-shrink: 0;
+  }
+
+  /* Ícone circular de relógio */
+  .await-clock {
+    width: 84px; height: 84px;
+    margin: 4px auto 0;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 30% 25%, rgba(243, 146, 8, 0.18), transparent 60%),
+      linear-gradient(180deg, rgba(26, 47, 81, 0.55), rgba(12, 22, 40, 0.85));
+    border: 1.5px solid rgba(243, 146, 8, 0.45);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow:
+      0 8px 22px rgba(0, 0, 0, 0.40),
+      0 0 0 6px rgba(243, 146, 8, 0.06),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    color: var(--gold-bright, #F39208);
+  }
+  .await-clock svg { width: 38px; height: 38px; }
+
+  /* Countdown flip — caixinhas com DD : HH : MM : SS */
+  .await-countdown {
+    width: 100%;
+    background: linear-gradient(180deg, rgba(26, 47, 81, 0.45), rgba(12, 22, 40, 0.85));
+    border: 1px solid rgba(243, 146, 8, 0.22);
+    border-radius: 14px;
+    padding: 14px 14px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  .await-countdown-label {
+    font-family: var(--font-body);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.30em;
+    text-transform: uppercase;
+    color: var(--muted-2, #7e93b0);
+  }
+  .await-countdown-flip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .flip-cell {
+    background: rgba(0, 0, 0, 0.55);
+    border: 1px solid rgba(243, 146, 8, 0.18);
+    border-radius: 10px;
+    padding: 8px 10px 6px;
+    min-width: 56px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    position: relative;
+  }
+  .flip-cell::after {
+    content: '';
+    position: absolute;
+    left: 6px; right: 6px;
+    top: 50%;
+    height: 1px;
+    background: rgba(0, 0, 0, 0.55);
+    pointer-events: none;
+  }
+  .flip-cell b {
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: clamp(26px, 8vw, 32px);
+    color: var(--gold-bright, #F39208);
+    line-height: 1;
+    letter-spacing: 0.04em;
+    font-variant-numeric: tabular-nums;
+    text-shadow: 0 2px 6px rgba(243, 146, 8, 0.25);
+  }
+  .flip-cell small {
+    font-family: var(--font-body);
+    font-size: 8.5px;
+    font-weight: 800;
+    color: var(--muted-2, #7e93b0);
+    letter-spacing: 0.16em;
+  }
+  .flip-sep {
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 24px;
+    color: var(--gold-bright, #F39208);
+    opacity: 0.6;
+    line-height: 1;
+    align-self: flex-start;
+    margin-top: 6px;
+  }
+  .await-countdown-sub {
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted, #c7d6e8);
+    letter-spacing: 0.02em;
+  }
+
+  /* Sorteio ao vivo */
+  .await-live {
+    width: 100%;
+    background: linear-gradient(135deg, rgba(1, 102, 179, 0.20), rgba(0, 0, 0, 0.40));
+    border: 1px solid rgba(158, 215, 235, 0.30);
+    border-radius: 12px;
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .await-live-ico {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, var(--skyblue-500, #9ED7EB), #1A2F51);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+  }
+  .await-live-ico svg { width: 18px; height: 18px; }
+  .await-live-text { flex: 1; line-height: 1.25; min-width: 0; }
+  .await-live-label {
+    font-family: var(--font-body);
+    font-size: 9.5px;
+    font-weight: 800;
+    color: var(--skyblue-500, #9ED7EB);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+  .await-live-main {
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 13px;
+    color: #ffffff;
+    margin-top: 2px;
+    letter-spacing: 0.02em;
+  }
+  .await-live-sub {
+    font-family: var(--font-body);
+    font-size: 11px;
+    color: var(--muted, #c7d6e8);
+    margin-top: 2px;
+    letter-spacing: 0.02em;
+  }
+
+  /* Ícone cadeado na label de "Suas dezenas" do step-await */
+  .await-lock-ico {
+    width: 12px; height: 12px;
+    vertical-align: -2px;
+    margin-right: 4px;
+    color: var(--gold-bright, #F39208);
+  }
+
+  .await-footnote {
+    margin: 6px 0 0;
+    font-family: var(--font-body);
+    font-size: 11.5px;
+    color: var(--muted, #c7d6e8);
+    line-height: 1.45;
+    text-align: center;
+  }
+  .await-footnote b { color: var(--gold-bright, #F39208); font-weight: 800; }
+
+  /* DEMO-only botão (atalho de teste — fica discreto) */
+  .await-demo-btn {
+    margin-top: 2px;
+    padding: 8px 14px;
+    background: transparent;
+    border: 1px dashed rgba(167, 201, 69, 0.50);
+    color: var(--green-300, #B6D37B);
+    border-radius: 18px;
+    font-family: var(--font-body);
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: border-color 0.18s, background 0.18s, color 0.18s, transform 0.18s;
+  }
+  .await-demo-btn:hover {
+    border-color: #A7C945;
+    background: rgba(167, 201, 69, 0.10);
+    color: #ffffff;
+  }
+  .await-demo-btn:active { transform: scale(0.97); }
+  .await-demo-btn svg { width: 12px; height: 12px; }
+
+  /* ============================================================
+     COMPONENTES IMPORTADOS DO appweb_surpresinha
+     (qty-selector · campaign prêmios · steps · giro · ball-in · regulamento)
+  ============================================================ */
+
+  /* ---- 1. QTY SELECTOR (step-qty) ---- */
+  .qty-selector {
+    width: 100%;
+    padding: 18px 16px 16px;
+    background: linear-gradient(180deg, rgba(26, 47, 81, 0.78), rgba(12, 22, 40, 0.92));
+    border: 1px solid rgba(158, 215, 235, 0.22);
+    border-radius: 16px;
+    box-shadow: 0 6px 22px rgba(12, 22, 40, 0.45);
+    position: relative;
+    overflow: hidden;
+  }
+  .qty-selector::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: repeating-linear-gradient(135deg, transparent 0 14px, rgba(248,175,79,0.022) 14px 15px);
+    pointer-events: none;
+  }
+  .qty-head { text-align: center; margin-bottom: 22px; position: relative; z-index: 1; }
+  .qty-eyebrow {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 12px;
+    background: linear-gradient(135deg, var(--gold-bright), var(--gold-deep));
+    color: #0C1628;
+    border-radius: 20px;
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase;
+    margin-bottom: 8px;
+    box-shadow: 0 4px 12px rgba(243, 146, 8, 0.35);
+  }
+  .qty-title {
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 18px; color: var(--white); letter-spacing: 0.01em; line-height: 1.15;
+  }
+  .qty-sub { font-family: var(--font-body); font-size: 11px; color: var(--muted); margin-top: 4px; }
+  .qty-options {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+    margin-top: 14px; position: relative; z-index: 1;
+  }
+  @media (max-width: 400px) { .qty-options { grid-template-columns: repeat(2, 1fr); } }
+  .qty-option {
+    position: relative;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+    height: 116px; box-sizing: border-box; padding: 16px 6px 14px;
+    background: linear-gradient(180deg, rgba(12, 22, 40, 0.85), rgba(8, 16, 30, 0.95));
+    border: 1.5px solid rgba(158, 215, 235, 0.18);
+    border-radius: 12px; cursor: pointer; font-family: inherit; color: inherit;
+    transition: transform 0.18s var(--ease-out), border-color 0.18s, box-shadow 0.18s;
+  }
+  .qty-option .qty-mult, .qty-option .qty-price, .qty-option .qty-tag { white-space: nowrap; }
+  .qty-option:hover { transform: translateY(-2px); border-color: rgba(243, 146, 8, 0.5); }
+  .qty-option.active {
+    border-color: var(--gold-bright);
+    background: linear-gradient(180deg, rgba(243, 146, 8, 0.22), rgba(12, 22, 40, 0.9));
+    box-shadow: 0 6px 22px rgba(243, 146, 8, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    transform: translateY(-2px);
+  }
+  .qty-option.active::after {
+    content: '✓'; position: absolute; top: 6px; right: 8px;
+    width: 18px; height: 18px; background: var(--gold-bright); color: #0C1628;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display); font-style: italic; font-weight: 800; font-size: 10px;
+    box-shadow: 0 2px 6px rgba(243, 146, 8, 0.4);
+  }
+  .qty-mult {
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 28px; color: var(--gold-bright); line-height: 1; letter-spacing: 0.02em;
+    text-shadow: 0 1px 8px rgba(243, 146, 8, 0.3);
+  }
+  .qty-option.active .qty-mult { text-shadow: 0 2px 12px rgba(243, 146, 8, 0.55); }
+  .qty-price {
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 12px; color: var(--white); letter-spacing: 0.02em; font-variant-numeric: tabular-nums;
+  }
+  .qty-tag {
+    font-family: var(--font-body); font-size: 8.5px; font-weight: 700; color: var(--gold-bright);
+    letter-spacing: 0.12em; text-transform: uppercase; margin-top: 2px;
+  }
+  .qty-tag.muted { color: var(--muted-2); }
+  .qty-badge {
+    position: absolute; top: -8px; left: 50%; transform: translateX(-50%);
+    padding: 2px 7px; background: linear-gradient(135deg, #A7C945, #A7C945); color: white;
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 8px; letter-spacing: 0.14em; border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(167, 201, 69, 0.5); white-space: nowrap;
+  }
+  .qty-badge.top {
+    background: linear-gradient(135deg, var(--gold-bright), var(--gold-deep)); color: #0C1628;
+    box-shadow: 0 2px 10px rgba(243, 146, 8, 0.55);
+  }
+  .qty-stepper-toggle {
+    margin-top: 10px; width: 100%; display: flex; align-items: center; justify-content: center; gap: 6px;
+    background: transparent; border: 1px dashed rgba(243, 146, 8, 0.40); border-radius: 12px;
+    padding: 10px 14px; font-family: var(--font-body); font-size: 12px; font-weight: 700;
+    letter-spacing: 0.06em; color: rgba(243, 146, 8, 0.85); cursor: pointer;
+    transition: background 150ms ease, color 150ms ease, border-color 150ms ease;
+  }
+  .qty-stepper-toggle:hover { background: rgba(243, 146, 8, 0.08); color: #fff; border-color: rgba(243, 146, 8, 0.70); }
+  .qty-stepper-toggle svg { transition: transform 200ms ease; }
+  .qty-stepper-toggle.is-open svg { transform: rotate(45deg); }
+  .qty-stepper-wrap {
+    margin-top: 10px; display: none; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 10px 14px; background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(243, 146, 8, 0.15);
+    border-radius: 10px; position: relative; z-index: 1; animation: qty-stepper-in 220ms ease;
+  }
+  .qty-stepper-wrap.is-open { display: flex; }
+  @keyframes qty-stepper-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+  .qty-stepper-label {
+    font-family: var(--font-body); font-size: 10.5px; font-weight: 700; color: var(--muted);
+    letter-spacing: 0.08em; text-transform: uppercase; flex: 1; text-align: left;
+  }
+  .qty-stepper {
+    display: inline-flex; align-items: center; gap: 0;
+    background: linear-gradient(180deg, rgba(28, 16, 6, 0.9), rgba(0, 0, 0, 0.8));
+    border: 1px solid rgba(243, 146, 8, 0.3); border-radius: 20px; padding: 3px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+  .qty-step-btn {
+    width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(135deg, var(--gold-bright), var(--gold-deep)); color: #0C1628;
+    border: none; border-radius: 50%; cursor: pointer;
+    box-shadow: 0 2px 6px rgba(243, 146, 8, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    transition: transform 0.12s, box-shadow 0.12s;
+  }
+  .qty-step-btn:hover { transform: scale(1.08); box-shadow: 0 4px 10px rgba(243, 146, 8, 0.55); }
+  .qty-step-btn:active { transform: scale(0.95); }
+  .qty-step-btn:disabled { background: linear-gradient(135deg, #6b5530, #4a3820); cursor: not-allowed; opacity: 0.4; box-shadow: none; }
+  .qty-step-input {
+    width: 56px; height: 32px; background: transparent; border: none; color: var(--gold-bright);
+    font-family: var(--font-display); font-style: italic; font-weight: 800; font-size: 17px;
+    text-align: center; letter-spacing: 0.02em; font-variant-numeric: tabular-nums; outline: none;
+    text-shadow: 0 1px 8px rgba(243, 146, 8, 0.4); padding: 0; -moz-appearance: textfield;
+  }
+  .qty-step-input::-webkit-outer-spin-button, .qty-step-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .qty-step-input:focus { background: rgba(243, 146, 8, 0.08); border-radius: 6px; }
+  .qty-summary {
+    margin-top: 12px; padding: 12px 14px; background: rgba(12, 22, 40, 0.6);
+    border: 1px dashed rgba(158, 215, 235, 0.22); border-radius: 10px; position: relative; z-index: 1;
+  }
+  .qty-sum-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; }
+  .qty-sum-label {
+    font-family: var(--font-body); font-size: 11px; font-weight: 800; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--muted-2);
+  }
+  .qty-sum-value {
+    font-family: var(--font-display); font-style: italic; font-weight: 800; font-size: 22px;
+    color: var(--gold-bright); text-shadow: 0 0 14px rgba(243, 146, 8, 0.4); letter-spacing: 0.01em;
+    font-variant-numeric: tabular-nums; transition: transform 0.2s var(--ease-out);
+  }
+  .qty-sum-value.bump { animation: qty-bump 0.4s ease-out; }
+  @keyframes qty-bump { 0% { transform: scale(1); } 40% { transform: scale(1.12); } 100% { transform: scale(1); } }
+  .qty-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
+  .qty-stat {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+    padding: 8px 4px; background: rgba(26, 47, 81, 0.7); border: 1px solid rgba(158, 215, 235, 0.18);
+    border-radius: 8px; text-align: center;
+  }
+  .qty-stat-value {
+    font-family: var(--font-display); font-style: italic; font-weight: 800; font-size: 16px;
+    color: var(--gold-bright); font-variant-numeric: tabular-nums; line-height: 1;
+  }
+  .qty-stat-label {
+    font-family: var(--font-body); font-size: 9px; font-weight: 700; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 0.08em; line-height: 1.2;
+  }
+
+  /* ---- 2. CAMPAIGN PRÊMIOS (step-await) ---- */
+  .campaign {
+    width: 100%; margin: 0; border-radius: 16px; padding: 16px 18px 14px;
+    background:
+      linear-gradient(135deg, rgba(243, 146, 8, 0.22), rgba(217, 119, 6, 0.08)),
+      radial-gradient(ellipse at 100% 0%, rgba(248, 175, 79, 0.2), transparent 60%),
+      linear-gradient(180deg, rgba(28, 16, 6, 0.85), rgba(0, 0, 0, 0.55));
+    border: 1px solid rgba(248, 175, 79, 0.5); position: relative; overflow: hidden;
+    box-shadow: 0 6px 20px rgba(243, 146, 8, 0.18);
+  }
+  .campaign::before {
+    content: ''; position: absolute; top: -40%; right: -10%; width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(248, 175, 79, 0.35), transparent 60%); pointer-events: none;
+  }
+  .campaign.compact { padding: 14px 16px; }
+  .campaign-body { position: relative; z-index: 2; display: flex; gap: 14px; align-items: flex-start; text-align: left; margin-bottom: 6px; }
+  .campaign-icon {
+    width: 42px; height: 42px; flex-shrink: 0;
+    background: radial-gradient(circle at 35% 30%, rgba(255,255,255,0.15), transparent 60%), linear-gradient(135deg, #F8AF4F, #F39208);
+    border: 1px solid var(--gold-bright); border-radius: 14px;
+    display: flex; align-items: center; justify-content: center; color: #0C1628;
+    box-shadow: 0 4px 14px rgba(243, 146, 8, 0.4); animation: campaign-icon-pop 2.6s ease-in-out infinite;
+  }
+  @keyframes campaign-icon-pop { 0%, 100% { transform: rotate(-3deg) scale(1); } 50% { transform: rotate(3deg) scale(1.06); } }
+  .campaign-text { flex: 1; min-width: 0; text-align: left; }
+  .campaign-title {
+    font-family: var(--font-display); font-style: italic; font-weight: 800; font-size: 14px;
+    color: var(--gold-bright); letter-spacing: 0.01em; line-height: 1.15; margin-bottom: 4px;
+    text-shadow: 0 1px 8px rgba(243, 146, 8, 0.35);
+  }
+  .campaign-sub { font-family: var(--font-body); font-size: 11.5px; color: var(--muted); line-height: 1.45; }
+  .campaign-prizes {
+    margin-top: 10px; padding: 10px 4px 0; border-top: 1px dashed rgba(248, 175, 79, 0.18);
+    display: flex; flex-direction: column; gap: 5px; position: relative; z-index: 2;
+  }
+  .prize-item {
+    display: flex; align-items: center; gap: 10px; padding: 7px 9px;
+    background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(248, 175, 79, 0.15); border-radius: 10px;
+  }
+  .prize-item.highlight {
+    background: linear-gradient(135deg, rgba(243, 146, 8, 0.18), rgba(0, 0, 0, 0.5));
+    border-color: rgba(248, 175, 79, 0.55);
+    box-shadow: 0 0 12px rgba(243, 146, 8, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+  .prize-item.highlight .prize-val { color: #F8AF4F; text-shadow: 0 0 8px rgba(248, 175, 79, 0.55); }
+  .prize-item.hero-prize {
+    background:
+      radial-gradient(ellipse at 30% 20%, rgba(248, 175, 79, 0.22), transparent 70%),
+      linear-gradient(135deg, rgba(243, 146, 8, 0.28), rgba(217, 119, 6, 0.12)),
+      linear-gradient(180deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7));
+    border: 1.5px solid var(--gold-bright); padding: 12px 14px;
+    box-shadow: 0 6px 22px rgba(243, 146, 8, 0.3), 0 0 0 1px rgba(248, 175, 79, 0.25) inset, inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    position: relative; overflow: hidden; animation: hero-glow 2.8s ease-in-out infinite;
+  }
+  @keyframes hero-glow {
+    0%, 100% { box-shadow: 0 6px 22px rgba(243, 146, 8, 0.3), 0 0 0 1px rgba(248, 175, 79, 0.25) inset, inset 0 1px 0 rgba(255, 255, 255, 0.15); }
+    50% { box-shadow: 0 6px 30px rgba(243, 146, 8, 0.55), 0 0 0 1px rgba(248, 175, 79, 0.5) inset, inset 0 1px 0 rgba(255, 255, 255, 0.2); }
+  }
+  .prize-item.hero-prize::before {
+    content: ''; position: absolute; top: 0; left: -30%; width: 30%; height: 100%;
+    background: linear-gradient(100deg, transparent, rgba(255, 250, 200, 0.18), transparent);
+    transform: skewX(-20deg); animation: hero-shimmer 3.6s ease-in-out infinite; pointer-events: none;
+  }
+  @keyframes hero-shimmer { 0%, 100% { left: -30%; opacity: 0; } 50% { left: 110%; opacity: 1; } }
+  .prize-item.hero-prize .prize-medal {
+    width: 38px; height: 38px; font-size: 20px;
+    background: radial-gradient(circle at 30% 30%, rgba(248, 175, 79, 0.6), rgba(217, 119, 6, 0.3));
+    border: 1.5px solid var(--gold-pale); box-shadow: 0 0 18px rgba(243, 146, 8, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+  .prize-item.hero-prize .prize-when { font-size: 9.5px; color: var(--gold-bright); letter-spacing: 0.18em; }
+  .prize-item.hero-prize .prize-val {
+    font-size: 22px;
+    background: linear-gradient(180deg, #F8AF4F 0%, var(--gold-bright) 50%, #F39208 100%);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    color: transparent; filter: drop-shadow(0 0 8px rgba(248, 175, 79, 0.6)); letter-spacing: 0.02em; text-shadow: none;
+  }
+  .prize-medal {
+    width: 32px; height: 32px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+    font-size: 17px; background: rgba(243, 146, 8, 0.12); border: 1px solid rgba(248, 175, 79, 0.4); border-radius: 50%;
+  }
+  .prize-medal.jackpot { background: radial-gradient(circle at 30% 30%, rgba(248, 175, 79, 0.4), rgba(217, 119, 6, 0.2)); border-color: var(--gold-bright); box-shadow: 0 0 12px rgba(243, 146, 8, 0.45); }
+  .prize-medal.trave { background: rgba(167, 201, 69, 0.14); border-color: rgba(167, 201, 69, 0.5); }
+  .prize-medal.giro { background: rgba(96, 165, 250, 0.14); border-color: rgba(96, 165, 250, 0.5); }
+  .prize-info { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
+  .prize-when { font-family: var(--font-body); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+  .prize-val {
+    font-family: var(--font-display); font-style: italic; font-weight: 800; font-size: 14px;
+    color: var(--gold-bright); letter-spacing: 0.02em; text-shadow: 0 1px 6px rgba(243, 146, 8, 0.35);
+  }
+
+  /* ---- 3. GIRO DA SORTE (step-3) ---- */
+  .giro-card {
+    width: 100%; padding: 14px 16px;
+    background: linear-gradient(180deg, rgba(0,0,0,0.5), rgba(0,0,0,0.3));
+    border: 1px solid var(--accent-border); border-radius: 16px; position: relative; overflow: hidden;
+  }
+  .giro-card::before {
+    content: ''; position: absolute; top: -50%; left: -10%; width: 120%; height: 200%;
+    background: radial-gradient(ellipse at center, rgba(251,191,36,0.14), transparent 60%); pointer-events: none;
+  }
+  .giro-card .label-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; position: relative; }
+  .giro-card .label {
+    font-family: var(--font-display); font-style: italic; font-weight: 800; font-size: 10px;
+    letter-spacing: 0.22em; color: var(--gold-bright); text-transform: uppercase;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .giro-card .label::before { content: '🎰'; font-size: 14px; }
+  .giro-card .hint { font-size: 9px; color: var(--muted-2); letter-spacing: 0.08em; }
+  .giro-display {
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: clamp(28px, 8vw, 38px); letter-spacing: 0.08em;
+    background: linear-gradient(180deg, #F8AF4F 0%, var(--gold-bright) 50%, var(--gold-deep) 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    text-shadow: 0 4px 20px rgba(251,191,36,0.4); font-variant-numeric: tabular-nums;
+    line-height: 1; padding: 6px 0 4px; text-align: center;
+  }
+  .giro-card .giro-extra { text-align: center; font-family: var(--font-body); font-size: 10px; color: var(--muted); margin-top: 2px; letter-spacing: 0.04em; }
+  .giro-card .giro-extra b { color: var(--gold-bright); font-weight: 800; }
+
+  /* ---- 4. ANIMAÇÃO BALL-IN (step-3 dezenas) ---- */
+  body[data-step="3"] .ct-cartela--reveal .ct-bola {
+    opacity: 0; transform: scale(0.3) rotate(-25deg);
+    animation: ball-in 0.5s var(--ease-bounce) forwards;
+  }
+  @keyframes ball-in { to { opacity: 1; transform: scale(1) rotate(0); } }
+
+  /* ---- 5. STEPS "COMO FUNCIONA" (step-1) ---- */
+  .howfunciona { width: 100%; text-align: center; margin-top: 18px; }
+  /* "COMO FUNCIONA" em texto puro (sem pílula laranja) */
+  .steps-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: transparent; color: var(--gold-bright);
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .steps-badge svg { color: var(--gold-bright); }
+  .steps-title { display: flex; flex-direction: column; gap: 4px; align-items: center; }
+  .steps-title-main {
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: clamp(18px, 4vw, 22px); color: var(--white); letter-spacing: 0.01em; line-height: 1.15;
+    text-shadow: 0 2px 12px rgba(243, 146, 8, 0.25);
+  }
+  .steps-title-sub { font-family: var(--font-body); font-size: 11.5px; color: var(--muted); letter-spacing: 0.04em; line-height: 1.4; }
+  .steps-title-sub strong { font-weight: 800; color: var(--gold-bright); }
+  .steps-track {
+    display: flex; gap: 10px; overflow-x: auto; padding: 16px 4px 14px;
+    scroll-snap-type: x mandatory; scrollbar-width: thin; scrollbar-color: rgba(243, 146, 8, 0.3) transparent;
+    -webkit-overflow-scrolling: touch; position: relative; z-index: 2;
+  }
+  .steps-track::-webkit-scrollbar { height: 4px; }
+  .steps-track::-webkit-scrollbar-thumb { background: rgba(243, 146, 8, 0.3); border-radius: 2px; }
+  .steps-track::before {
+    content: ''; position: absolute; top: 62px; left: 12%; right: 12%; height: 2px;
+    background-image: linear-gradient(90deg, var(--gold-bright) 50%, transparent 50%); background-size: 8px 2px;
+    opacity: 0.35; pointer-events: none; z-index: 0;
+  }
+  .step {
+    flex: 0 0 150px; min-width: 150px; scroll-snap-align: start;
+    background: linear-gradient(180deg, rgba(10, 18, 34, 0.92), rgba(6, 11, 22, 0.96));
+    border: 1px solid rgba(243, 146, 8, 0.22); border-radius: 14px; padding: 26px 12px 12px;
+    display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px;
+    position: relative; z-index: 2;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  }
+  .step-num {
+    position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+    width: 26px; height: 26px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold-pale), var(--gold-deep)); color: #0C1628;
+    font-family: var(--font-display); font-style: normal; font-weight: 800; font-size: 13px; line-height: 1;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 10px rgba(243, 146, 8, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    border: 2px solid #0C1628; z-index: 3;
+  }
+  .step-svg {
+    width: 52px; height: 52px; margin-top: 6px; display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(135deg, rgba(243, 146, 8, 0.14), rgba(243, 146, 8, 0.04));
+    border: 1.5px solid rgba(243, 146, 8, 0.35); border-radius: 14px; color: var(--gold-bright); flex-shrink: 0;
+  }
+  .step-svg svg { width: 26px; height: 26px; display: block; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; fill: none; }
+  .step-info { flex: 1; display: flex; flex-direction: column; gap: 2px; justify-content: center; min-height: 32px; }
+  .step-ttl { font-family: var(--font-display); font-style: italic; font-weight: 800; font-size: 11.5px; color: var(--white); letter-spacing: 0.01em; line-height: 1.15; }
+  .step-desc { font-size: 9.5px; color: var(--muted); line-height: 1.3; font-weight: 500; }
+
+  /* ---- 6. REGULAMENTO (footer link + modal) ---- */
+  .regulamento-link {
+    display: inline-flex; align-items: center; gap: 8px; margin: 36px auto 8px;
+    background: rgba(0, 0, 0, 0.25); cursor: pointer;
+    border: 1px dashed rgba(243, 146, 8, 0.35); border-radius: 22px;
+    font-family: var(--font-body); font-size: 11px; font-weight: 600; letter-spacing: 0.04em;
+    color: var(--muted-2); transition: color 0.18s, border-color 0.18s, background 0.18s;
+    padding: 9px 18px;
+  }
+  .regulamento-link:hover { color: var(--gold-bright); border-color: rgba(243, 146, 8, 0.6); background: rgba(243, 146, 8, 0.06); }
+  .regulamento-link svg { width: 13px; height: 13px; }
+  .reg-modal {
+    position: fixed; inset: 0; z-index: 9600; display: none; align-items: center; justify-content: center;
+    padding: 16px;
+    background: radial-gradient(ellipse at 50% 30%, rgba(243,146,8,0.10), transparent 60%), rgba(10, 6, 20, 0.94);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); overflow: hidden;
+  }
+  .reg-modal.open { display: flex; animation: ct-fade-in 0.3s ease-out; }
+  .reg-modal.closing { animation: ct-fade-out 0.25s ease-in forwards; }
+  .reg-card {
+    width: 100%; max-width: var(--app-max-width, 480px); max-height: 88vh;
+    background: linear-gradient(180deg, rgba(26, 47, 81, 0.96) 0%, rgba(12, 22, 40, 0.99) 100%);
+    border: 1px solid rgba(243, 146, 8, 0.30); border-radius: 20px; padding: 24px 20px 18px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    display: flex; flex-direction: column; gap: 12px; position: relative;
+    animation: ct-rise 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .reg-close {
+    position: absolute; top: 14px; right: 14px; width: 32px; height: 32px;
+    background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 50%;
+    color: rgba(255, 255, 255, 0.85); cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: background 0.18s, border-color 0.18s, transform 0.18s;
+  }
+  .reg-close:hover { background: rgba(243, 146, 8, 0.18); border-color: var(--gold-bright); color: var(--gold-bright); transform: rotate(90deg); }
+  .reg-close svg { width: 16px; height: 16px; }
+  .reg-title {
+    font-family: var(--font-display); font-style: italic; font-weight: 800; font-size: 18px;
+    color: var(--white); padding-right: 36px; letter-spacing: 0.01em;
+  }
+  .reg-body {
+    flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain;
+    display: flex; flex-direction: column; gap: 12px; padding-right: 4px;
+  }
+  .reg-body::-webkit-scrollbar { width: 6px; }
+  .reg-body::-webkit-scrollbar-thumb { background: rgba(243, 146, 8, 0.3); border-radius: 20px; }
+  .reg-section-title {
+    font-family: var(--font-display); font-style: italic; font-weight: 800; font-size: 12px;
+    color: var(--gold-bright); letter-spacing: 0.06em; margin-top: 4px;
+  }
+  .reg-body p { font-family: var(--font-body); font-size: 12px; line-height: 1.55; color: var(--muted); margin: 0; }
+  .reg-body p b { color: var(--white); font-weight: 700; }
+  .reg-foot {
+    flex-shrink: 0; padding-top: 8px; border-top: 1px solid rgba(255, 255, 255, 0.08);
+    font-family: var(--font-body); font-size: 10px; color: var(--muted-2); text-align: center; letter-spacing: 0.04em;
+  }
+  body.reg-open { overflow: hidden; }
+
+  /* Texto legal obrigatório no rodapé */
+  .legal-text {
+    width: 100%;
+    max-width: var(--app-max-width, 480px);
+    margin: 4px auto 0;
+    padding: 0 8px;
+    font-family: var(--font-body);
+    font-size: 9.5px;
+    line-height: 1.55;
+    color: var(--muted-2, #7e93b0);
+    text-align: justify;
+    text-justify: inter-word;
+    letter-spacing: 0.01em;
+  }
+  .legal-text b { color: var(--muted, #c7d6e8); font-weight: 700; }
+
+  /* ---- Chip de valor no step-2 (valor dinâmico) ---- */
+  .pay-amount-chip {
+    display: inline-flex; align-items: baseline; gap: 6px; flex-wrap: wrap; justify-content: center;
+    font-family: var(--font-body); font-size: 12px; color: var(--muted);
+  }
+  .pay-amount-chip b {
+    font-family: var(--font-display); font-style: italic; font-weight: 800;
+    font-size: 18px; color: var(--gold-bright); letter-spacing: 0.01em;
+    text-shadow: 0 0 12px rgba(243, 146, 8, 0.35); font-variant-numeric: tabular-nums;
+  }
+
+  /* ---- Banner de premiação reduzido (topo de step-qty e step-2) ---- */
+  .promo-strip {
+    width: 100%;
+    max-width: var(--app-max-width, 480px);
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(243, 146, 8, 0.30);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    flex-shrink: 0;
+    line-height: 0;
+    animation: promo-drop 0.55s var(--ease-out) both;
+  }
+  .promo-strip img {
+    width: 100%; height: auto;
+    display: block;
+  }
+  @keyframes promo-drop {
+    from { opacity: 0; transform: translateY(-26px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ---- Step-qty container ---- */
+  .step-qty { display: none; }
+  /* Voltar — bolinha na linha do logo, visível só no step-qty */
+  .qty-back-circle {
+    display: none;
+    position: absolute; top: 24px; left: 16px; z-index: 5;
+    width: 38px; height: 38px;
+    align-items: center; justify-content: center;
+    background: rgba(0, 0, 0, 0.40); border: 1.5px solid rgba(243, 146, 8, 0.35);
+    border-radius: 50%; color: var(--gold-bright); cursor: pointer;
+    transition: background 0.18s, border-color 0.18s, transform 0.18s;
+  }
+  body[data-step="qty"] .qty-back-circle,
+  body[data-step="2"] .qty-back-circle { display: flex; }
+  .qty-back-circle:hover { background: rgba(243, 146, 8, 0.12); border-color: var(--gold-bright); }
+  .qty-back-circle:active { transform: scale(0.92); }
+  .qty-back-circle svg { width: 18px; height: 18px; }
+  body[data-step="qty"] .step-1,
+  body[data-step="qty"] .step-2,
+  body[data-step="qty"] .step-3,
+  body[data-step="qty"] .step-await { display: none; }
+  body[data-step="qty"] .step-qty {
+    display: flex; flex-direction: column; align-items: center;
+    width: 100%; max-width: var(--app-max-width, 480px); gap: 14px;
+    animation: rise 0.5s var(--ease-out);
+  }
+
 </style>
 </head>
 <body data-step="1">
@@ -2705,6 +4170,13 @@
     <img src="/logos/hiperxcap.svg" alt="HiperXCAP" />
   </div>
 
+  <!-- Voltar (aparece no step-qty e step-2, alinhado à linha do logo) -->
+  <button type="button" class="qty-back-circle" onclick="goBack()" aria-label="Voltar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M15 18l-6-6 6-6"/>
+    </svg>
+  </button>
+
   <!-- ====================== STEP 1: CAPTURE ====================== -->
   <div class="step-1">
 
@@ -2715,11 +4187,7 @@
         <div class="loterico-code" id="locCode">PDV 0237</div>
       </div>
       <div class="loterico-addr" id="locAddr">Av. das Lojas, 100 · Vila Mariana · São Paulo / SP</div>
-      <div class="loterico-meta">
-        <span>📅 <b id="locDate">14/05/2026 · 15:42</b></span>
-        <span>📍 <b id="locCity">São Paulo / SP</b></span>
-      </div>
-      <div class="loterico-hash" id="locHash">SURP-LOT237-20260514-XK2P9</div>
+      <div class="loterico-hash" id="locHash">LOT237-20260514-XK2P9</div>
       <span class="loterico-hash-label">Código de autenticação</span>
     </div>
 
@@ -2736,14 +4204,21 @@
       </span>
     </button>
 
+    <!-- WhatsApp salvo (chip aparece quando o user já cadastrou; pula o modal na próxima compra) -->
+    <div class="saved-wa-chip" id="savedWaChip" role="status" aria-live="polite" style="display:none">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M20 6L9 17l-5-5"/>
+      </svg>
+      <span class="saved-wa-text">WhatsApp salvo: <b id="savedWaPhone">—</b></span>
+      <button type="button" class="saved-wa-edit" onclick="forgetWhats(event)" aria-label="Trocar número">trocar</button>
+    </div>
+
     <!-- Separador: respiro entre CTA primário e bloco de conversão -->
     <hr class="cta-sep" aria-hidden="true">
 
     <!-- CTA head (movido pra baixo do botão) -->
     <div class="cta-head">
-      <span class="eyebrow"><svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg> Pegue a sua agora</span>
       <h1>Receba suas dezenas no <span class="accent">WhatsApp</span></h1>
-      <p>Informe seu número e pague pelo Pix para concorrer aos prêmios desta semana.</p>
     </div>
 
     <!-- Reassurance · 3 benefícios -->
@@ -2765,8 +4240,8 @@
             <path d="M20 6L9 17l-5-5"/>
           </svg>
         </div>
-        <div class="benefit-title">Dezenas reveladas</div>
-        <div class="benefit-sub">na hora do pagamento</div>
+        <div class="benefit-title">Já está concorrendo</div>
+        <div class="benefit-sub">assim que pagar</div>
       </div>
 
       <div class="benefit-card">
@@ -2775,23 +4250,12 @@
             <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/>
           </svg>
         </div>
-        <div class="benefit-title">PDF das dezenas</div>
+        <div class="benefit-title">Receba suas dezenas</div>
         <div class="benefit-sub">via WhatsApp</div>
       </div>
     </div>
 
-    <!-- Hospital banner -->
-    <div class="hospital-banner">
-      <span class="logo-frame logo-frame--sm" aria-hidden="true">
-        <img src="/logos/hospital-de-amor.png" alt="" />
-      </span>
-      <span class="text">Cada Surpresinha ajuda o <b>Hospital de Amor</b> a oferecer tratamento gratuito contra o câncer.</span>
-    </div>
-
-    <!-- Separador antes do CTA secundário (mesma linha do CTA primário) -->
-    <hr class="cta-sep" aria-hidden="true">
-
-    <!-- Consultar meus títulos — ação secundária no rodapé do step-1 -->
+    <!-- Consultar meus títulos — ação secundária logo após os benefícios -->
     <button type="button" class="meus-titulos-card" onclick="ctOpen()" aria-label="Consultar meus títulos">
       <span class="meus-titulos-card__icon" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -2808,15 +4272,134 @@
         <path d="M9 6l6 6-6 6"/>
       </svg>
     </button>
+
+    <!-- Separador -->
+    <hr class="cta-sep" aria-hidden="true">
+
+    <!-- Como funciona — carrossel de 5 passos -->
+    <div class="howfunciona">
+      <span class="steps-badge">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+        Como funciona
+      </span>
+      <div class="steps-track">
+        <div class="step">
+          <span class="step-num">1</span>
+          <span class="step-svg"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3M21 21v.01M17 21h.01M21 17h.01"/></svg></span>
+          <span class="step-info"><span class="step-ttl">Pague pelo Pix</span><span class="step-desc">a partir de R$ 10 por título</span></span>
+        </div>
+        <div class="step">
+          <span class="step-num">2</span>
+          <span class="step-svg"><svg viewBox="0 0 24 24"><circle cx="7" cy="7" r="3"/><circle cx="17" cy="7" r="3"/><circle cx="7" cy="17" r="3"/><circle cx="17" cy="17" r="3"/></svg></span>
+          <span class="step-info"><span class="step-ttl">Receba as dezenas</span><span class="step-desc">direto no seu WhatsApp</span></span>
+        </div>
+        <div class="step">
+          <span class="step-num">3</span>
+          <span class="step-svg"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="13" rx="2"/><path d="m17 2-5 5-5-5"/></svg></span>
+          <span class="step-info"><span class="step-ttl">Sorteio ao vivo</span><span class="step-desc">toda quinta, em rede nacional</span></span>
+        </div>
+        <div class="step">
+          <span class="step-num">4</span>
+          <span class="step-svg"><svg viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M10 14.66V17c0 .55-.47.98-.97 1.21L7 19M14 14.66V17c0 .55.47.98.97 1.21L17 19M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg></span>
+          <span class="step-info"><span class="step-ttl">Concorra a prêmios</span><span class="step-desc">em dinheiro, até R$ 1 milhão</span></span>
+        </div>
+        <div class="step">
+          <span class="step-num">5</span>
+          <span class="step-svg"><svg viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/></svg></span>
+          <span class="step-info"><span class="step-ttl">Você ajuda vidas</span><span class="step-desc">parte do valor vai ao Hospital de Amor</span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hospital banner — após o "Como funciona" -->
+    <div class="hospital-banner">
+      <span class="logo-frame logo-frame--sm" aria-hidden="true">
+        <img src="/logos/hospital-de-amor.png" alt="" />
+      </span>
+      <span class="text">Você cede o direito de resgate ao <b>Hospital de Amor</b> — referência no tratamento gratuito contra o câncer.</span>
+    </div>
+  </div>
+
+  <!-- ====================== STEP QTY: SELEÇÃO DE QUANTIDADE ====================== -->
+  <div class="step-qty">
+    <div class="promo-strip"><img src="../banners/Home_22.png" alt="Concorra a mais de R$ 1.000.000,00 — HiperXCAP" loading="lazy" /></div>
+    <div class="qty-selector">
+      <div class="qty-head">
+        <div class="qty-title">Aumente <span style="color:var(--gold-bright)">suas chances</span></div>
+      </div>
+
+      <div class="qty-options" id="qtyOptions">
+        <button type="button" class="qty-option active" data-qty="1" onclick="selectPreset(1)">
+          <span class="qty-mult">1×</span>
+          <span class="qty-price" data-qty-price="1">R$ 10,00</span>
+          <span class="qty-tag">Atual</span>
+        </button>
+        <button type="button" class="qty-option" data-qty="2" onclick="selectPreset(2)">
+          <span class="qty-mult">2×</span>
+          <span class="qty-price" data-qty-price="2">R$ 20,00</span>
+          <span class="qty-tag muted">+1 chance</span>
+        </button>
+        <button type="button" class="qty-option" data-qty="5" onclick="selectPreset(5)">
+          <span class="qty-mult">5×</span>
+          <span class="qty-price" data-qty-price="5">R$ 50,00</span>
+          <span class="qty-tag">+4 chances</span>
+        </button>
+        <button type="button" class="qty-option" data-qty="10" onclick="selectPreset(10)">
+          <span class="qty-mult">10×</span>
+          <span class="qty-price" data-qty-price="10">R$ 100,00</span>
+          <span class="qty-tag">+9 chances</span>
+        </button>
+      </div>
+
+      <button type="button" class="qty-stepper-toggle" onclick="toggleQtyStepper(this)" aria-expanded="false">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+        </svg>
+        Outro valor
+      </button>
+
+      <div class="qty-stepper-wrap">
+        <span class="qty-stepper-label">Quantidade personalizada</span>
+        <div class="qty-stepper" role="group" aria-label="Ajustar quantidade">
+          <button type="button" class="qty-step-btn" onclick="stepQty(-1)" aria-label="Diminuir quantidade">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg>
+          </button>
+          <input type="tel" inputmode="numeric" class="qty-step-input" id="qtyStepInput" value="1" min="1" max="99" maxlength="2"
+            onchange="setQtyFromInput(this)" oninput="this.value = this.value.replace(/[^\d]/g, '')" aria-label="Quantidade de títulos" />
+          <button type="button" class="qty-step-btn" onclick="stepQty(1)" aria-label="Aumentar quantidade">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="qty-summary">
+        <div class="qty-sum-row">
+          <span class="qty-sum-label">Total</span>
+          <span class="qty-sum-value" id="qtyTotal">R$ 10,00</span>
+        </div>
+      </div>
+    </div>
+
+    <button type="button" class="submit-btn" id="qtyContinueBtn" onclick="qtyContinue()">
+      <span class="btn-default">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M5 12h14M13 5l7 7-7 7"/>
+        </svg>
+        Continuar pro Pix
+      </span>
+    </button>
   </div>
 
   <!-- ====================== STEP 2: CONFIRMATION + QR ====================== -->
   <div class="step-2 anim-rise">
 
+    <div class="promo-strip"><img src="../banners/Home_22.png" alt="Concorra a mais de R$ 1.000.000,00 — HiperXCAP" loading="lazy" /></div>
+
     <div class="success-chip"><span class="check">✓</span><span>Tudo pronto</span></div>
 
     <h1 class="success-title">Pague pelo <span class="accent">Pix</span></h1>
-    <p class="success-sub">Escaneie o QR Code com a câmera do seu celular para revelar suas dezenas.</p>
 
     <!-- WhatsApp confirmation (when user provided phone) -->
     <div class="wa-confirmation" id="waConfirmation">
@@ -2832,18 +4415,6 @@
       <button type="button" class="wa-edit-btn" onclick="editPhone()">Alterar</button>
     </div>
 
-    <!-- Secondary CPF reminder (when user provided WhatsApp) -->
-    <div class="cpf-secondary" id="cpfSecondary">
-      <div class="cpf-secondary-ico">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <rect x="3" y="4" width="18" height="16" rx="2"/>
-          <circle cx="12" cy="10" r="2.5"/>
-          <path d="M7 17c.8-2.5 3-3.5 5-3.5s4.2 1 5 3.5"/>
-        </svg>
-      </div>
-      <span>Também pode consultar pelo <b>CPF do pagador</b> no app a qualquer momento.</span>
-    </div>
-
     <!-- CPF lookup notice (when user skipped phone) -->
     <div class="cpf-notice" id="cpfNotice">
       <div class="cpf-notice-icon">
@@ -2855,7 +4426,7 @@
       </div>
       <div class="cpf-notice-text">
         <div class="cpf-notice-label">Consulta após pagamento</div>
-        <div class="cpf-notice-title">Acesse sua Surpresinha pelo <b>CPF do pagador</b></div>
+        <div class="cpf-notice-title">Acesse seu título pelo <b>CPF do pagador</b></div>
         <div class="cpf-notice-sub">Depois de pagar pelo Pix, o número usado para o pagamento dá acesso ao seu título.</div>
       </div>
       <button type="button" class="cpf-add-phone-btn" onclick="openPhoneModal()">
@@ -3041,6 +4612,12 @@
           </g>
         </svg>
       </div>
+      <!-- DEV ONLY: simula pagamento confirmado. Em produção: webhook do PSP (este botão não existe). -->
+      <button type="button" class="pay-confirm-btn" id="payConfirmBtn" onclick="simulatePayment()" aria-label="DEV · simular pagamento confirmado" title="DEV · simular pagamento">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M20 6L9 17l-5-5"/>
+        </svg>
+      </button>
     </div>
 
     <!-- Pix Copy & Paste block -->
@@ -3050,9 +4627,9 @@
     <div class="pix-copy-block">
       <div class="pix-copy-label">
         <span>Chave Pix copia-e-cola</span>
-        <span class="pix-copy-meta">R$ 10,00</span>
+        <span class="pix-copy-meta" id="pixCopyMeta">R$ 10,00</span>
       </div>
-      <div class="pix-copy-code" id="pixCodeText">00020126580014BR.GOV.BCB.PIX0136a8f5e3c2-7d4b-4e9a-b3c1-f5e8a9d2c4b75204000053039865802BR5925SURPRESINHA HIPERXCAP LT6009SAO PAULO62290525HXC2740100527410052741036304</div>
+      <div class="pix-copy-code" id="pixCodeText">00020126580014BR.GOV.BCB.PIX0136a8f5e3c2-7d4b-4e9a-b3c1-f5e8a9d2c4b75204000053039865802BR5919HIPERXCAP CAIXA CAP6009SAO PAULO62290525HXC2740100527410052741036304</div>
       <button type="button" class="pix-copy-btn" onclick="copyPixCode(this)" aria-label="Copiar código Pix">
         <span class="copy-default">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -3068,36 +4645,55 @@
           <span>Código copiado!</span>
         </span>
       </button>
-      <div class="pix-copy-hint">Cole no app do seu banco para pagar</div>
     </div>
 
-    <!-- Instructions -->
-    <div class="qr-instructions">
-      <div class="qr-instructions-title">Como pagar em 3 passos</div>
-      <div class="qr-step">
-        <span class="num">1</span>
-        <span class="text">Abra o app do seu banco<small>Vá em "Pagar com Pix" → "Escanear QR Code"</small></span>
+    <!-- Como pagar em 3 passos — cards verticais (mesmo padrão dos benefícios do step-1) -->
+    <div class="howto-title">Como pagar em 3 passos</div>
+    <div class="howto-grid">
+      <div class="howto-card">
+        <div class="howto-card-num">1</div>
+        <div class="howto-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="5" y="2" width="14" height="20" rx="2.5"/>
+            <line x1="12" y1="18" x2="12" y2="18"/>
+          </svg>
+        </div>
+        <div class="howto-card-title">Abra o banco</div>
+        <div class="howto-card-sub">vá em "Pagar com Pix"</div>
       </div>
-      <div class="qr-step">
-        <span class="num">2</span>
-        <span class="text">Aponte a câmera no QR Code acima<small>Confira o valor de R$ 10,00 e confirme</small></span>
+
+      <div class="howto-card">
+        <div class="howto-card-num">2</div>
+        <div class="howto-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 7h3l2-3h8l2 3h3v12H3z"/>
+            <circle cx="12" cy="13" r="3.5"/>
+          </svg>
+        </div>
+        <div class="howto-card-title">Escaneie o QR</div>
+        <div class="howto-card-sub">confira <span id="payStepValue">R$ 10,00</span> e confirme</div>
       </div>
-      <div class="qr-step">
-        <span class="num">3</span>
-        <span class="text">Pronto! Receba pelo WhatsApp<small>Suas dezenas e número do Giro chegam em segundos</small></span>
+
+      <div class="howto-card">
+        <div class="howto-card-num">3</div>
+        <div class="howto-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 6L9 17l-5-5"/>
+          </svg>
+        </div>
+        <div class="howto-card-title">Pronto!</div>
+        <div class="howto-card-sub">dezenas no seu WhatsApp</div>
       </div>
     </div>
 
-    <!-- Lotérico mini block — mesmo padrão compacto do step-1 -->
+    <!-- Lotérico block — espelha o card do step-1 -->
     <div class="loterico-block">
       <div class="loterico-head">
         <div class="loterico-name" id="locNameS2">Banca Lopes · Lotérica</div>
         <div class="loterico-code" id="locCodeS2">PDV 0237</div>
       </div>
-      <div class="loterico-meta">
-        <span>📅 <b id="locDateS2">14/05/2026 · 15:42</b></span>
-      </div>
-      <div class="loterico-hash" id="locHashS2">SURP-LOT237-20260514-XK2P9</div>
+      <div class="loterico-addr" id="locAddrS2">Av. das Lojas, 100 · Vila Mariana · São Paulo / SP</div>
+      <div class="loterico-hash" id="locHashS2">LOT237-20260514-XK2P9</div>
       <span class="loterico-hash-label">Código de autenticação</span>
     </div>
 
@@ -3106,9 +4702,199 @@
       <span class="logo-frame logo-frame--sm" aria-hidden="true">
         <img src="/logos/hospital-de-amor.png" alt="" />
       </span>
-      <span class="text">Sua Surpresinha ajuda o <b>Hospital de Amor</b> · Fundação Pio XII.</span>
+      <span class="text">Você cede o direito de resgate ao <b>Hospital de Amor</b> — referência no tratamento gratuito contra o câncer.</span>
     </div>
   </div>
+
+  <!-- ====================== STEP 3: DEZENAS REVELADAS ====================== -->
+  <div class="step-3">
+
+    <div class="success-chip success-chip--paid"><span class="check">✓</span><span>Pagamento confirmado</span></div>
+
+    <h1 class="success-title">Seu <span class="accent">título</span> está pronto</h1>
+    <p class="success-sub">4 cartelas · concorra em <b class="reveal-prize-inline">todos os 4 sorteios</b> da semana.<br>Toque numa dezena para marcar.</p>
+
+    <!-- Nº do Giro da Sorte -->
+    <div class="giro-card">
+      <div class="label-row">
+        <span class="label">Giro da Sorte</span>
+        <span class="hint">7 dígitos · número único</span>
+      </div>
+      <div class="giro-display" id="giroDisplay">0.000.000</div>
+      <div class="giro-extra" id="giroExtra" style="display:none"></div>
+    </div>
+
+    <!-- 4 cartelas: uma por sorteio (3x R$ 30 mil + final R$ 1 milhão) -->
+    <div class="reveal-cartelas" id="revealCartelas"></div>
+
+    <!-- Bloco com info do título -->
+    <dl class="reveal-meta">
+      <dt>Título</dt>
+      <dd id="revealQtyTitle">1× HiperXCAP · R$ 10,00</dd>
+      <dt>PayPix</dt>
+      <dd class="reveal-mono">5183.2471.8847.0428</dd>
+      <dt>Sorteios</dt>
+      <dd>Quinta · 04/06/2026 às 21h30</dd>
+    </dl>
+
+    <!-- CTAs -->
+    <button type="button" class="submit-btn" id="revealWhatsBtn" onclick="revealShareWhats(this)">
+      <span class="btn-default">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        Receber PDF no WhatsApp
+      </span>
+    </button>
+
+    <button type="button" class="reveal-back-btn" onclick="resetToStep1()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M19 12H5M12 5l-7 7 7 7"/>
+      </svg>
+      Comprar outro título
+    </button>
+
+    <!-- Hospital -->
+    <div class="hospital-banner">
+      <span class="logo-frame logo-frame--sm" aria-hidden="true">
+        <img src="/logos/hospital-de-amor.png" alt="" />
+      </span>
+      <span class="text">Você cede o direito de resgate ao <b>Hospital de Amor</b> — referência no tratamento gratuito contra o câncer.</span>
+    </div>
+  </div>
+
+  <!-- ====================== STEP AWAIT: PAGOU, AGUARDANDO SORTEIO ====================== -->
+  <div class="step-await">
+
+    <div class="success-chip success-chip--paid"><span class="check">✓</span><span>Pagamento confirmado</span></div>
+
+    <!-- CTA prioritário: comprar mais (mesmo sorteio = mais chances) -->
+    <button type="button" class="await-cross-cta" onclick="resetToStep1()">
+      <span class="await-cross-cta-ico">+</span>
+      <span class="await-cross-cta-text">
+        <b>Comprar mais títulos</b>
+        <small>Mais chances no mesmo sorteio</small>
+      </span>
+      <svg class="await-cross-cta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M5 12h14M13 5l7 7-7 7"/>
+      </svg>
+    </button>
+
+    <div class="await-clock" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M12 6v6l4 2"/>
+      </svg>
+    </div>
+
+    <h1 class="success-title">Pagamento <span class="accent">recebido!</span><br>Aguardando o sorteio</h1>
+    <p class="success-sub">Recebemos seu Pix. Suas dezenas são geradas assim que o próximo sorteio abrir — quando isso acontecer, revelamos seus números aqui automaticamente.</p>
+
+    <!-- Countdown -->
+    <div class="await-countdown">
+      <div class="await-countdown-label">Próximo sorteio em</div>
+      <div class="await-countdown-flip" id="awaitCountdown">
+        <div class="flip-cell"><b id="awaitDays">--</b><small>DIAS</small></div>
+        <span class="flip-sep">:</span>
+        <div class="flip-cell"><b id="awaitHours">--</b><small>HORAS</small></div>
+        <span class="flip-sep">:</span>
+        <div class="flip-cell"><b id="awaitMins">--</b><small>MIN</small></div>
+        <span class="flip-sep">:</span>
+        <div class="flip-cell"><b id="awaitSecs">--</b><small>SEG</small></div>
+      </div>
+      <div class="await-countdown-sub" id="awaitDateText">Quinta · 04/06/2026 · 21h30</div>
+    </div>
+
+    <!-- Sorteio ao vivo -->
+    <div class="await-live">
+      <div class="await-live-ico" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="6" width="14" height="12" rx="2"/>
+          <path d="M17 10l4-2v8l-4-2z"/>
+        </svg>
+      </div>
+      <div class="await-live-text">
+        <div class="await-live-label">Sorteio ao vivo</div>
+        <div class="await-live-main">Quinta · 04/06/2026 · 21h30</div>
+        <div class="await-live-sub">RedeTV! · Record News · YouTube</div>
+      </div>
+    </div>
+
+    <!-- Você está concorrendo a tudo isso (lista de prêmios) -->
+    <div class="campaign compact">
+      <div class="campaign-body">
+        <div class="campaign-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0V4z"/><path d="M17 5h2a2 2 0 0 1 0 4h-2M7 5H5a2 2 0 0 0 0 4h2"/></svg>
+        </div>
+        <div class="campaign-text">
+          <div class="campaign-title">Você está concorrendo a tudo isso</div>
+          <div class="campaign-sub">Confira os prêmios que seu título disputa no sorteio desta quinta.</div>
+        </div>
+      </div>
+      <div class="campaign-prizes">
+        <div class="prize-item hero-prize">
+          <span class="prize-medal jackpot"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0V4z"/><path d="M17 5h2a2 2 0 0 1 0 4h-2M7 5H5a2 2 0 0 0 0 4h2"/></svg></span>
+          <div class="prize-info">
+            <span class="prize-when">4º Globo · Grande Prêmio</span>
+            <span class="prize-val">até R$ 1.000.000</span>
+          </div>
+        </div>
+        <div class="prize-item">
+          <span class="prize-medal jackpot"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>
+          <div class="prize-info">
+            <span class="prize-when">1º · 2º · 3º Globo da Sorte</span>
+            <span class="prize-val">R$ 30.000 cada</span>
+          </div>
+        </div>
+        <div class="prize-item highlight">
+          <span class="prize-medal trave">🥈</span>
+          <div class="prize-info">
+            <span class="prize-when">Na Trave · acertos mais próximos das dezenas sorteadas</span>
+            <span class="prize-val">R$ 10 mil a R$ 25 mil</span>
+          </div>
+        </div>
+        <div class="prize-item">
+          <span class="prize-medal giro">🎰</span>
+          <div class="prize-info">
+            <span class="prize-when">Hiper Giro da Sorte · 30 prêmios sorteados</span>
+            <span class="prize-val">R$ 5.000 cada</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 cartelas bloqueadas (uma por sorteio, dezenas geradas no momento do sorteio) -->
+    <div class="reveal-cartelas" id="awaitCartelas"></div>
+
+    <p class="await-footnote">Ainda não geramos seus números — isso acontece no momento em que cada sorteio entra no ar. Pode fechar a página: <b>seu pagamento está garantido</b> e você poderá voltar para ver o resultado.</p>
+
+    <!-- DEMO ONLY: pular pra dezenas reveladas (atalho de teste) -->
+    <button type="button" class="await-demo-btn" onclick="awaitDemoReveal()" aria-label="Demo: revelar dezenas (atalho)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M5 12h14M13 5l7 7-7 7"/>
+      </svg>
+      Demo: simular sorteio aberto
+    </button>
+
+    <!-- Hospital -->
+    <div class="hospital-banner">
+      <span class="logo-frame logo-frame--sm" aria-hidden="true">
+        <img src="/logos/hospital-de-amor.png" alt="" />
+      </span>
+      <span class="text">Você cede o direito de resgate ao <b>Hospital de Amor</b> — referência no tratamento gratuito contra o câncer.</span>
+    </div>
+  </div>
+
+  <!-- Regulamento e condições -->
+  <button type="button" class="regulamento-link" onclick="openReg()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h6"/>
+    </svg>
+    Regulamento e condições de participação
+  </button>
+
+  <!-- Texto legal obrigatório -->
+  <p class="legal-text">Título de Capitalização Filantropia Premiável emitido pela <b>CAIXA Capitalização</b>. Ao adquirir, o cliente cede o direito de resgate ao <b>Hospital de Amor</b>. Premiações pagas em dinheiro. Proibida a venda a menores de 18 anos. Sujeito às condições gerais registradas na SUSEP.</p>
 
   <!-- Credit footer — assinatura discreta da PayPix -->
   <footer class="paypix-credit">
@@ -3116,6 +4902,44 @@
     <img src="/logos/paypix.svg" alt="PayPix" />
   </footer>
 </main>
+
+<!-- ====================== MODAL REGULAMENTO ====================== -->
+<div class="reg-modal" id="regModal" role="dialog" aria-modal="true" aria-labelledby="regTitle">
+  <div class="reg-card">
+    <button type="button" class="reg-close" onclick="closeReg()" aria-label="Fechar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <div class="reg-title" id="regTitle">Regulamento e condições</div>
+    <div class="reg-body">
+      <p>O <b>HiperXCAP</b> é um <b>Título de Capitalização Filantropia Premiável</b> emitido pela <b>CAIXA Capitalização</b>, regido pelas condições gerais aprovadas pela SUSEP e disponibilizadas integralmente no ponto de venda e no site oficial. Evolução da marca HiperCap Brasil.</p>
+      <div class="reg-section-title">1. Participação</div>
+      <p>A participação se dá pela aquisição do título pelo valor vigente (a partir de <b>R$ 10,00</b>), mediante pagamento via Pix. Cada título concorre aos sorteios da edição vigente conforme as dezenas geradas automaticamente. <b>Proibida a venda a menores de 18 anos.</b></p>
+      <div class="reg-section-title">2. Sorteios e premiação</div>
+      <p>São realizados <b>4 sorteios (Globos da Sorte)</b> ao vivo toda <b>quinta-feira às 21h30</b> na RedeTV!, Record News e YouTube. Premiações sempre em dinheiro: 1º, 2º e 3º Globo de R$ 30.000,00 cada; 4º Globo (Grande Prêmio) de R$ 500.000,00 a R$ 1.000.000,00; modalidade "Na Trave" de R$ 10.000,00 a R$ 25.000,00; e Hiper Giro da Sorte com 30 prêmios de R$ 5.000,00. Valores podem variar — consulte a cartela da semana vigente.</p>
+      <div class="reg-section-title">3. Resgate e contemplação</div>
+      <p>É contemplado quem tiver a maior quantidade de acertos próximo às dezenas sorteadas. O pagamento do prêmio é feito ao portador identificado pelo CPF do pagador, mediante apresentação do título e documento.</p>
+      <div class="reg-section-title">4. Cessão do direito de resgate</div>
+      <p>Ao adquirir o título, o cliente <b>cede o direito de resgate ao Hospital de Amor</b> (Fundação Pio XII) — maior centro oncológico de atendimento 100% gratuito da América Latina —, tornando cada título um ato solidário no combate ao câncer.</p>
+      <div class="reg-section-title">5. Dados e privacidade</div>
+      <p>Os dados informados (WhatsApp e CPF) são usados exclusivamente para envio do título e validação da contemplação, conforme a <b>LGPD</b>. O CPF não é armazenado após a consulta de títulos.</p>
+    </div>
+    <div class="reg-foot">Título de Capitalização emitido pela CAIXA Capitalização · Sujeito às condições gerais registradas na SUSEP · Proibida a venda a menores de 18 anos</div>
+  </div>
+</div>
+
+<!-- ====================== PAYMENT SUCCESS OVERLAY (fullscreen) ====================== -->
+<div class="pay-success-overlay" id="paySuccessOverlay" aria-hidden="true">
+  <div class="pay-success-inner">
+    <div class="pay-success-ring">
+      <svg class="pay-success-svg" viewBox="0 0 80 80" aria-hidden="true">
+        <circle class="pay-success-circle" cx="40" cy="40" r="34"/>
+        <path class="pay-success-check" d="M24 41 L36 53 L58 29"/>
+      </svg>
+    </div>
+    <h2 class="pay-success-title">Pagamento aprovado!</h2>
+    <p class="pay-success-sub">Revelando suas dezenas…</p>
+  </div>
+</div>
 
 <!-- ====================== PHONE CAPTURE MODAL ====================== -->
 <div class="phone-modal" id="phoneModal" role="dialog" aria-modal="true" aria-labelledby="phoneModalTitle" style="display:none">
@@ -3165,7 +4989,7 @@
       <input type="checkbox" id="consentChk" checked />
       <span>
         Aceito receber pelo WhatsApp a <b>imagem das minhas dezenas</b>, comunicados sobre sorteios e
-        próximas Surpresinhas. Posso descadastrar a qualquer momento.
+        próximas campanhas. Posso descadastrar a qualquer momento.
       </span>
     </label>
 
@@ -3233,14 +5057,14 @@
     return `${yyyy}${mm}${dd}`;
   }
 
-  // Gera hash: SURP-LOT237-20260514-XK2P9
+  // Gera hash: LOT237-20260514-XK2P9
   function generateHash(loterico, date) {
     const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // sem 0/O/I/1 (confusos)
     let random = '';
     for (let i = 0; i < 5; i++) {
       random += chars[Math.floor(Math.random() * chars.length)];
     }
-    return `SURP-LOT${loterico.id}-${fmtDateForHash(date)}-${random}`;
+    return `LOT${loterico.id}-${fmtDateForHash(date)}-${random}`;
   }
 
   // ============================================================
@@ -3258,14 +5082,12 @@
   setText('locName', LOTERICO_MOCK.nome + ' · Lotérica');
   setText('locCode', 'PDV ' + LOTERICO_MOCK.id);
   setText('locAddr', LOTERICO_MOCK.endereco);
-  setText('locDate', dateStr);
-  setText('locCity', LOTERICO_MOCK.cidade + ' / ' + LOTERICO_MOCK.uf);
   setText('locHash', hash);
 
   // Mirror to step 2
   setText('locNameS2', LOTERICO_MOCK.nome + ' · Lotérica');
   setText('locCodeS2', 'PDV ' + LOTERICO_MOCK.id);
-  setText('locDateS2', dateStr);
+  setText('locAddrS2', LOTERICO_MOCK.endereco);
   setText('locHashS2', hash);
 
   // ============================================================
@@ -3294,11 +5116,67 @@
   });
 
   // ============================================================
+  // Persistência do WhatsApp (localStorage)
+  // ============================================================
+  const WA_STORAGE_KEY = 'hxc.whatsapp';
+
+  function getSavedWhatsApp() {
+    try { return localStorage.getItem(WA_STORAGE_KEY) || ''; }
+    catch (_) { return ''; }
+  }
+  function saveWhatsApp(value) {
+    try { localStorage.setItem(WA_STORAGE_KEY, value); }
+    catch (_) { /* localStorage indisponível: silenciosamente continua */ }
+  }
+  function forgetWhatsApp() {
+    try { localStorage.removeItem(WA_STORAGE_KEY); }
+    catch (_) { /* ignore */ }
+  }
+
+  function refreshSavedWaChip() {
+    const chip = document.getElementById('savedWaChip');
+    const phoneSpan = document.getElementById('savedWaPhone');
+    const saved = getSavedWhatsApp();
+    if (chip) chip.style.display = saved ? 'inline-flex' : 'none';
+    if (phoneSpan && saved) phoneSpan.textContent = saved;
+  }
+
+  window.forgetWhats = function(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    forgetWhatsApp();
+    refreshSavedWaChip();
+    // Limpa também o estado de "tem telefone" pra que o próximo clique reabra o modal.
+    delete document.body.dataset.hasPhone;
+    return false;
+  };
+
+  // ============================================================
   // Phone modal open/close
   // ============================================================
-  window.openPhoneModal = function() {
+  // openPhoneModal: se já temos WhatsApp salvo, pula o modal e vai direto pro step 2.
+  // Caso contrário, abre o modal normalmente.
+  window.openPhoneModal = function(opts) {
+    const force = !!(opts && opts.force);
+    const saved = getSavedWhatsApp();
+    if (saved && !force) {
+      // Reaproveita o número salvo: avança pra seleção de quantidade
+      const inp = document.getElementById('phoneInput');
+      if (inp) inp.value = saved;
+      setText('confirmedPhone', saved);
+      document.body.dataset.step = 'qty';
+      document.body.dataset.hasPhone = 'yes';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
     const modal = document.getElementById('phoneModal');
     if (!modal) return;
+    // Se o user pediu "trocar número", limpa o input pra ele digitar do zero
+    if (force) {
+      const inp = document.getElementById('phoneInput');
+      if (inp) { inp.value = ''; inp.classList.remove('error'); }
+      const err = document.getElementById('phoneError');
+      if (err) err.textContent = '';
+    }
     document.body.classList.add('phone-modal-open');
     modal.style.display = 'flex';
     modal.classList.remove('closing');
@@ -3374,25 +5252,29 @@
 
       userHasPhone = true;
 
+      // Persiste o número pra próxima compra (skip phoneModal na próxima volta)
+      saveWhatsApp(phoneInput.value);
+      refreshSavedWaChip();
+
       // Update confirmed phone
       setText('confirmedPhone', phoneInput.value);
 
-      // Close modal and go to step 2
+      // Close modal and go to quantity selection
       window.closePhoneModal();
       setTimeout(function() {
-        document.body.dataset.step = '2';
+        document.body.dataset.step = 'qty';
         document.body.dataset.hasPhone = 'yes';
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }, 200);
     }, 900);
   };
 
-  // Skip phone: go directly to payment without capturing WhatsApp
+  // Skip phone: vai pra seleção de quantidade sem capturar WhatsApp
   window.skipPhone = function() {
     userHasPhone = false;
     window.closePhoneModal();
     setTimeout(function() {
-      document.body.dataset.step = '2';
+      document.body.dataset.step = 'qty';
       document.body.dataset.hasPhone = 'no';
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }, 200);
@@ -3438,9 +5320,366 @@
   };
 
   window.editPhone = function() {
-    // Open the modal to edit phone (without resetting the step 2)
-    window.openPhoneModal();
+    // Abre o modal forçando entrada manual (limpa o número salvo da memória da UI).
+    // Se o usuário submeter um novo número, ele sobrescreve o localStorage.
+    window.openPhoneModal({ force: true });
   };
+
+  // ============================================================
+  //  SELEÇÃO DE QUANTIDADE (step-qty) — portado do appweb_surpresinha
+  // ============================================================
+  window.__currentQty = 1;
+  function getUnitPriceCents() { return 1000; } // R$ 10,00 (variant 010 lotérico)
+  function fmtMoneyCents(cents) {
+    return (cents / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  }
+
+  window.selectQty = function(qty) {
+    qty = Math.max(1, Math.min(99, parseInt(qty, 10) || 1));
+    window.__currentQty = qty;
+
+    const presets = [1, 2, 5, 10];
+    document.querySelectorAll('.qty-option').forEach(function(opt) {
+      const q = parseInt(opt.dataset.qty, 10);
+      opt.classList.toggle('active', q === qty && presets.indexOf(qty) >= 0);
+    });
+
+    const stepInput = document.getElementById('qtyStepInput');
+    if (stepInput && parseInt(stepInput.value, 10) !== qty) stepInput.value = qty;
+
+    document.querySelectorAll('.qty-step-btn[onclick="stepQty(-1)"]').forEach(function(b) { b.disabled = qty <= 1; });
+    document.querySelectorAll('.qty-step-btn[onclick="stepQty(1)"]').forEach(function(b) { b.disabled = qty >= 99; });
+
+    const totalCents = getUnitPriceCents() * qty;
+    const totalFmt = fmtMoneyCents(totalCents);
+
+    const totalEl = document.getElementById('qtyTotal');
+    if (totalEl) { totalEl.textContent = totalFmt; totalEl.classList.remove('bump'); void totalEl.offsetWidth; totalEl.classList.add('bump'); }
+
+    // Propaga o valor selecionado pro step-2 (QR/Pix) e step-3 (reveal-meta)
+    applyQtyToPayment(qty, totalCents, totalFmt);
+  };
+
+  window.stepQty = function(delta) {
+    window.selectQty((window.__currentQty || 1) + delta);
+  };
+
+  // Clique num preset (1×/2×/5×/10×): seleciona e fecha o stepper custom
+  window.selectPreset = function(qty) {
+    const toggle = document.querySelector('.qty-stepper-toggle');
+    const wrap = document.querySelector('.qty-stepper-wrap');
+    if (wrap) wrap.classList.remove('is-open');
+    if (toggle) { toggle.classList.remove('is-open'); toggle.style.display = ''; }
+    window.selectQty(qty);
+  };
+
+  // "+ Outro valor": some o botão e mostra o stepper (− N +) na mesma linha
+  window.toggleQtyStepper = function(btn) {
+    const wrap = btn.nextElementSibling;
+    if (wrap && wrap.classList.contains('qty-stepper-wrap')) {
+      wrap.classList.add('is-open');
+      btn.style.display = 'none';
+      const inp = wrap.querySelector('input');
+      if (inp) setTimeout(function() { inp.focus(); inp.select(); }, 180);
+    }
+  };
+
+  window.setQtyFromInput = function(inp) {
+    const v = parseInt(inp.value, 10);
+    if (isNaN(v) || v < 1) { inp.value = 1; window.selectQty(1); }
+    else if (v > 99) { inp.value = 99; window.selectQty(99); }
+    else { window.selectQty(v); }
+  };
+
+  // Reescreve o código Pix copia-e-cola com o total atual (mock BR Code EMV)
+  function regeneratePixCode(qty, totalCents) {
+    const qtyStr = qty.toString().padStart(2, '0');
+    const mockCode = '00020126580014BR.GOV.BCB.PIX0136a8f5e3c2-7d4b-4e9a-b3c1-f5e8a9d2c4b75204000053039865802BR5919HIPERXCAP CAIXA CAP6009SAO PAULO62330529HXC27401005274100527410' + qtyStr + '6304';
+    const codeEl = document.getElementById('pixCodeText');
+    if (codeEl) codeEl.textContent = mockCode;
+  }
+
+  // Propaga a quantidade/total escolhidos pro step-2 e step-3
+  function applyQtyToPayment(qty, totalCents, totalFmt) {
+    // step-2: meta do Pix + instrução do passo 2
+    setText('pixCopyMeta', totalFmt);
+    setText('payStepValue', totalFmt);
+    // step-3: bloco meta
+    setText('revealQtyTitle', qty + '× HiperXCAP · ' + totalFmt);
+    regeneratePixCode(qty, totalCents);
+    // Reset estado do botão copiar
+    document.querySelectorAll('.pix-copy-btn').forEach(function(b) { b.classList.remove('copied'); });
+  }
+
+  // Botão "Continuar pro Pix" → vai pro step-2
+  window.qtyContinue = function() {
+    document.body.dataset.step = '2';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Voltar contextual: step-2 → step-qty; step-qty → step-1
+  window.goBack = function() {
+    const step = document.body.dataset.step;
+    if (step === '2') {
+      document.body.dataset.step = 'qty';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      window.resetToStep1();
+    }
+  };
+
+  // ============================================================
+  //  Pagamento simulado → overlay verde → step-await (default)
+  //  Demo "simular sorteio aberto" → step-3 (dezenas reveladas)
+  // ============================================================
+  // Próximo sorteio padrão (alinhado com NEXT_DRAW_DATE do modal). Usamos
+  // uma data fixa em vez de "próximo domingo dinâmico" pra demo consistente.
+  const NEXT_DRAW_TARGET = new Date(2026, 5, 4, 21, 30);
+
+  // 4 cartelas (Globos da Sorte), 1 por sorteio — todos na mesma quinta.
+  // 1º-3º Globo valem R$ 30 mil; 4º Globo (Grande Prêmio) até R$ 1 milhão.
+  const REVEAL_CARTELAS = [
+    { label: '1º Globo', prize: 'R$ 30 mil',
+      numbers: [3, 7, 11, 15, 18, 22, 26, 29, 33, 37, 40, 43, 46, 49, 51, 53, 55, 57, 58, 60] },
+    { label: '2º Globo', prize: 'R$ 30 mil',
+      numbers: [2, 5, 9, 13, 17, 21, 25, 28, 32, 35, 38, 41, 44, 47, 50, 52, 54, 56, 59, 60] },
+    { label: '3º Globo', prize: 'R$ 30 mil',
+      numbers: [4, 8, 12, 16, 19, 23, 27, 31, 34, 37, 42, 45, 48, 50, 52, 54, 56, 57, 59, 60] },
+    { label: '4º Globo · Grande Prêmio', prize: 'até R$ 1 mi',
+      numbers: [1, 6, 10, 14, 18, 22, 25, 28, 31, 35, 39, 42, 45, 47, 49, 51, 53, 55, 58, 60],
+      jackpot: true }
+  ];
+
+  function _pad2(n) { return n < 10 ? '0' + n : '' + n; }
+
+  function _renderCartelaBlock(containerId, mode) {
+    // mode: 'reveal' (números reais) | 'await' (placeholders ?)
+    const wrap = document.getElementById(containerId);
+    if (!wrap || wrap.dataset.rendered === '1') return;
+    const html = REVEAL_CARTELAS.map(function(c, idx) {
+      const tagCls = c.jackpot ? 'reveal-tag-prize reveal-tag-jackpot' : 'reveal-tag-prize';
+      const cartelaCls = 'ct-cartela ct-cartela--reveal' +
+        (mode === 'await' ? ' ct-cartela--await' : '') +
+        (c.jackpot ? ' ct-cartela--jackpot' : '');
+      let bolasHtml = '';
+      if (mode === 'await') {
+        for (let i = 0; i < 20; i++) {
+          bolasHtml += '<span class="ct-bola ct-bola--placeholder" aria-hidden="true">?</span>';
+        }
+      } else {
+        c.numbers.forEach(function(n, i) {
+          const pad = _pad2(n);
+          const delay = (0.10 + (idx * 0.18) + i * 0.020).toFixed(2);
+          bolasHtml += '<span class="ct-bola" role="button" tabindex="0" aria-pressed="false" data-num="' + n + '" style="animation-delay:' + delay + 's">' + pad + '</span>';
+        });
+      }
+      const lockSvg = mode === 'await'
+        ? '<svg class="await-lock-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>'
+        : '';
+      return (
+        '<div class="' + cartelaCls + '">' +
+          '<div class="ct-cartela-head">' +
+            '<span class="ct-cartela-label">' + lockSvg + c.label + '</span>' +
+            '<span class="' + tagCls + '">' + c.prize + '</span>' +
+          '</div>' +
+          '<div class="ct-cartela-row">' + bolasHtml + '</div>' +
+        '</div>'
+      );
+    }).join('');
+    wrap.innerHTML = html;
+    wrap.dataset.rendered = '1';
+  }
+
+  function renderRevealCartela() { _renderCartelaBlock('revealCartelas', 'reveal'); }
+  function renderAwaitCartela()  { _renderCartelaBlock('awaitCartelas',  'await');  }
+
+  // ---- Nº do Giro da Sorte (spin animado) — portado do appweb_surpresinha ----
+  const GIRO_FINAL = '2.741.358';
+  let _giroTimers = [];
+  function _format7(n) {
+    const s = n.toString().padStart(7, '0');
+    return s[0] + '.' + s.slice(1, 4) + '.' + s.slice(4);
+  }
+  function spinGiro() {
+    const el = document.getElementById('giroDisplay');
+    if (!el) return;
+    _giroTimers.forEach(function(t) { clearTimeout(t); }); _giroTimers = [];
+    const spinDuration = 1400, interval = 55;
+    const startTime = Date.now();
+    (function tick() {
+      if (Date.now() - startTime >= spinDuration) { el.textContent = GIRO_FINAL; return; }
+      el.textContent = _format7(Math.floor(Math.random() * 10000000));
+      _giroTimers.push(setTimeout(tick, interval));
+    })();
+    // qty > 1: indica que há mais giros no pedido
+    const extra = document.getElementById('giroExtra');
+    const qty = window.__currentQty || 1;
+    if (extra) {
+      if (qty > 1) { extra.style.display = ''; extra.innerHTML = '+ <b>' + (qty - 1) + '</b> giro(s) neste pedido'; }
+      else { extra.style.display = 'none'; }
+    }
+  }
+
+  let _awaitInterval = null;
+  function updateAwaitCountdown() {
+    const diff = Math.max(0, NEXT_DRAW_TARGET.getTime() - Date.now());
+    const days = Math.floor(diff / (24 * 60 * 60 * 1000));
+    const hours = Math.floor((diff / (60 * 60 * 1000)) % 24);
+    const mins = Math.floor((diff / (60 * 1000)) % 60);
+    const secs = Math.floor((diff / 1000) % 60);
+    const d = document.getElementById('awaitDays');
+    const h = document.getElementById('awaitHours');
+    const m = document.getElementById('awaitMins');
+    const s = document.getElementById('awaitSecs');
+    if (d) d.textContent = _pad2(days);
+    if (h) h.textContent = _pad2(hours);
+    if (m) m.textContent = _pad2(mins);
+    if (s) s.textContent = _pad2(secs);
+  }
+  function startAwaitCountdown() {
+    updateAwaitCountdown();
+    if (_awaitInterval) clearInterval(_awaitInterval);
+    _awaitInterval = setInterval(updateAwaitCountdown, 1000);
+  }
+  function stopAwaitCountdown() {
+    if (_awaitInterval) { clearInterval(_awaitInterval); _awaitInterval = null; }
+  }
+
+  window.simulatePayment = function() {
+    const overlay = document.getElementById('paySuccessOverlay');
+    if (!overlay) return;
+    // Pré-renderiza ambos os steps possíveis pra transição parecer instantânea
+    renderRevealCartela();
+    renderAwaitCartela();
+
+    document.body.style.overflow = 'hidden';
+    overlay.classList.remove('exiting');
+    overlay.setAttribute('aria-hidden', 'false');
+    overlay.classList.add('show');
+
+    // Troca o step underneath enquanto o overlay ainda está visível.
+    // Default: vai pro step-await (sorteio ainda não abriu).
+    setTimeout(function() {
+      document.body.setAttribute('data-step', 'await');
+      startAwaitCountdown();
+      window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+    }, 1500);
+
+    // Fade out do overlay revelando o step
+    setTimeout(function() {
+      overlay.classList.add('exiting');
+    }, 1850);
+
+    // Cleanup final
+    setTimeout(function() {
+      overlay.classList.remove('show', 'exiting');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }, 2400);
+  };
+
+  // Atalho de demo no step-await: simula o sorteio abrindo e revela dezenas (vai pro step-3)
+  window.awaitDemoReveal = function() {
+    renderRevealCartela();
+    stopAwaitCountdown();
+    document.body.setAttribute('data-step', '3');
+    spinGiro();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  window.resetToStep1 = function() {
+    stopAwaitCountdown();
+    document.body.setAttribute('data-step', '1');
+    // Reseta a quantidade pra 1× e fecha o stepper custom
+    if (window.selectPreset) window.selectPreset(1);
+    else if (window.selectQty) window.selectQty(1);
+    // Limpa estado das cartelas pra próxima simulação
+    ['revealCartelas', 'awaitCartelas'].forEach(function(id) {
+      const wrap = document.getElementById(id);
+      if (wrap) { wrap.innerHTML = ''; delete wrap.dataset.rendered; }
+    });
+    // Reseta botão de WhatsApp do step-3
+    const wbtn = document.getElementById('revealWhatsBtn');
+    if (wbtn) {
+      wbtn.classList.remove('sent');
+      const lbl = wbtn.querySelector('.btn-default');
+      if (lbl && wbtn.dataset.origLabel) lbl.innerHTML = wbtn.dataset.origLabel;
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  window.revealShareWhats = function(btn) {
+    if (!btn || btn.classList.contains('sent')) return;
+    const lbl = btn.querySelector('.btn-default');
+    if (!btn.dataset.origLabel && lbl) btn.dataset.origLabel = lbl.innerHTML;
+    btn.classList.add('sent');
+    if (lbl) {
+      lbl.innerHTML =
+        '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+          '<path d="M20 6L9 17l-5-5"/>' +
+        '</svg>' +
+        'PDF enviado!';
+    }
+  };
+
+  // ---- Modal Regulamento ----
+  window.openReg = function() {
+    const m = document.getElementById('regModal');
+    if (!m) return;
+    document.body.classList.add('reg-open');
+    m.classList.remove('closing');
+    m.classList.add('open');
+  };
+  window.closeReg = function() {
+    const m = document.getElementById('regModal');
+    if (!m) return;
+    m.classList.add('closing');
+    setTimeout(function() {
+      m.classList.remove('open', 'closing');
+      document.body.classList.remove('reg-open');
+    }, 240);
+  };
+  document.addEventListener('click', function(e) {
+    const m = document.getElementById('regModal');
+    if (m && e.target === m) window.closeReg();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      const m = document.getElementById('regModal');
+      if (m && m.classList.contains('open')) window.closeReg();
+    }
+  });
+
+  // Inicialização: refresh do chip "WhatsApp salvo" no step-1 ao carregar
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', refreshSavedWaChip);
+  } else {
+    refreshSavedWaChip();
+  }
+
+  // Click delegate em qualquer .ct-bola interagível → toggla seleção (azul claro).
+  // Placeholders ("?") são ignorados; idem chips do modal "Meus Títulos"
+  // (esses são read-only — histórico/marcação automática).
+  function _toggleBola(el) {
+    if (!el || el.classList.contains('ct-bola--placeholder')) return;
+    if (el.closest('.ct-modal')) return; // bloqueia interação no modal de histórico
+    const next = !el.classList.contains('ct-bola--selected');
+    el.classList.toggle('ct-bola--selected', next);
+    el.setAttribute('aria-pressed', next ? 'true' : 'false');
+  }
+  document.addEventListener('click', function(e) {
+    const bola = e.target.closest && e.target.closest('.ct-bola');
+    if (!bola) return;
+    _toggleBola(bola);
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    const t = e.target;
+    if (t && t.classList && t.classList.contains('ct-bola')) {
+      e.preventDefault();
+      _toggleBola(t);
+    }
+  });
 })();
 </script>
 
@@ -3466,7 +5705,7 @@
           </svg>
         </div>
         <h2 class="ct-head-title" id="ctTitle">Consulte seus <span class="teal">títulos</span></h2>
-        <p class="ct-head-sub">Veja todas as Surpresinhas que você comprou com este CPF</p>
+        <p class="ct-head-sub">Veja todos os títulos que você comprou com este CPF</p>
       </div>
 
       <div class="ct-form-field">
@@ -3475,24 +5714,33 @@
         <div class="ct-form-error" id="ctCpfError" aria-live="polite"></div>
       </div>
 
-      <div class="ct-form-field">
-        <label class="ct-form-label">VERIFICAÇÃO DE SEGURANÇA</label>
-        <div class="ct-captcha">
-          <div class="ct-captcha-question">
-            <span class="ct-captcha-label">Quanto é</span>
-            <span class="ct-captcha-expr" id="ctCaptchaExpr">3 + 4</span>
-          </div>
-          <button type="button" class="ct-captcha-refresh" onclick="ctRefreshCaptcha()" aria-label="Atualizar captcha">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M23 4v6h-6M1 20v-6h6"/>
-              <path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/>
+      <div class="ct-turnstile" id="ctTurnstile" data-state="idle" role="status" aria-live="polite">
+        <div class="ct-ts-check" aria-hidden="true">
+          <span class="ct-ts-box">
+            <span class="ct-ts-spinner"></span>
+            <svg class="ct-ts-tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20 6L9 17l-5-5"/>
             </svg>
-          </button>
-          <div class="ct-captcha-input-wrap">
-            <input type="tel" inputmode="numeric" id="ctCaptchaInput" class="ct-captcha-input" placeholder="?" maxlength="3">
+          </span>
+        </div>
+        <div class="ct-ts-text">
+          <span class="ct-ts-label" data-ts-idle>Verifique que você é humano</span>
+          <span class="ct-ts-label" data-ts-verifying>Verificando…</span>
+          <span class="ct-ts-label" data-ts-success>Sucesso! Você é humano.</span>
+        </div>
+        <div class="ct-ts-brand" aria-hidden="true">
+          <svg class="ct-ts-brand-mark" viewBox="0 0 32 32" width="22" height="22" aria-hidden="true">
+            <path fill="#F38020" d="M22.6 14.5c-.3-.7-1-1.1-1.8-1.1l-.5.1-.2-.7a4.6 4.6 0 0 0-8.9.4 3.7 3.7 0 0 0-5.5 3.6c0 .3.2.5.5.5h15.7c.3 0 .5-.2.6-.4.3-.7.3-1.5.1-2.4z"/>
+            <path fill="#FAAE40" d="M24.4 14.4h-.4l-.1.4a4 4 0 0 1-.1 2.6c0 .2-.2.4-.5.4H8.9c-.3 0-.5.2-.5.5s.2.5.5.5h14.8c.2 0 .4-.2.5-.4a3 3 0 0 0 .2-3z"/>
+          </svg>
+          <div class="ct-ts-brand-text">
+            <span class="ct-ts-brand-name">Cloudflare</span>
+            <span class="ct-ts-brand-links">Privacidade · Termos</span>
           </div>
         </div>
       </div>
+      <input type="hidden" id="ctTurnstileToken" value="">
+      <div class="ct-form-error" id="ctTurnstileError" aria-live="polite"></div>
 
       <button type="button" class="ct-submit" onclick="ctSubmit()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -3534,7 +5782,7 @@
           </div>
           <div class="ct-result-greeting-text">
             <div class="ct-result-greeting-cpf">CPF: <span id="ctResultCpf">•••.•••.•••-••</span></div>
-            <div class="ct-result-greeting-summary"><b id="ctResultCount">0</b> títulos encontrados · <b id="ctResultNextCount">0</b> em sorteios futuros</div>
+            <div class="ct-result-greeting-summary"><b id="ctResultCount">0</b> títulos em <b id="ctResultNextCount">0</b> próximo(s) sorteio(s)</div>
           </div>
         </div>
 
@@ -3559,85 +5807,88 @@
   // ============ MOCK DATA ============
   // Several titles spread across past, current and future draws
   // PayPix numbers are 16 digits formatted as XXXX.XXXX.XXXX.XXXX
-  const TODAY = new Date(2026, 4, 21); // 21/05/2026 (totem demo date)
-  // Next draw: Sunday 24/05/2026 21:30
-  // Past draws: 17/05, 10/05, 03/05
-  function isoSundayAt(d, m, y) { return new Date(y, m, d, 21, 30); }
+  // Próximo sorteio padrão: domingo 31/05/2026 às 21h30 (mesma data usada
+  // no countdown do step-await e nos cards do modal).
+  const NEXT_DRAW_DATE = new Date(2026, 5, 4, 21, 30);
 
+  // CPFs demo padronizados (000.000.000-0X):
+  //   ...00 → sem compras (não está no MOCK_DB)
+  //   ...01 → com títulos prontos (cartelas já geradas)
+  //   ...02 → comprou mas aguardando — sorteio ainda não abriu (cartelas null)
   const MOCK_DB = {
-    '12345678900': {
-      name: 'João',
+    '00000000001': {
+      name: 'Demo · Com Títulos',
       draws: [
-        // Next Sunday (future)
         {
-          date: isoSundayAt(24, 4, 2026),
+          date: NEXT_DRAW_DATE,
           status: 'next',
           titles: [
-            { product: 'HiperXCap', variant: '010', paypix: '5183.2471.8847.0428', chances: 2, hiperGiros: 1, qty: 2 },
-            { product: 'HiperXCap', variant: '005', paypix: '5183.2471.8847.0735', chances: 2, hiperGiros: 1, qty: 1 }
-          ]
-        },
-        // Last Sunday — won R$ 15.000 (Na trave)
-        {
-          date: isoSundayAt(17, 4, 2026),
-          status: 'win',
-          drawnNumbers: '02-07-12-15-19-22-24-28-30-33-37-41-44-47-50-52-55-58-03-17',
-          titles: [
-            { product: 'HiperXCap', variant: '010', paypix: '4421.7733.2155.8338', chances: 2, hiperGiros: 1, qty: 1, prize: 1500000, prizeLabel: 'Na trave do Milhão (19/20)', won: true }
-          ]
-        },
-        // 10/05 — not won
-        {
-          date: isoSundayAt(10, 4, 2026),
-          status: 'past',
-          titles: [
-            { product: 'HiperXCap', variant: '010', paypix: '3919.4421.7733.2178', chances: 2, hiperGiros: 1, qty: 1 }
-          ]
-        },
-        // 03/05 — not won, smaller
-        {
-          date: isoSundayAt(3, 4, 2026),
-          status: 'past',
-          titles: [
-            { product: 'HiperXCap', variant: '005', paypix: '3812.4421.7733.2105', chances: 2, hiperGiros: 1, qty: 2 }
+            { product: 'HiperXCAP', variant: '010', paypix: '5183.2471.8847.0428', chances: 2, hiperGiros: 1, qty: 2,
+              cartelas: [
+                [3, 7, 11, 14, 18, 21, 25, 28, 32, 36, 39, 42, 45, 48, 51, 53, 55, 57, 58, 60],
+                [2, 6, 9, 13, 16, 20, 23, 27, 30, 33, 35, 38, 41, 44, 47, 49, 52, 54, 56, 59]
+              ]
+            },
+            { product: 'HiperXCAP', variant: '005', paypix: '5183.2471.8847.0735', chances: 2, hiperGiros: 1, qty: 1,
+              cartelas: [
+                [1, 4, 8, 12, 15, 19, 22, 26, 29, 31, 34, 37, 40, 43, 46, 50, 53, 55, 57, 60]
+              ]
+            }
           ]
         }
       ]
     },
-    '11122233344': {
-      name: 'Maria',
+    '00000000002': {
+      name: 'Demo · Aguardando',
       draws: [
         {
-          date: isoSundayAt(24, 4, 2026),
-          status: 'next',
+          date: NEXT_DRAW_DATE,
+          status: 'awaiting',
           titles: [
-            { product: 'HiperXCap', variant: '010', paypix: '5183.2471.8847.0019', chances: 2, hiperGiros: 1, qty: 5 }
+            // qty unidades; sem `cartelas` (dezenas só são geradas quando o sorteio abre).
+            { product: 'HiperXCAP', variant: '010', paypix: '7291.4853.6172.0094', chances: 2, hiperGiros: 1, qty: 1, cartelas: null }
           ]
         }
       ]
     }
   };
 
-  // ============ CAPTCHA ============
-  let captchaAnswer = 7;
-  function refreshCaptcha() {
-    const a = Math.floor(Math.random() * 8) + 1;
-    const b = Math.floor(Math.random() * 8) + 1;
-    const ops = [
-      { sym: '+', fn: function(x, y) { return x + y; } },
-      { sym: '−', fn: function(x, y) { return x - y; } }
-    ];
-    const op = ops[Math.floor(Math.random() * 2)];
-    // Always positive result
-    const x = Math.max(a, b);
-    const y = Math.min(a, b);
-    captchaAnswer = op.fn(x, y);
-    const el = document.getElementById('ctCaptchaExpr');
-    if (el) el.textContent = x + ' ' + op.sym + ' ' + y;
-    const inp = document.getElementById('ctCaptchaInput');
-    if (inp) inp.value = '';
+  // ============ CLOUDFLARE TURNSTILE (simulado) ============
+  // Auto-roda ao abrir/resetar o modal: idle → verifying → success (~1.6s).
+  // Quando conclui: libera o submit e gera um token fake só pra fidelidade visual.
+  let _tsTimers = [];
+  function _clearTsTimers() {
+    _tsTimers.forEach(function(t) { clearTimeout(t); });
+    _tsTimers = [];
   }
-  window.ctRefreshCaptcha = refreshCaptcha;
+  function _setTsState(state) {
+    const w = document.getElementById('ctTurnstile');
+    if (w) w.setAttribute('data-state', state);
+    const btn = document.querySelector('[data-ct-state="form"] .ct-submit');
+    if (btn) btn.disabled = (state !== 'success');
+  }
+  function _genTsToken() {
+    // Token cosmético no formato 0.<rand>.<rand> (parecido com o real)
+    const r = function() { return Math.random().toString(36).slice(2, 12); };
+    return '0.' + r() + '.' + r();
+  }
+  function runTurnstile() {
+    _clearTsTimers();
+    const tokenEl = document.getElementById('ctTurnstileToken');
+    if (tokenEl) tokenEl.value = '';
+    const errEl = document.getElementById('ctTurnstileError');
+    if (errEl) errEl.textContent = '';
+    _setTsState('idle');
+    _tsTimers.push(setTimeout(function() { _setTsState('verifying'); }, 350));
+    _tsTimers.push(setTimeout(function() {
+      _setTsState('success');
+      if (tokenEl) tokenEl.value = _genTsToken();
+    }, 1700));
+  }
+  function isTsVerified() {
+    const w = document.getElementById('ctTurnstile');
+    return !!(w && w.getAttribute('data-state') === 'success');
+  }
 
   // ============ UTILS ============
   function maskCpf(raw) {
@@ -3665,7 +5916,9 @@
     return dd + '/' + mm + '/' + d.getFullYear();
   }
   function daysUntil(d) {
-    const ms = d.getTime() - new Date().getTime();
+    // Diferença em dias entre agora e a data do sorteio. Como o NEXT_DRAW_DATE
+    // do mock é fixo no futuro (31/05/2026), o resultado fica consistente.
+    const ms = d.getTime() - Date.now();
     return Math.ceil(ms / (1000 * 60 * 60 * 24));
   }
 
@@ -3684,12 +5937,9 @@
     modal.classList.remove('closing');
     modal.classList.add('open');
     setState('form');
-    refreshCaptcha();
-    // Clear inputs
+    runTurnstile();
     const cpf = document.getElementById('ctCpfInput');
-    const cap = document.getElementById('ctCaptchaInput');
     if (cpf) { cpf.value = ''; cpf.classList.remove('error'); }
-    if (cap) cap.value = '';
     const err = document.getElementById('ctCpfError');
     if (err) err.textContent = '';
     setTimeout(function() {
@@ -3709,11 +5959,9 @@
 
   window.ctReset = function() {
     setState('form');
-    refreshCaptcha();
+    runTurnstile();
     const cpf = document.getElementById('ctCpfInput');
     if (cpf) { cpf.value = ''; cpf.focus(); }
-    const cap = document.getElementById('ctCaptchaInput');
-    if (cap) cap.value = '';
     document.getElementById('ctCpfError').textContent = '';
   };
 
@@ -3740,12 +5988,13 @@
   // ============ SUBMIT ============
   window.ctSubmit = function() {
     const cpfInp = document.getElementById('ctCpfInput');
-    const capInp = document.getElementById('ctCaptchaInput');
     const errEl = document.getElementById('ctCpfError');
+    const tsErrEl = document.getElementById('ctTurnstileError');
     const raw = (cpfInp.value || '').replace(/\D/g, '');
 
     cpfInp.classList.remove('error');
     errEl.textContent = '';
+    if (tsErrEl) tsErrEl.textContent = '';
 
     if (raw.length === 0) {
       cpfInp.classList.add('error');
@@ -3759,27 +6008,17 @@
       cpfInp.focus();
       return;
     }
-    // CPFs de demonstração: 12345678900 e 11122233344 — aceitos sem
-    // check digit por serem mock data registrados no MOCK_DB.
-    const isDemoCpf = (raw === '12345678900' || raw === '11122233344');
+    // CPFs de demonstração: série 000.000.000-0X — aceitos sem check digit
+    // por serem cenários mockados (ver MOCK_DB).
+    const isDemoCpf = /^000000000\d{2}$/.test(raw);
     if (!isDemoCpf && !_isValidCpf(raw)) {
       cpfInp.classList.add('error');
       errEl.textContent = 'CPF inválido. Confira o número e tente novamente.';
       cpfInp.focus();
       return;
     }
-    const capVal = (capInp.value || '').trim();
-    if (capVal === '') {
-      errEl.textContent = 'Responda a verificação de segurança abaixo para continuar.';
-      capInp.focus();
-      return;
-    }
-    const answer = parseInt(capVal, 10);
-    if (isNaN(answer) || answer !== captchaAnswer) {
-      errEl.textContent = 'Resposta da verificação incorreta. Tente novamente.';
-      refreshCaptcha();
-      capInp.value = '';
-      capInp.focus();
+    if (!isTsVerified()) {
+      if (tsErrEl) tsErrEl.textContent = 'Aguarde a verificação de segurança concluir.';
       return;
     }
 
@@ -3803,53 +6042,40 @@
       document.getElementById('ctResultNextCount').textContent = '0';
       const empty = document.createElement('div');
       empty.className = 'ct-empty';
-      empty.innerHTML = '<svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> <b>Nenhum título encontrado</b><br>Este CPF não tem Surpresinhas compradas. <br><br><span style="font-size:11px;color:#7e93b0">Experimente <b style="color:#F39208">123.456.789-00</b> ou <b style="color:#F39208">111.222.333-44</b> para ver dados de demonstração.</span>';
+      empty.innerHTML = '<svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> <b>Nenhum título encontrado</b><br>Este CPF não tem títulos comprados.<br><br><span style="font-size:11px;color:#7e93b0">CPFs de demonstração:<br><b style="color:#F39208">000.000.000-00</b> — sem compras<br><b style="color:#F39208">000.000.000-01</b> — com títulos prontos<br><b style="color:#F39208">000.000.000-02</b> — comprou e aguardando sorteio</span>';
       list.appendChild(empty);
       return;
     }
 
-    // Sort: next first, then past by date desc
-    const sorted = data.draws.slice().sort(function(a, b) {
-      if (a.status === 'next' && b.status !== 'next') return -1;
-      if (b.status === 'next' && a.status !== 'next') return 1;
-      return b.date.getTime() - a.date.getTime();
+    // Por enquanto mostramos apenas próximos sorteios — histórico fica fora.
+    // Status 'awaiting' (comprou mas cartela ainda não gerada) também entra aqui.
+    const nextDraws = data.draws.filter(function(d) {
+      return d.status === 'next' || d.status === 'awaiting';
     });
 
-    let totalTitles = 0;
     let nextCount = 0;
-    sorted.forEach(function(draw) {
-      draw.titles.forEach(function(t) {
-        totalTitles += (t.qty || 1);
-        if (draw.status === 'next') nextCount += (t.qty || 1);
-      });
+    nextDraws.forEach(function(draw) {
+      draw.titles.forEach(function(t) { nextCount += (t.qty || 1); });
     });
-    document.getElementById('ctResultCount').textContent = totalTitles;
-    document.getElementById('ctResultNextCount').textContent = nextCount;
+    // Summary mostra só o que está em jogo (próximos sorteios).
+    document.getElementById('ctResultCount').textContent = nextCount;
+    document.getElementById('ctResultNextCount').textContent = nextDraws.length;
 
-    // Render next draws (always expanded) + section title for next
-    const nextDraws = sorted.filter(function(d) { return d.status === 'next'; });
-    const pastDraws = sorted.filter(function(d) { return d.status !== 'next'; });
-
-    if (nextDraws.length > 0) {
-      const t1 = document.createElement('div');
-      t1.className = 'ct-section-title';
-      t1.innerHTML = '⏰ Próximos sorteios';
-      list.appendChild(t1);
-      nextDraws.forEach(function(d) {
-        list.appendChild(buildDrawCard(d, false)); // not collapsed
-      });
+    if (nextDraws.length === 0) {
+      const empty = document.createElement('div');
+      empty.className = 'ct-empty';
+      empty.innerHTML = '<b>Nenhum título em sorteios futuros.</b><br><span style="font-size:11px;color:#7e93b0">Compre um título pra concorrer ao próximo Hiper Giro da Sorte.</span>';
+      list.appendChild(empty);
+      return;
     }
 
-    if (pastDraws.length > 0) {
-      const t2 = document.createElement('div');
-      t2.className = 'ct-section-title history';
-      t2.innerHTML = '📜 Histórico';
-      list.appendChild(t2);
-      pastDraws.forEach(function(d, i) {
-        // First past draw expanded, others collapsed
-        list.appendChild(buildDrawCard(d, i > 0));
-      });
-    }
+    const t1 = document.createElement('div');
+    t1.className = 'ct-section-title';
+    t1.innerHTML = '⏰ Próximos sorteios';
+    list.appendChild(t1);
+    nextDraws.forEach(function(d) {
+      list.appendChild(buildDrawCard(d, false));
+    });
   }
 
   function buildDrawCard(draw, collapsedInitially) {
@@ -3857,6 +6083,7 @@
     card.className = 'ct-draw';
     if (draw.status === 'next') card.classList.add('next');
     if (draw.status === 'win') card.classList.add('win');
+    if (draw.status === 'awaiting') card.classList.add('awaiting');
     if (collapsedInitially) card.classList.add('collapsed');
 
     // Status badge
@@ -3865,6 +6092,8 @@
       const days = daysUntil(draw.date);
       const dayLabel = days === 0 ? 'Hoje!' : (days === 1 ? 'Amanhã' : 'Em ' + days + ' dias');
       statusBadge = '<span class="ct-draw-head-status next">' + dayLabel + '</span>';
+    } else if (draw.status === 'awaiting') {
+      statusBadge = '<span class="ct-draw-head-status awaiting">Aguardando sorteio</span>';
     } else if (draw.status === 'win') {
       statusBadge = '<span class="ct-draw-head-status win">⭐ Contemplado</span>';
     } else {
@@ -3873,6 +6102,9 @@
 
     card.innerHTML = (
       '<div class="ct-draw-head" onclick="ctToggleDraw(this.parentNode)">' +
+        '<div class="ct-draw-thumb" aria-hidden="true">' +
+          '<img src="../banners/Home_01.png" alt="" loading="lazy">' +
+        '</div>' +
         '<div class="ct-draw-head-date">' +
           '<div class="ct-draw-head-date-main">' + fmtDateBR(draw.date) + '</div>' +
           '<div class="ct-draw-head-date-sub">' + getDrawSummary(draw) + '</div>' +
@@ -3889,7 +6121,7 @@
 
     const body = card.querySelector('.ct-draw-body');
     draw.titles.forEach(function(t) {
-      body.appendChild(buildTitleItem(t, draw.status));
+      body.appendChild(buildTitleItem(t, draw.status, draw.drawnNumbers));
     });
     return card;
   }
@@ -3897,16 +6129,68 @@
   function getDrawSummary(draw) {
     let count = 0;
     draw.titles.forEach(function(t) { count += (t.qty || 1); });
+    const plural = count > 1 ? 's' : '';
+    const noun = ' Título' + plural;
     if (draw.status === 'next') {
-      return count + ' Surpresinha' + (count > 1 ? 's' : '') + ' · aguardando sorteio';
+      return count + noun + ' · dezenas prontas';
+    }
+    if (draw.status === 'awaiting') {
+      return count + noun + ' · dezenas serão geradas no sorteio';
     }
     if (draw.status === 'win') {
-      return count + ' Surpresinha' + (count > 1 ? 's' : '') + ' · 1 contemplado!';
+      return count + noun + ' · 1 contemplado!';
     }
-    return count + ' Surpresinha' + (count > 1 ? 's' : '') + ' · não contemplado';
+    return count + noun + ' · não contemplado';
   }
 
-  function buildTitleItem(t, drawStatus) {
+  function _parseDrawnSet(drawnStr) {
+    if (!drawnStr) return null;
+    const set = new Set();
+    drawnStr.split('-').forEach(function(s) {
+      const n = parseInt(s, 10);
+      if (!isNaN(n)) set.add(n);
+    });
+    return set;
+  }
+
+  function _pad2(n) { return n < 10 ? '0' + n : '' + n; }
+
+  function _buildCartela(numbers, label, tag, drawnSet, isWinningCartela) {
+    const cart = document.createElement('div');
+    cart.className = 'ct-cartela' + (isWinningCartela ? ' ct-cartela--win' : '');
+
+    let hits = 0;
+    const bolasHtml = (numbers || []).map(function(n) {
+      const hit = drawnSet && drawnSet.has(n);
+      if (hit) hits++;
+      const cls = drawnSet ? (hit ? 'ct-bola ct-bola--hit' : 'ct-bola ct-bola--miss') : 'ct-bola';
+      return '<span class="' + cls + '">' + _pad2(n) + '</span>';
+    }).join('');
+
+    let resultHtml = '';
+    if (drawnSet && numbers && numbers.length) {
+      const total = numbers.length;
+      const cls = isWinningCartela ? 'ct-cr-win' : '';
+      const verb = isWinningCartela ? 'Contemplada!' : 'Resultado';
+      resultHtml =
+        '<div class="ct-cartela-result">' +
+          '<span class="' + cls + '">' + verb + '</span> · ' +
+          '<b>' + hits + '/' + total + '</b> dezenas sorteadas' +
+        '</div>';
+    }
+
+    cart.innerHTML =
+      '<div class="ct-cartela-head">' +
+        '<span class="ct-cartela-label">' + (label || 'Suas dezenas') + '</span>' +
+        (tag ? '<span class="ct-cartela-tag">' + tag + '</span>' : '') +
+      '</div>' +
+      '<div class="ct-cartela-row">' + bolasHtml + '</div>' +
+      resultHtml;
+
+    return cart;
+  }
+
+  function buildTitleItem(t, drawStatus, drawnNumbersStr) {
     const item = document.createElement('div');
     item.className = 'ct-item r' + (t.variant === '010' ? '10' : '5');
     if (t.won) item.classList.add('win');
@@ -3941,14 +6225,62 @@
       : (t.chances + ' chance' + (t.chances > 1 ? 's' : '') + ' · ' + t.hiperGiros + ' Hiper Giro');
 
     item.innerHTML =
-      '<div class="ct-item-ico">' + (t.variant === '010' ? 'X' : 'X') + '</div>' +
-      '<div class="ct-item-info">' +
-        '<div class="ct-item-name">' + qtyLabel + t.product + '<span class="price">' + valueLabel + '</span></div>' +
-        '<div class="ct-item-meta">PayPix: <b>' + t.paypix + '</b><br>' + subline + '</div>' +
-      '</div>' +
-      statusHtml;
+      '<div class="ct-item-head">' +
+        '<div class="ct-item-ico">X</div>' +
+        '<div class="ct-item-info">' +
+          '<div class="ct-item-name">' + qtyLabel + t.product + '<span class="price">' + valueLabel + '</span></div>' +
+          '<div class="ct-item-meta">PayPix: <b>' + t.paypix + '</b><br>' + subline + '</div>' +
+        '</div>' +
+        statusHtml +
+      '</div>';
+
+    // Status awaiting: cartelas ainda não geradas — renderiza placeholders "?" por unidade
+    if (drawStatus === 'awaiting') {
+      const wrap = document.createElement('div');
+      wrap.className = 'ct-cartelas';
+      const units = t.qty || 1;
+      for (let i = 0; i < units; i++) {
+        const tag = units > 1 ? ('Cartela ' + (i + 1) + ' de ' + units) : '';
+        wrap.appendChild(_buildAwaitCartela('Suas dezenas', tag));
+      }
+      item.appendChild(wrap);
+      return item;
+    }
+
+    // Cartelinhas (uma por unidade de qty)
+    const cartelas = t.cartelas || [];
+    if (cartelas.length) {
+      const wrap = document.createElement('div');
+      wrap.className = 'ct-cartelas';
+      const drawnSet = _parseDrawnSet(drawnNumbersStr);
+      cartelas.forEach(function(nums, idx) {
+        const tag = cartelas.length > 1 ? ('Cartela ' + (idx + 1) + ' de ' + cartelas.length) : '';
+        // Para títulos vencedores com apenas 1 cartela, marca como winning
+        const isWinning = !!(t.won && cartelas.length === 1);
+        wrap.appendChild(_buildCartela(nums, 'Suas dezenas', tag, drawnSet, isWinning));
+      });
+      item.appendChild(wrap);
+    }
 
     return item;
+  }
+
+  // Cartela bloqueada (status awaiting) — 20 chips com "?" no lugar dos números.
+  function _buildAwaitCartela(label, tag) {
+    const cart = document.createElement('div');
+    cart.className = 'ct-cartela ct-cartela--await';
+    let bolasHtml = '';
+    for (let i = 0; i < 20; i++) {
+      bolasHtml += '<span class="ct-bola ct-bola--placeholder">?</span>';
+    }
+    cart.innerHTML =
+      '<div class="ct-cartela-head">' +
+        '<span class="ct-cartela-label">' + (label || 'Suas dezenas') + '</span>' +
+        (tag ? '<span class="ct-cartela-tag">' + tag + '</span>' : '') +
+      '</div>' +
+      '<div class="ct-cartela-row">' + bolasHtml + '</div>' +
+      '<div class="ct-cartela-result"><span class="ct-cr-await">Geradas quando o sorteio abrir</span></div>';
+    return cart;
   }
 
   window.ctToggleDraw = function(card) {
@@ -3967,15 +6299,6 @@
         cpf.classList.remove('error');
       });
       cpf.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') {
-          const cap = document.getElementById('ctCaptchaInput');
-          if (cap) cap.focus();
-        }
-      });
-    }
-    const cap = document.getElementById('ctCaptchaInput');
-    if (cap) {
-      cap.addEventListener('keydown', function(e) {
         if (e.key === 'Enter') window.ctSubmit();
       });
     }

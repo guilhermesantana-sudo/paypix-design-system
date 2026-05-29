@@ -11,72 +11,47 @@
 <style>
 /* ============================================================
    iAdm — Design System (L4 OS)
-   Tema claro · Inter · Dourado L4 · dashboards densos
+   Tema claro · Inter · Dourado L4 · plataforma de operações
    Extraído de iadm-proto.vercel.app (React + recharts + lucide)
    ============================================================ */
 
 :root {
-  /* Marca dourada L4 (gradiente do logo FDE05F → DEA109) */
-  --gold-300: #FDE05F;
-  --gold-400: #FEDF5C;
-  --gold-500: #ECB016;
-  --gold-600: #DEA109;
-  --gold-700: #B8941F;
+  /* Marca dourada L4 */
+  --gold-300: #FDE05F; --gold-400: #FEDF5C; --gold-500: #ECB016;
+  --gold-600: #DEA109; --gold-700: #B8941F;
   --grad-gold: linear-gradient(135deg, #FDE05F 0%, #DEA109 100%);
   --gold-soft: rgba(222, 161, 9, 0.10);
 
-  /* Neutros (slate) — tema claro */
-  --bg:            #F8FAFC;  /* fundo da página */
-  --surface:       #FFFFFF;  /* cards, modais */
-  --surface-2:     #FAFAFA;  /* sidebars, headers */
-  --surface-3:     #F1F5F9;  /* hovers, linhas zebra */
-  --border:        #E2E8F0;
-  --border-strong: #CBD5E1;
-  --text:          #0F172A;  /* slate-900 */
-  --text-muted:    #64748B;  /* slate-500 */
-  --text-subtle:   #94A3B8;  /* slate-400 */
+  /* Neutros (slate) */
+  --bg: #F8FAFC; --surface: #FFFFFF; --surface-2: #FAFAFA; --surface-3: #F1F5F9;
+  --border: #E2E8F0; --border-strong: #CBD5E1;
+  --text: #0F172A; --text-muted: #64748B; --text-subtle: #94A3B8;
 
   /* Semânticas */
-  --success:    #10B981;  --success-bg: #ECFDF5;  --success-fg: #065F46;
-  --danger:     #EF4444;  --danger-bg:  #FEE2E2;  --danger-fg:  #991B1B;
-  --warning:    #F59E0B;  --warning-bg: #FEF3C7;  --warning-fg: #92400E;
-  --info:       #0EA5E9;  --info-bg:    #F0F9FF;  --info-fg:    #075985;
+  --success: #10B981; --success-bg: #ECFDF5; --success-fg: #065F46;
+  --danger:  #EF4444; --danger-bg:  #FEE2E2; --danger-fg:  #991B1B;
+  --warning: #F59E0B; --warning-bg: #FEF3C7; --warning-fg: #92400E;
+  --info:    #0EA5E9; --info-bg:    #F0F9FF; --info-fg:    #075985;
 
-  /* Paleta categórica (gráficos / recharts) */
-  --c-blue:   #1485CE;
-  --c-purple: #7C3AED;
-  --c-teal:   #27C5D9;
-  --c-pink:   #EC4899;
-  --c-green:  #10B981;
-  --c-orange: #F97316;
-  --c-sky:    #0EA5E9;
-  --c-violet: #8B5CF6;
+  /* Paleta categórica (gráficos) */
+  --c-blue: #1485CE; --c-purple: #7C3AED; --c-teal: #27C5D9; --c-pink: #EC4899;
+  --c-green: #10B981; --c-orange: #F97316; --c-sky: #0EA5E9; --c-violet: #8B5CF6;
 
-  /* Divisões L4 (ChipEmpresa) */
-  --l4-digital: #DEA109;  --l4-digital-bg: #FEF6E0;
-  --l4-web:     #1485CE;  --l4-web-bg:     #E6F2FB;
-  --l4-tech:    #7C3AED;  --l4-tech-bg:    #F3EDFD;
+  /* Divisões L4 */
+  --l4-digital: #DEA109; --l4-digital-bg: #FEF6E0;
+  --l4-web: #1485CE; --l4-web-bg: #E6F2FB;
+  --l4-tech: #7C3AED; --l4-tech-bg: #F3EDFD;
 
-  /* Raios */
-  --r-sm: 6px;
-  --r-md: 10px;
-  --r-lg: 14px;
-  --r-xl: 20px;
-  --r-full: 9999px;
+  --r-sm: 6px; --r-md: 10px; --r-lg: 14px; --r-xl: 20px; --r-full: 9999px;
+  --shadow-sm: 0 1px 2px rgba(15,23,42,.05);
+  --shadow-md: 0 4px 12px rgba(15,23,42,.08);
+  --shadow-lg: 0 10px 28px rgba(15,23,42,.12);
+  --shadow-xl: 0 20px 40px rgba(15,23,42,.16);
 
-  /* Sombras */
-  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
-  --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08);
-  --shadow-lg: 0 10px 28px rgba(15, 23, 42, 0.12);
-  --shadow-xl: 0 20px 40px rgba(15, 23, 42, 0.16);
-
-  /* Espaçamento (escala 4px) */
-  --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px;
-  --sp-5: 24px; --sp-6: 32px; --sp-8: 48px; --sp-10: 64px;
+  --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:24px; --sp-6:32px; --sp-8:48px; --sp-10:64px;
 
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Monaco, monospace;
-
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
   --dur: 200ms;
 }
@@ -85,166 +60,84 @@
 @keyframes spin { to { transform: rotate(360deg); } }
 @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
 @keyframes fade-up { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes pop { 0% { transform: scale(0.85); opacity: 0; } 60% { transform: scale(1.04); opacity: 1; } 100% { transform: scale(1); } }
-@keyframes pulse-dot { 0%, 100% { box-shadow: 0 0 0 0 rgba(16,185,129,0.5); } 50% { box-shadow: 0 0 0 6px rgba(16,185,129,0); } }
+@keyframes pop { 0% { transform: scale(.85); opacity: 0; } 60% { transform: scale(1.04); opacity: 1; } 100% { transform: scale(1); } }
+@keyframes pulse-dot { 0%,100% { box-shadow: 0 0 0 0 rgba(16,185,129,.5); } 50% { box-shadow: 0 0 0 6px rgba(16,185,129,0); } }
 @keyframes toast-in { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
-@keyframes count-bar { from { width: 0; } }
+@keyframes count-bar { from { transform: scaleY(0); } }
 @keyframes draw-line { to { stroke-dashoffset: 0; } }
 @keyframes ring { from { stroke-dashoffset: var(--ring-circ); } }
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
-}
+@keyframes modal-in { from { opacity: 0; transform: translateY(14px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes drawer-in { from { transform: translateX(100%); } to { transform: translateX(0); } }
+@keyframes overlay-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes indeterminate { 0% { left: -40%; } 100% { left: 100%; } }
+@media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration:.01ms!important; transition-duration:.01ms!important; scroll-behavior:auto!important; } }
 
 /* reset */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; scroll-padding-top: 24px; }
-body {
-  font-family: var(--font-sans);
-  font-size: 16px;
-  line-height: 1.6;
-  color: var(--text);
-  background: var(--bg);
-  -webkit-font-smoothing: antialiased;
-  min-height: 100vh;
-}
+body { font-family: var(--font-sans); font-size: 16px; line-height: 1.6; color: var(--text); background: var(--bg); -webkit-font-smoothing: antialiased; min-height: 100vh; }
 a { color: var(--gold-600); text-decoration: none; }
 a:hover { text-decoration: underline; }
 em { font-style: normal; color: var(--gold-600); }
-code {
-  font-family: var(--font-mono);
-  font-size: 0.84em;
-  background: var(--surface-3);
-  color: var(--text);
-  padding: 2px 7px;
-  border-radius: var(--r-sm);
-}
+code { font-family: var(--font-mono); font-size: .84em; background: var(--surface-3); color: var(--text); padding: 2px 7px; border-radius: var(--r-sm); }
 :focus-visible { outline: 2px solid var(--gold-600); outline-offset: 2px; border-radius: 4px; }
 
-/* ============================================================
-   LAYOUT — sidebar + main
-   ============================================================ */
+/* ============ LAYOUT ============ */
 .layout { display: flex; min-height: 100vh; }
-
-.sidebar {
-  position: fixed; top: 0; left: 0; bottom: 0;
-  width: 256px; z-index: 40;
-  background: var(--surface);
-  border-right: 1px solid var(--border);
-  display: flex; flex-direction: column;
-  overflow-y: auto;
-  transition: transform var(--dur) var(--ease);
-}
-.sidebar__brand { padding: 20px 20px 16px; border-bottom: 1px solid var(--border); }
-.sidebar__system {
-  display: inline-flex; align-items: center; gap: 8px;
-  font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
-  color: var(--text-subtle); margin-bottom: 14px;
-}
+.sidebar { position: fixed; inset: 0 auto 0 0; width: 264px; z-index: 40; background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; overflow-y: auto; transition: transform var(--dur) var(--ease); }
+.sidebar__brand { padding: 18px 18px 14px; border-bottom: 1px solid var(--border); }
+.sidebar__back { display: inline-flex; align-items: center; gap: 6px; margin-bottom: 16px; padding: 7px 12px; border-radius: var(--r-sm); background: var(--surface-3); border: 1px solid var(--border); font-size: 12px; font-weight: 600; color: var(--text-muted); }
+.sidebar__back:hover { color: var(--gold-700); border-color: var(--border-strong); text-decoration: none; }
+.sidebar__system { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--text-subtle); margin-bottom: 14px; }
 .sidebar__system svg { width: 16px; height: 16px; }
 .sidebar__client { display: flex; align-items: center; gap: 12px; }
-.sidebar__mark {
-  width: 42px; height: 42px; border-radius: var(--r-md);
-  background: var(--grad-gold);
-  display: grid; place-items: center; flex-shrink: 0;
-  font-weight: 800; color: #3a2a00; font-size: 13px;
-  box-shadow: 0 2px 8px rgba(222,161,9,0.35);
-}
+.sidebar__mark { width: 42px; height: 42px; border-radius: var(--r-md); background: var(--grad-gold); display: grid; place-items: center; flex-shrink: 0; font-weight: 800; color: #3a2a00; font-size: 13px; box-shadow: 0 2px 8px rgba(222,161,9,.35); }
 .sidebar__client-name { font-size: 18px; font-weight: 800; line-height: 1.1; }
 .sidebar__client-label { font-size: 11px; color: var(--text-muted); font-weight: 600; }
-.sidebar__back {
-  display: inline-flex; align-items: center; gap: 6px; margin-bottom: 16px;
-  padding: 7px 12px; border-radius: var(--r-sm); background: var(--surface-3);
-  border: 1px solid var(--border); font-size: 12px; font-weight: 600;
-  color: var(--text-muted);
-}
-.sidebar__back:hover { color: var(--gold-700); border-color: var(--border-strong); text-decoration: none; }
-
-.sidebar__nav { padding: 14px 12px 28px; flex: 1; }
-.sidebar__group { margin-bottom: 18px; }
-.sidebar__group-label {
-  font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
-  color: var(--text-subtle); padding: 4px 10px 6px;
-}
-.sidebar__link {
-  display: flex; align-items: center; gap: 10px;
-  padding: 8px 10px; border-radius: var(--r-sm);
-  font-size: 14px; font-weight: 500; color: var(--text-muted);
-  transition: all .15s var(--ease);
-}
+.sidebar__nav { padding: 12px 10px 28px; flex: 1; }
+.sidebar__group { margin-bottom: 16px; }
+.sidebar__group-label { font-size: 10.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--text-subtle); padding: 4px 10px 5px; }
+.sidebar__link { display: block; padding: 6px 10px; border-radius: var(--r-sm); font-size: 13.5px; font-weight: 500; color: var(--text-muted); transition: all .15s var(--ease); }
 .sidebar__link:hover { background: var(--surface-3); color: var(--text); text-decoration: none; }
 .sidebar__link.is-active { background: var(--gold-soft); color: var(--gold-700); font-weight: 600; }
-.sidebar__link .ico { width: 16px; height: 16px; opacity: .7; flex-shrink: 0; }
+.main { flex: 1; margin-left: 264px; min-width: 0; }
 
-.main { flex: 1; margin-left: 256px; min-width: 0; }
+.menu-toggle { display: none; position: fixed; top: 14px; right: 14px; z-index: 50; width: 42px; height: 42px; border-radius: var(--r-md); background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow-md); color: var(--text); cursor: pointer; align-items: center; justify-content: center; }
+.sidebar-overlay { display: none; position: fixed; inset: 0; z-index: 39; background: rgba(15,23,42,.4); }
 
-/* mobile sidebar */
-.menu-toggle {
-  display: none; position: fixed; top: 14px; left: 14px; z-index: 50;
-  width: 42px; height: 42px; border-radius: var(--r-md);
-  background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow-md);
-  color: var(--text); cursor: pointer; align-items: center; justify-content: center;
-}
-.sidebar-overlay {
-  display: none; position: fixed; inset: 0; z-index: 39;
-  background: rgba(15,23,42,.4); opacity: 0; transition: opacity var(--dur);
-}
-
-/* ============================================================
-   HERO
-   ============================================================ */
-.hero {
-  position: relative; overflow: hidden;
-  padding: 72px 48px 56px;
-  background:
-    radial-gradient(900px 400px at 88% -10%, rgba(222,161,9,.16), transparent 60%),
-    linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
-  border-bottom: 1px solid var(--border);
-}
-.hero::after {
-  content: ""; position: absolute; inset: 0; pointer-events: none;
-  background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
-  background-size: 48px 48px; opacity: .35;
-  mask-image: radial-gradient(700px 360px at 80% 0%, #000, transparent 70%);
-}
+/* ============ HERO ============ */
+.hero { position: relative; overflow: hidden; padding: 64px 48px 52px; background: radial-gradient(900px 400px at 88% -10%, rgba(222,161,9,.16), transparent 60%), linear-gradient(180deg,#fff 0%,#F8FAFC 100%); border-bottom: 1px solid var(--border); }
+.hero::after { content:""; position:absolute; inset:0; pointer-events:none; background-image: linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px); background-size: 48px 48px; opacity:.35; mask-image: radial-gradient(700px 360px at 80% 0%, #000, transparent 70%); }
 .hero__inner { position: relative; z-index: 1; max-width: 880px; }
-.hero__chip {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 6px 12px; border-radius: var(--r-full);
-  background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow-sm);
-  font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 20px;
-}
+.hero__chip { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: var(--r-full); background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow-sm); font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 20px; }
 .hero__chip-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); animation: pulse-dot 2s infinite; }
-.hero__title { font-size: clamp(34px, 5vw, 52px); font-weight: 900; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 18px; }
-.hero__lead { font-size: 18px; color: var(--text-muted); max-width: 680px; margin-bottom: 26px; }
+.hero__title { font-size: clamp(34px, 5vw, 52px); font-weight: 900; line-height: 1.05; letter-spacing: -.02em; margin-bottom: 18px; }
+.hero__lead { font-size: 18px; color: var(--text-muted); max-width: 700px; margin-bottom: 26px; }
 .hero__actions { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 30px; }
 .hero__meta { display: flex; gap: 28px; flex-wrap: wrap; }
 .hero__meta-item { font-size: 13px; color: var(--text-muted); }
 .hero__meta-item strong { display: block; font-size: 22px; font-weight: 800; color: var(--text); }
 
-/* ============================================================
-   SECTIONS
-   ============================================================ */
-.section { padding: 56px 48px; border-bottom: 1px solid var(--border); content-visibility: auto; contain-intrinsic-size: 760px; }
+/* ============ SECTIONS ============ */
+.section { padding: 52px 48px; border-bottom: 1px solid var(--border); }
 .section--alt { background: var(--surface); }
-.section__header { max-width: 760px; margin-bottom: 36px; }
-.section__number {
-  display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
-  color: var(--gold-600); margin-bottom: 10px;
-}
-.section__title { font-size: clamp(26px, 3.4vw, 34px); font-weight: 800; letter-spacing: -0.015em; margin-bottom: 12px; }
+.section__header { max-width: 780px; margin-bottom: 32px; }
+.section__number { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--gold-600); margin-bottom: 10px; }
+.section__title { font-size: clamp(24px, 3.2vw, 32px); font-weight: 800; letter-spacing: -.015em; margin-bottom: 12px; }
 .section__lead { font-size: 16px; color: var(--text-muted); }
+.group-label { font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--gold-700); padding: 28px 48px 0; max-width: 1100px; }
 
 .grid { display: grid; gap: 16px; }
-.grid--2 { grid-template-columns: repeat(2, 1fr); }
-.grid--3 { grid-template-columns: repeat(3, 1fr); }
-.grid--4 { grid-template-columns: repeat(4, 1fr); }
-.grid--auto { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+.grid--2 { grid-template-columns: repeat(2,1fr); }
+.grid--3 { grid-template-columns: repeat(3,1fr); }
+.grid--4 { grid-template-columns: repeat(4,1fr); }
+.grid--auto { grid-template-columns: repeat(auto-fill, minmax(180px,1fr)); }
 .subtitle { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--text-subtle); margin: 28px 0 14px; }
+.row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+.stack { display: flex; flex-direction: column; gap: 12px; }
+.cell-sub { font-size: 12px; color: var(--text-muted); }
 
-/* ============================================================
-   SWATCHES
-   ============================================================ */
+/* ============ SWATCHES ============ */
 .swatch { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); overflow: hidden; transition: transform .15s, box-shadow .15s; cursor: pointer; }
 .swatch:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
 .swatch__color { height: 84px; }
@@ -253,42 +146,31 @@ code {
 .swatch__token { display: block; font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); margin: 2px 0 6px; }
 .swatch__hex { font-family: var(--font-mono); font-size: 12px; font-weight: 600; color: var(--text); }
 .swatch.is-copied .swatch__hex::after { content: " ✓ copiado"; color: var(--success); }
-
 .grad-swatch { border-radius: var(--r-md); overflow: hidden; border: 1px solid var(--border); }
 .grad-swatch__bar { height: 64px; }
 .grad-swatch__info { padding: 10px 14px; background: var(--surface); }
 .grad-swatch__name { font-size: 14px; font-weight: 600; }
 .grad-swatch__token { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); }
 
-/* ============================================================
-   CARDS / KPI
-   ============================================================ */
+/* ============ CARDS / KPI ============ */
 .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 20px; box-shadow: var(--shadow-sm); }
 .card--elevated { border-color: transparent; box-shadow: var(--shadow-lg); }
 .card--outlined { box-shadow: none; }
-
 .kpi { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 18px 20px; box-shadow: var(--shadow-sm); position: relative; overflow: hidden; }
 .kpi__top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
 .kpi__label { font-size: 13px; font-weight: 600; color: var(--text-muted); }
 .kpi__icon { width: 34px; height: 34px; border-radius: var(--r-md); display: grid; place-items: center; }
-.kpi__value { font-family: var(--font-mono); font-size: 26px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; }
+.kpi__value { font-family: var(--font-mono); font-size: 26px; font-weight: 700; letter-spacing: -.02em; line-height: 1.1; }
 .kpi__delta { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 700; margin-top: 8px; }
 .kpi__delta--up { color: var(--success); }
 .kpi__delta--down { color: var(--danger); }
-.kpi__spark { position: absolute; right: 0; bottom: 0; opacity: .5; }
 
-/* ============================================================
-   BUTTONS
-   ============================================================ */
-.btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  font-family: var(--font-sans); font-size: 14px; font-weight: 600;
-  padding: 10px 18px; border-radius: var(--r-md); border: 1px solid transparent;
-  cursor: pointer; transition: all var(--dur) var(--ease); white-space: nowrap;
-}
+/* ============ BUTTONS ============ */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-family: var(--font-sans); font-size: 14px; font-weight: 600; padding: 10px 18px; border-radius: var(--r-md); border: 1px solid transparent; cursor: pointer; transition: all var(--dur) var(--ease); white-space: nowrap; }
 .btn svg { width: 16px; height: 16px; }
 .btn--sm { padding: 7px 12px; font-size: 13px; }
 .btn--lg { padding: 13px 24px; font-size: 16px; }
+.btn--icon { padding: 9px; }
 .btn-primary { background: var(--grad-gold); color: #3a2a00; box-shadow: 0 2px 8px rgba(222,161,9,.30); }
 .btn-primary:hover { filter: brightness(1.04); box-shadow: 0 4px 14px rgba(222,161,9,.42); transform: translateY(-1px); }
 .btn-primary:active { transform: translateY(0); }
@@ -298,20 +180,20 @@ code {
 .btn-ghost:hover { background: var(--surface-3); color: var(--text); }
 .btn-danger { background: var(--danger); color: #fff; }
 .btn-danger:hover { background: var(--danger-fg); }
+.btn-success { background: var(--success); color: #fff; }
+.btn-success:hover { filter: brightness(.95); }
 .btn:disabled, .btn.is-disabled { opacity: .5; pointer-events: none; }
 .btn--loading { pointer-events: none; }
 .btn--loading .spinner { width: 15px; height: 15px; border-width: 2px; }
+.btn-group { display: inline-flex; border: 1px solid var(--border-strong); border-radius: var(--r-md); overflow: hidden; box-shadow: var(--shadow-sm); }
+.btn-group button { padding: 8px 14px; background: var(--surface); border: none; border-right: 1px solid var(--border); font: inherit; font-size: 13px; font-weight: 600; color: var(--text-muted); cursor: pointer; }
+.btn-group button:last-child { border-right: none; }
+.btn-group button.is-active { background: var(--gold-soft); color: var(--gold-700); }
 
-/* ============================================================
-   INPUTS
-   ============================================================ */
+/* ============ INPUTS ============ */
 .field { margin-bottom: 16px; }
 .field__label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--text); }
-.input, .select, .textarea {
-  width: 100%; font-family: var(--font-sans); font-size: 14px; color: var(--text);
-  background: var(--surface); border: 1px solid var(--border-strong); border-radius: var(--r-md);
-  padding: 10px 12px; transition: border-color .15s, box-shadow .15s;
-}
+.input, .select, .textarea { width: 100%; font-family: var(--font-sans); font-size: 14px; color: var(--text); background: var(--surface); border: 1px solid var(--border-strong); border-radius: var(--r-md); padding: 10px 12px; transition: border-color .15s, box-shadow .15s; }
 .input::placeholder { color: var(--text-subtle); }
 .input:focus, .select:focus, .textarea:focus { outline: none; border-color: var(--gold-600); box-shadow: 0 0 0 3px var(--gold-soft); }
 .input--error { border-color: var(--danger); }
@@ -322,58 +204,113 @@ code {
 .input-group { position: relative; }
 .input-group .input { padding-left: 38px; }
 .input-group .ico { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; color: var(--text-subtle); }
+.input-prefix { position: relative; }
+.input-prefix::before { content: "R$"; position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-family: var(--font-mono); font-size: 13px; font-weight: 600; color: var(--text-subtle); }
+.input-prefix .input { padding-left: 38px; font-family: var(--font-mono); }
 
-/* ============================================================
-   BADGES / CHIPS
-   ============================================================ */
-.badge {
-  display: inline-flex; align-items: center; gap: 5px;
-  font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: var(--r-full); line-height: 1.4;
-}
+/* ============ TOGGLES ============ */
+.switch { position: relative; display: inline-flex; align-items: center; gap: 10px; cursor: pointer; font-size: 14px; }
+.switch input { position: absolute; opacity: 0; }
+.switch__track { width: 40px; height: 22px; border-radius: 999px; background: var(--border-strong); transition: background .2s; flex-shrink: 0; position: relative; }
+.switch__track::after { content: ""; position: absolute; top: 2px; left: 2px; width: 18px; height: 18px; border-radius: 50%; background: #fff; box-shadow: var(--shadow-sm); transition: transform .2s; }
+.switch input:checked + .switch__track { background: var(--gold-600); }
+.switch input:checked + .switch__track::after { transform: translateX(18px); }
+.check { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; font-size: 14px; }
+.check input { position: absolute; opacity: 0; }
+.check__box { width: 20px; height: 20px; border-radius: 6px; border: 2px solid var(--border-strong); display: grid; place-items: center; transition: all .15s; flex-shrink: 0; }
+.check input:checked + .check__box { background: var(--gold-600); border-color: var(--gold-600); }
+.check__box svg { width: 12px; height: 12px; color: #fff; opacity: 0; }
+.check input:checked + .check__box svg { opacity: 1; }
+.radio__box { border-radius: 50%; }
+.radio__box::after { content: ""; width: 9px; height: 9px; border-radius: 50%; background: #fff; opacity: 0; transition: opacity .15s; }
+.check input:checked + .radio__box { background: var(--gold-600); border-color: var(--gold-600); }
+.check input:checked + .radio__box::after { opacity: 1; }
+
+/* ============ BADGES / CHIPS ============ */
+.badge { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: var(--r-full); line-height: 1.4; }
 .badge .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
 .badge--success { background: var(--success-bg); color: var(--success-fg); }
 .badge--danger  { background: var(--danger-bg);  color: var(--danger-fg); }
 .badge--warning { background: var(--warning-bg); color: var(--warning-fg); }
 .badge--info    { background: var(--info-bg);    color: var(--info-fg); }
 .badge--neutral { background: var(--surface-3);  color: var(--text-muted); }
-
-.chip-empresa {
-  display: inline-flex; align-items: center; gap: 7px;
-  font-size: 13px; font-weight: 600; padding: 5px 12px 5px 8px; border-radius: var(--r-full);
-  border: 1px solid transparent;
-}
+.badge--purple  { background: var(--l4-tech-bg); color: #5b21b6; }
+.chip-empresa { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 600; padding: 5px 12px 5px 8px; border-radius: var(--r-full); border: 1px solid transparent; }
 .chip-empresa .avatar { width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; font-size: 10px; font-weight: 800; color: #fff; }
-.chip-empresa--digital { background: var(--l4-digital-bg); color: #8a6500; }
-.chip-empresa--digital .avatar { background: var(--l4-digital); color:#3a2a00; }
-.chip-empresa--web { background: var(--l4-web-bg); color: #0c5a93; }
-.chip-empresa--web .avatar { background: var(--l4-web); }
-.chip-empresa--tech { background: var(--l4-tech-bg); color: #5b21b6; }
-.chip-empresa--tech .avatar { background: var(--l4-tech); }
+.chip-empresa--digital { background: var(--l4-digital-bg); color: #8a6500; } .chip-empresa--digital .avatar { background: var(--l4-digital); color:#3a2a00; }
+.chip-empresa--web { background: var(--l4-web-bg); color: #0c5a93; } .chip-empresa--web .avatar { background: var(--l4-web); }
+.chip-empresa--tech { background: var(--l4-tech-bg); color: #5b21b6; } .chip-empresa--tech .avatar { background: var(--l4-tech); }
 
-/* ============================================================
-   TABLE
-   ============================================================ */
+/* ============ AVATARS ============ */
+.avatar-c { border-radius: 50%; display: grid; place-items: center; font-weight: 700; color: #fff; flex-shrink: 0; }
+.avatar-xs { width: 24px; height: 24px; font-size: 10px; }
+.avatar-sm { width: 32px; height: 32px; font-size: 12px; }
+.avatar-md { width: 40px; height: 40px; font-size: 14px; }
+.avatar-lg { width: 56px; height: 56px; font-size: 18px; }
+.avatar-group { display: flex; }
+.avatar-group .avatar-c { border: 2px solid var(--surface); margin-left: -10px; }
+.avatar-group .avatar-c:first-child { margin-left: 0; }
+.avatar-more { background: var(--surface-3) !important; color: var(--text-muted) !important; }
+
+/* ============ TABLE ============ */
 .table-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--shadow-sm); }
 .table-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 18px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
 .table-toolbar h4 { font-size: 15px; font-weight: 700; }
 table.data { width: 100%; border-collapse: collapse; font-size: 14px; }
-table.data th {
-  text-align: left; font-size: 11px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase;
-  color: var(--text-subtle); padding: 11px 18px; background: var(--surface-2); border-bottom: 1px solid var(--border); white-space: nowrap;
-}
+table.data th { text-align: left; font-size: 11px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--text-subtle); padding: 11px 18px; background: var(--surface-2); border-bottom: 1px solid var(--border); white-space: nowrap; }
+table.data th.sortable { cursor: pointer; }
+table.data th.sortable::after { content: " ↕"; opacity: .4; }
+table.data th.sorted-asc::after { content: " ↑"; opacity: 1; color: var(--gold-700); }
 table.data td { padding: 13px 18px; border-bottom: 1px solid var(--border); color: var(--text); }
 table.data tbody tr { transition: background .12s; }
 table.data tbody tr:hover { background: var(--surface-2); }
+table.data tbody tr.is-selected { background: var(--gold-soft); }
 table.data tbody tr:last-child td { border-bottom: none; }
 .td-mono { font-family: var(--font-mono); font-weight: 600; }
-.td-pos { color: var(--success-fg); }
-.td-neg { color: var(--danger-fg); }
+.td-pos { color: var(--success-fg); } .td-neg { color: var(--danger-fg); }
 .cell-strong { font-weight: 600; }
-.cell-sub { font-size: 12px; color: var(--text-muted); }
+.table-foot { display: flex; align-items: center; justify-content: space-between; padding: 12px 18px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
 
-/* ============================================================
-   CHARTS (SVG estilo recharts)
-   ============================================================ */
+/* ============ FILTERS ============ */
+.filterbar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 14px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); box-shadow: var(--shadow-sm); }
+.pill-filter { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: var(--r-full); font-size: 13px; font-weight: 600; border: 1px solid var(--border-strong); background: var(--surface); color: var(--text-muted); cursor: pointer; transition: all .15s; }
+.pill-filter:hover { border-color: var(--gold-600); color: var(--gold-700); }
+.pill-filter.is-active { background: var(--gold-soft); border-color: var(--gold-600); color: var(--gold-700); }
+.pill-filter .x { font-weight: 800; }
+.segmented { display: inline-flex; background: var(--surface-3); border-radius: var(--r-md); padding: 3px; }
+.segmented button { padding: 7px 14px; border: none; background: transparent; border-radius: 7px; font: inherit; font-size: 13px; font-weight: 600; color: var(--text-muted); cursor: pointer; transition: all .15s; }
+.segmented button.is-active { background: var(--surface); color: var(--text); box-shadow: var(--shadow-sm); }
+
+/* ============ TABS ============ */
+.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--border); }
+.tabs button { padding: 10px 16px; border: none; background: none; font: inherit; font-size: 14px; font-weight: 600; color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all .15s; }
+.tabs button:hover { color: var(--text); }
+.tabs button.is-active { color: var(--gold-700); border-bottom-color: var(--gold-600); }
+.tabs-pills { display: inline-flex; gap: 6px; }
+.tabs-pills button { padding: 7px 14px; border: none; border-radius: var(--r-full); background: var(--surface-3); font: inherit; font-size: 13px; font-weight: 600; color: var(--text-muted); cursor: pointer; }
+.tabs-pills button.is-active { background: var(--gold-600); color: #3a2a00; }
+
+/* ============ BREADCRUMB / PAGINATION / STEPPER ============ */
+.breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-muted); }
+.breadcrumb a { color: var(--text-muted); font-weight: 500; }
+.breadcrumb a:hover { color: var(--gold-700); text-decoration: none; }
+.breadcrumb .sep { color: var(--text-subtle); }
+.breadcrumb .current { color: var(--text); font-weight: 600; }
+.pagination { display: inline-flex; gap: 4px; }
+.pagination button { min-width: 34px; height: 34px; padding: 0 8px; border: 1px solid var(--border); background: var(--surface); border-radius: var(--r-sm); font: inherit; font-size: 13px; font-weight: 600; color: var(--text-muted); cursor: pointer; }
+.pagination button:hover { border-color: var(--border-strong); }
+.pagination button.is-active { background: var(--gold-600); border-color: var(--gold-600); color: #3a2a00; }
+.stepper { display: flex; align-items: center; }
+.stepper__step { display: flex; align-items: center; gap: 10px; }
+.stepper__num { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; font-weight: 700; background: var(--surface-3); color: var(--text-muted); border: 1px solid var(--border); }
+.stepper__step.is-done .stepper__num { background: var(--success); color: #fff; border-color: var(--success); }
+.stepper__step.is-active .stepper__num { background: var(--gold-600); color: #3a2a00; border-color: var(--gold-600); }
+.stepper__label { font-size: 13px; font-weight: 600; color: var(--text-muted); }
+.stepper__step.is-active .stepper__label, .stepper__step.is-done .stepper__label { color: var(--text); }
+.stepper__bar { width: 48px; height: 2px; background: var(--border); margin: 0 8px; }
+.stepper__step.is-done + .stepper__bar { background: var(--success); }
+
+/* ============ CHARTS ============ */
 .chart-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 20px; box-shadow: var(--shadow-sm); }
 .chart-card__head { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 18px; }
 .chart-card__title { font-size: 15px; font-weight: 700; }
@@ -381,25 +318,20 @@ table.data tbody tr:last-child td { border-bottom: none; }
 .legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 14px; }
 .legend__item { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-muted); font-weight: 500; }
 .legend__swatch { width: 10px; height: 10px; border-radius: 3px; }
-.bar-rect { animation: count-bar 1s var(--ease) both; }
+.bar-rect { transform-box: fill-box; transform-origin: bottom; animation: count-bar 1s var(--ease) both; }
 .area-line { stroke-dasharray: 1200; stroke-dashoffset: 1200; animation: draw-line 1.6s var(--ease) forwards; }
 .ring-fg { transform: rotate(-90deg); transform-origin: center; animation: ring 1.3s var(--ease) forwards; }
+.progress { height: 8px; background: var(--surface-3); border-radius: 999px; overflow: hidden; }
+.progress__fill { height: 100%; border-radius: 999px; background: var(--grad-gold); }
+.progress--indeterminate { position: relative; }
+.progress--indeterminate .progress__fill { position: absolute; width: 40%; animation: indeterminate 1.2s var(--ease) infinite; }
 
-/* ============================================================
-   LOADINGS
-   ============================================================ */
+/* ============ LOADINGS ============ */
 .spinner { width: 24px; height: 24px; border: 3px solid var(--border); border-top-color: var(--gold-600); border-radius: 50%; animation: spin .7s linear infinite; }
 .skeleton { background: linear-gradient(90deg, var(--surface-3) 25%, #e9eef5 37%, var(--surface-3) 63%); background-size: 200% 100%; animation: shimmer 1.4s infinite; border-radius: var(--r-sm); }
 
-/* ============================================================
-   TOASTS
-   ============================================================ */
-.toast {
-  display: flex; align-items: flex-start; gap: 12px; max-width: 360px;
-  background: var(--surface); border: 1px solid var(--border); border-left-width: 4px;
-  border-radius: var(--r-md); padding: 13px 15px; box-shadow: var(--shadow-lg);
-  animation: toast-in .3s var(--ease) both;
-}
+/* ============ TOASTS ============ */
+.toast { display: flex; align-items: flex-start; gap: 12px; max-width: 380px; background: var(--surface); border: 1px solid var(--border); border-left-width: 4px; border-radius: var(--r-md); padding: 13px 15px; box-shadow: var(--shadow-lg); animation: toast-in .3s var(--ease) both; }
 .toast__icon { width: 20px; height: 20px; flex-shrink: 0; margin-top: 1px; }
 .toast__title { font-size: 14px; font-weight: 600; }
 .toast__msg { font-size: 13px; color: var(--text-muted); }
@@ -408,15 +340,79 @@ table.data tbody tr:last-child td { border-bottom: none; }
 .toast--warning { border-left-color: var(--warning); } .toast--warning .toast__icon { color: var(--warning); }
 .toast--info    { border-left-color: var(--info); }    .toast--info .toast__icon { color: var(--info); }
 
-/* tokens helpers */
+/* ============ OVERLAYS (modal/drawer/tooltip/popover) ============ */
+.overlay-demo { position: relative; min-height: 280px; border-radius: var(--r-lg); border: 1px solid var(--border); background: repeating-linear-gradient(45deg, var(--surface-2), var(--surface-2) 12px, var(--surface) 12px, var(--surface) 24px); display: grid; place-items: center; overflow: hidden; }
+.modal { width: min(420px, 92%); background: var(--surface); border-radius: var(--r-lg); box-shadow: var(--shadow-xl); animation: modal-in .26s var(--ease); }
+.modal__head { padding: 18px 20px 0; }
+.modal__title { font-size: 18px; font-weight: 800; }
+.modal__body { padding: 10px 20px 18px; font-size: 14px; color: var(--text-muted); }
+.modal__foot { display: flex; justify-content: flex-end; gap: 10px; padding: 14px 20px; border-top: 1px solid var(--border); }
+.drawer { position: absolute; top: 0; right: 0; bottom: 0; width: min(380px, 80%); background: var(--surface); box-shadow: var(--shadow-xl); border-left: 1px solid var(--border); animation: drawer-in .3s var(--ease); display: flex; flex-direction: column; }
+.drawer__head { display: flex; align-items: center; justify-content: space-between; padding: 18px 20px; border-bottom: 1px solid var(--border); }
+.drawer__body { padding: 18px 20px; overflow-y: auto; }
+.tooltip-ex { position: relative; display: inline-flex; }
+.tooltip-bubble { background: var(--text); color: #fff; font-size: 12px; font-weight: 600; padding: 6px 10px; border-radius: var(--r-sm); position: relative; }
+.tooltip-bubble::after { content: ""; position: absolute; bottom: -5px; left: 18px; border: 5px solid transparent; border-top-color: var(--text); border-bottom: 0; }
+.popover { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); box-shadow: var(--shadow-lg); padding: 12px; width: 220px; }
+.menu { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); box-shadow: var(--shadow-lg); padding: 6px; width: 200px; }
+.menu__item { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: var(--r-sm); font-size: 14px; color: var(--text); cursor: pointer; }
+.menu__item:hover { background: var(--surface-3); }
+.menu__item svg { width: 15px; height: 15px; color: var(--text-muted); }
+.menu__item--danger { color: var(--danger); } .menu__item--danger svg { color: var(--danger); }
+.menu__sep { height: 1px; background: var(--border); margin: 6px 4px; }
+
+/* ============ EMPTY / ERROR ============ */
+.state { text-align: center; padding: 40px 24px; }
+.state__icon { width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; margin: 0 auto 16px; }
+.state__title { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+.state__desc { font-size: 14px; color: var(--text-muted); max-width: 360px; margin: 0 auto 18px; }
+
+/* ============ KANBAN ============ */
+.kanban { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.kanban__col { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 12px; }
+.kanban__col-head { display: flex; align-items: center; justify-content: space-between; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--text-muted); margin-bottom: 12px; }
+.kanban__count { background: var(--surface-3); border-radius: 999px; padding: 1px 8px; font-size: 11px; }
+.kanban__card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); padding: 12px; box-shadow: var(--shadow-sm); margin-bottom: 10px; cursor: grab; }
+.kanban__card:last-child { margin-bottom: 0; }
+.kanban__card-title { font-size: 13px; font-weight: 600; margin-bottom: 8px; line-height: 1.4; }
+.kanban__card-meta { display: flex; align-items: center; justify-content: space-between; }
+.kanban__tag { font-size: 10px; font-weight: 700; text-transform: uppercase; padding: 2px 7px; border-radius: 4px; }
+
+/* ============ CALENDAR ============ */
+.calendar { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--shadow-sm); }
+.calendar__head { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-bottom: 1px solid var(--border); }
+.calendar__grid { display: grid; grid-template-columns: repeat(7, 1fr); }
+.calendar__dow { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--text-subtle); text-align: center; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.calendar__day { min-height: 64px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 6px 8px; font-size: 12px; }
+.calendar__day:nth-child(7n) { border-right: none; }
+.calendar__day--mute { color: var(--text-subtle); background: var(--surface-2); }
+.calendar__day--today { background: var(--gold-soft); }
+.calendar__num { font-weight: 600; }
+.cal-event { margin-top: 4px; font-size: 10px; font-weight: 600; padding: 2px 5px; border-radius: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* ============ INTEGRATIONS ============ */
+.integration { display: flex; align-items: center; gap: 14px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 16px; box-shadow: var(--shadow-sm); }
+.integration__logo { width: 44px; height: 44px; border-radius: var(--r-md); display: grid; place-items: center; font-weight: 800; color: #fff; flex-shrink: 0; }
+.integration__name { font-size: 15px; font-weight: 700; }
+.integration__desc { font-size: 12px; color: var(--text-muted); }
+
+/* ============ DROPZONE / UPLOAD ============ */
+.dropzone { border: 2px dashed var(--border-strong); border-radius: var(--r-lg); padding: 32px; text-align: center; background: var(--surface-2); transition: all .15s; cursor: pointer; }
+.dropzone:hover { border-color: var(--gold-600); background: var(--gold-soft); }
+.dropzone__icon { width: 48px; height: 48px; border-radius: var(--r-md); background: var(--surface); border: 1px solid var(--border); display: grid; place-items: center; margin: 0 auto 14px; color: var(--gold-600); }
+.file-row { display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); }
+.file-row__icon { width: 36px; height: 36px; border-radius: var(--r-sm); background: var(--success-bg); color: var(--success); display: grid; place-items: center; flex-shrink: 0; }
+
+/* ============ TOKENS / TYPE / MISC ============ */
 .token-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); padding: 16px; display: flex; align-items: center; gap: 16px; }
-.token-card__demo { flex-shrink: 0; }
-.token-card__meta { min-width: 0; }
 .token-card__name { font-weight: 600; font-size: 14px; }
 .token-card__val { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); }
-
 .type-row { display: flex; align-items: baseline; gap: 20px; padding: 14px 0; border-bottom: 1px solid var(--border); }
 .type-row__token { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); width: 130px; flex-shrink: 0; }
+.icon-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 10px; }
+.icon-cell { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 16px 8px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); }
+.icon-cell svg { width: 22px; height: 22px; color: var(--text); }
+.icon-cell span { font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); }
 
 .dodont { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .dodont__col { border-radius: var(--r-lg); padding: 20px; border: 1px solid var(--border); }
@@ -431,25 +427,19 @@ table.data tbody tr:last-child td { border-bottom: none; }
 .dodont__col--do li::before { content: "✓"; color: var(--success); font-weight: 800; }
 .dodont__col--dont li::before { content: "✕"; color: var(--danger); font-weight: 800; }
 
-.back-to-top {
-  position: fixed; right: 24px; bottom: 24px; z-index: 30;
-  width: 44px; height: 44px; border-radius: 50%;
-  background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow-lg);
-  color: var(--gold-700); cursor: pointer; display: grid; place-items: center;
-  opacity: 0; pointer-events: none; transform: translateY(12px); transition: all var(--dur) var(--ease);
-}
+.a11y-item { display: flex; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+.a11y-item__icon { width: 32px; height: 32px; border-radius: var(--r-sm); background: var(--success-bg); color: var(--success); display: grid; place-items: center; flex-shrink: 0; }
+
+.back-to-top { position: fixed; right: 24px; bottom: 24px; z-index: 30; width: 44px; height: 44px; border-radius: 50%; background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow-lg); color: var(--gold-700); cursor: pointer; display: grid; place-items: center; opacity: 0; pointer-events: none; transform: translateY(12px); transition: all var(--dur) var(--ease); }
 .back-to-top.is-visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
 
-/* app mockup */
-.mock {
-  border-radius: var(--r-xl); overflow: hidden; border: 1px solid var(--border);
-  box-shadow: var(--shadow-xl); background: var(--bg);
-}
+/* ============ APP MOCKS ============ */
+.mock { border-radius: var(--r-xl); overflow: hidden; border: 1px solid var(--border); box-shadow: var(--shadow-xl); background: var(--bg); }
 .mock__bar { display: flex; align-items: center; gap: 8px; padding: 10px 16px; background: var(--surface); border-bottom: 1px solid var(--border); }
 .mock__dots { display: flex; gap: 6px; }
 .mock__dots span { width: 11px; height: 11px; border-radius: 50%; background: var(--border-strong); }
 .mock__url { margin-left: 10px; font-size: 12px; font-family: var(--font-mono); color: var(--text-subtle); background: var(--surface-3); padding: 3px 12px; border-radius: var(--r-full); }
-.mock__app { display: grid; grid-template-columns: 200px 1fr; min-height: 460px; }
+.mock__app { display: grid; grid-template-columns: 200px 1fr; min-height: 440px; }
 .mock__side { background: var(--surface); border-right: 1px solid var(--border); padding: 16px 12px; }
 .mock__logo { display: flex; align-items: center; gap: 9px; padding: 4px 8px 16px; font-weight: 800; }
 .mock__logo .m { width: 28px; height: 28px; border-radius: 8px; background: var(--grad-gold); }
@@ -459,39 +449,39 @@ table.data tbody tr:last-child td { border-bottom: none; }
 .mock__content { padding: 22px; overflow: hidden; }
 .mock__pagehead { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
 .mock__pagetitle { font-size: 20px; font-weight: 800; }
+.mock-screens { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+.mock-thumb { border-radius: var(--r-lg); border: 1px solid var(--border); overflow: hidden; box-shadow: var(--shadow-md); background: var(--surface); }
+.mock-thumb__bar { display: flex; gap: 5px; padding: 9px 12px; border-bottom: 1px solid var(--border); }
+.mock-thumb__bar span { width: 9px; height: 9px; border-radius: 50%; background: var(--border-strong); }
+.mock-thumb__body { padding: 16px; min-height: 200px; }
+.mock-thumb__cap { padding: 10px 14px; border-top: 1px solid var(--border); font-size: 13px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
 
-@media (max-width: 1024px) {
-  .grid--4 { grid-template-columns: repeat(2, 1fr); }
-  .grid--3 { grid-template-columns: repeat(2, 1fr); }
-}
+@media (max-width: 1024px) { .grid--4 { grid-template-columns: repeat(2,1fr); } .grid--3 { grid-template-columns: repeat(2,1fr); } .kanban { grid-template-columns: repeat(2,1fr); } .mock-screens { grid-template-columns: 1fr; } }
 @media (max-width: 860px) {
   .sidebar { transform: translateX(-100%); }
   .sidebar.is-open { transform: translateX(0); box-shadow: var(--shadow-xl); }
-  .sidebar-overlay.is-open { display: block; opacity: 1; }
+  .sidebar-overlay.is-open { display: block; }
   .main { margin-left: 0; }
   .menu-toggle { display: flex; }
   .hero, .section { padding-left: 20px; padding-right: 20px; }
+  .group-label { padding-left: 20px; padding-right: 20px; }
   .hero { padding-top: 64px; }
-  .grid--4, .grid--3, .grid--2 { grid-template-columns: 1fr; }
-  .dodont { grid-template-columns: 1fr; }
-  .mock__app { grid-template-columns: 1fr; }
-  .mock__side { display: none; }
+  .grid--4, .grid--3, .grid--2, .dodont, .kanban { grid-template-columns: 1fr; }
+  .mock__app { grid-template-columns: 1fr; } .mock__side { display: none; }
 }
 </style>
 </head>
-<body data-nav-mobile-max="860" data-pdf-target=".main" data-pdf-filename="iadm-design-system.pdf" data-pdf-background="#F8FAFC">
+<body>
 
 <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu">
   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
 </button>
 <div class="sidebar-overlay" id="sidebarOverlay" aria-hidden="true"></div>
-
 <button class="back-to-top" id="backToTop" aria-label="Voltar ao topo">
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
 </button>
 
 <div class="layout">
-
   <!-- ============ SIDEBAR ============ -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar__brand">
@@ -503,16 +493,15 @@ table.data tbody tr:last-child td { border-bottom: none; }
       <div class="sidebar__client">
         <span class="sidebar__mark">iAdm</span>
         <div>
-          <span class="sidebar__client-label">Painel administrativo</span>
+          <span class="sidebar__client-label">Operações · Financeiro · CRM</span>
           <span class="sidebar__client-name">i<em>Adm</em></span>
         </div>
       </div>
     </div>
-
     <nav class="sidebar__nav" id="nav">
       <div class="sidebar__group">
-        <div class="sidebar__group-label">Visão do produto</div>
-        <a href="#app" class="sidebar__link">00 · Telas do App</a>
+        <div class="sidebar__group-label">Produto</div>
+        <a href="#app" class="sidebar__link">00 · Telas do app</a>
       </div>
       <div class="sidebar__group">
         <div class="sidebar__group-label">Fundamentos</div>
@@ -521,42 +510,71 @@ table.data tbody tr:last-child td { border-bottom: none; }
         <a href="#space" class="sidebar__link">03 · Espaçamento</a>
         <a href="#raios" class="sidebar__link">04 · Raios</a>
         <a href="#sombras" class="sidebar__link">05 · Sombras</a>
+        <a href="#icones" class="sidebar__link">06 · Iconografia</a>
+        <a href="#layout" class="sidebar__link">07 · Layout &amp; Grid</a>
       </div>
       <div class="sidebar__group">
-        <div class="sidebar__group-label">Componentes</div>
-        <a href="#botoes" class="sidebar__link">06 · Botões</a>
-        <a href="#inputs" class="sidebar__link">07 · Inputs &amp; Select</a>
-        <a href="#cards" class="sidebar__link">08 · Cards &amp; KPIs</a>
-        <a href="#badges" class="sidebar__link">09 · Badges &amp; Empresas</a>
-        <a href="#tabelas" class="sidebar__link">10 · Tabelas</a>
-        <a href="#graficos" class="sidebar__link">11 · Gráficos</a>
-        <a href="#loadings" class="sidebar__link">12 · Loadings</a>
-        <a href="#toasts" class="sidebar__link">13 · Toasts</a>
+        <div class="sidebar__group-label">Componentes · Formulários</div>
+        <a href="#botoes" class="sidebar__link">08 · Botões</a>
+        <a href="#inputs" class="sidebar__link">09 · Inputs &amp; Select</a>
+        <a href="#toggles" class="sidebar__link">10 · Switch · Check · Radio</a>
+        <a href="#upload" class="sidebar__link">11 · Upload &amp; Importação</a>
+      </div>
+      <div class="sidebar__group">
+        <div class="sidebar__group-label">Componentes · Dados</div>
+        <a href="#cards" class="sidebar__link">12 · Cards &amp; KPIs</a>
+        <a href="#tabelas" class="sidebar__link">13 · Tabelas</a>
+        <a href="#filtros" class="sidebar__link">14 · Filtros &amp; Busca</a>
+        <a href="#graficos" class="sidebar__link">15 · Gráficos</a>
+        <a href="#badges" class="sidebar__link">16 · Badges &amp; Status</a>
+        <a href="#avatares" class="sidebar__link">17 · Avatares</a>
+      </div>
+      <div class="sidebar__group">
+        <div class="sidebar__group-label">Componentes · Navegação</div>
+        <a href="#tabs" class="sidebar__link">18 · Tabs</a>
+        <a href="#navdata" class="sidebar__link">19 · Breadcrumb &amp; Paginação</a>
+        <a href="#stepper" class="sidebar__link">20 · Stepper</a>
+      </div>
+      <div class="sidebar__group">
+        <div class="sidebar__group-label">Componentes · Overlays</div>
+        <a href="#modais" class="sidebar__link">21 · Modais</a>
+        <a href="#drawer" class="sidebar__link">22 · Drawer</a>
+        <a href="#popover" class="sidebar__link">23 · Tooltip · Popover · Menu</a>
+        <a href="#toasts" class="sidebar__link">24 · Toasts</a>
+        <a href="#estados" class="sidebar__link">25 · Empty &amp; Error</a>
+      </div>
+      <div class="sidebar__group">
+        <div class="sidebar__group-label">Padrões &amp; Fluxos</div>
+        <a href="#kanban" class="sidebar__link">26 · Kanban (Criação)</a>
+        <a href="#calendario" class="sidebar__link">27 · Calendário</a>
+        <a href="#nf" class="sidebar__link">28 · Emissão de NF</a>
+        <a href="#integracoes" class="sidebar__link">29 · Integrações</a>
+        <a href="#perfil" class="sidebar__link">30 · Perfil &amp; Config</a>
       </div>
       <div class="sidebar__group">
         <div class="sidebar__group-label">Aplicação</div>
-        <a href="#animacoes" class="sidebar__link">14 · Animações</a>
-        <a href="#dodont" class="sidebar__link">15 · Do / Don't</a>
+        <a href="#animacoes" class="sidebar__link">31 · Animações</a>
+        <a href="#a11y" class="sidebar__link">32 · Acessibilidade</a>
+        <a href="#dodont" class="sidebar__link">33 · Do / Don't</a>
       </div>
     </nav>
   </aside>
 
   <main class="main">
-
     <!-- ============ HERO ============ -->
     <header class="hero">
       <div class="hero__inner">
         <span class="hero__chip"><span class="hero__chip-dot"></span>iAdm · Atualizado · {{GIT_DATE}}</span>
-        <h1 class="hero__title">O painel da <em>L4</em>.<br>Denso, claro, financeiro.</h1>
-        <p class="hero__lead">Design System do iAdm — o app administrativo do L4 OS. Inter como fonte única, dourado da marca para ações, paleta categórica para gráficos e tabelas densas de receitas e despesas. Compartilha tokens com Shell, Cria.Aí e Reporta+Aí via <code>@l4/ui</code>.</p>
+        <h1 class="hero__title">O sistema operacional<br>da <em>L4 Digital.</em></h1>
+        <p class="hero__lead">Design System do iAdm — a plataforma que roda o financeiro, o CRM de criação, os clientes de capitalização e a operação interna da L4. Inter como fonte única, dourado da marca para ação, paleta categórica para dados densos. 33 seções, dos tokens aos fluxos completos. Compartilha base com Shell, Cria.Aí e Reporta+Aí via <code>@l4/ui</code>.</p>
         <div class="hero__actions">
-          <button class="btn btn-primary btn--lg">Criar receita</button>
-          <button class="btn btn-secondary btn--lg">Ver documentação</button>
+          <button class="btn btn-primary btn--lg">Criar lançamento</button>
+          <button class="btn btn-secondary btn--lg">Importar apuração (XLSX)</button>
         </div>
         <div class="hero__meta">
+          <div class="hero__meta-item"><strong>33</strong>seções</div>
           <div class="hero__meta-item"><strong>Inter</strong>fonte única</div>
           <div class="hero__meta-item"><strong>8</strong>cores de gráfico</div>
-          <div class="hero__meta-item"><strong>4px</strong>base de espaço</div>
           <div class="hero__meta-item"><strong>WCAG AA</strong>contraste mínimo</div>
         </div>
       </div>
@@ -567,119 +585,104 @@ table.data tbody tr:last-child td { border-bottom: none; }
       <div class="section__header">
         <span class="section__number">00 · Produto</span>
         <h2 class="section__title">Como fica no <em>app</em></h2>
-        <p class="section__lead">O painel financeiro do iAdm — KPIs, gráfico de receita × despesa e a tabela de lançamentos. Cada elemento usa os tokens deste design system.</p>
+        <p class="section__lead">O iAdm é multi-módulo. Abaixo, o painel financeiro em detalhe e uma galeria das principais telas — todas montadas com os tokens e componentes deste design system.</p>
       </div>
 
-      <div class="mock">
-        <div class="mock__bar">
-          <div class="mock__dots"><span></span><span></span><span></span></div>
-          <span class="mock__url">iadm.l4.os/financeiro</span>
-        </div>
+      <div class="mock" style="margin-bottom:24px">
+        <div class="mock__bar"><div class="mock__dots"><span></span><span></span><span></span></div><span class="mock__url">iadm.l4.os/financeiro</span></div>
         <div class="mock__app">
           <aside class="mock__side">
             <div class="mock__logo"><span class="m"></span> iAdm</div>
             <div class="mock__navitem"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg> Painel</div>
             <div class="mock__navitem is-active"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> Financeiro</div>
             <div class="mock__navitem"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> Clientes</div>
-            <div class="mock__navitem"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4"/></svg> Empresas</div>
+            <div class="mock__navitem"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><path d="M14 4h7M14 9h7M14 15h7M14 20h7"/></svg> Criação</div>
             <div class="mock__navitem"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-2.82 1.17V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 8 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15H4a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 5.4 8.6"/></svg> Configurações</div>
           </aside>
           <div class="mock__content">
             <div class="mock__pagehead">
-              <div>
-                <div class="mock__pagetitle">Painel financeiro</div>
-                <span class="cell-sub">Maio · 2026 — consolidado L4</span>
-              </div>
+              <div><div class="mock__pagetitle">Painel financeiro</div><span class="cell-sub">Maio · 2026 — consolidado L4</span></div>
               <button class="btn btn-primary btn--sm">+ Nova receita</button>
             </div>
             <div class="grid grid--4" style="margin-bottom:16px">
-              <div class="kpi">
-                <div class="kpi__top"><span class="kpi__label">Receita Bruta</span><span class="kpi__icon" style="background:var(--success-bg);color:var(--success)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span></div>
-                <div class="kpi__value">R$ 842k</div>
-                <span class="kpi__delta kpi__delta--up">▲ 12,4% vs abr</span>
-              </div>
-              <div class="kpi">
-                <div class="kpi__top"><span class="kpi__label">Despesas</span><span class="kpi__icon" style="background:var(--danger-bg);color:var(--danger)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg></span></div>
-                <div class="kpi__value">R$ 318k</div>
-                <span class="kpi__delta kpi__delta--down">▲ 4,1% vs abr</span>
-              </div>
-              <div class="kpi">
-                <div class="kpi__top"><span class="kpi__label">Receita Líquida</span><span class="kpi__icon" style="background:var(--gold-soft);color:var(--gold-600)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span></div>
-                <div class="kpi__value">R$ 524k</div>
-                <span class="kpi__delta kpi__delta--up">▲ 18,9% vs abr</span>
-              </div>
-              <div class="kpi">
-                <div class="kpi__top"><span class="kpi__label">A emitir (NF)</span><span class="kpi__icon" style="background:var(--info-bg);color:var(--info)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span></div>
-                <div class="kpi__value">R$ 96k</div>
-                <span class="kpi__delta" style="color:var(--text-muted)">7 pendentes</span>
-              </div>
+              <div class="kpi"><div class="kpi__top"><span class="kpi__label">Receita Bruta</span><span class="kpi__icon" style="background:var(--success-bg);color:var(--success)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span></div><div class="kpi__value">R$ 842k</div><span class="kpi__delta kpi__delta--up">▲ 12,4%</span></div>
+              <div class="kpi"><div class="kpi__top"><span class="kpi__label">Despesas</span><span class="kpi__icon" style="background:var(--danger-bg);color:var(--danger)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg></span></div><div class="kpi__value">R$ 318k</div><span class="kpi__delta kpi__delta--down">▲ 4,1%</span></div>
+              <div class="kpi"><div class="kpi__top"><span class="kpi__label">Resultado Líquido</span><span class="kpi__icon" style="background:var(--gold-soft);color:var(--gold-600)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span></div><div class="kpi__value">R$ 524k</div><span class="kpi__delta kpi__delta--up">▲ 18,9%</span></div>
+              <div class="kpi"><div class="kpi__top"><span class="kpi__label">A emitir (NF)</span><span class="kpi__icon" style="background:var(--info-bg);color:var(--info)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span></div><div class="kpi__value">R$ 96k</div><span class="kpi__delta" style="color:var(--text-muted)">7 pendentes</span></div>
             </div>
             <div class="chart-card">
-              <div class="chart-card__head">
-                <div><div class="chart-card__title">Receita × Despesa</div><div class="chart-card__sub">Últimos 6 meses</div></div>
-                <span class="badge badge--success"><span class="dot"></span>+18,9%</span>
-              </div>
-              <svg viewBox="0 0 560 150" width="100%" height="150" role="img" aria-label="Gráfico de barras receita versus despesa">
-                <g font-family="JetBrains Mono" font-size="9" fill="#94A3B8">
-                  <line x1="40" y1="120" x2="552" y2="120" stroke="#E2E8F0"/>
-                  <line x1="40" y1="80" x2="552" y2="80" stroke="#F1F5F9"/>
-                  <line x1="40" y1="40" x2="552" y2="40" stroke="#F1F5F9"/>
-                </g>
-                <g>
-                  <rect class="bar-rect" x="60"  y="55" width="22" height="65" rx="3" fill="#10B981"/><rect class="bar-rect" x="84"  y="92" width="22" height="28" rx="3" fill="#EF4444"/>
-                  <rect class="bar-rect" x="145" y="48" width="22" height="72" rx="3" fill="#10B981"/><rect class="bar-rect" x="169" y="88" width="22" height="32" rx="3" fill="#EF4444"/>
-                  <rect class="bar-rect" x="230" y="58" width="22" height="62" rx="3" fill="#10B981"/><rect class="bar-rect" x="254" y="95" width="22" height="25" rx="3" fill="#EF4444"/>
-                  <rect class="bar-rect" x="315" y="40" width="22" height="80" rx="3" fill="#10B981"/><rect class="bar-rect" x="339" y="86" width="22" height="34" rx="3" fill="#EF4444"/>
-                  <rect class="bar-rect" x="400" y="44" width="22" height="76" rx="3" fill="#10B981"/><rect class="bar-rect" x="424" y="90" width="22" height="30" rx="3" fill="#EF4444"/>
-                  <rect class="bar-rect" x="485" y="30" width="22" height="90" rx="3" fill="#10B981"/><rect class="bar-rect" x="509" y="84" width="22" height="36" rx="3" fill="#EF4444"/>
-                </g>
-                <g font-family="Inter" font-size="9" fill="#94A3B8" text-anchor="middle">
-                  <text x="83" y="135">Dez</text><text x="168" y="135">Jan</text><text x="253" y="135">Fev</text><text x="338" y="135">Mar</text><text x="423" y="135">Abr</text><text x="508" y="135">Mai</text>
-                </g>
+              <div class="chart-card__head"><div><div class="chart-card__title">Receita × Despesa</div><div class="chart-card__sub">Últimos 6 meses</div></div><span class="badge badge--success"><span class="dot"></span>+18,9%</span></div>
+              <svg viewBox="0 0 560 150" width="100%" height="150" role="img" aria-label="Receita versus despesa">
+                <g><line x1="40" y1="120" x2="552" y2="120" stroke="#E2E8F0"/><line x1="40" y1="80" x2="552" y2="80" stroke="#F1F5F9"/><line x1="40" y1="40" x2="552" y2="40" stroke="#F1F5F9"/></g>
+                <rect class="bar-rect" x="60" y="55" width="22" height="65" rx="3" fill="#10B981"/><rect class="bar-rect" x="84" y="92" width="22" height="28" rx="3" fill="#EF4444"/>
+                <rect class="bar-rect" x="145" y="48" width="22" height="72" rx="3" fill="#10B981"/><rect class="bar-rect" x="169" y="88" width="22" height="32" rx="3" fill="#EF4444"/>
+                <rect class="bar-rect" x="230" y="58" width="22" height="62" rx="3" fill="#10B981"/><rect class="bar-rect" x="254" y="95" width="22" height="25" rx="3" fill="#EF4444"/>
+                <rect class="bar-rect" x="315" y="40" width="22" height="80" rx="3" fill="#10B981"/><rect class="bar-rect" x="339" y="86" width="22" height="34" rx="3" fill="#EF4444"/>
+                <rect class="bar-rect" x="400" y="44" width="22" height="76" rx="3" fill="#10B981"/><rect class="bar-rect" x="424" y="90" width="22" height="30" rx="3" fill="#EF4444"/>
+                <rect class="bar-rect" x="485" y="30" width="22" height="90" rx="3" fill="#10B981"/><rect class="bar-rect" x="509" y="84" width="22" height="36" rx="3" fill="#EF4444"/>
+                <g font-family="Inter" font-size="9" fill="#94A3B8" text-anchor="middle"><text x="83" y="135">Dez</text><text x="168" y="135">Jan</text><text x="253" y="135">Fev</text><text x="338" y="135">Mar</text><text x="423" y="135">Abr</text><text x="508" y="135">Mai</text></g>
               </svg>
               <div class="legend"><span class="legend__item"><span class="legend__swatch" style="background:#10B981"></span>Receita</span><span class="legend__item"><span class="legend__swatch" style="background:#EF4444"></span>Despesa</span></div>
             </div>
           </div>
         </div>
       </div>
+
+      <div class="mock-screens">
+        <div class="mock-thumb">
+          <div class="mock-thumb__bar"><span></span><span></span><span></span></div>
+          <div class="mock-thumb__body">
+            <div class="row" style="justify-content:space-between;margin-bottom:12px"><strong>Criação · Kanban</strong><span class="badge badge--purple">CRM Ops</span></div>
+            <div class="grid" style="grid-template-columns:repeat(3,1fr);gap:8px">
+              <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:8px"><div class="cell-sub" style="font-weight:700;margin-bottom:6px">A FAZER</div><div style="background:#fff;border:1px solid var(--border);border-radius:6px;padding:8px;font-size:11px;font-weight:600">Post Instagram</div></div>
+              <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:8px"><div class="cell-sub" style="font-weight:700;margin-bottom:6px">FAZENDO</div><div style="background:#fff;border:1px solid var(--border);border-radius:6px;padding:8px;font-size:11px;font-weight:600">Criativo Tráfego</div></div>
+              <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:8px"><div class="cell-sub" style="font-weight:700;margin-bottom:6px">CONCLUÍDO</div><div style="background:#fff;border:1px solid var(--border);border-radius:6px;padding:8px;font-size:11px;font-weight:600">Peça Sorteio TV</div></div>
+            </div>
+          </div>
+          <div class="mock-thumb__cap">Quadro de demandas<span class="cell-sub">Kanban</span></div>
+        </div>
+        <div class="mock-thumb">
+          <div class="mock-thumb__bar"><span></span><span></span><span></span></div>
+          <div class="mock-thumb__body">
+            <div class="row" style="justify-content:space-between;margin-bottom:12px"><strong>Clientes</strong><span class="cell-sub">12 ativos</span></div>
+            <div class="stack" style="gap:8px">
+              <div class="row" style="justify-content:space-between;font-size:12px"><span class="chip-empresa chip-empresa--digital"><span class="avatar">H</span>Hiper Cap Brasil</span><span class="badge badge--success">Vigente</span></div>
+              <div class="row" style="justify-content:space-between;font-size:12px"><span class="chip-empresa chip-empresa--web"><span class="avatar">V</span>Vida Cap Campinas</span><span class="badge badge--warning">A Vencer</span></div>
+              <div class="row" style="justify-content:space-between;font-size:12px"><span class="chip-empresa chip-empresa--tech"><span class="avatar">T</span>Trimania Sul</span><span class="badge badge--success">Vigente</span></div>
+            </div>
+          </div>
+          <div class="mock-thumb__cap">Carteira de clientes<span class="cell-sub">Capitalização</span></div>
+        </div>
+      </div>
     </section>
 
     <!-- ============ 01 · PALETA ============ -->
     <section class="section" id="paleta">
-      <div class="section__header">
-        <span class="section__number">01 · Fundamentos</span>
-        <h2 class="section__title">Paleta</h2>
-        <p class="section__lead">Dourado L4 para marca e ações. Neutros slate para estrutura. Semânticas para feedback. E uma paleta categórica de 8 cores exclusiva para gráficos e categorias — nunca para UI. Clique para copiar o hex.</p>
-      </div>
-
+      <div class="section__header"><span class="section__number">01 · Fundamentos</span><h2 class="section__title">Paleta</h2><p class="section__lead">Dourado L4 para marca e ações. Neutros slate para estrutura. Semânticas para feedback. Uma paleta categórica de 8 cores exclusiva para gráficos — nunca para UI. Clique para copiar o hex.</p></div>
       <div class="subtitle">Marca · Dourado L4</div>
       <div class="grid grid--auto">
-        <div class="swatch" data-hex="#FDE05F"><div class="swatch__color" style="background:#FDE05F"></div><div class="swatch__info"><div class="swatch__name">Gold 300</div><span class="swatch__token">--gold-300 · topo do gradiente</span><div class="swatch__hex">#FDE05F</div></div></div>
-        <div class="swatch" data-hex="#ECB016"><div class="swatch__color" style="background:#ECB016"></div><div class="swatch__info"><div class="swatch__name">Gold 500</div><span class="swatch__token">--gold-500 · ícones, marca</span><div class="swatch__hex">#ECB016</div></div></div>
-        <div class="swatch" data-hex="#DEA109"><div class="swatch__color" style="background:#DEA109"></div><div class="swatch__info"><div class="swatch__name">Gold 600</div><span class="swatch__token">--gold-600 · ação, links</span><div class="swatch__hex">#DEA109</div></div></div>
-        <div class="swatch" data-hex="#B8941F"><div class="swatch__color" style="background:#B8941F"></div><div class="swatch__info"><div class="swatch__name">Gold 700</div><span class="swatch__token">--gold-700 · hover, texto</span><div class="swatch__hex">#B8941F</div></div></div>
+        <div class="swatch" data-hex="#FDE05F"><div class="swatch__color" style="background:#FDE05F"></div><div class="swatch__info"><div class="swatch__name">Gold 300</div><span class="swatch__token">--gold-300</span><div class="swatch__hex">#FDE05F</div></div></div>
+        <div class="swatch" data-hex="#ECB016"><div class="swatch__color" style="background:#ECB016"></div><div class="swatch__info"><div class="swatch__name">Gold 500</div><span class="swatch__token">--gold-500 · ícones</span><div class="swatch__hex">#ECB016</div></div></div>
+        <div class="swatch" data-hex="#DEA109"><div class="swatch__color" style="background:#DEA109"></div><div class="swatch__info"><div class="swatch__name">Gold 600</div><span class="swatch__token">--gold-600 · ação</span><div class="swatch__hex">#DEA109</div></div></div>
+        <div class="swatch" data-hex="#B8941F"><div class="swatch__color" style="background:#B8941F"></div><div class="swatch__info"><div class="swatch__name">Gold 700</div><span class="swatch__token">--gold-700 · hover</span><div class="swatch__hex">#B8941F</div></div></div>
       </div>
-
       <div class="subtitle">Neutros · Slate</div>
       <div class="grid grid--auto">
-        <div class="swatch" data-hex="#0F172A"><div class="swatch__color" style="background:#0F172A"></div><div class="swatch__info"><div class="swatch__name">Texto</div><span class="swatch__token">--text · slate-900</span><div class="swatch__hex">#0F172A</div></div></div>
-        <div class="swatch" data-hex="#64748B"><div class="swatch__color" style="background:#64748B"></div><div class="swatch__info"><div class="swatch__name">Texto muted</div><span class="swatch__token">--text-muted · slate-500</span><div class="swatch__hex">#64748B</div></div></div>
-        <div class="swatch" data-hex="#94A3B8"><div class="swatch__color" style="background:#94A3B8"></div><div class="swatch__info"><div class="swatch__name">Texto subtle</div><span class="swatch__token">--text-subtle · slate-400</span><div class="swatch__hex">#94A3B8</div></div></div>
+        <div class="swatch" data-hex="#0F172A"><div class="swatch__color" style="background:#0F172A"></div><div class="swatch__info"><div class="swatch__name">Texto</div><span class="swatch__token">--text</span><div class="swatch__hex">#0F172A</div></div></div>
+        <div class="swatch" data-hex="#64748B"><div class="swatch__color" style="background:#64748B"></div><div class="swatch__info"><div class="swatch__name">Texto muted</div><span class="swatch__token">--text-muted</span><div class="swatch__hex">#64748B</div></div></div>
+        <div class="swatch" data-hex="#94A3B8"><div class="swatch__color" style="background:#94A3B8"></div><div class="swatch__info"><div class="swatch__name">Texto subtle</div><span class="swatch__token">--text-subtle</span><div class="swatch__hex">#94A3B8</div></div></div>
         <div class="swatch" data-hex="#E2E8F0"><div class="swatch__color" style="background:#E2E8F0"></div><div class="swatch__info"><div class="swatch__name">Borda</div><span class="swatch__token">--border</span><div class="swatch__hex">#E2E8F0</div></div></div>
-        <div class="swatch" data-hex="#F1F5F9"><div class="swatch__color" style="background:#F1F5F9"></div><div class="swatch__info"><div class="swatch__name">Surface 3</div><span class="swatch__token">--surface-3 · hover</span><div class="swatch__hex">#F1F5F9</div></div></div>
-        <div class="swatch" data-hex="#F8FAFC"><div class="swatch__color" style="background:#F8FAFC;border-bottom:1px solid #E2E8F0"></div><div class="swatch__info"><div class="swatch__name">Fundo</div><span class="swatch__token">--bg · página</span><div class="swatch__hex">#F8FAFC</div></div></div>
-        <div class="swatch" data-hex="#FFFFFF"><div class="swatch__color" style="background:#FFFFFF;border-bottom:1px solid #E2E8F0"></div><div class="swatch__info"><div class="swatch__name">Surface</div><span class="swatch__token">--surface · cards</span><div class="swatch__hex">#FFFFFF</div></div></div>
+        <div class="swatch" data-hex="#F1F5F9"><div class="swatch__color" style="background:#F1F5F9"></div><div class="swatch__info"><div class="swatch__name">Surface 3</div><span class="swatch__token">--surface-3</span><div class="swatch__hex">#F1F5F9</div></div></div>
+        <div class="swatch" data-hex="#FFFFFF"><div class="swatch__color" style="background:#FFFFFF;border-bottom:1px solid #E2E8F0"></div><div class="swatch__info"><div class="swatch__name">Surface</div><span class="swatch__token">--surface</span><div class="swatch__hex">#FFFFFF</div></div></div>
       </div>
-
-      <div class="subtitle">Semânticas · Feedback</div>
+      <div class="subtitle">Semânticas</div>
       <div class="grid grid--4">
-        <div class="swatch" data-hex="#10B981"><div class="swatch__color" style="background:#10B981"></div><div class="swatch__info"><div class="swatch__name">Success</div><span class="swatch__token">--success · receitas, OK</span><div class="swatch__hex">#10B981</div></div></div>
-        <div class="swatch" data-hex="#EF4444"><div class="swatch__color" style="background:#EF4444"></div><div class="swatch__info"><div class="swatch__name">Danger</div><span class="swatch__token">--danger · despesas, erro</span><div class="swatch__hex">#EF4444</div></div></div>
-        <div class="swatch" data-hex="#F59E0B"><div class="swatch__color" style="background:#F59E0B"></div><div class="swatch__info"><div class="swatch__name">Warning</div><span class="swatch__token">--warning · pendente</span><div class="swatch__hex">#F59E0B</div></div></div>
-        <div class="swatch" data-hex="#0EA5E9"><div class="swatch__color" style="background:#0EA5E9"></div><div class="swatch__info"><div class="swatch__name">Info</div><span class="swatch__token">--info · neutro/informativo</span><div class="swatch__hex">#0EA5E9</div></div></div>
+        <div class="swatch" data-hex="#10B981"><div class="swatch__color" style="background:#10B981"></div><div class="swatch__info"><div class="swatch__name">Success</div><span class="swatch__token">receitas, OK</span><div class="swatch__hex">#10B981</div></div></div>
+        <div class="swatch" data-hex="#EF4444"><div class="swatch__color" style="background:#EF4444"></div><div class="swatch__info"><div class="swatch__name">Danger</div><span class="swatch__token">despesas, erro</span><div class="swatch__hex">#EF4444</div></div></div>
+        <div class="swatch" data-hex="#F59E0B"><div class="swatch__color" style="background:#F59E0B"></div><div class="swatch__info"><div class="swatch__name">Warning</div><span class="swatch__token">pendente</span><div class="swatch__hex">#F59E0B</div></div></div>
+        <div class="swatch" data-hex="#0EA5E9"><div class="swatch__color" style="background:#0EA5E9"></div><div class="swatch__info"><div class="swatch__name">Info</div><span class="swatch__token">neutro</span><div class="swatch__hex">#0EA5E9</div></div></div>
       </div>
-
-      <div class="subtitle">Categórica · Gráficos &amp; categorias <span style="font-weight:500;text-transform:none;letter-spacing:0;color:var(--text-subtle)">(nunca em botões/UI)</span></div>
+      <div class="subtitle">Categórica · gráficos <span style="font-weight:500;text-transform:none;letter-spacing:0;color:var(--text-subtle)">(nunca em UI)</span></div>
       <div class="grid grid--auto">
         <div class="swatch" data-hex="#1485CE"><div class="swatch__color" style="background:#1485CE;height:60px"></div><div class="swatch__info"><div class="swatch__name">Blue</div><div class="swatch__hex">#1485CE</div></div></div>
         <div class="swatch" data-hex="#7C3AED"><div class="swatch__color" style="background:#7C3AED;height:60px"></div><div class="swatch__info"><div class="swatch__name">Purple</div><div class="swatch__hex">#7C3AED</div></div></div>
@@ -690,21 +693,17 @@ table.data tbody tr:last-child td { border-bottom: none; }
         <div class="swatch" data-hex="#0EA5E9"><div class="swatch__color" style="background:#0EA5E9;height:60px"></div><div class="swatch__info"><div class="swatch__name">Sky</div><div class="swatch__hex">#0EA5E9</div></div></div>
         <div class="swatch" data-hex="#8B5CF6"><div class="swatch__color" style="background:#8B5CF6;height:60px"></div><div class="swatch__info"><div class="swatch__name">Violet</div><div class="swatch__hex">#8B5CF6</div></div></div>
       </div>
-
-      <div class="subtitle">Gradiente da marca</div>
-      <div class="grid grid--2">
-        <div class="grad-swatch"><div class="grad-swatch__bar" style="background:linear-gradient(135deg,#FDE05F,#DEA109)"></div><div class="grad-swatch__info"><div class="grad-swatch__name">Grad gold</div><span class="grad-swatch__token">--grad-gold · gold-300 → gold-600 · logo, botão primário</span></div></div>
-        <div class="grad-swatch"><div class="grad-swatch__bar" style="background:linear-gradient(135deg,#1485CE,#7C3AED)"></div><div class="grad-swatch__info"><div class="grad-swatch__name">Grad data</div><span class="grad-swatch__token">blue → purple · headers de dashboards</span></div></div>
+      <div class="subtitle">Gradientes &amp; divisões L4</div>
+      <div class="grid grid--3">
+        <div class="grad-swatch"><div class="grad-swatch__bar" style="background:linear-gradient(135deg,#FDE05F,#DEA109)"></div><div class="grad-swatch__info"><div class="grad-swatch__name">Grad gold</div><span class="grad-swatch__token">marca · botão primário</span></div></div>
+        <div class="card" style="display:flex;gap:8px;align-items:center;justify-content:center"><span class="chip-empresa chip-empresa--digital"><span class="avatar">D</span>Digital</span><span class="chip-empresa chip-empresa--web"><span class="avatar">W</span>Web</span><span class="chip-empresa chip-empresa--tech"><span class="avatar">T</span>Tech</span></div>
+        <div class="grad-swatch"><div class="grad-swatch__bar" style="background:linear-gradient(135deg,#1485CE,#7C3AED)"></div><div class="grad-swatch__info"><div class="grad-swatch__name">Grad data</div><span class="grad-swatch__token">headers de dashboard</span></div></div>
       </div>
     </section>
 
     <!-- ============ 02 · TIPOGRAFIA ============ -->
     <section class="section section--alt" id="tipo">
-      <div class="section__header">
-        <span class="section__number">02 · Fundamentos</span>
-        <h2 class="section__title">Tipografia</h2>
-        <p class="section__lead"><strong>Inter</strong> para tudo (400→900) e <strong>JetBrains Mono</strong> para valores monetários e tokens — alinhamento tabular nas tabelas financeiras. Escala modular de 12 a 36px.</p>
-      </div>
+      <div class="section__header"><span class="section__number">02 · Fundamentos</span><h2 class="section__title">Tipografia</h2><p class="section__lead"><strong>Inter</strong> para tudo (400→900) e <strong>JetBrains Mono</strong> para valores monetários e tokens — números tabulares alinhados nas tabelas financeiras.</p></div>
       <div class="card" style="margin-bottom:24px">
         <div class="type-row"><span class="type-row__token">text-3xl · 900</span><span style="font-size:36px;font-weight:900;letter-spacing:-.02em">Painel financeiro</span></div>
         <div class="type-row"><span class="type-row__token">text-2xl · 800</span><span style="font-size:28px;font-weight:800">Receita Bruta total</span></div>
@@ -716,219 +715,261 @@ table.data tbody tr:last-child td { border-bottom: none; }
       </div>
       <div class="grid grid--2">
         <div class="card"><div class="cell-sub" style="margin-bottom:8px">Sans · Inter</div><div style="font-size:30px;font-weight:800;line-height:1.1">Aa Bb Cc<br>0123456789</div></div>
-        <div class="card"><div class="cell-sub" style="margin-bottom:8px">Mono · JetBrains Mono · valores</div><div style="font-family:var(--font-mono);font-size:26px;font-weight:600;line-height:1.3">R$ 842.190,00<br>+18,94%</div></div>
+        <div class="card"><div class="cell-sub" style="margin-bottom:8px">Mono · JetBrains Mono · valores tabulares</div><div style="font-family:var(--font-mono);font-size:26px;font-weight:600;line-height:1.3">R$ 842.190,00<br>+18,94%</div></div>
       </div>
     </section>
 
     <!-- ============ 03 · ESPAÇAMENTO ============ -->
     <section class="section" id="space">
-      <div class="section__header">
-        <span class="section__number">03 · Fundamentos</span>
-        <h2 class="section__title">Espaçamento</h2>
-        <p class="section__lead">Escala base 4px (padrão Tailwind). Apenas tokens — nunca valores soltos. Densidade controlada: padding de card 20px, de célula 13/18px.</p>
-      </div>
+      <div class="section__header"><span class="section__number">03 · Fundamentos</span><h2 class="section__title">Espaçamento</h2><p class="section__lead">Escala base 4px (padrão Tailwind). Apenas tokens — nunca valores soltos. Densidade controlada: card 20px, célula 13/18px.</p></div>
       <div class="grid grid--auto">
-        <div class="token-card"><div class="token-card__demo"><div style="height:4px;width:4px;background:var(--gold-500);border-radius:2px"></div></div><div class="token-card__meta"><div class="token-card__name">xs</div><div class="token-card__val">--sp-1 · 4px</div></div></div>
-        <div class="token-card"><div class="token-card__demo"><div style="height:8px;width:8px;background:var(--gold-500);border-radius:2px"></div></div><div class="token-card__meta"><div class="token-card__name">sm</div><div class="token-card__val">--sp-2 · 8px</div></div></div>
-        <div class="token-card"><div class="token-card__demo"><div style="height:12px;width:12px;background:var(--gold-500);border-radius:2px"></div></div><div class="token-card__meta"><div class="token-card__name">md</div><div class="token-card__val">--sp-3 · 12px</div></div></div>
-        <div class="token-card"><div class="token-card__demo"><div style="height:16px;width:16px;background:var(--gold-500);border-radius:2px"></div></div><div class="token-card__meta"><div class="token-card__name">base</div><div class="token-card__val">--sp-4 · 16px</div></div></div>
-        <div class="token-card"><div class="token-card__demo"><div style="height:24px;width:24px;background:var(--gold-500);border-radius:3px"></div></div><div class="token-card__meta"><div class="token-card__name">lg</div><div class="token-card__val">--sp-5 · 24px</div></div></div>
-        <div class="token-card"><div class="token-card__demo"><div style="height:32px;width:32px;background:var(--gold-500);border-radius:3px"></div></div><div class="token-card__meta"><div class="token-card__name">xl</div><div class="token-card__val">--sp-6 · 32px</div></div></div>
-        <div class="token-card"><div class="token-card__demo"><div style="height:48px;width:48px;background:var(--gold-500);border-radius:4px"></div></div><div class="token-card__meta"><div class="token-card__name">2xl</div><div class="token-card__val">--sp-8 · 48px</div></div></div>
+        <div class="token-card"><div style="height:4px;width:4px;background:var(--gold-500);border-radius:2px"></div><div><div class="token-card__name">xs</div><div class="token-card__val">--sp-1 · 4px</div></div></div>
+        <div class="token-card"><div style="height:8px;width:8px;background:var(--gold-500);border-radius:2px"></div><div><div class="token-card__name">sm</div><div class="token-card__val">--sp-2 · 8px</div></div></div>
+        <div class="token-card"><div style="height:12px;width:12px;background:var(--gold-500);border-radius:2px"></div><div><div class="token-card__name">md</div><div class="token-card__val">--sp-3 · 12px</div></div></div>
+        <div class="token-card"><div style="height:16px;width:16px;background:var(--gold-500);border-radius:2px"></div><div><div class="token-card__name">base</div><div class="token-card__val">--sp-4 · 16px</div></div></div>
+        <div class="token-card"><div style="height:24px;width:24px;background:var(--gold-500);border-radius:3px"></div><div><div class="token-card__name">lg</div><div class="token-card__val">--sp-5 · 24px</div></div></div>
+        <div class="token-card"><div style="height:32px;width:32px;background:var(--gold-500);border-radius:3px"></div><div><div class="token-card__name">xl</div><div class="token-card__val">--sp-6 · 32px</div></div></div>
+        <div class="token-card"><div style="height:48px;width:48px;background:var(--gold-500);border-radius:4px"></div><div><div class="token-card__name">2xl</div><div class="token-card__val">--sp-8 · 48px</div></div></div>
       </div>
     </section>
 
     <!-- ============ 04 · RAIOS ============ -->
     <section class="section section--alt" id="raios">
-      <div class="section__header">
-        <span class="section__number">04 · Fundamentos</span>
-        <h2 class="section__title">Raios de borda</h2>
-        <p class="section__lead">Cantos suaves e modernos. Badges e inputs pequenos em 6px, cards em 14px, modais em 20px, pills/avatares totalmente arredondados.</p>
-      </div>
+      <div class="section__header"><span class="section__number">04 · Fundamentos</span><h2 class="section__title">Raios de borda</h2><p class="section__lead">Cantos suaves: badges/inputs pequenos 6px, cards 14px, modais 20px, pills/avatares totalmente arredondados.</p></div>
       <div class="grid grid--auto">
-        <div class="token-card"><div class="token-card__demo"><div style="width:54px;height:54px;background:var(--gold-soft);border:2px solid var(--gold-500);border-radius:6px"></div></div><div class="token-card__meta"><div class="token-card__name">sm</div><div class="token-card__val">--r-sm · 6px</div></div></div>
-        <div class="token-card"><div class="token-card__demo"><div style="width:54px;height:54px;background:var(--gold-soft);border:2px solid var(--gold-500);border-radius:10px"></div></div><div class="token-card__meta"><div class="token-card__name">md</div><div class="token-card__val">--r-md · 10px</div></div></div>
-        <div class="token-card"><div class="token-card__demo"><div style="width:54px;height:54px;background:var(--gold-soft);border:2px solid var(--gold-500);border-radius:14px"></div></div><div class="token-card__meta"><div class="token-card__name">lg</div><div class="token-card__val">--r-lg · 14px</div></div></div>
-        <div class="token-card"><div class="token-card__demo"><div style="width:54px;height:54px;background:var(--gold-soft);border:2px solid var(--gold-500);border-radius:20px"></div></div><div class="token-card__meta"><div class="token-card__name">xl</div><div class="token-card__val">--r-xl · 20px</div></div></div>
-        <div class="token-card"><div class="token-card__demo"><div style="width:54px;height:54px;background:var(--gold-soft);border:2px solid var(--gold-500);border-radius:9999px"></div></div><div class="token-card__meta"><div class="token-card__name">full</div><div class="token-card__val">--r-full · pill</div></div></div>
+        <div class="token-card"><div style="width:54px;height:54px;background:var(--gold-soft);border:2px solid var(--gold-500);border-radius:6px"></div><div><div class="token-card__name">sm</div><div class="token-card__val">--r-sm · 6px</div></div></div>
+        <div class="token-card"><div style="width:54px;height:54px;background:var(--gold-soft);border:2px solid var(--gold-500);border-radius:10px"></div><div><div class="token-card__name">md</div><div class="token-card__val">--r-md · 10px</div></div></div>
+        <div class="token-card"><div style="width:54px;height:54px;background:var(--gold-soft);border:2px solid var(--gold-500);border-radius:14px"></div><div><div class="token-card__name">lg</div><div class="token-card__val">--r-lg · 14px</div></div></div>
+        <div class="token-card"><div style="width:54px;height:54px;background:var(--gold-soft);border:2px solid var(--gold-500);border-radius:20px"></div><div><div class="token-card__name">xl</div><div class="token-card__val">--r-xl · 20px</div></div></div>
+        <div class="token-card"><div style="width:54px;height:54px;background:var(--gold-soft);border:2px solid var(--gold-500);border-radius:9999px"></div><div><div class="token-card__name">full</div><div class="token-card__val">--r-full</div></div></div>
       </div>
     </section>
 
     <!-- ============ 05 · SOMBRAS ============ -->
     <section class="section" id="sombras">
-      <div class="section__header">
-        <span class="section__number">05 · Fundamentos</span>
-        <h2 class="section__title">Sombras</h2>
-        <p class="section__lead">Elevação sutil baseada em slate translúcido. Cards em sm/md, dropdowns em lg, modais/popovers em xl.</p>
-      </div>
+      <div class="section__header"><span class="section__number">05 · Fundamentos</span><h2 class="section__title">Sombras</h2><p class="section__lead">Elevação sutil em slate translúcido. Cards sm/md, dropdowns lg, modais/popovers xl.</p></div>
       <div class="grid grid--4">
-        <div class="token-card" style="box-shadow:var(--shadow-sm)"><div class="token-card__meta"><div class="token-card__name">shadow-sm</div><div class="token-card__val">inputs, cards base</div></div></div>
-        <div class="token-card" style="box-shadow:var(--shadow-md)"><div class="token-card__meta"><div class="token-card__name">shadow-md</div><div class="token-card__val">cards em hover</div></div></div>
-        <div class="token-card" style="box-shadow:var(--shadow-lg)"><div class="token-card__meta"><div class="token-card__name">shadow-lg</div><div class="token-card__val">dropdowns, toasts</div></div></div>
-        <div class="token-card" style="box-shadow:var(--shadow-xl)"><div class="token-card__meta"><div class="token-card__name">shadow-xl</div><div class="token-card__val">modais, popovers</div></div></div>
+        <div class="token-card" style="box-shadow:var(--shadow-sm)"><div><div class="token-card__name">shadow-sm</div><div class="token-card__val">inputs, cards</div></div></div>
+        <div class="token-card" style="box-shadow:var(--shadow-md)"><div><div class="token-card__name">shadow-md</div><div class="token-card__val">cards hover</div></div></div>
+        <div class="token-card" style="box-shadow:var(--shadow-lg)"><div><div class="token-card__name">shadow-lg</div><div class="token-card__val">dropdowns</div></div></div>
+        <div class="token-card" style="box-shadow:var(--shadow-xl)"><div><div class="token-card__name">shadow-xl</div><div class="token-card__val">modais</div></div></div>
       </div>
     </section>
 
-    <!-- ============ 06 · BOTÕES ============ -->
-    <section class="section section--alt" id="botoes">
-      <div class="section__header">
-        <span class="section__number">06 · Componentes</span>
-        <h2 class="section__title">Botões</h2>
-        <p class="section__lead">Quatro variantes: <code>primary</code> (dourado), <code>secondary</code>, <code>ghost</code> e <code>danger</code>. Três tamanhos. Estados de hover, disabled e loading.</p>
+    <!-- ============ 06 · ICONOGRAFIA ============ -->
+    <section class="section section--alt" id="icones">
+      <div class="section__header"><span class="section__number">06 · Fundamentos</span><h2 class="section__title">Iconografia</h2><p class="section__lead">Biblioteca <strong>lucide</strong> — traço 2px, cantos arredondados, 16/18/22px. Sempre <code>currentColor</code> para herdar a cor do contexto.</p></div>
+      <div class="icon-grid">
+        <div class="icon-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span>grid</span></div>
+        <div class="icon-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><span>dollar</span></div>
+        <div class="icon-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><span>user</span></div>
+        <div class="icon-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span>file</span></div>
+        <div class="icon-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><span>search</span></div>
+        <div class="icon-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg><span>filter</span></div>
+        <div class="icon-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg><span>card</span></div>
+        <div class="icon-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span>download</span></div>
+        <div class="icon-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg><span>edit</span></div>
+        <div class="icon-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg><span>trash</span></div>
+        <div class="icon-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><span>bell</span></div>
+        <div class="icon-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-2.82 1.17V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 8 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15H4a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 5.4 8.6"/></svg><span>settings</span></div>
+        <div class="icon-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>check</span></div>
+        <div class="icon-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><span>x</span></div>
+        <div class="icon-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg><span>arrow</span></div>
+        <div class="icon-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span>calendar</span></div>
       </div>
+    </section>
+
+    <!-- ============ 07 · LAYOUT ============ -->
+    <section class="section" id="layout">
+      <div class="section__header"><span class="section__number">07 · Fundamentos</span><h2 class="section__title">Layout &amp; Grid</h2><p class="section__lead">Estrutura desktop-first: sidebar fixa de 264px + área de conteúdo fluida. Header de 64px. Conteúdo em grid de 12 colunas com gutter de 16px, máx. 1280px.</p></div>
+      <div class="grid grid--2">
+        <div class="card">
+          <div class="subtitle" style="margin-top:0">Shell da aplicação</div>
+          <div style="display:flex;gap:8px;height:160px;border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden">
+            <div style="width:64px;background:var(--surface-3);display:grid;place-items:center;font-size:10px;color:var(--text-muted);text-align:center">side<br>264px</div>
+            <div style="flex:1;display:flex;flex-direction:column">
+              <div style="height:34px;background:var(--surface-2);border-bottom:1px solid var(--border);display:grid;place-items:center;font-size:10px;color:var(--text-muted)">header · 64px</div>
+              <div style="flex:1;background:var(--surface);display:grid;place-items:center;font-size:11px;color:var(--text-subtle)">conteúdo · máx 1280px</div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="subtitle" style="margin-top:0">Grid de 12 colunas</div>
+          <div style="display:grid;grid-template-columns:repeat(12,1fr);gap:6px">
+            <span style="grid-column:span 12;background:var(--gold-soft);border:1px solid var(--gold-500);border-radius:4px;height:24px"></span>
+            <span style="grid-column:span 6;background:var(--gold-soft);border:1px solid var(--gold-500);border-radius:4px;height:24px"></span>
+            <span style="grid-column:span 6;background:var(--gold-soft);border:1px solid var(--gold-500);border-radius:4px;height:24px"></span>
+            <span style="grid-column:span 4;background:var(--gold-soft);border:1px solid var(--gold-500);border-radius:4px;height:24px"></span>
+            <span style="grid-column:span 4;background:var(--gold-soft);border:1px solid var(--gold-500);border-radius:4px;height:24px"></span>
+            <span style="grid-column:span 4;background:var(--gold-soft);border:1px solid var(--gold-500);border-radius:4px;height:24px"></span>
+            <span style="grid-column:span 3;background:var(--gold-soft);border:1px solid var(--gold-500);border-radius:4px;height:24px"></span>
+            <span style="grid-column:span 3;background:var(--gold-soft);border:1px solid var(--gold-500);border-radius:4px;height:24px"></span>
+            <span style="grid-column:span 3;background:var(--gold-soft);border:1px solid var(--gold-500);border-radius:4px;height:24px"></span>
+            <span style="grid-column:span 3;background:var(--gold-soft);border:1px solid var(--gold-500);border-radius:4px;height:24px"></span>
+          </div>
+          <p class="cell-sub" style="margin-top:12px">Breakpoints: sm 640 · md 768 · lg 1024 · xl 1280. Em &lt;768px a sidebar colapsa em hambúrguer.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 08 · BOTÕES ============ -->
+    <section class="section section--alt" id="botoes">
+      <div class="section__header"><span class="section__number">08 · Componentes</span><h2 class="section__title">Botões</h2><p class="section__lead">Variantes <code>primary</code>, <code>secondary</code>, <code>ghost</code>, <code>danger</code>, <code>success</code>. Três tamanhos, ícone-only, button group e estados.</p></div>
       <div class="card">
         <div class="subtitle" style="margin-top:0">Variantes</div>
-        <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:8px">
-          <button class="btn btn-primary">Criar receita</button>
-          <button class="btn btn-secondary">Exportar</button>
-          <button class="btn btn-ghost">Cancelar</button>
-          <button class="btn btn-danger">Excluir</button>
-        </div>
-        <div class="subtitle">Tamanhos</div>
-        <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:8px">
-          <button class="btn btn-primary btn--sm">Pequeno</button>
-          <button class="btn btn-primary">Médio</button>
-          <button class="btn btn-primary btn--lg">Grande</button>
-        </div>
-        <div class="subtitle">Com ícone · Estados</div>
-        <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">
-          <button class="btn btn-primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Nova despesa</button>
-          <button class="btn btn-secondary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Baixar .csv</button>
+        <div class="row" style="margin-bottom:8px"><button class="btn btn-primary">Criar receita</button><button class="btn btn-secondary">Exportar</button><button class="btn btn-ghost">Cancelar</button><button class="btn btn-success">Marcar paga</button><button class="btn btn-danger">Excluir</button></div>
+        <div class="subtitle">Tamanhos · ícone-only</div>
+        <div class="row" style="margin-bottom:8px"><button class="btn btn-primary btn--sm">Pequeno</button><button class="btn btn-primary">Médio</button><button class="btn btn-primary btn--lg">Grande</button><button class="btn btn-secondary btn--icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button></div>
+        <div class="subtitle">Button group · estados</div>
+        <div class="row">
+          <div class="btn-group"><button class="is-active">Mês</button><button>Trimestre</button><button>Ano</button></div>
           <button class="btn btn-primary btn--loading"><span class="spinner"></span>Salvando…</button>
           <button class="btn btn-primary is-disabled">Indisponível</button>
         </div>
       </div>
     </section>
 
-    <!-- ============ 07 · INPUTS ============ -->
+    <!-- ============ 09 · INPUTS ============ -->
     <section class="section" id="inputs">
-      <div class="section__header">
-        <span class="section__number">07 · Componentes</span>
-        <h2 class="section__title">Inputs &amp; Select</h2>
-        <p class="section__lead">Campos com label, hint e estados de foco (ring dourado), erro e sucesso. Affixes com ícone para busca e valores.</p>
-      </div>
-      <div class="grid grid--2">
+      <div class="section__header"><span class="section__number">09 · Componentes</span><h2 class="section__title">Inputs &amp; Select</h2><p class="section__lead">Campos com label, hint e estados de foco (ring dourado), erro e sucesso. Affixes para busca e valores monetários.</p></div>
+      <div class="grid grid--3">
         <div class="card">
-          <div class="field"><label class="field__label">Descrição</label><input class="input" placeholder="Ex.: Mensalidade cliente Hiper Pix"></div>
-          <div class="field"><label class="field__label">Buscar lançamento</label><div class="input-group"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input class="input" placeholder="CNPJ, razão social, valor…"></div></div>
-          <div class="field"><label class="field__label">Centro de custo</label><select class="select"><option>Despesas Operacionais</option><option>Marketing</option><option>Filantropia</option></select></div>
+          <div class="field"><label class="field__label">Descrição</label><input class="input" placeholder="Ex.: Mensalidade Hiper Pix"></div>
+          <div class="field"><label class="field__label">Buscar</label><div class="input-group"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input class="input" placeholder="CNPJ, razão social…"></div></div>
+          <div class="field" style="margin-bottom:0"><label class="field__label">Centro de custo</label><select class="select"><option>Despesas Operacionais</option><option>Marketing</option><option>Folha</option><option>Filantropia</option></select></div>
         </div>
         <div class="card">
-          <div class="field"><label class="field__label">Valor (R$)</label><input class="input input--success" value="12.480,00"><span class="field__hint">Valor validado pelo financeiro.</span></div>
-          <div class="field"><label class="field__label">CNPJ</label><input class="input input--error" value="00.000"><span class="field__hint field__hint--error">CNPJ inválido — informe 14 dígitos.</span></div>
-          <div class="field" style="margin-bottom:0"><label class="field__label">Observações</label><textarea class="textarea" rows="2" placeholder="Notas internas…"></textarea></div>
+          <div class="field"><label class="field__label">Valor</label><div class="input-prefix"><input class="input input--success" value="12.480,00"></div><span class="field__hint">Validado pelo financeiro.</span></div>
+          <div class="field"><label class="field__label">CNPJ</label><input class="input input--error" value="00.000"><span class="field__hint field__hint--error">CNPJ inválido — 14 dígitos.</span></div>
+          <div class="field" style="margin-bottom:0"><label class="field__label">Dia de pagamento</label><input class="input" type="text" value="05" readonly></div>
+        </div>
+        <div class="card">
+          <div class="field" style="margin-bottom:0"><label class="field__label">Observações</label><textarea class="textarea" rows="6" placeholder="Notas internas do lançamento…"></textarea></div>
         </div>
       </div>
     </section>
 
-    <!-- ============ 08 · CARDS ============ -->
-    <section class="section section--alt" id="cards">
-      <div class="section__header">
-        <span class="section__number">08 · Componentes</span>
-        <h2 class="section__title">Cards &amp; KPIs</h2>
-        <p class="section__lead">O <code>KPICard</code> é o building-block dos dashboards: label, ícone tonalizado, valor mono e delta colorido. Cards genéricos têm variantes default, elevated e outlined.</p>
+    <!-- ============ 10 · TOGGLES ============ -->
+    <section class="section section--alt" id="toggles">
+      <div class="section__header"><span class="section__number">10 · Componentes</span><h2 class="section__title">Switch · Checkbox · Radio</h2><p class="section__lead">Controles binários e de escolha — usados em preferências de notificação, módulos habilitados e filtros de status.</p></div>
+      <div class="grid grid--3">
+        <div class="card">
+          <div class="subtitle" style="margin-top:0">Switch</div>
+          <div class="stack">
+            <label class="switch"><input type="checkbox" checked><span class="switch__track"></span> Alertas por e-mail</label>
+            <label class="switch"><input type="checkbox" checked><span class="switch__track"></span> Resumo no Slack</label>
+            <label class="switch"><input type="checkbox"><span class="switch__track"></span> Disparo WhatsApp</label>
+          </div>
+        </div>
+        <div class="card">
+          <div class="subtitle" style="margin-top:0">Checkbox</div>
+          <div class="stack">
+            <label class="check"><input type="checkbox" checked><span class="check__box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span> Conciliada</label>
+            <label class="check"><input type="checkbox" checked><span class="check__box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span> Emitir NF junto</label>
+            <label class="check"><input type="checkbox"><span class="check__box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span> Recorrente</label>
+          </div>
+        </div>
+        <div class="card">
+          <div class="subtitle" style="margin-top:0">Radio · Frequência</div>
+          <div class="stack">
+            <label class="check"><input type="radio" name="freq" checked><span class="check__box radio__box"></span> Pontual</label>
+            <label class="check"><input type="radio" name="freq"><span class="check__box radio__box"></span> Mensal (fixa)</label>
+            <label class="check"><input type="radio" name="freq"><span class="check__box radio__box"></span> Parcelada</label>
+          </div>
+        </div>
       </div>
+    </section>
+
+    <!-- ============ 11 · UPLOAD ============ -->
+    <section class="section" id="upload">
+      <div class="section__header"><span class="section__number">11 · Componentes</span><h2 class="section__title">Upload &amp; Importação</h2><p class="section__lead">Dropzone para anexos e o fluxo de <strong>Importação XLSX</strong> da apuração mensal — com barra de progresso e linha de arquivo processado.</p></div>
+      <div class="grid grid--2">
+        <div class="dropzone">
+          <div class="dropzone__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
+          <div style="font-weight:600;font-size:15px;margin-bottom:4px">Arraste a planilha de apuração</div>
+          <div class="cell-sub">XLSX até 10 MB · ou clique para selecionar</div>
+        </div>
+        <div class="card">
+          <div class="subtitle" style="margin-top:0">Importando · apuracao-maio-2026.xlsx</div>
+          <div class="file-row" style="margin-bottom:14px">
+            <span class="file-row__icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span>
+            <div style="flex:1"><div class="cell-strong" style="font-size:14px">apuracao-maio-2026.xlsx</div><div class="cell-sub">1.248 linhas · 2,1 MB</div></div>
+            <span class="badge badge--warning"><span class="dot"></span>Processando</span>
+          </div>
+          <div class="progress" style="margin-bottom:8px"><div class="progress__fill" style="width:68%"></div></div>
+          <div class="cell-sub">68% — conciliando lançamentos com contas bancárias…</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 12 · CARDS ============ -->
+    <section class="section section--alt" id="cards">
+      <div class="section__header"><span class="section__number">12 · Componentes</span><h2 class="section__title">Cards &amp; KPIs</h2><p class="section__lead">O <code>KPICard</code> é o building-block dos dashboards: label, ícone tonalizado, valor mono e delta colorido. Cards genéricos em default, elevated e outlined.</p></div>
       <div class="subtitle" style="margin-top:0">KPI Cards</div>
       <div class="grid grid--4">
-        <div class="kpi">
-          <div class="kpi__top"><span class="kpi__label">Receita Bruta</span><span class="kpi__icon" style="background:var(--success-bg);color:var(--success)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span></div>
-          <div class="kpi__value">R$ 842k</div><span class="kpi__delta kpi__delta--up">▲ 12,4%</span>
-        </div>
-        <div class="kpi">
-          <div class="kpi__top"><span class="kpi__label">Despesas</span><span class="kpi__icon" style="background:var(--danger-bg);color:var(--danger)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg></span></div>
-          <div class="kpi__value">R$ 318k</div><span class="kpi__delta kpi__delta--down">▲ 4,1%</span>
-        </div>
-        <div class="kpi">
-          <div class="kpi__top"><span class="kpi__label">Contratos ativos</span><span class="kpi__icon" style="background:var(--info-bg);color:var(--info)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span></div>
-          <div class="kpi__value">37</div><span class="kpi__delta" style="color:var(--text-muted)">+3 no mês</span>
-        </div>
-        <div class="kpi">
-          <div class="kpi__top"><span class="kpi__label">Saldo para saque</span><span class="kpi__icon" style="background:var(--gold-soft);color:var(--gold-600)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></span></div>
-          <div class="kpi__value">R$ 209k</div><span class="kpi__delta kpi__delta--up">▲ 8,8%</span>
-        </div>
+        <div class="kpi"><div class="kpi__top"><span class="kpi__label">Receita Bruta</span><span class="kpi__icon" style="background:var(--success-bg);color:var(--success)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span></div><div class="kpi__value">R$ 842k</div><span class="kpi__delta kpi__delta--up">▲ 12,4%</span></div>
+        <div class="kpi"><div class="kpi__top"><span class="kpi__label">Margem</span><span class="kpi__icon" style="background:var(--gold-soft);color:var(--gold-600)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span></div><div class="kpi__value">62,2%</div><span class="kpi__delta kpi__delta--up">▲ 3,1pp</span></div>
+        <div class="kpi"><div class="kpi__top"><span class="kpi__label">Contratos ativos</span><span class="kpi__icon" style="background:var(--info-bg);color:var(--info)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span></div><div class="kpi__value">37</div><span class="kpi__delta" style="color:var(--text-muted)">+3 no mês</span></div>
+        <div class="kpi"><div class="kpi__top"><span class="kpi__label">ROAS médio</span><span class="kpi__icon" style="background:var(--l4-tech-bg);color:var(--c-purple)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span></div><div class="kpi__value">4,8x</div><span class="kpi__delta kpi__delta--down">▼ 0,3x</span></div>
       </div>
       <div class="subtitle">Variantes de card</div>
       <div class="grid grid--3">
-        <div class="card"><strong>Default</strong><p class="cell-sub" style="margin-top:6px">Borda + shadow-sm. O card padrão para conteúdo geral.</p></div>
-        <div class="card card--elevated"><strong>Elevated</strong><p class="cell-sub" style="margin-top:6px">Sem borda, shadow-lg. Para destaque ou flutuante.</p></div>
-        <div class="card card--outlined"><strong>Outlined</strong><p class="cell-sub" style="margin-top:6px">Só borda, sem sombra. Para listas densas.</p></div>
+        <div class="card"><strong>Default</strong><p class="cell-sub" style="margin-top:6px">Borda + shadow-sm. Conteúdo geral.</p></div>
+        <div class="card card--elevated"><strong>Elevated</strong><p class="cell-sub" style="margin-top:6px">Sem borda, shadow-lg. Destaque/flutuante.</p></div>
+        <div class="card card--outlined"><strong>Outlined</strong><p class="cell-sub" style="margin-top:6px">Só borda. Listas densas.</p></div>
       </div>
     </section>
 
-    <!-- ============ 09 · BADGES ============ -->
-    <section class="section" id="badges">
-      <div class="section__header">
-        <span class="section__number">09 · Componentes</span>
-        <h2 class="section__title">Badges &amp; Empresas</h2>
-        <p class="section__lead">Badge é o building-block de status. O <code>ChipEmpresa</code> colore por divisão da L4 (Digital, Web, Tech) — consistente em todas as tabelas e filtros.</p>
-      </div>
-      <div class="grid grid--2">
-        <div class="card">
-          <div class="subtitle" style="margin-top:0">Status</div>
-          <div style="display:flex;gap:10px;flex-wrap:wrap">
-            <span class="badge badge--success"><span class="dot"></span>Pago</span>
-            <span class="badge badge--warning"><span class="dot"></span>Pendente</span>
-            <span class="badge badge--danger"><span class="dot"></span>Vencido</span>
-            <span class="badge badge--info"><span class="dot"></span>Em andamento</span>
-            <span class="badge badge--neutral"><span class="dot"></span>Inativo</span>
-            <span class="badge badge--success">Aprovado</span>
-            <span class="badge badge--warning">A emitir</span>
-            <span class="badge badge--neutral">Não emitida</span>
-          </div>
-        </div>
-        <div class="card">
-          <div class="subtitle" style="margin-top:0">ChipEmpresa · divisões L4</div>
-          <div style="display:flex;gap:10px;flex-wrap:wrap">
-            <span class="chip-empresa chip-empresa--digital"><span class="avatar">D</span>L4 Digital</span>
-            <span class="chip-empresa chip-empresa--web"><span class="avatar">W</span>L4 Web</span>
-            <span class="chip-empresa chip-empresa--tech"><span class="avatar">T</span>L4 Tech</span>
-          </div>
-          <p class="cell-sub" style="margin-top:14px">Digital = dourado · Web = azul · Tech = roxo. A cor é derivada de um hash estável da empresa.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ 10 · TABELAS ============ -->
-    <section class="section section--alt" id="tabelas">
-      <div class="section__header">
-        <span class="section__number">10 · Componentes</span>
-        <h2 class="section__title">Tabelas</h2>
-        <p class="section__lead">O coração do iAdm. Cabeçalho em caixa-alta, valores em mono alinhados à direita, status como badge, hover de linha e toolbar com busca/filtro. Receitas em verde, despesas em vermelho.</p>
-      </div>
+    <!-- ============ 13 · TABELAS ============ -->
+    <section class="section" id="tabelas">
+      <div class="section__header"><span class="section__number">13 · Componentes</span><h2 class="section__title">Tabelas</h2><p class="section__lead">O coração do iAdm. Seleção de linha, ordenação, hover, status como badge, valores mono à direita, toolbar e paginação. Receitas em verde, despesas em vermelho.</p></div>
       <div class="table-wrap">
         <div class="table-toolbar">
           <h4>Lançamentos · Maio 2026</h4>
-          <div style="display:flex;gap:10px;align-items:center">
+          <div class="row">
             <div class="input-group" style="width:220px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input class="input" placeholder="Buscar…"></div>
             <button class="btn btn-secondary btn--sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>Filtrar</button>
           </div>
         </div>
         <table class="data">
-          <thead><tr><th>Descrição</th><th>Empresa</th><th>Categoria</th><th>Status</th><th style="text-align:right">Valor</th></tr></thead>
+          <thead><tr><th style="width:36px"><label class="check"><input type="checkbox"><span class="check__box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span></label></th><th class="sortable sorted-asc">Descrição</th><th>Empresa</th><th>Categoria</th><th>Status</th><th class="sortable" style="text-align:right">Valor</th></tr></thead>
           <tbody>
-            <tr><td><div class="cell-strong">Mensalidade · Hiper Pix</div><div class="cell-sub">Criado em 02/05</div></td><td><span class="chip-empresa chip-empresa--digital"><span class="avatar">D</span>L4 Digital</span></td><td>Receita Bruta</td><td><span class="badge badge--success"><span class="dot"></span>Pago</span></td><td style="text-align:right" class="td-mono td-pos">+ R$ 48.900</td></tr>
-            <tr><td><div class="cell-strong">Tráfego pago · Promoção Website</div><div class="cell-sub">Criado em 05/05</div></td><td><span class="chip-empresa chip-empresa--web"><span class="avatar">W</span>L4 Web</span></td><td>Marketing</td><td><span class="badge badge--warning"><span class="dot"></span>Pendente</span></td><td style="text-align:right" class="td-mono td-neg">− R$ 12.480</td></tr>
-            <tr><td><div class="cell-strong">Aluguel + equipe admin</div><div class="cell-sub">Criado em 05/05</div></td><td><span class="chip-empresa chip-empresa--tech"><span class="avatar">T</span>L4 Tech</span></td><td>Operacional</td><td><span class="badge badge--success"><span class="dot"></span>Pago</span></td><td style="text-align:right" class="td-mono td-neg">− R$ 31.200</td></tr>
-            <tr><td><div class="cell-strong">Antecipação DL · Sócio Adm</div><div class="cell-sub">Criado em 08/05</div></td><td><span class="chip-empresa chip-empresa--digital"><span class="avatar">D</span>L4 Digital</span></td><td>Distribuição</td><td><span class="badge badge--info"><span class="dot"></span>Em andamento</span></td><td style="text-align:right" class="td-mono td-pos">+ R$ 96.000</td></tr>
-            <tr><td><div class="cell-strong">NF · Plataforma Cria.Aí</div><div class="cell-sub">Criado em 11/05</div></td><td><span class="chip-empresa chip-empresa--web"><span class="avatar">W</span>L4 Web</span></td><td>Receita SCP</td><td><span class="badge badge--neutral">A emitir</span></td><td style="text-align:right" class="td-mono td-pos">+ R$ 18.750</td></tr>
-            <tr><td><div class="cell-strong">Cartões corporativos</div><div class="cell-sub">Criado em 14/05</div></td><td><span class="chip-empresa chip-empresa--digital"><span class="avatar">D</span>L4 Digital</span></td><td>Despesa Op.</td><td><span class="badge badge--danger"><span class="dot"></span>Vencido</span></td><td style="text-align:right" class="td-mono td-neg">− R$ 7.340</td></tr>
+            <tr class="is-selected"><td><label class="check"><input type="checkbox" checked><span class="check__box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span></label></td><td><div class="cell-strong">Mensalidade · Hiper Pix</div><div class="cell-sub">Criado em 02/05</div></td><td><span class="chip-empresa chip-empresa--digital"><span class="avatar">D</span>L4 Digital</span></td><td>Receita Bruta</td><td><span class="badge badge--success"><span class="dot"></span>Pago</span></td><td style="text-align:right" class="td-mono td-pos">+ R$ 48.900</td></tr>
+            <tr><td><label class="check"><input type="checkbox"><span class="check__box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span></label></td><td><div class="cell-strong">Tráfego · Promoção Website</div><div class="cell-sub">Criado em 05/05</div></td><td><span class="chip-empresa chip-empresa--web"><span class="avatar">W</span>L4 Web</span></td><td>Marketing</td><td><span class="badge badge--warning"><span class="dot"></span>Pendente</span></td><td style="text-align:right" class="td-mono td-neg">− R$ 12.480</td></tr>
+            <tr><td><label class="check"><input type="checkbox"><span class="check__box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span></label></td><td><div class="cell-strong">Aluguel + equipe admin</div><div class="cell-sub">Criado em 05/05</div></td><td><span class="chip-empresa chip-empresa--tech"><span class="avatar">T</span>L4 Tech</span></td><td>Operacional</td><td><span class="badge badge--success"><span class="dot"></span>Pago</span></td><td style="text-align:right" class="td-mono td-neg">− R$ 31.200</td></tr>
+            <tr><td><label class="check"><input type="checkbox"><span class="check__box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span></label></td><td><div class="cell-strong">NF · Plataforma Cria.Aí</div><div class="cell-sub">Criado em 11/05</div></td><td><span class="chip-empresa chip-empresa--web"><span class="avatar">W</span>L4 Web</span></td><td>Receita SCP</td><td><span class="badge badge--neutral">A emitir</span></td><td style="text-align:right" class="td-mono td-pos">+ R$ 18.750</td></tr>
+            <tr><td><label class="check"><input type="checkbox"><span class="check__box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span></label></td><td><div class="cell-strong">Cartões corporativos</div><div class="cell-sub">Criado em 14/05</div></td><td><span class="chip-empresa chip-empresa--digital"><span class="avatar">D</span>L4 Digital</span></td><td>Despesa Op.</td><td><span class="badge badge--danger"><span class="dot"></span>Vencido</span></td><td style="text-align:right" class="td-mono td-neg">− R$ 7.340</td></tr>
           </tbody>
         </table>
+        <div class="table-foot"><span>1 selecionado · 5 de 248 lançamentos</span><div class="pagination"><button>‹</button><button class="is-active">1</button><button>2</button><button>3</button><button>…</button><button>50</button><button>›</button></div></div>
       </div>
     </section>
 
-    <!-- ============ 11 · GRÁFICOS ============ -->
-    <section class="section" id="graficos">
-      <div class="section__header">
-        <span class="section__number">11 · Componentes</span>
-        <h2 class="section__title">Gráficos</h2>
-        <p class="section__lead">Construídos com <strong>recharts</strong> no app. Área para tendência, barras para comparação, donut para composição. Sempre da paleta categórica, com grid slate sutil, eixos em mono e animação de entrada.</p>
+    <!-- ============ 14 · FILTROS ============ -->
+    <section class="section section--alt" id="filtros">
+      <div class="section__header"><span class="section__number">14 · Componentes</span><h2 class="section__title">Filtros &amp; Busca</h2><p class="section__lead">Barra de filtros com pills toggláveis, segmented control para período e busca global (⌘K). Sempre com "Limpar filtros".</p></div>
+      <div class="filterbar" style="margin-bottom:16px">
+        <div class="input-group" style="width:240px"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input class="input" placeholder="Buscar lançamentos…"></div>
+        <button class="pill-filter is-active">Pago <span class="x">×</span></button>
+        <button class="pill-filter is-active">L4 Digital <span class="x">×</span></button>
+        <button class="pill-filter">+ Status</button>
+        <button class="pill-filter">+ Empresa</button>
+        <button class="pill-filter">+ Categoria</button>
+        <button class="btn btn-ghost btn--sm" style="margin-left:auto">Limpar filtros</button>
       </div>
+      <div class="row">
+        <div class="segmented"><button class="is-active">Hoje</button><button>Semana</button><button>Mês</button><button>Trimestre</button><button>Ano</button></div>
+        <div class="tabs-pills"><button class="is-active">Todos</button><button>Receitas</button><button>Despesas</button></div>
+      </div>
+    </section>
+
+    <!-- ============ 15 · GRÁFICOS ============ -->
+    <section class="section" id="graficos">
+      <div class="section__header"><span class="section__number">15 · Componentes</span><h2 class="section__title">Gráficos</h2><p class="section__lead">Construídos com <strong>recharts</strong>. Área para tendência, barras para comparação, barras empilhadas por divisão, donut para composição, linha de cenários e gauge de meta. Sempre da paleta categórica com grid slate e eixos mono.</p></div>
       <div class="grid grid--3">
-        <!-- Área -->
         <div class="chart-card">
           <div class="chart-card__head"><div><div class="chart-card__title">Receita líquida</div><div class="chart-card__sub">Tendência 6 meses</div></div></div>
-          <svg viewBox="0 0 280 130" width="100%" height="130" role="img" aria-label="Gráfico de área">
+          <svg viewBox="0 0 280 130" width="100%" height="130" role="img" aria-label="Área">
             <defs><linearGradient id="areaG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#DEA109" stop-opacity=".35"/><stop offset="1" stop-color="#DEA109" stop-opacity="0"/></linearGradient></defs>
             <line x1="0" y1="100" x2="280" y2="100" stroke="#F1F5F9"/><line x1="0" y1="60" x2="280" y2="60" stroke="#F1F5F9"/><line x1="0" y1="20" x2="280" y2="20" stroke="#F1F5F9"/>
             <path d="M0 90 L56 70 L112 78 L168 45 L224 52 L280 25 L280 110 L0 110 Z" fill="url(#areaG)"/>
@@ -936,92 +977,392 @@ table.data tbody tr:last-child td { border-bottom: none; }
             <circle cx="280" cy="25" r="4" fill="#DEA109"/>
           </svg>
         </div>
-        <!-- Barras -->
         <div class="chart-card">
           <div class="chart-card__head"><div><div class="chart-card__title">Por divisão</div><div class="chart-card__sub">Receita do mês</div></div></div>
-          <svg viewBox="0 0 280 130" width="100%" height="130" role="img" aria-label="Gráfico de barras por divisão">
+          <svg viewBox="0 0 280 130" width="100%" height="130" role="img" aria-label="Barras">
             <line x1="0" y1="110" x2="280" y2="110" stroke="#E2E8F0"/>
-            <rect class="bar-rect" x="40"  y="35" width="44" height="75" rx="4" fill="#DEA109"/>
-            <rect class="bar-rect" x="118" y="55" width="44" height="55" rx="4" fill="#1485CE"/>
-            <rect class="bar-rect" x="196" y="72" width="44" height="38" rx="4" fill="#7C3AED"/>
+            <rect class="bar-rect" x="40" y="35" width="44" height="75" rx="4" fill="#DEA109"/><rect class="bar-rect" x="118" y="55" width="44" height="55" rx="4" fill="#1485CE"/><rect class="bar-rect" x="196" y="72" width="44" height="38" rx="4" fill="#7C3AED"/>
             <g font-family="Inter" font-size="10" fill="#64748B" text-anchor="middle"><text x="62" y="124">Digital</text><text x="140" y="124">Web</text><text x="218" y="124">Tech</text></g>
           </svg>
         </div>
-        <!-- Donut -->
         <div class="chart-card">
           <div class="chart-card__head"><div><div class="chart-card__title">Despesas</div><div class="chart-card__sub">Por categoria</div></div></div>
-          <svg viewBox="0 0 130 130" width="130" height="130" style="display:block;margin:0 auto" role="img" aria-label="Gráfico de rosca de despesas">
+          <svg viewBox="0 0 130 130" width="130" height="130" style="display:block;margin:0 auto" role="img" aria-label="Rosca">
             <circle cx="65" cy="65" r="48" fill="none" stroke="#F1F5F9" stroke-width="18"/>
-            <circle class="ring-fg" style="--ring-circ:301" cx="65" cy="65" r="48" fill="none" stroke="#DEA109" stroke-width="18" stroke-dasharray="120 301" stroke-dashoffset="0"/>
+            <circle class="ring-fg" style="--ring-circ:301" cx="65" cy="65" r="48" fill="none" stroke="#DEA109" stroke-width="18" stroke-dasharray="120 301"/>
             <circle class="ring-fg" style="--ring-circ:301" cx="65" cy="65" r="48" fill="none" stroke="#1485CE" stroke-width="18" stroke-dasharray="80 301" stroke-dashoffset="-120"/>
             <circle class="ring-fg" style="--ring-circ:301" cx="65" cy="65" r="48" fill="none" stroke="#7C3AED" stroke-width="18" stroke-dasharray="60 301" stroke-dashoffset="-200"/>
-            <text x="65" y="61" text-anchor="middle" font-family="JetBrains Mono" font-size="17" font-weight="700" fill="#0F172A">318k</text>
-            <text x="65" y="76" text-anchor="middle" font-family="Inter" font-size="9" fill="#94A3B8">total</text>
+            <text x="65" y="61" text-anchor="middle" font-family="JetBrains Mono" font-size="17" font-weight="700" fill="#0F172A">318k</text><text x="65" y="76" text-anchor="middle" font-family="Inter" font-size="9" fill="#94A3B8">total</text>
           </svg>
-          <div class="legend" style="justify-content:center"><span class="legend__item"><span class="legend__swatch" style="background:#DEA109"></span>Operacional</span><span class="legend__item"><span class="legend__swatch" style="background:#1485CE"></span>Marketing</span><span class="legend__item"><span class="legend__swatch" style="background:#7C3AED"></span>Outros</span></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card__head"><div><div class="chart-card__title">Entradas vs Saídas</div><div class="chart-card__sub">Barras empilhadas</div></div></div>
+          <svg viewBox="0 0 280 130" width="100%" height="130" role="img" aria-label="Empilhado">
+            <line x1="0" y1="110" x2="280" y2="110" stroke="#E2E8F0"/>
+            <g><rect class="bar-rect" x="30" y="60" width="34" height="50" fill="#10B981"/><rect class="bar-rect" x="30" y="38" width="34" height="22" fill="#27C5D9"/></g>
+            <g><rect class="bar-rect" x="100" y="52" width="34" height="58" fill="#10B981"/><rect class="bar-rect" x="100" y="30" width="34" height="22" fill="#27C5D9"/></g>
+            <g><rect class="bar-rect" x="170" y="66" width="34" height="44" fill="#10B981"/><rect class="bar-rect" x="170" y="48" width="34" height="18" fill="#27C5D9"/></g>
+            <g><rect class="bar-rect" x="240" y="44" width="34" height="66" fill="#10B981"/><rect class="bar-rect" x="240" y="26" width="34" height="18" fill="#27C5D9"/></g>
+          </svg>
+          <div class="legend"><span class="legend__item"><span class="legend__swatch" style="background:#10B981"></span>Operação</span><span class="legend__item"><span class="legend__swatch" style="background:#27C5D9"></span>SCP</span></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card__head"><div><div class="chart-card__title">Cenários</div><div class="chart-card__sub">Projeção do trimestre</div></div></div>
+          <svg viewBox="0 0 280 130" width="100%" height="130" role="img" aria-label="Cenários">
+            <line x1="0" y1="100" x2="280" y2="100" stroke="#F1F5F9"/><line x1="0" y1="60" x2="280" y2="60" stroke="#F1F5F9"/>
+            <polyline points="0,80 70,60 140,40 210,22 280,8" fill="none" stroke="#10B981" stroke-width="2" stroke-dasharray="4 3"/>
+            <polyline points="0,82 70,72 140,62 210,52 280,42" fill="none" stroke="#DEA109" stroke-width="2.5"/>
+            <polyline points="0,84 70,82 140,84 210,86 280,90" fill="none" stroke="#EF4444" stroke-width="2" stroke-dasharray="4 3"/>
+          </svg>
+          <div class="legend"><span class="legend__item"><span class="legend__swatch" style="background:#10B981"></span>Otimista</span><span class="legend__item"><span class="legend__swatch" style="background:#DEA109"></span>Realista</span><span class="legend__item"><span class="legend__swatch" style="background:#EF4444"></span>Pessimista</span></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card__head"><div><div class="chart-card__title">Meta do mês</div><div class="chart-card__sub">Faturamento</div></div></div>
+          <svg viewBox="0 0 160 100" width="100%" height="120" role="img" aria-label="Gauge">
+            <path d="M20 90 A60 60 0 0 1 140 90" fill="none" stroke="#F1F5F9" stroke-width="14" stroke-linecap="round"/>
+            <path class="area-line" d="M20 90 A60 60 0 0 1 122 47" fill="none" stroke="#DEA109" stroke-width="14" stroke-linecap="round"/>
+            <text x="80" y="78" text-anchor="middle" font-family="JetBrains Mono" font-size="20" font-weight="700" fill="#0F172A">82%</text>
+            <text x="80" y="94" text-anchor="middle" font-family="Inter" font-size="9" fill="#94A3B8">R$ 842k / 1,02M</text>
+          </svg>
         </div>
       </div>
     </section>
 
-    <!-- ============ 12 · LOADINGS ============ -->
-    <section class="section section--alt" id="loadings">
-      <div class="section__header">
-        <span class="section__number">12 · Componentes</span>
-        <h2 class="section__title">Loadings</h2>
-        <p class="section__lead">Spinner dourado para ações pontuais; skeleton para listas e cards (nunca spinner em listas). Respeita <code>prefers-reduced-motion</code>.</p>
-      </div>
+    <!-- ============ 16 · BADGES ============ -->
+    <section class="section section--alt" id="badges">
+      <div class="section__header"><span class="section__number">16 · Componentes</span><h2 class="section__title">Badges &amp; Status</h2><p class="section__lead">O mapa completo de status do iAdm. Cada estado tem cor semântica fixa — consistente em tabelas, filtros e detalhes.</p></div>
       <div class="grid grid--2">
-        <div class="card" style="display:flex;align-items:center;gap:28px;justify-content:center">
-          <div style="text-align:center"><span class="spinner"></span><div class="cell-sub" style="margin-top:10px">sm</div></div>
-          <div style="text-align:center"><span class="spinner" style="width:34px;height:34px"></span><div class="cell-sub" style="margin-top:10px">md</div></div>
-          <div style="text-align:center"><span class="spinner" style="width:48px;height:48px;border-width:4px"></span><div class="cell-sub" style="margin-top:10px">lg</div></div>
+        <div class="card">
+          <div class="subtitle" style="margin-top:0">Financeiro</div>
+          <div class="row">
+            <span class="badge badge--success"><span class="dot"></span>Pago</span>
+            <span class="badge badge--warning"><span class="dot"></span>Pendente</span>
+            <span class="badge badge--warning"><span class="dot"></span>A Vencer</span>
+            <span class="badge badge--danger"><span class="dot"></span>Vencido</span>
+            <span class="badge badge--info"><span class="dot"></span>Conciliada</span>
+            <span class="badge badge--neutral">A emitir</span>
+            <span class="badge badge--success">Emitida</span>
+            <span class="badge badge--neutral">Devolvido</span>
+          </div>
         </div>
         <div class="card">
-          <div class="cell-sub" style="margin-bottom:12px">Skeleton · linha de tabela</div>
-          <div style="display:flex;gap:12px;align-items:center;margin-bottom:14px"><div class="skeleton" style="width:36px;height:36px;border-radius:50%"></div><div style="flex:1"><div class="skeleton" style="height:12px;width:60%;margin-bottom:8px"></div><div class="skeleton" style="height:10px;width:35%"></div></div><div class="skeleton" style="height:14px;width:70px"></div></div>
-          <div style="display:flex;gap:12px;align-items:center"><div class="skeleton" style="width:36px;height:36px;border-radius:50%"></div><div style="flex:1"><div class="skeleton" style="height:12px;width:50%;margin-bottom:8px"></div><div class="skeleton" style="height:10px;width:40%"></div></div><div class="skeleton" style="height:14px;width:70px"></div></div>
+          <div class="subtitle" style="margin-top:0">Operação / CRM</div>
+          <div class="row">
+            <span class="badge badge--neutral">A Fazer</span>
+            <span class="badge badge--info"><span class="dot"></span>Fazendo</span>
+            <span class="badge badge--warning"><span class="dot"></span>Em revisão</span>
+            <span class="badge badge--success"><span class="dot"></span>Concluído</span>
+            <span class="badge badge--purple">Publicado</span>
+            <span class="badge badge--danger"><span class="dot"></span>Atrasada</span>
+            <span class="badge badge--neutral">Pausado</span>
+            <span class="badge badge--success">Vigente</span>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- ============ 13 · TOASTS ============ -->
-    <section class="section" id="toasts">
-      <div class="section__header">
-        <span class="section__number">13 · Componentes</span>
-        <h2 class="section__title">Toasts</h2>
-        <p class="section__lead">Notificações com borda lateral colorida por tipo. Duram 4s, surgem no canto inferior direito (desktop) ou topo (mobile).</p>
-      </div>
+    <!-- ============ 17 · AVATARES ============ -->
+    <section class="section" id="avatares">
+      <div class="section__header"><span class="section__number">17 · Componentes</span><h2 class="section__title">Avatares</h2><p class="section__lead">Iniciais com cor derivada de hash estável. Cinco tamanhos e grupo com overflow. Usados em colaboradores, responsáveis e auditoria.</p></div>
       <div class="grid grid--2">
-        <div class="toast toast--success"><svg class="toast__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg><div><div class="toast__title">Receita criada</div><div class="toast__msg">Lançamento de R$ 48.900 salvo com sucesso.</div></div></div>
-        <div class="toast toast--danger"><svg class="toast__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg><div><div class="toast__title">Falha ao excluir</div><div class="toast__msg">Não foi possível remover o lançamento. Tente de novo.</div></div></div>
-        <div class="toast toast--warning"><svg class="toast__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><div><div class="toast__title">NF pendente</div><div class="toast__msg">7 notas aguardando emissão até 31/05.</div></div></div>
-        <div class="toast toast--info"><svg class="toast__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg><div><div class="toast__title">Integração Slack</div><div class="toast__msg">Apuração de maio enviada ao canal #l4-financeiro.</div></div></div>
+        <div class="card">
+          <div class="subtitle" style="margin-top:0">Tamanhos</div>
+          <div class="row" style="align-items:flex-end">
+            <span class="avatar-c avatar-xs" style="background:#1485CE">IL</span>
+            <span class="avatar-c avatar-sm" style="background:#7C3AED">ES</span>
+            <span class="avatar-c avatar-md" style="background:#10B981">GS</span>
+            <span class="avatar-c avatar-lg" style="background:#EC4899">EA</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="subtitle" style="margin-top:0">Grupo · responsáveis</div>
+          <div class="row" style="justify-content:space-between">
+            <div class="avatar-group"><span class="avatar-c avatar-md" style="background:#1485CE">IL</span><span class="avatar-c avatar-md" style="background:#7C3AED">ES</span><span class="avatar-c avatar-md" style="background:#10B981">GS</span><span class="avatar-c avatar-md avatar-more">+4</span></div>
+            <div style="text-align:right"><div class="cell-strong">Ian Lopes</div><div class="cell-sub">Sócio Administrador</div></div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- ============ 14 · ANIMAÇÕES ============ -->
-    <section class="section section--alt" id="animacoes">
-      <div class="section__header">
-        <span class="section__number">14 · Aplicação</span>
-        <h2 class="section__title">Animações</h2>
-        <p class="section__lead">Sutis e curtas (200ms, easing padrão). Entrada de listas, contagem de barras, desenho de linhas, ring do donut. Tudo desabilitado em <code>prefers-reduced-motion</code>.</p>
+    <!-- ============ 18 · TABS ============ -->
+    <section class="section section--alt" id="tabs">
+      <div class="section__header"><span class="section__number">18 · Componentes</span><h2 class="section__title">Tabs</h2><p class="section__lead">Underline para navegação dentro de uma tela; pills para sub-filtros; segmented (na §14) para alternância compacta.</p></div>
+      <div class="card">
+        <div class="subtitle" style="margin-top:0">Underline · detalhe do cliente</div>
+        <div class="tabs" style="margin-bottom:16px"><button class="is-active">Resumo</button><button>Contratos</button><button>Cobranças</button><button>Apuração</button><button>Histórico</button></div>
+        <div class="subtitle">Pills</div>
+        <div class="tabs-pills"><button class="is-active">Todas</button><button>Receitas</button><button>Despesas</button><button>Reembolsos</button></div>
       </div>
+    </section>
+
+    <!-- ============ 19 · NAV DATA ============ -->
+    <section class="section" id="navdata">
+      <div class="section__header"><span class="section__number">19 · Componentes</span><h2 class="section__title">Breadcrumb &amp; Paginação</h2><p class="section__lead">Orientação e navegação em listas longas. Breadcrumb reflete a hierarquia de módulos; paginação aparece no rodapé de toda tabela.</p></div>
+      <div class="grid grid--2">
+        <div class="card">
+          <div class="subtitle" style="margin-top:0">Breadcrumb</div>
+          <nav class="breadcrumb"><a href="#">Financeiro</a><span class="sep">/</span><a href="#">Clientes</a><span class="sep">/</span><span class="current">Hiper Cap Brasil</span></nav>
+        </div>
+        <div class="card">
+          <div class="subtitle" style="margin-top:0">Paginação</div>
+          <div class="pagination"><button>‹</button><button class="is-active">1</button><button>2</button><button>3</button><button>4</button><button>…</button><button>50</button><button>›</button></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 20 · STEPPER ============ -->
+    <section class="section section--alt" id="stepper">
+      <div class="section__header"><span class="section__number">20 · Componentes</span><h2 class="section__title">Stepper</h2><p class="section__lead">Para fluxos multi-etapa: onboarding de cliente, emissão de NF, cadastro de contrato. Mostra concluído, atual e pendente.</p></div>
+      <div class="card">
+        <div class="stepper" style="flex-wrap:wrap;gap:8px 0">
+          <div class="stepper__step is-done"><span class="stepper__num">✓</span><span class="stepper__label">Dados da empresa</span></div>
+          <div class="stepper__bar"></div>
+          <div class="stepper__step is-done"><span class="stepper__num">✓</span><span class="stepper__label">Contrato</span></div>
+          <div class="stepper__bar"></div>
+          <div class="stepper__step is-active"><span class="stepper__num">3</span><span class="stepper__label">Cobrança</span></div>
+          <div class="stepper__bar"></div>
+          <div class="stepper__step"><span class="stepper__num">4</span><span class="stepper__label">Revisão</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 21 · MODAIS ============ -->
+    <section class="section" id="modais">
+      <div class="section__header"><span class="section__number">21 · Componentes</span><h2 class="section__title">Modais</h2><p class="section__lead">Diálogos centralizados com backdrop. Confirmação para ações destrutivas; formulário para criar/editar. Esc e clique fora fecham.</p></div>
+      <div class="grid grid--2">
+        <div class="overlay-demo">
+          <div class="modal">
+            <div class="modal__head"><div class="modal__title">Excluir lançamento?</div></div>
+            <div class="modal__body">O lançamento <strong>"Cartões corporativos"</strong> (R$ 7.340) será removido. Esta ação não pode ser desfeita.</div>
+            <div class="modal__foot"><button class="btn btn-ghost">Cancelar</button><button class="btn btn-danger">Excluir</button></div>
+          </div>
+        </div>
+        <div class="overlay-demo">
+          <div class="modal">
+            <div class="modal__head"><div class="modal__title">Nova receita</div></div>
+            <div class="modal__body">
+              <div class="field"><label class="field__label">Descrição</label><input class="input" placeholder="Ex.: Mensalidade Hiper Pix"></div>
+              <div class="field" style="margin-bottom:0"><label class="field__label">Valor</label><div class="input-prefix"><input class="input" placeholder="0,00"></div></div>
+            </div>
+            <div class="modal__foot"><button class="btn btn-ghost">Cancelar</button><button class="btn btn-primary">Salvar e adicionar outra</button></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 22 · DRAWER ============ -->
+    <section class="section section--alt" id="drawer">
+      <div class="section__header"><span class="section__number">22 · Componentes</span><h2 class="section__title">Drawer</h2><p class="section__lead">Painel lateral para detalhes sem perder o contexto da lista. Desliza da direita; usado em "Ver detalhes" de lançamentos e demandas.</p></div>
+      <div class="overlay-demo" style="min-height:340px">
+        <div class="drawer">
+          <div class="drawer__head"><div><div style="font-weight:800;font-size:16px">Mensalidade · Hiper Pix</div><span class="cell-sub">Lançamento #4821</span></div><button class="btn btn-ghost btn--icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+          <div class="drawer__body stack">
+            <div class="row" style="justify-content:space-between"><span class="cell-sub">Status</span><span class="badge badge--success"><span class="dot"></span>Pago</span></div>
+            <div class="row" style="justify-content:space-between"><span class="cell-sub">Empresa</span><span class="chip-empresa chip-empresa--digital"><span class="avatar">D</span>L4 Digital</span></div>
+            <div class="row" style="justify-content:space-between"><span class="cell-sub">Valor</span><span class="td-mono td-pos">+ R$ 48.900</span></div>
+            <div class="row" style="justify-content:space-between"><span class="cell-sub">Vencimento</span><strong>05/05/2026</strong></div>
+            <div class="row" style="justify-content:space-between"><span class="cell-sub">Conta</span><strong>BTG Pactual</strong></div>
+            <div style="margin-top:8px"><button class="btn btn-secondary" style="width:100%">Ver apuração completa →</button></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 23 · POPOVER ============ -->
+    <section class="section" id="popover">
+      <div class="section__header"><span class="section__number">23 · Componentes</span><h2 class="section__title">Tooltip · Popover · Menu</h2><p class="section__lead">Sobreposições leves: tooltip para explicar, popover para conteúdo rico, menu de ações (⋯) nas linhas de tabela.</p></div>
+      <div class="grid grid--3">
+        <div class="card" style="display:grid;place-items:center;min-height:150px"><div class="tooltip-ex"><div class="tooltip-bubble">Receita ainda não conciliada</div></div></div>
+        <div class="card" style="display:grid;place-items:center;min-height:150px">
+          <div class="popover"><div style="font-weight:700;font-size:13px;margin-bottom:6px">Saldo BTG</div><div class="td-mono" style="font-size:18px">R$ 209.480</div><div class="cell-sub" style="margin-top:4px">Atualizado via API BTG · há 2min</div></div>
+        </div>
+        <div class="card" style="display:grid;place-items:center;min-height:150px">
+          <div class="menu">
+            <div class="menu__item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg> Editar</div>
+            <div class="menu__item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Duplicar</div>
+            <div class="menu__sep"></div>
+            <div class="menu__item menu__item--danger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg> Excluir</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 24 · TOASTS ============ -->
+    <section class="section section--alt" id="toasts">
+      <div class="section__header"><span class="section__number">24 · Componentes</span><h2 class="section__title">Toasts</h2><p class="section__lead">Notificações com borda lateral por tipo. Duram 4s, surgem no canto inferior direito (desktop) ou topo (mobile), com ação "Desfazer" quando aplicável.</p></div>
+      <div class="grid grid--2">
+        <div class="toast toast--success"><svg class="toast__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg><div><div class="toast__title">Receita criada</div><div class="toast__msg">R$ 48.900 salvo. <a href="#">Desfazer</a></div></div></div>
+        <div class="toast toast--danger"><svg class="toast__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg><div><div class="toast__title">Falha ao excluir</div><div class="toast__msg">Não foi possível remover. Tente de novo.</div></div></div>
+        <div class="toast toast--warning"><svg class="toast__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><div><div class="toast__title">7 NFs pendentes</div><div class="toast__msg">Emitir até 31/05.</div></div></div>
+        <div class="toast toast--info"><svg class="toast__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg><div><div class="toast__title">Apuração importada</div><div class="toast__msg">1.248 linhas conciliadas via Slack.</div></div></div>
+      </div>
+    </section>
+
+    <!-- ============ 25 · ESTADOS ============ -->
+    <section class="section" id="estados">
+      <div class="section__header"><span class="section__number">25 · Componentes</span><h2 class="section__title">Empty &amp; Error</h2><p class="section__lead">Telas vazias guiam o próximo passo; erros oferecem retry. Listas usam skeleton — nunca spinner.</p></div>
+      <div class="grid grid--3">
+        <div class="card"><div class="state"><div class="state__icon" style="background:var(--surface-3);color:var(--text-subtle)"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg></div><div class="state__title">Nenhuma campanha ativa</div><div class="state__desc">Crie a primeira demanda de criação para começar a acompanhar entregas.</div><button class="btn btn-primary btn--sm">+ Nova demanda</button></div></div>
+        <div class="card"><div class="state"><div class="state__icon" style="background:var(--danger-bg);color:var(--danger)"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg></div><div class="state__title">Sem conexão</div><div class="state__desc">Não foi possível carregar os lançamentos. Verifique sua rede.</div><button class="btn btn-secondary btn--sm">Tentar novamente</button></div></div>
+        <div class="card">
+          <div class="subtitle" style="margin-top:0">Skeleton</div>
+          <div class="stack" style="gap:14px;margin-top:6px">
+            <div class="row" style="gap:12px"><div class="skeleton" style="width:36px;height:36px;border-radius:50%"></div><div style="flex:1"><div class="skeleton" style="height:12px;width:60%;margin-bottom:8px"></div><div class="skeleton" style="height:10px;width:35%"></div></div><div class="skeleton" style="height:14px;width:64px"></div></div>
+            <div class="row" style="gap:12px"><div class="skeleton" style="width:36px;height:36px;border-radius:50%"></div><div style="flex:1"><div class="skeleton" style="height:12px;width:50%;margin-bottom:8px"></div><div class="skeleton" style="height:10px;width:40%"></div></div><div class="skeleton" style="height:14px;width:64px"></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 26 · KANBAN ============ -->
+    <section class="section section--alt" id="kanban">
+      <div class="section__header"><span class="section__number">26 · Padrões &amp; Fluxos</span><h2 class="section__title">Kanban · Criação (CRM Ops)</h2><p class="section__lead">O board de demandas do time de criação. Colunas por status, cards arrastáveis com prioridade, prazo, responsável e divisão.</p></div>
+      <div class="kanban">
+        <div class="kanban__col">
+          <div class="kanban__col-head">A Fazer <span class="kanban__count">3</span></div>
+          <div class="kanban__card"><div class="kanban__card-title">Post Instagram · Sorteio TV</div><div class="kanban__card-meta"><span class="kanban__tag" style="background:var(--danger-bg);color:var(--danger-fg)">Alta</span><span class="avatar-c avatar-xs" style="background:#EC4899">ES</span></div></div>
+          <div class="kanban__card"><div class="kanban__card-title">Briefing criativo tráfego</div><div class="kanban__card-meta"><span class="kanban__tag" style="background:var(--surface-3);color:var(--text-muted)">Média</span><span class="avatar-c avatar-xs" style="background:#1485CE">IL</span></div></div>
+        </div>
+        <div class="kanban__col">
+          <div class="kanban__col-head">Fazendo <span class="kanban__count">2</span></div>
+          <div class="kanban__card"><div class="kanban__card-title">Criativo Tráfego · Promoção Website</div><div class="kanban__card-meta"><span class="kanban__tag" style="background:var(--info-bg);color:var(--info-fg)">2 dias</span><span class="avatar-c avatar-xs" style="background:#10B981">GS</span></div></div>
+        </div>
+        <div class="kanban__col">
+          <div class="kanban__col-head">Em revisão <span class="kanban__count">1</span></div>
+          <div class="kanban__card"><div class="kanban__card-title">Peça Sorteio TV · aprovação cliente</div><div class="kanban__card-meta"><span class="kanban__tag" style="background:var(--warning-bg);color:var(--warning-fg)">Revisar</span><span class="avatar-c avatar-xs" style="background:#7C3AED">EA</span></div></div>
+        </div>
+        <div class="kanban__col">
+          <div class="kanban__col-head">Concluído <span class="kanban__count">4</span></div>
+          <div class="kanban__card"><div class="kanban__card-title">Banner landing lotérico</div><div class="kanban__card-meta"><span class="kanban__tag" style="background:var(--success-bg);color:var(--success-fg)">Publicado</span><span class="avatar-c avatar-xs" style="background:#1485CE">IL</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 27 · CALENDÁRIO ============ -->
+    <section class="section" id="calendario">
+      <div class="section__header"><span class="section__number">27 · Padrões &amp; Fluxos</span><h2 class="section__title">Calendário</h2><p class="section__lead">Visão mensal de vencimentos, disparos e prazos. Eventos coloridos por tipo (receita verde, despesa vermelha, demanda roxa).</p></div>
+      <div class="calendar">
+        <div class="calendar__head"><div style="font-weight:800;font-size:16px">Maio 2026</div><div class="btn-group"><button>‹</button><button class="is-active">Mês</button><button>›</button></div></div>
+        <div class="calendar__grid">
+          <div class="calendar__dow">Seg</div><div class="calendar__dow">Ter</div><div class="calendar__dow">Qua</div><div class="calendar__dow">Qui</div><div class="calendar__dow">Sex</div><div class="calendar__dow">Sáb</div><div class="calendar__dow">Dom</div>
+          <div class="calendar__day calendar__day--mute"><span class="calendar__num">28</span></div>
+          <div class="calendar__day calendar__day--mute"><span class="calendar__num">29</span></div>
+          <div class="calendar__day calendar__day--mute"><span class="calendar__num">30</span></div>
+          <div class="calendar__day"><span class="calendar__num">1</span></div>
+          <div class="calendar__day"><span class="calendar__num">2</span><div class="cal-event" style="background:var(--success-bg);color:var(--success-fg)">Mensalidade</div></div>
+          <div class="calendar__day"><span class="calendar__num">3</span></div>
+          <div class="calendar__day"><span class="calendar__num">4</span></div>
+          <div class="calendar__day calendar__day--today"><span class="calendar__num">5</span><div class="cal-event" style="background:var(--danger-bg);color:var(--danger-fg)">Aluguel</div><div class="cal-event" style="background:var(--l4-tech-bg);color:#5b21b6">Criativo</div></div>
+          <div class="calendar__day"><span class="calendar__num">6</span></div>
+          <div class="calendar__day"><span class="calendar__num">7</span></div>
+          <div class="calendar__day"><span class="calendar__num">8</span><div class="cal-event" style="background:var(--info-bg);color:var(--info-fg)">Apuração SCP</div></div>
+          <div class="calendar__day"><span class="calendar__num">9</span></div>
+          <div class="calendar__day"><span class="calendar__num">10</span></div>
+          <div class="calendar__day"><span class="calendar__num">11</span><div class="cal-event" style="background:var(--success-bg);color:var(--success-fg)">NF Cria.Aí</div></div>
+          <div class="calendar__day"><span class="calendar__num">12</span></div>
+          <div class="calendar__day"><span class="calendar__num">13</span></div>
+          <div class="calendar__day"><span class="calendar__num">14</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 28 · NF ============ -->
+    <section class="section section--alt" id="nf">
+      <div class="section__header"><span class="section__number">28 · Padrões &amp; Fluxos</span><h2 class="section__title">Emissão de NF</h2><p class="section__lead">Fluxo de nota fiscal com estados: a emitir → emitindo → emitida → enviada. Stepper + estados + ação de download do PDF.</p></div>
+      <div class="card" style="margin-bottom:16px">
+        <div class="stepper" style="flex-wrap:wrap;gap:8px 0">
+          <div class="stepper__step is-done"><span class="stepper__num">✓</span><span class="stepper__label">Dados validados</span></div>
+          <div class="stepper__bar"></div>
+          <div class="stepper__step is-done"><span class="stepper__num">✓</span><span class="stepper__label">Emitida</span></div>
+          <div class="stepper__bar"></div>
+          <div class="stepper__step is-active"><span class="stepper__num">3</span><span class="stepper__label">Enviar ao cliente</span></div>
+        </div>
+      </div>
+      <div class="grid grid--3">
+        <div class="card"><div class="row" style="justify-content:space-between;margin-bottom:8px"><span class="cell-sub">NF #2041</span><span class="badge badge--neutral">A emitir</span></div><div class="cell-strong">NF Capemisa</div><div class="td-mono" style="margin-top:6px">R$ 18.750</div></div>
+        <div class="card"><div class="row" style="justify-content:space-between;margin-bottom:8px"><span class="cell-sub">NF #2042</span><span class="badge badge--warning"><span class="dot"></span>Emitindo</span></div><div class="cell-strong">Safe Ink Digital</div><div class="td-mono" style="margin-top:6px">R$ 9.420</div></div>
+        <div class="card"><div class="row" style="justify-content:space-between;margin-bottom:8px"><span class="cell-sub">NF #2043</span><span class="badge badge--success"><span class="dot"></span>Emitida</span></div><div class="cell-strong">Hiper Cap Brasil</div><div class="row" style="justify-content:space-between;margin-top:8px"><span class="td-mono">R$ 48.900</span><button class="btn btn-ghost btn--sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>PDF</button></div></div>
+      </div>
+    </section>
+
+    <!-- ============ 29 · INTEGRAÇÕES ============ -->
+    <section class="section" id="integracoes">
+      <div class="section__header"><span class="section__number">29 · Padrões &amp; Fluxos</span><h2 class="section__title">Integrações</h2><p class="section__lead">Conexões externas do iAdm. Cada card mostra status da conexão e ação. Bancos via API, comunicação via Slack/WhatsApp, câmbio via PTAX.</p></div>
+      <div class="grid grid--3">
+        <div class="integration"><span class="integration__logo" style="background:#4A154B">#</span><div style="flex:1"><div class="integration__name">Slack</div><div class="integration__desc">Resumo financeiro no canal</div></div><span class="badge badge--success"><span class="dot"></span>Conectado</span></div>
+        <div class="integration"><span class="integration__logo" style="background:#001E62">BTG</span><div style="flex:1"><div class="integration__name">API BTG Pactual</div><div class="integration__desc">Saldo e extrato em tempo real</div></div><span class="badge badge--success"><span class="dot"></span>Conectado</span></div>
+        <div class="integration"><span class="integration__logo" style="background:#25D366"><svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2z"/></svg></span><div style="flex:1"><div class="integration__name">WhatsApp</div><div class="integration__desc">Disparo de cobranças</div></div><span class="badge badge--warning"><span class="dot"></span>Pendente</span></div>
+        <div class="integration"><span class="integration__logo" style="background:#0B6E4F">PTAX</span><div style="flex:1"><div class="integration__name">PTAX · Banco Central</div><div class="integration__desc">Câmbio para custos em USD</div></div><span class="badge badge--success"><span class="dot"></span>Conectado</span></div>
+        <div class="integration"><span class="integration__logo" style="background:#FF9900">AWS</span><div style="flex:1"><div class="integration__name">Amazon AWS</div><div class="integration__desc">Custos de hospedagem (BRL)</div></div><span class="badge badge--success"><span class="dot"></span>Conectado</span></div>
+        <div class="integration"><span class="integration__logo" style="background:#7C3AED"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M4 4h16v12H5.17L4 17.17z"/></svg></span><div style="flex:1"><div class="integration__name">Webhooks</div><div class="integration__desc">Eventos para sistemas externos</div></div><button class="btn btn-secondary btn--sm">Configurar</button></div>
+      </div>
+    </section>
+
+    <!-- ============ 30 · PERFIL ============ -->
+    <section class="section section--alt" id="perfil">
+      <div class="section__header"><span class="section__number">30 · Padrões &amp; Fluxos</span><h2 class="section__title">Perfil &amp; Configurações</h2><p class="section__lead">Página de conta: dados do colaborador, papel/permissões, módulos habilitados e preferências de notificação.</p></div>
+      <div class="grid grid--3">
+        <div class="card">
+          <div class="row" style="gap:14px;margin-bottom:14px"><span class="avatar-c avatar-lg" style="background:#1485CE">IL</span><div><div style="font-weight:800;font-size:17px">Ian Lopes</div><div class="cell-sub">ian@l4.digital</div></div></div>
+          <div class="stack" style="gap:8px">
+            <div class="row" style="justify-content:space-between"><span class="cell-sub">Papel</span><span class="badge badge--purple">Sócio Administrador</span></div>
+            <div class="row" style="justify-content:space-between"><span class="cell-sub">Divisão</span><span class="chip-empresa chip-empresa--digital"><span class="avatar">D</span>L4 Digital</span></div>
+            <div class="row" style="justify-content:space-between"><span class="cell-sub">Acesso</span><span class="badge badge--success"><span class="dot"></span>Ativo</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="subtitle" style="margin-top:0">Módulos habilitados</div>
+          <div class="stack">
+            <label class="switch"><input type="checkbox" checked><span class="switch__track"></span> Financeiro</label>
+            <label class="switch"><input type="checkbox" checked><span class="switch__track"></span> Criação / CRM</label>
+            <label class="switch"><input type="checkbox" checked><span class="switch__track"></span> Clientes &amp; Contratos</label>
+            <label class="switch"><input type="checkbox"><span class="switch__track"></span> Equipamentos</label>
+          </div>
+        </div>
+        <div class="card">
+          <div class="subtitle" style="margin-top:0">Preferências de notificação</div>
+          <div class="stack">
+            <label class="switch"><input type="checkbox" checked><span class="switch__track"></span> NF a vencer</label>
+            <label class="switch"><input type="checkbox" checked><span class="switch__track"></span> Demanda atribuída</label>
+            <label class="switch"><input type="checkbox"><span class="switch__track"></span> Resumo diário 8h</label>
+            <label class="switch"><input type="checkbox" checked><span class="switch__track"></span> Alertas e gatilhos</label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 31 · ANIMAÇÕES ============ -->
+    <section class="section" id="animacoes">
+      <div class="section__header"><span class="section__number">31 · Aplicação</span><h2 class="section__title">Animações</h2><p class="section__lead">Sutis e curtas (200ms, easing padrão). Entrada de KPIs, contagem de barras, desenho de linhas, ring do donut, slide de modal/drawer. Tudo desabilitado em <code>prefers-reduced-motion</code>.</p></div>
       <div class="grid grid--4">
-        <div class="card" style="text-align:center;cursor:pointer" onclick="this.querySelector('div').style.animation='none';void this.offsetWidth;this.querySelector('div').style.animation='pop .4s var(--ease)'"><div style="width:44px;height:44px;border-radius:12px;background:var(--grad-gold);margin:0 auto 12px"></div><div class="token-card__name">pop</div><div class="token-card__val">entrada de KPI</div></div>
-        <div class="card" style="text-align:center;cursor:pointer" onclick="this.querySelector('div').style.animation='none';void this.offsetWidth;this.querySelector('div').style.animation='fade-up .5s var(--ease)'"><div style="width:44px;height:44px;border-radius:12px;background:var(--info);margin:0 auto 12px"></div><div class="token-card__name">fade-up</div><div class="token-card__val">linhas de tabela</div></div>
+        <div class="card" style="text-align:center;cursor:pointer" onclick="this.querySelector('.d').style.animation='none';void this.offsetWidth;this.querySelector('.d').style.animation='pop .4s var(--ease)'"><div class="d" style="width:44px;height:44px;border-radius:12px;background:var(--grad-gold);margin:0 auto 12px"></div><div class="token-card__name">pop</div><div class="token-card__val">entrada de KPI</div></div>
+        <div class="card" style="text-align:center;cursor:pointer" onclick="this.querySelector('.d').style.animation='none';void this.offsetWidth;this.querySelector('.d').style.animation='fade-up .5s var(--ease)'"><div class="d" style="width:44px;height:44px;border-radius:12px;background:var(--info);margin:0 auto 12px"></div><div class="token-card__name">fade-up</div><div class="token-card__val">linhas de lista</div></div>
         <div class="card" style="text-align:center"><div style="display:flex;justify-content:center;margin-bottom:12px"><span class="spinner"></span></div><div class="token-card__name">spin</div><div class="token-card__val">loading</div></div>
-        <div class="card" style="text-align:center"><div class="skeleton" style="height:44px;border-radius:12px;margin-bottom:12px"></div><div class="token-card__name">shimmer</div><div class="token-card__val">skeleton</div></div>
+        <div class="card" style="text-align:center"><div class="progress progress--indeterminate" style="margin:14px 0 16px"><div class="progress__fill"></div></div><div class="token-card__name">indeterminate</div><div class="token-card__val">importação</div></div>
       </div>
-      <p class="cell-sub" style="margin-top:16px">Clique nos cards <em>pop</em> e <em>fade-up</em> para repetir a animação.</p>
+      <p class="cell-sub" style="margin-top:16px">Clique nos cards <em>pop</em> e <em>fade-up</em> para repetir.</p>
     </section>
 
-    <!-- ============ 15 · DO / DON'T ============ -->
-    <section class="section" id="dodont">
-      <div class="section__header">
-        <span class="section__number">15 · Aplicação</span>
-        <h2 class="section__title">Do / Don't</h2>
-        <p class="section__lead">As regras que mantêm o iAdm consistente com os outros 4 apps do L4 OS via <code>@l4/ui</code>.</p>
+    <!-- ============ 32 · A11Y ============ -->
+    <section class="section section--alt" id="a11y">
+      <div class="section__header"><span class="section__number">32 · Aplicação</span><h2 class="section__title">Acessibilidade</h2><p class="section__lead">WCAG AA é o mínimo. O iAdm é denso — então navegação por teclado, foco visível e contraste são inegociáveis.</p></div>
+      <div class="grid grid--2">
+        <div class="card">
+          <div class="a11y-item"><span class="a11y-item__icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg></span><div><strong>Contraste AA</strong><div class="cell-sub">Texto 4.5:1, UI 3:1. Dourado só com texto escuro.</div></div></div>
+          <div class="a11y-item"><span class="a11y-item__icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg></span><div><strong>Foco visível</strong><div class="cell-sub">Ring dourado em todo elemento focável (<code>:focus-visible</code>).</div></div></div>
+          <div class="a11y-item" style="border-bottom:none"><span class="a11y-item__icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg></span><div><strong>Teclado</strong><div class="cell-sub">Tab em todos os fluxos; ⌘K abre a busca; Esc fecha overlays.</div></div></div>
+        </div>
+        <div class="card">
+          <div class="a11y-item"><span class="a11y-item__icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg></span><div><strong>ARIA</strong><div class="cell-sub">Labels em ícones-only, modais (<code>role=dialog</code>), tabelas.</div></div></div>
+          <div class="a11y-item"><span class="a11y-item__icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg></span><div><strong>Movimento</strong><div class="cell-sub"><code>prefers-reduced-motion</code> reduz animações a 0.01ms.</div></div></div>
+          <div class="a11y-item" style="border-bottom:none"><span class="a11y-item__icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg></span><div><strong>Não só cor</strong><div class="cell-sub">Status sempre tem texto + ícone, nunca só a cor do badge.</div></div></div>
+        </div>
       </div>
+    </section>
+
+    <!-- ============ 33 · DO/DONT ============ -->
+    <section class="section" id="dodont">
+      <div class="section__header"><span class="section__number">33 · Aplicação</span><h2 class="section__title">Do / Don't</h2><p class="section__lead">As regras que mantêm o iAdm consistente com os outros apps do L4 OS via <code>@l4/ui</code>.</p></div>
       <div class="dodont">
         <div class="dodont__col dodont__col--do">
           <div class="dodont__head"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Faça</div>
@@ -1030,8 +1371,8 @@ table.data tbody tr:last-child td { border-bottom: none; }
             <li>Dourado para ação; paleta categórica só em gráficos</li>
             <li>Valores monetários em <code>font-mono</code> alinhados à direita</li>
             <li>Skeleton para listas, spinner só em ações pontuais</li>
-            <li>Respeite <code>prefers-reduced-motion</code> e contraste AA</li>
-            <li>Reaproveite Button/Card/Badge do <code>@l4/ui</code></li>
+            <li>Status sempre com texto + ícone, não só cor</li>
+            <li>Reaproveite componentes do <code>@l4/ui</code></li>
           </ul>
         </div>
         <div class="dodont__col dodont__col--dont">
@@ -1049,12 +1390,34 @@ table.data tbody tr:last-child td { border-bottom: none; }
     </section>
 
     <footer class="section" style="border-bottom:none;color:var(--text-muted);font-size:14px">
-      iAdm · Design System do <strong style="color:var(--text)">L4 OS</strong> — parte do ecossistema PayPix. Tokens compartilhados via <code>@l4/ui</code> + <code>@l4/tokens</code>. · Atualizado {{GIT_DATE}}
+      iAdm · Design System do <strong style="color:var(--text)">L4 OS</strong> — parte do ecossistema PayPix. Tokens compartilhados via <code>@l4/ui</code> + <code>@l4/tokens</code>. · 33 seções · Atualizado {{GIT_DATE}}
     </footer>
-
   </main>
 </div>
 
-<script src="/js/nav.js"></script>
+<script>
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  document.getElementById('menuToggle').addEventListener('click', () => { sidebar.classList.toggle('is-open'); overlay.classList.toggle('is-open'); });
+  overlay.addEventListener('click', () => { sidebar.classList.remove('is-open'); overlay.classList.remove('is-open'); });
+
+  const btt = document.getElementById('backToTop');
+  window.addEventListener('scroll', () => btt.classList.toggle('is-visible', window.scrollY > 600));
+  btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  const links = [...document.querySelectorAll('.sidebar__link')];
+  const map = new Map(links.map(l => [l.getAttribute('href').slice(1), l]));
+  const spy = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { links.forEach(l => l.classList.remove('is-active')); map.get(e.target.id)?.classList.add('is-active'); } });
+  }, { rootMargin: '-25% 0px -65% 0px' });
+  document.querySelectorAll('section[id]').forEach(s => spy.observe(s));
+  links.forEach(l => l.addEventListener('click', () => { sidebar.classList.remove('is-open'); overlay.classList.remove('is-open'); }));
+
+  document.querySelectorAll('.swatch').forEach(sw => sw.addEventListener('click', () => {
+    if (!sw.dataset.hex) return;
+    navigator.clipboard?.writeText(sw.dataset.hex);
+    sw.classList.add('is-copied'); setTimeout(() => sw.classList.remove('is-copied'), 1400);
+  }));
+</script>
 </body>
 </html>

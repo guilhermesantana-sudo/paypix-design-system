@@ -177,6 +177,7 @@ export default defineConfig({
         main: resolve(__dirname, 'index.html'),
         hiperxcap: resolve(__dirname, 'hiperxcap/index.html'),
         apcap: resolve(__dirname, 'apcap/index.html'),
+        iadm: resolve(__dirname, 'iadm/index.html'),
       }
     }
   }

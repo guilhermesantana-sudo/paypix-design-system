@@ -10,7 +10,7 @@
 <link href="/css/components.css" rel="stylesheet">
 <link href="/css/animations.css" rel="stylesheet">
 </head>
-<body>
+<body data-nav-mobile-max="1024" data-pdf-target=".main" data-pdf-filename="hiperxcap-design-system.pdf" data-pdf-background="#1A2F51">
 
 <!-- SVG Sprite — injected via fetch -->
 <div id="svg-sprite"></div>
@@ -37,6 +37,7 @@
 
   <aside class="sidebar" id="sidebar">
     <div class="sidebar__brand">
+      <a href="../" class="sidebar__back">← Voltar ao hub</a>
       <svg class="sidebar__paypix" viewBox="0 0 1749.41 596.91" aria-label="PayPix"><use href="/assets/sprite.svg#paypix-mono"/></svg>
       <span class="sidebar__system-label">Design Systems</span>
       <div class="sidebar__client">
@@ -46,7 +47,6 @@
           <span class="sidebar__client-name">Hiper<em>XCAP</em></span>
         </div>
       </div>
-      <a href="../" class="sidebar__back">← Voltar ao hub</a>
     </div>
 
     <nav class="sidebar__nav">

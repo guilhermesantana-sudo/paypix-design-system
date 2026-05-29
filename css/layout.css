@@ -251,6 +251,8 @@
   position: relative;
   overflow-x: hidden;
   scroll-margin-top: 24px;
+  content-visibility: auto;
+  contain-intrinsic-size: 900px;
 }
 
 /* Tema CLARO — sobre fundo branco */
@@ -1067,7 +1069,7 @@
 .sidebar__back {
   display: block;
   width: 100%;
-  margin-top: 12px;
+  margin: 0 0 14px;
   padding: 9px 12px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.12);
@@ -1320,6 +1322,8 @@ body.viewing-hub .menu-toggle { display: none !important; }
     border: 1px solid rgba(243, 146, 8, 0.20) !important;
     border-radius: 6pt;
     page-break-inside: auto;
+    content-visibility: visible !important;
+    contain-intrinsic-size: auto !important;
   }
   .section--light {
     background: var(--white) !important;

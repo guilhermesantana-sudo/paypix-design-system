@@ -153,10 +153,12 @@ code {
 .sidebar__client-name { font-size: 18px; font-weight: 800; line-height: 1.1; }
 .sidebar__client-label { font-size: 11px; color: var(--text-muted); font-weight: 600; }
 .sidebar__back {
-  display: inline-block; margin-top: 14px; font-size: 13px; font-weight: 600;
+  display: inline-flex; align-items: center; gap: 6px; margin-bottom: 16px;
+  padding: 7px 12px; border-radius: var(--r-sm); background: var(--surface-3);
+  border: 1px solid var(--border); font-size: 12px; font-weight: 600;
   color: var(--text-muted);
 }
-.sidebar__back:hover { color: var(--gold-600); text-decoration: none; }
+.sidebar__back:hover { color: var(--gold-700); border-color: var(--border-strong); text-decoration: none; }
 
 .sidebar__nav { padding: 14px 12px 28px; flex: 1; }
 .sidebar__group { margin-bottom: 18px; }
@@ -223,7 +225,7 @@ code {
 /* ============================================================
    SECTIONS
    ============================================================ */
-.section { padding: 56px 48px; border-bottom: 1px solid var(--border); }
+.section { padding: 56px 48px; border-bottom: 1px solid var(--border); content-visibility: auto; contain-intrinsic-size: 760px; }
 .section--alt { background: var(--surface); }
 .section__header { max-width: 760px; margin-bottom: 36px; }
 .section__number {
@@ -477,7 +479,7 @@ table.data tbody tr:last-child td { border-bottom: none; }
 }
 </style>
 </head>
-<body>
+<body data-nav-mobile-max="860" data-pdf-target=".main" data-pdf-filename="iadm-design-system.pdf" data-pdf-background="#F8FAFC">
 
 <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu">
   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
@@ -493,6 +495,7 @@ table.data tbody tr:last-child td { border-bottom: none; }
   <!-- ============ SIDEBAR ============ -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar__brand">
+      <a href="../" class="sidebar__back">← Voltar ao hub</a>
       <span class="sidebar__system">
         <svg viewBox="0 0 614 590" fill="none"><defs><linearGradient id="l4g" x1="653" y1="142" x2="149" y2="574" gradientUnits="userSpaceOnUse"><stop stop-color="#FDE05F"/><stop offset="1" stop-color="#DEA109"/></linearGradient></defs><path d="M586.8 185.7c3.2 11.6 9.3 22.3 13 33.7 72.4 222.4-152.7 418-368.7 359-62.6-17.1-145.5-70.6-180.6-124.2-5.5-8.4-10.2-24.1-16.6-33 6.7-8 17.2-1.5 25.1-1.2 215 8.1 295.2-219.9 486.3-234.6 13.7-1 27.9.4 41.6.3Z" fill="url(#l4g)"/><path d="M563.2 144.7c-48.9-2.5-95.8 10.2-138.9 32.3C298.4 241.5 205.7 394.9 47.3 379c-8.4-.8-31.7-5.1-35.6-12.3-2.6-4.9-7.8-32-8.7-39.1C-38.4 17.2 360.9-114.9 548.8 119.5c2 2.5 16.1 23.7 14.4 25.2Z" fill="url(#l4g)"/></svg>
         L4 OS · Design Systems
@@ -504,7 +507,6 @@ table.data tbody tr:last-child td { border-bottom: none; }
           <span class="sidebar__client-name">i<em>Adm</em></span>
         </div>
       </div>
-      <a href="../" class="sidebar__back">← Voltar ao hub</a>
     </div>
 
     <nav class="sidebar__nav" id="nav">
@@ -1053,44 +1055,6 @@ table.data tbody tr:last-child td { border-bottom: none; }
   </main>
 </div>
 
-<script>
-  // sidebar mobile
-  const sidebar = document.getElementById('sidebar');
-  const overlay = document.getElementById('sidebarOverlay');
-  document.getElementById('menuToggle').addEventListener('click', () => {
-    sidebar.classList.toggle('is-open'); overlay.classList.toggle('is-open');
-  });
-  overlay.addEventListener('click', () => { sidebar.classList.remove('is-open'); overlay.classList.remove('is-open'); });
-
-  // back to top
-  const btt = document.getElementById('backToTop');
-  window.addEventListener('scroll', () => { btt.classList.toggle('is-visible', window.scrollY > 600); });
-  btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-
-  // scrollspy
-  const links = [...document.querySelectorAll('.sidebar__link')];
-  const map = new Map(links.map(l => [l.getAttribute('href').slice(1), l]));
-  const spy = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        links.forEach(l => l.classList.remove('is-active'));
-        const link = map.get(e.target.id);
-        if (link) link.classList.add('is-active');
-      }
-    });
-  }, { rootMargin: '-30% 0px -60% 0px' });
-  document.querySelectorAll('section[id]').forEach(s => spy.observe(s));
-  links.forEach(l => l.addEventListener('click', () => { sidebar.classList.remove('is-open'); overlay.classList.remove('is-open'); }));
-
-  // copiar hex dos swatches
-  document.querySelectorAll('.swatch').forEach(sw => {
-    sw.addEventListener('click', () => {
-      const hex = sw.dataset.hex; if (!hex) return;
-      navigator.clipboard?.writeText(hex);
-      sw.classList.add('is-copied');
-      setTimeout(() => sw.classList.remove('is-copied'), 1400);
-    });
-  });
-</script>
+<script src="/js/nav.js"></script>
 </body>
 </html>

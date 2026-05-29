@@ -55,6 +55,10 @@ function tokensPlugin() {
     }
     return out
   }
+  function writeIfChanged(file, content) {
+    if (fs.existsSync(file) && fs.readFileSync(file, 'utf-8') === content) return
+    fs.writeFileSync(file, content)
+  }
   function generate() {
     const outDir = resolve(__dirname, 'public/tokens')
     fs.mkdirSync(outDir, { recursive: true })
@@ -63,7 +67,7 @@ function tokensPlugin() {
       if (!fs.existsSync(cssAbs)) return
       const css = fs.readFileSync(cssAbs, 'utf-8')
       const tokens = parseCssVars(css)
-      const updatedAt = new Date().toISOString()
+      const updatedAt = fs.statSync(cssAbs).mtime.toISOString()
 
       // tokens.json — formato declarativo
       const json = {
@@ -74,7 +78,7 @@ function tokensPlugin() {
         count: Object.keys(tokens).length,
         tokens,
       }
-      fs.writeFileSync(
+      writeIfChanged(
         resolve(outDir, `${p.slug}.json`),
         JSON.stringify(json, null, 2)
       )
@@ -95,7 +99,7 @@ function tokensPlugin() {
 ${Object.entries(tokens).map(([k, v]) => `  ${k}: ${v};`).join('\n')}
 }
 `
-      fs.writeFileSync(resolve(outDir, `${p.slug}.css`), cssOut)
+      writeIfChanged(resolve(outDir, `${p.slug}.css`), cssOut)
     })
   }
   return {
@@ -178,6 +182,7 @@ export default defineConfig({
         hiperxcap: resolve(__dirname, 'hiperxcap/index.html'),
         apcap: resolve(__dirname, 'apcap/index.html'),
         iadm: resolve(__dirname, 'iadm/index.html'),
+        l4os: resolve(__dirname, 'l4os/index.html'),
       }
     }
   }

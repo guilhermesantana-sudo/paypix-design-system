@@ -9,6 +9,99 @@
 <link href="/css/layout.css" rel="stylesheet">
 <link href="/css/components.css" rel="stylesheet">
 <link href="/css/animations.css" rel="stylesheet">
+<style>
+  /* CTA agora é <button> — reset pra herdar o visual do .client-card__cta */
+  button.client-card__cta { border: none; cursor: pointer; width: 100%; }
+
+  /* ====== Chooser modal (iAdm / APCAP) ====== */
+  .chooser[hidden] { display: none; }
+  .chooser {
+    position: fixed; inset: 0; z-index: 1000;
+    display: grid; place-items: center; padding: 24px;
+  }
+  .chooser__backdrop {
+    position: absolute; inset: 0;
+    background: rgba(6, 31, 51, 0.74); backdrop-filter: blur(6px);
+    animation: chooser-fade 0.2s ease;
+  }
+  .chooser__panel {
+    position: relative; width: min(660px, 100%);
+    background: linear-gradient(180deg, #0e3a5c 0%, #0a2d49 100%);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 22px; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+    padding: 30px; color: #fff;
+    font-family: var(--font-body);
+    animation: chooser-pop 0.26s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .chooser__close {
+    position: absolute; top: 16px; right: 16px;
+    width: 34px; height: 34px; border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08); border: none; color: #fff;
+    font-size: 20px; line-height: 1; cursor: pointer; transition: background 0.15s;
+  }
+  .chooser__close:hover { background: rgba(255, 255, 255, 0.16); }
+  .chooser__eyebrow {
+    display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--orange-300); margin-bottom: 8px;
+  }
+  .chooser__title { font-size: 24px; font-weight: 800; line-height: 1.15; margin-bottom: 6px; }
+  .chooser__sub { font-size: 14px; color: rgba(255, 255, 255, 0.65); margin-bottom: 22px; }
+  .chooser__options { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .chooser-opt {
+    display: flex; flex-direction: column; gap: 0;
+    text-align: left; padding: 20px; border-radius: 16px;
+    background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.10);
+    color: #fff; cursor: pointer; transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+    position: relative; overflow: hidden;
+  }
+  .chooser-opt:hover { transform: translateY(-3px); background: rgba(255, 255, 255, 0.08); border-color: var(--opt-accent, var(--orange-500)); text-decoration: none; }
+  .chooser-opt--soon { cursor: not-allowed; opacity: 0.6; }
+  .chooser-opt--soon:hover { transform: none; border-color: rgba(255, 255, 255, 0.10); background: rgba(255, 255, 255, 0.05); }
+  .chooser-opt__logo {
+    width: 52px; height: 52px; border-radius: 13px; background: #fff;
+    display: grid; place-items: center; margin-bottom: 14px; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  }
+  .chooser-opt__logo img { max-width: 64%; max-height: 64%; }
+  /* logo full-bleed (ícones de app já vêm com fundo próprio) */
+  .chooser-opt__logo--full { background: transparent; overflow: hidden; }
+  .chooser-opt__logo--full img { max-width: 100%; max-height: 100%; width: 100%; height: 100%; object-fit: cover; border-radius: inherit; }
+  /* tema "game" — eco da identidade arcade do app (escuro + amarelo + glow rosa) */
+  .chooser-opt--game {
+    background:
+      radial-gradient(130% 90% at 100% 0%, rgba(255, 45, 135, 0.18), transparent 55%),
+      radial-gradient(120% 100% at 0% 0%, rgba(23, 149, 212, 0.28), transparent 55%),
+      linear-gradient(165deg, #0a2f4d 0%, #081320 100%);
+    border-color: rgba(255, 214, 10, 0.38);
+  }
+  .chooser-opt--game::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background-image: linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
+    background-size: 22px 22px; opacity: .5;
+    mask-image: radial-gradient(80% 80% at 50% 0%, #000, transparent 75%);
+  }
+  .chooser-opt--game > * { position: relative; }
+  .chooser-opt--game:hover {
+    transform: translateY(-3px); border-color: #FFD60A;
+    box-shadow: 0 0 0 1px rgba(255, 214, 10, 0.35), 0 18px 44px rgba(0, 0, 0, 0.45);
+  }
+  .chooser-opt--game .chooser-opt__name { text-shadow: 0 0 18px rgba(255, 214, 10, 0.35); }
+  .chooser-opt__tag {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--opt-accent, var(--orange-300)); margin-bottom: 4px;
+  }
+  .chooser-opt__name { font-size: 18px; font-weight: 800; margin-bottom: 6px; }
+  .chooser-opt__desc { font-size: 13px; color: rgba(255, 255, 255, 0.62); line-height: 1.5; }
+  .chooser-opt__go { margin-top: 14px; font-size: 12px; font-weight: 700; color: var(--opt-accent, var(--orange-300)); }
+  .chooser-opt__badge {
+    position: absolute; top: 14px; right: 14px;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 3px 9px; border-radius: 999px; background: rgba(255, 255, 255, 0.12); color: rgba(255,255,255,.8);
+  }
+  @keyframes chooser-fade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes chooser-pop { from { opacity: 0; transform: translateY(14px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
+  @media (max-width: 540px) { .chooser__options { grid-template-columns: 1fr; } }
+  @media (prefers-reduced-motion: reduce) { .chooser__backdrop, .chooser__panel { animation: none; } }
+</style>
 </head>
 <body class="viewing-hub">
 
@@ -69,7 +162,7 @@
           <span class="client-card__chip client-card__chip--live">Ativo</span>
           <div class="client-card__header">
             <div class="client-card__logo client-card__logo--paypix">
-              <img src="/logos/paypix.png" alt="PayPix">
+              <img src="/logos/paypix.png" alt="PayPix" width="128" height="128" decoding="async">
             </div>
             <div class="client-card__brand">PayPix + <em>HiperXCAP</em></div>
           </div>
@@ -103,20 +196,20 @@
 
         <!-- Apcap da Sorte -->
         <div class="client-card client-card--active client-card--apcap"
-             onclick="window.location.href='apcap/'"
+             onclick="openChooser('apcap')"
              role="link" tabindex="0"
-             onkeydown="if(event.key==='Enter')window.location.href='apcap/'"
-             aria-label="Abrir design system Apcap da Sorte">
+             onkeydown="if(event.key==='Enter')openChooser('apcap')"
+             aria-label="Apcap da Sorte — escolher entre Super APP e Produto">
           <span class="client-card__chip client-card__chip--live">Ativo</span>
           <div class="client-card__header">
             <div class="client-card__logo client-card__logo--apcap">
-              <img src="/logos/apcap.png" alt="Apcap da Sorte">
+              <img src="/logos/apcap.png" alt="Apcap da Sorte" width="128" height="128" decoding="async">
             </div>
             <div class="client-card__brand">Apcap <em>da Sorte</em></div>
           </div>
           <p class="client-card__desc">Capitalização premiável com loop de jogo "Caçadores de Balões" — sorteios auditáveis, PIX/cartão e acessibilidade WCAG AA para o público sênior.</p>
           <div class="client-card__actions">
-            <a href="apcap/" class="client-card__cta">Abrir design system →</a>
+            <button type="button" class="client-card__cta" onclick="event.stopPropagation();openChooser('apcap')">Escolher →</button>
             <div class="client-card__download-wrap" onclick="event.stopPropagation()">
               <button type="button" class="client-card__download" aria-haspopup="true" aria-expanded="false" onclick="toggleDownloadMenu(this)">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
@@ -151,18 +244,19 @@
 
         <!-- iAdm -->
         <div class="client-card client-card--active client-card--iadm"
-             role="link" tabindex="0" onclick="window.location.href='iadm/'"
-             aria-label="Design system iAdm">
+             role="link" tabindex="0" onclick="openChooser('iadm')"
+             onkeydown="if(event.key==='Enter')openChooser('iadm')"
+             aria-label="iAdm — escolher entre Design System e Marca L4 OS">
           <span class="client-card__chip client-card__chip--live">Ativo</span>
           <div class="client-card__header">
             <div class="client-card__logo client-card__logo--iadm">
-              <img src="/logos/iadm.png" alt="iAdm">
+              <img src="/logos/iadm.png" alt="iAdm" width="128" height="128" decoding="async">
             </div>
             <div class="client-card__brand"><em>iAdm</em></div>
           </div>
           <p class="client-card__desc">Painel administrativo do L4 OS — tokens, componentes e guidelines cross-app para os 4 produtos da plataforma.</p>
           <div class="client-card__actions">
-            <a href="iadm/" class="client-card__cta">Abrir design system →</a>
+            <button type="button" class="client-card__cta" onclick="event.stopPropagation();openChooser('iadm')">Escolher →</button>
             <a href="/downloads/iadm-style-guide.md" download="iadm-style-guide.md" class="client-card__download" onclick="event.stopPropagation()">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
               .md
@@ -201,6 +295,74 @@
 
   </div>
 </section>
+
+<!-- ============================================================
+     Chooser modal — 2 opções antes de entrar (iAdm / APCAP)
+     ============================================================ -->
+<div class="chooser" id="chooser" hidden>
+  <div class="chooser__backdrop" data-close></div>
+  <div class="chooser__panel" role="dialog" aria-modal="true" aria-labelledby="chooserTitle">
+    <button class="chooser__close" data-close aria-label="Fechar">&times;</button>
+    <span class="chooser__eyebrow" id="chooserEyebrow"></span>
+    <h3 class="chooser__title" id="chooserTitle">O que você quer abrir?</h3>
+    <p class="chooser__sub" id="chooserSub"></p>
+    <div class="chooser__options" id="chooserOptions"></div>
+  </div>
+</div>
+
+<script>
+  const CHOOSERS = {
+    iadm: {
+      eyebrow: 'iAdm', sub: 'O painel administrativo do L4 OS tem duas frentes.',
+      options: [
+        { tag: 'Design System', name: 'iAdm', desc: 'Tokens, componentes, tabelas e gráficos do painel.', href: 'iadm/', logo: '/logos/iadm.png', accent: '#1485CE' },
+        { tag: 'Marca', name: 'L4 OS', desc: 'Guia de uso da marca: logo, variações, cores e regras.', href: 'l4os/', logo: '/logos/l4os/symbol.svg', accent: '#EEA300' },
+      ]
+    },
+    apcap: {
+      eyebrow: 'Apcap da Sorte', sub: 'Duas identidades convivem aqui.',
+      options: [
+        { tag: 'Identidade atual', name: 'Super APP', desc: 'Design System do Super APP', href: 'apcap/', logo: '/logos/apcap.png', accent: '#FFD60A', fullLogo: true, theme: 'game' },
+        { tag: 'Produto', name: 'Apcap da Sorte', desc: 'A identidade do produto. Vamos construir em breve.', soon: true, logo: '/logos/apcap.png', accent: '#94A3B8', fullLogo: true },
+      ]
+    }
+  };
+
+  const chooserEl = document.getElementById('chooser');
+  let lastFocus = null;
+
+  function openChooser(key) {
+    const cfg = CHOOSERS[key];
+    if (!cfg) return;
+    lastFocus = document.activeElement;
+    document.getElementById('chooserEyebrow').textContent = cfg.eyebrow;
+    document.getElementById('chooserSub').textContent = cfg.sub;
+    const wrap = document.getElementById('chooserOptions');
+    wrap.innerHTML = cfg.options.map(o => {
+      const logoCls = o.fullLogo ? 'chooser-opt__logo chooser-opt__logo--full' : 'chooser-opt__logo';
+      const themeCls = o.theme ? ' chooser-opt--' + o.theme : '';
+      const inner = `
+        <span class="${logoCls}"><img src="${o.logo}" alt=""></span>
+        <span class="chooser-opt__tag">${o.tag}</span>
+        <span class="chooser-opt__name">${o.name}</span>
+        <span class="chooser-opt__desc">${o.desc}</span>
+        ${o.soon ? '<span class="chooser-opt__badge">Em breve</span>' : '<span class="chooser-opt__go">Abrir →</span>'}`;
+      return o.soon
+        ? `<div class="chooser-opt chooser-opt--soon${themeCls}" style="--opt-accent:${o.accent}" aria-disabled="true">${inner}</div>`
+        : `<a class="chooser-opt${themeCls}" style="--opt-accent:${o.accent}" href="${o.href}">${inner}</a>`;
+    }).join('');
+    chooserEl.hidden = false;
+    document.body.style.overflow = 'hidden';
+    chooserEl.querySelector('.chooser-opt')?.focus?.();
+  }
+  function closeChooser() {
+    chooserEl.hidden = true;
+    document.body.style.overflow = '';
+    lastFocus?.focus?.();
+  }
+  chooserEl.addEventListener('click', (e) => { if (e.target.hasAttribute('data-close')) closeChooser(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !chooserEl.hidden) closeChooser(); });
+</script>
 
 <!-- ============================================================
      JSZip via CDN (usado pelo botão "Kit ZIP")

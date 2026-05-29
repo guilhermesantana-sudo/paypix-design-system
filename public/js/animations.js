@@ -105,12 +105,18 @@ document.querySelectorAll('[data-replay]').forEach(btn => {
   });
 });
 
-// ---- Auto-loop: inicia quando a seção entra no viewport ----
+// ---- Auto-loop: roda apenas enquanto a demo esta no viewport ----
+const _reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const _timers = {};
 function _loop(key, fn, ms) {
-  if (_timers[key]) return;
+  if (_reduceMotion || _timers[key]) return;
   fn();
   _timers[key] = setInterval(fn, ms);
+}
+function _stopLoop(key) {
+  if (!_timers[key]) return;
+  clearInterval(_timers[key]);
+  delete _timers[key];
 }
 
 const successCard   = document.querySelector('[data-anim="success"]');
@@ -121,15 +127,21 @@ const rippleCard    = document.querySelector('[data-anim="ripple"]');
 const payPixPayCard = document.querySelector('[data-anim="paypix-pay"]');
 
 if ('IntersectionObserver' in window) {
+  const map = new Map([
+    [successCard,   ['success', replaySuccess, 4200]],
+    [confettiCard,  ['confetti', replayConfetti, 3200]],
+    [flipCard,      ['flip', replayFlip, 4000]],
+    [shakeCard,     ['shake', replayShake, 2800]],
+    [rippleCard,    ['ripple', replayRipple, 2200]],
+    [payPixPayCard, ['paypixpay', replayPaypixPay, 4200]],
+  ].filter(([el]) => el));
   const io = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      if (entry.target === successCard)   _loop('success',   replaySuccess,   4200);
-      if (entry.target === confettiCard)  _loop('confetti',  replayConfetti,  3200);
-      if (entry.target === flipCard)      _loop('flip',      replayFlip,      4000);
-      if (entry.target === shakeCard)     _loop('shake',     replayShake,     2800);
-      if (entry.target === rippleCard)    _loop('ripple',    replayRipple,    2200);
-      if (entry.target === payPixPayCard) _loop('paypixpay', replayPaypixPay, 4200);
+      const config = map.get(entry.target);
+      if (!config) return;
+      const [key, fn, ms] = config;
+      if (entry.isIntersecting) _loop(key, fn, ms);
+      else _stopLoop(key);
     });
   }, { threshold: 0.5 });
   if (successCard)   io.observe(successCard);

@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#EEA300">
+<title>L4 OS · Marca · Brand Guide · PayPix</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   L4 OS — Guia de uso da marca
+   ============================================================ */
+:root {
+  --gold-300: #FFE556;
+  --gold-500: #EEA300;
+  --gold-600: #DEA109;
+  --ink:      #393B49;   /* cinza-azulado do wordmark */
+  --ink-900:  #171717;   /* preto da marca */
+  --grad-gold: linear-gradient(135deg, #FFE556 0%, #EEA300 100%);
+  --gold-soft: rgba(238, 163, 0, 0.10);
+
+  --bg:            #F8FAFC;
+  --surface:       #FFFFFF;
+  --surface-2:     #FAFAFA;
+  --surface-3:     #F1F5F9;
+  --border:        #E2E8F0;
+  --border-strong: #CBD5E1;
+  --text:          #0F172A;
+  --text-muted:    #64748B;
+  --text-subtle:   #94A3B8;
+
+  --success: #10B981; --success-bg: #ECFDF5; --success-fg: #065F46;
+  --danger:  #EF4444; --danger-bg:  #FEE2E2; --danger-fg:  #991B1B;
+
+  --r-sm: 6px; --r-md: 10px; --r-lg: 14px; --r-xl: 20px; --r-full: 9999px;
+  --shadow-sm: 0 1px 2px rgba(15,23,42,.05);
+  --shadow-md: 0 4px 12px rgba(15,23,42,.08);
+  --shadow-lg: 0 10px 28px rgba(15,23,42,.12);
+  --shadow-xl: 0 20px 40px rgba(15,23,42,.16);
+
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur: 200ms;
+}
+@keyframes pulse-dot { 0%,100% { box-shadow: 0 0 0 0 rgba(238,163,0,.5); } 50% { box-shadow: 0 0 0 6px rgba(238,163,0,0); } }
+@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+@media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration:.01ms!important; transition-duration:.01ms!important; scroll-behavior:auto!important; } }
+
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+body { font-family: var(--font-sans); font-size: 16px; line-height: 1.6; color: var(--text); background: var(--bg); -webkit-font-smoothing: antialiased; min-height: 100vh; }
+a { color: var(--gold-600); text-decoration: none; }
+a:hover { text-decoration: underline; }
+em { font-style: normal; color: var(--gold-600); }
+code { font-family: var(--font-mono); font-size: .84em; background: var(--surface-3); padding: 2px 7px; border-radius: var(--r-sm); }
+:focus-visible { outline: 2px solid var(--gold-600); outline-offset: 2px; border-radius: 4px; }
+
+/* layout */
+.layout { display: flex; min-height: 100vh; }
+.sidebar { position: fixed; inset: 0 auto 0 0; width: 256px; z-index: 40; background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; overflow-y: auto; transition: transform var(--dur) var(--ease); }
+.sidebar__brand { padding: 20px 20px 16px; border-bottom: 1px solid var(--border); }
+.sidebar__system { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--text-subtle); margin-bottom: 14px; }
+.sidebar__logo { width: 100%; max-width: 160px; height: auto; display: block; margin-bottom: 6px; }
+.sidebar__tag { font-size: 13px; color: var(--text-muted); font-weight: 600; }
+.sidebar__back { display: inline-flex; align-items: center; gap: 6px; margin-bottom: 16px; padding: 7px 12px; border-radius: var(--r-sm); background: var(--surface-3); border: 1px solid var(--border); font-size: 12px; font-weight: 600; color: var(--text-muted); }
+.sidebar__back:hover { color: var(--gold-600); border-color: var(--border-strong); text-decoration: none; }
+.sidebar__nav { padding: 14px 12px 28px; flex: 1; }
+.sidebar__group { margin-bottom: 18px; }
+.sidebar__group-label { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--text-subtle); padding: 4px 10px 6px; }
+.sidebar__link { display: block; padding: 8px 10px; border-radius: var(--r-sm); font-size: 14px; font-weight: 500; color: var(--text-muted); transition: all .15s var(--ease); }
+.sidebar__link:hover { background: var(--surface-3); color: var(--text); text-decoration: none; }
+.sidebar__link.is-active { background: var(--gold-soft); color: #8a6500; font-weight: 600; }
+.main { flex: 1; margin-left: 256px; min-width: 0; }
+
+.menu-toggle { display: none; position: fixed; top: 14px; left: 14px; z-index: 50; width: 42px; height: 42px; border-radius: var(--r-md); background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow-md); color: var(--text); cursor: pointer; align-items: center; justify-content: center; }
+.sidebar-overlay { display: none; position: fixed; inset: 0; z-index: 39; background: rgba(15,23,42,.4); }
+
+/* hero */
+.hero { position: relative; overflow: hidden; padding: 72px 48px 60px; background: radial-gradient(900px 420px at 85% -10%, rgba(238,163,0,.16), transparent 60%), linear-gradient(180deg,#fff 0%,#F8FAFC 100%); border-bottom: 1px solid var(--border); }
+.hero::after { content:""; position:absolute; inset:0; pointer-events:none; background-image: linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px); background-size: 48px 48px; opacity:.35; mask-image: radial-gradient(700px 360px at 80% 0%, #000, transparent 70%); }
+.hero__inner { position: relative; z-index: 1; max-width: 900px; }
+.hero__chip { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: var(--r-full); background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow-sm); font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 24px; }
+.hero__chip-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold-500); animation: pulse-dot 2s infinite; }
+.hero__logo { width: min(440px, 80%); height: auto; margin-bottom: 26px; }
+.hero__lead { font-size: 18px; color: var(--text-muted); max-width: 680px; }
+
+/* sections */
+.section { padding: 56px 48px; border-bottom: 1px solid var(--border); }
+.section--alt { background: var(--surface); }
+.section__header { max-width: 760px; margin-bottom: 32px; }
+.section__number { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--gold-600); margin-bottom: 10px; }
+.section__title { font-size: clamp(26px,3.4vw,34px); font-weight: 800; letter-spacing: -.015em; margin-bottom: 12px; }
+.section__lead { font-size: 16px; color: var(--text-muted); }
+.subtitle { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--text-subtle); margin: 28px 0 14px; }
+
+.grid { display: grid; gap: 16px; }
+.grid--2 { grid-template-columns: repeat(2,1fr); }
+.grid--3 { grid-template-columns: repeat(3,1fr); }
+.grid--4 { grid-template-columns: repeat(4,1fr); }
+
+/* logo plates */
+.plate { border-radius: var(--r-lg); border: 1px solid var(--border); overflow: hidden; box-shadow: var(--shadow-sm); }
+.plate__stage { display: grid; place-items: center; padding: 48px 24px; min-height: 180px; }
+.plate__stage img { max-width: 78%; max-height: 110px; height: auto; }
+.plate__stage--light { background: var(--surface); }
+.plate__stage--soft { background: var(--surface-3); }
+.plate__stage--ink { background: var(--ink-900); }
+.plate__stage--blue { background: linear-gradient(135deg,#1795d4,#0a3e63); }
+.plate__stage--gold { background: var(--grad-gold); }
+.plate__cap { padding: 12px 16px; background: var(--surface); border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.plate__name { font-size: 14px; font-weight: 600; }
+.plate__file { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); }
+
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 22px; box-shadow: var(--shadow-sm); }
+
+/* color swatches */
+.swatch { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); overflow: hidden; cursor: pointer; transition: transform .15s, box-shadow .15s; }
+.swatch:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.swatch__color { height: 92px; }
+.swatch__info { padding: 12px 14px; }
+.swatch__name { font-size: 14px; font-weight: 600; }
+.swatch__token { display: block; font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); margin: 2px 0 6px; }
+.swatch__hex { font-family: var(--font-mono); font-size: 12px; font-weight: 600; }
+.swatch.is-copied .swatch__hex::after { content: " ✓"; color: var(--success); }
+
+/* clearspace / minsize */
+.clearspace { position: relative; background: var(--surface-3); border: 1px dashed var(--border-strong); border-radius: var(--r-lg); padding: 48px; display: grid; place-items: center; }
+.clearspace__box { position: relative; padding: 40px; background: var(--surface); border-radius: var(--r-md); box-shadow: var(--shadow-sm); }
+.clearspace__box::before { content:""; position:absolute; inset:8px; border: 1px dashed var(--gold-500); border-radius: 6px; pointer-events:none; }
+.clearspace__box img { height: 64px; display: block; }
+
+.minsize { display: flex; align-items: flex-end; gap: 32px; flex-wrap: wrap; }
+.minsize__item { text-align: center; }
+.minsize__item img { display: block; margin: 0 auto 10px; }
+.minsize__label { font-size: 12px; font-family: var(--font-mono); color: var(--text-muted); }
+
+/* do/dont */
+.dodont { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.dodont__item { border-radius: var(--r-lg); overflow: hidden; border: 1px solid var(--border); }
+.dodont__stage { padding: 36px; display: grid; place-items: center; min-height: 150px; position: relative; }
+.dodont__stage img { max-height: 64px; max-width: 70%; }
+.dodont__tag { position: absolute; top: 12px; left: 12px; display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: var(--r-full); }
+.dodont__tag--do { background: var(--success-bg); color: var(--success-fg); }
+.dodont__tag--dont { background: var(--danger-bg); color: var(--danger-fg); }
+.dodont__cap { padding: 12px 16px; font-size: 13px; color: var(--text-muted); background: var(--surface); border-top: 1px solid var(--border); }
+
+/* buttons / download */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-family: var(--font-sans); font-size: 14px; font-weight: 600; padding: 10px 18px; border-radius: var(--r-md); border: 1px solid transparent; cursor: pointer; transition: all var(--dur) var(--ease); }
+.btn svg { width: 16px; height: 16px; }
+.btn-primary { background: var(--grad-gold); color: #3a2a00; box-shadow: 0 2px 8px rgba(238,163,0,.3); }
+.btn-primary:hover { filter: brightness(1.04); transform: translateY(-1px); text-decoration: none; }
+.btn-secondary { background: var(--surface); color: var(--text); border-color: var(--border-strong); box-shadow: var(--shadow-sm); }
+.btn-secondary:hover { background: var(--surface-3); text-decoration: none; }
+
+.dl-list { display: grid; gap: 10px; }
+.dl-row { display: flex; align-items: center; gap: 14px; padding: 12px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); transition: border-color .15s, box-shadow .15s; }
+.dl-row:hover { border-color: var(--border-strong); box-shadow: var(--shadow-sm); text-decoration: none; }
+.dl-row__thumb { width: 64px; height: 44px; border-radius: 6px; display: grid; place-items: center; flex-shrink: 0; border: 1px solid var(--border); }
+.dl-row__thumb img { max-width: 80%; max-height: 26px; }
+.dl-row__meta { flex: 1; min-width: 0; }
+.dl-row__name { font-size: 14px; font-weight: 600; color: var(--text); }
+.dl-row__file { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); }
+.dl-row__icon { color: var(--text-subtle); }
+
+.back-to-top { position: fixed; right: 24px; bottom: 24px; z-index: 30; width: 44px; height: 44px; border-radius: 50%; background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow-lg); color: #8a6500; cursor: pointer; display: grid; place-items: center; opacity: 0; pointer-events: none; transform: translateY(12px); transition: all var(--dur) var(--ease); }
+.back-to-top.is-visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
+
+@media (max-width: 1024px) { .grid--4 { grid-template-columns: repeat(2,1fr); } .grid--3 { grid-template-columns: repeat(2,1fr); } }
+@media (max-width: 860px) {
+  .sidebar { transform: translateX(-100%); }
+  .sidebar.is-open { transform: translateX(0); box-shadow: var(--shadow-xl); }
+  .sidebar-overlay.is-open { display: block; }
+  .main { margin-left: 0; }
+  .menu-toggle { display: flex; }
+  .hero, .section { padding-left: 20px; padding-right: 20px; }
+  .hero { padding-top: 64px; }
+  .grid--4, .grid--3, .grid--2, .dodont { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<button class="menu-toggle" id="menuToggle" aria-label="Abrir menu">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+</button>
+<div class="sidebar-overlay" id="sidebarOverlay" aria-hidden="true"></div>
+<button class="back-to-top" id="backToTop" aria-label="Voltar ao topo">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+</button>
+
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar__brand">
+      <a href="../" class="sidebar__back">← Voltar ao hub</a>
+      <span class="sidebar__system">Design Systems · Marca</span>
+      <img class="sidebar__logo" src="/logos/l4os/l4os-full.svg" alt="L4 OS">
+      <span class="sidebar__tag">Guia de uso da marca</span>
+    </div>
+    <nav class="sidebar__nav" id="nav">
+      <div class="sidebar__group">
+        <div class="sidebar__group-label">Marca</div>
+        <a href="#logo" class="sidebar__link">01 · Logo principal</a>
+        <a href="#variacoes" class="sidebar__link">02 · Variações</a>
+        <a href="#simbolo" class="sidebar__link">03 · Símbolo</a>
+        <a href="#cores" class="sidebar__link">04 · Cores</a>
+      </div>
+      <div class="sidebar__group">
+        <div class="sidebar__group-label">Aplicação</div>
+        <a href="#fundos" class="sidebar__link">05 · Fundos</a>
+        <a href="#protecao" class="sidebar__link">06 · Área de proteção</a>
+        <a href="#minimo" class="sidebar__link">07 · Tamanho mínimo</a>
+        <a href="#dodont" class="sidebar__link">08 · Usos · Do / Don't</a>
+      </div>
+      <div class="sidebar__group">
+        <div class="sidebar__group-label">Recursos</div>
+        <a href="#downloads" class="sidebar__link">09 · Downloads</a>
+      </div>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <header class="hero">
+      <div class="hero__inner">
+        <span class="hero__chip"><span class="hero__chip-dot"></span>L4 OS · Marca · Atualizado · {{GIT_DATE}}</span>
+        <img class="hero__logo" src="/logos/l4os/l4os-full.svg" alt="L4 OS">
+        <p class="hero__lead">O guia de uso da marca <strong>L4 OS</strong> — o sistema operacional de produtos da L4 Digital. Aqui ficam o logo, as variações, as cores e as regras de aplicação que mantêm a marca consistente em todos os pontos de contato.</p>
+      </div>
+    </header>
+
+    <!-- 01 LOGO -->
+    <section class="section section--alt" id="logo">
+      <div class="section__header">
+        <span class="section__number">01 · Marca</span>
+        <h2 class="section__title">Logo principal</h2>
+        <p class="section__lead">A assinatura completa combina o <em>símbolo</em> (a forma fluida dourada) com o <em>wordmark</em> "L4.OS". É a versão preferencial sempre que houver espaço — em fundos claros, use a versão original.</p>
+      </div>
+      <div class="plate">
+        <div class="plate__stage plate__stage--light" style="padding:64px 24px"><img src="/logos/l4os/l4os-full.svg" alt="L4 OS — logo principal" style="max-height:140px"></div>
+        <div class="plate__cap"><span class="plate__name">Assinatura completa · original</span><span class="plate__file">l4os-full.svg</span></div>
+      </div>
+    </section>
+
+    <!-- 02 VARIAÇÕES -->
+    <section class="section" id="variacoes">
+      <div class="section__header">
+        <span class="section__number">02 · Marca</span>
+        <h2 class="section__title">Variações</h2>
+        <p class="section__lead">Quatro versões da assinatura para diferentes fundos e contextos de impressão. Escolha sempre a que garante maior contraste e legibilidade.</p>
+      </div>
+      <div class="grid grid--2">
+        <div class="plate">
+          <div class="plate__stage plate__stage--light"><img src="/logos/l4os/l4os-full.svg" alt="Original"></div>
+          <div class="plate__cap"><span class="plate__name">Original · cor</span><span class="plate__file">l4os-full.svg</span></div>
+        </div>
+        <div class="plate">
+          <div class="plate__stage plate__stage--ink"><img src="/logos/l4os/l4os-full-white.svg" alt="Original sobre escuro"></div>
+          <div class="plate__cap"><span class="plate__name">Original · fundo escuro</span><span class="plate__file">l4os-full-white.svg</span></div>
+        </div>
+        <div class="plate">
+          <div class="plate__stage plate__stage--soft"><img src="/logos/l4os/l4os-black.svg" alt="Monocromático preto"></div>
+          <div class="plate__cap"><span class="plate__name">Monocromático · preto</span><span class="plate__file">l4os-black.svg</span></div>
+        </div>
+        <div class="plate">
+          <div class="plate__stage plate__stage--blue"><img src="/logos/l4os/l4os-white.svg" alt="Monocromático branco"></div>
+          <div class="plate__cap"><span class="plate__name">Monocromático · branco</span><span class="plate__file">l4os-white.svg</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 SÍMBOLO -->
+    <section class="section section--alt" id="simbolo">
+      <div class="section__header">
+        <span class="section__number">03 · Marca</span>
+        <h2 class="section__title">Símbolo</h2>
+        <p class="section__lead">A forma fluida sozinha — usada como ícone de app, favicon, avatar e selo. Pode ser aplicada quando a marca já está estabelecida no contexto e o espaço é reduzido.</p>
+      </div>
+      <div class="grid grid--4">
+        <div class="plate"><div class="plate__stage plate__stage--light"><img src="/logos/l4os/symbol.svg" alt="Símbolo original" style="max-height:96px"></div><div class="plate__cap"><span class="plate__name">Original</span></div></div>
+        <div class="plate"><div class="plate__stage plate__stage--blue"><img src="/logos/l4os/symbol-blue.svg" alt="Símbolo azul" style="max-height:96px"></div><div class="plate__cap"><span class="plate__name">Sobre azul</span></div></div>
+        <div class="plate"><div class="plate__stage plate__stage--ink"><img src="/logos/l4os/symbol-white.svg" alt="Símbolo branco" style="max-height:96px"></div><div class="plate__cap"><span class="plate__name">Branco</span></div></div>
+        <div class="plate"><div class="plate__stage plate__stage--soft"><img src="/logos/l4os/symbol-black.svg" alt="Símbolo preto" style="max-height:96px"></div><div class="plate__cap"><span class="plate__name">Preto</span></div></div>
+      </div>
+    </section>
+
+    <!-- 04 CORES -->
+    <section class="section" id="cores">
+      <div class="section__header">
+        <span class="section__number">04 · Marca</span>
+        <h2 class="section__title">Cores da marca</h2>
+        <p class="section__lead">O dourado é a assinatura do L4 OS — aplicado como gradiente no símbolo. O cinza-azulado e o preto dão contraste ao wordmark. Clique para copiar o hex.</p>
+      </div>
+      <div class="grid grid--4">
+        <div class="swatch" data-hex="#FFE556"><div class="swatch__color" style="background:#FFE556"></div><div class="swatch__info"><div class="swatch__name">Gold claro</div><span class="swatch__token">topo do gradiente</span><div class="swatch__hex">#FFE556</div></div></div>
+        <div class="swatch" data-hex="#EEA300"><div class="swatch__color" style="background:#EEA300"></div><div class="swatch__info"><div class="swatch__name">Gold</div><span class="swatch__token">base do gradiente · marca</span><div class="swatch__hex">#EEA300</div></div></div>
+        <div class="swatch" data-hex="#393B49"><div class="swatch__color" style="background:#393B49"></div><div class="swatch__info"><div class="swatch__name">Cinza-azulado</div><span class="swatch__token">wordmark · texto</span><div class="swatch__hex">#393B49</div></div></div>
+        <div class="swatch" data-hex="#171717"><div class="swatch__color" style="background:#171717"></div><div class="swatch__info"><div class="swatch__name">Preto</div><span class="swatch__token">versão mono</span><div class="swatch__hex">#171717</div></div></div>
+      </div>
+      <div class="subtitle">Gradiente da marca</div>
+      <div class="plate">
+        <div class="plate__stage plate__stage--gold" style="min-height:90px"></div>
+        <div class="plate__cap"><span class="plate__name">Grad gold</span><span class="plate__file">linear-gradient(135deg, #FFE556, #EEA300)</span></div>
+      </div>
+    </section>
+
+    <!-- 05 FUNDOS -->
+    <section class="section section--alt" id="fundos">
+      <div class="section__header">
+        <span class="section__number">05 · Aplicação</span>
+        <h2 class="section__title">Fundos permitidos</h2>
+        <p class="section__lead">A marca deve sempre ter contraste suficiente com o fundo. Use a versão original em fundos claros, a branca em fundos escuros ou coloridos saturados.</p>
+      </div>
+      <div class="grid grid--3">
+        <div class="plate"><div class="plate__stage plate__stage--light"><img src="/logos/l4os/l4os-full.svg" alt="Sobre branco"></div><div class="plate__cap"><span class="plate__name">Branco · ✓ original</span></div></div>
+        <div class="plate"><div class="plate__stage plate__stage--ink"><img src="/logos/l4os/l4os-full-white.svg" alt="Sobre preto"></div><div class="plate__cap"><span class="plate__name">Escuro · ✓ branca</span></div></div>
+        <div class="plate"><div class="plate__stage plate__stage--blue"><img src="/logos/l4os/l4os-white.svg" alt="Sobre azul"></div><div class="plate__cap"><span class="plate__name">Azul L4 · ✓ branca</span></div></div>
+      </div>
+    </section>
+
+    <!-- 06 PROTEÇÃO -->
+    <section class="section" id="protecao">
+      <div class="section__header">
+        <span class="section__number">06 · Aplicação</span>
+        <h2 class="section__title">Área de proteção</h2>
+        <p class="section__lead">Mantenha sempre um respiro ao redor da marca — no mínimo a altura do símbolo (representada pela margem tracejada). Nenhum outro elemento deve invadir essa área.</p>
+      </div>
+      <div class="clearspace">
+        <div class="clearspace__box"><img src="/logos/l4os/l4os-full.svg" alt="Área de proteção"></div>
+      </div>
+    </section>
+
+    <!-- 07 TAMANHO MÍNIMO -->
+    <section class="section section--alt" id="minimo">
+      <div class="section__header">
+        <span class="section__number">07 · Aplicação</span>
+        <h2 class="section__title">Tamanho mínimo</h2>
+        <p class="section__lead">Abaixo destes limites a legibilidade se perde. Para espaços muito reduzidos, prefira o símbolo isolado em vez da assinatura completa.</p>
+      </div>
+      <div class="card">
+        <div class="minsize">
+          <div class="minsize__item"><img src="/logos/l4os/l4os-full.svg" alt="Logo 180px" style="height:42px"><div class="minsize__label">assinatura · mín. 140px / 24mm</div></div>
+          <div class="minsize__item"><img src="/logos/l4os/symbol.svg" alt="Símbolo 32px" style="height:32px"><div class="minsize__label">símbolo · mín. 24px / 8mm</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 08 DO / DONT -->
+    <section class="section" id="dodont">
+      <div class="section__header">
+        <span class="section__number">08 · Aplicação</span>
+        <h2 class="section__title">Usos · Do / Don't</h2>
+        <p class="section__lead">A marca é um ativo fixo. Não recrie, recolora ou distorça — use sempre os arquivos oficiais.</p>
+      </div>
+      <div class="dodont">
+        <div class="dodont__item">
+          <div class="dodont__stage plate__stage--light"><span class="dodont__tag dodont__tag--do">✓ Faça</span><img src="/logos/l4os/l4os-full.svg" alt="Uso correto"></div>
+          <div class="dodont__cap">Use a assinatura original em fundo claro, com respiro adequado.</div>
+        </div>
+        <div class="dodont__item">
+          <div class="dodont__stage" style="background:linear-gradient(135deg,#1795d4,#0a3e63)"><span class="dodont__tag dodont__tag--dont">✕ Não faça</span><img src="/logos/l4os/l4os-full.svg" alt="Baixo contraste"></div>
+          <div class="dodont__cap">Não use a versão escura sobre fundo escuro — perde contraste.</div>
+        </div>
+        <div class="dodont__item">
+          <div class="dodont__stage plate__stage--ink"><span class="dodont__tag dodont__tag--do">✓ Faça</span><img src="/logos/l4os/l4os-full-white.svg" alt="Versão branca em fundo escuro"></div>
+          <div class="dodont__cap">Em fundo escuro, troque para a versão branca.</div>
+        </div>
+        <div class="dodont__item">
+          <div class="dodont__stage plate__stage--light"><span class="dodont__tag dodont__tag--dont">✕ Não faça</span><img src="/logos/l4os/l4os-full.svg" alt="Distorção" style="transform:scaleX(1.4)"></div>
+          <div class="dodont__cap">Não distorça, estique ou altere as proporções do logo.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 09 DOWNLOADS -->
+    <section class="section section--alt" id="downloads">
+      <div class="section__header">
+        <span class="section__number">09 · Recursos</span>
+        <h2 class="section__title">Downloads</h2>
+        <p class="section__lead">Arquivos vetoriais oficiais (.svg). Use sempre estes — nunca recrie a marca.</p>
+      </div>
+      <div class="grid grid--2">
+        <div class="dl-list">
+          <a class="dl-row" href="/logos/l4os/l4os-full.svg" download><span class="dl-row__thumb" style="background:#fff"><img src="/logos/l4os/l4os-full.svg" alt=""></span><span class="dl-row__meta"><span class="dl-row__name">Assinatura · original</span><span class="dl-row__file">l4os-full.svg</span></span><svg class="dl-row__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></a>
+          <a class="dl-row" href="/logos/l4os/l4os-full-white.svg" download><span class="dl-row__thumb" style="background:#171717"><img src="/logos/l4os/l4os-full-white.svg" alt=""></span><span class="dl-row__meta"><span class="dl-row__name">Assinatura · fundo escuro</span><span class="dl-row__file">l4os-full-white.svg</span></span><svg class="dl-row__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></a>
+          <a class="dl-row" href="/logos/l4os/l4os-black.svg" download><span class="dl-row__thumb" style="background:#F1F5F9"><img src="/logos/l4os/l4os-black.svg" alt=""></span><span class="dl-row__meta"><span class="dl-row__name">Mono · preto</span><span class="dl-row__file">l4os-black.svg</span></span><svg class="dl-row__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></a>
+        </div>
+        <div class="dl-list">
+          <a class="dl-row" href="/logos/l4os/l4os-white.svg" download><span class="dl-row__thumb" style="background:#0a3e63"><img src="/logos/l4os/l4os-white.svg" alt=""></span><span class="dl-row__meta"><span class="dl-row__name">Mono · branco</span><span class="dl-row__file">l4os-white.svg</span></span><svg class="dl-row__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></a>
+          <a class="dl-row" href="/logos/l4os/symbol.svg" download><span class="dl-row__thumb" style="background:#fff"><img src="/logos/l4os/symbol.svg" alt=""></span><span class="dl-row__meta"><span class="dl-row__name">Símbolo · original</span><span class="dl-row__file">symbol.svg</span></span><svg class="dl-row__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></a>
+          <a class="dl-row" href="/logos/l4os/l4os-orange.svg" download><span class="dl-row__thumb" style="background:#fff"><img src="/logos/l4os/l4os-orange.svg" alt=""></span><span class="dl-row__meta"><span class="dl-row__name">Assinatura · laranja</span><span class="dl-row__file">l4os-orange.svg</span></span><svg class="dl-row__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></a>
+        </div>
+      </div>
+      <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap">
+        <a class="btn btn-secondary" href="../iadm/">→ Ver Design System do iAdm</a>
+        <a class="btn btn-primary" href="../">Voltar ao hub</a>
+      </div>
+    </section>
+
+    <footer class="section" style="border-bottom:none;color:var(--text-muted);font-size:14px">
+      L4 OS · Guia de marca — parte do ecossistema <strong style="color:var(--text)">PayPix · L4 Digital</strong>. · Atualizado {{GIT_DATE}}
+    </footer>
+  </main>
+</div>
+
+<script>
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  document.getElementById('menuToggle').addEventListener('click', () => { sidebar.classList.toggle('is-open'); overlay.classList.toggle('is-open'); });
+  overlay.addEventListener('click', () => { sidebar.classList.remove('is-open'); overlay.classList.remove('is-open'); });
+
+  const btt = document.getElementById('backToTop');
+  window.addEventListener('scroll', () => btt.classList.toggle('is-visible', window.scrollY > 600));
+  btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  const links = [...document.querySelectorAll('.sidebar__link')];
+  const map = new Map(links.map(l => [l.getAttribute('href').slice(1), l]));
+  const spy = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { links.forEach(l => l.classList.remove('is-active')); map.get(e.target.id)?.classList.add('is-active'); } });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+  document.querySelectorAll('section[id]').forEach(s => spy.observe(s));
+  links.forEach(l => l.addEventListener('click', () => { sidebar.classList.remove('is-open'); overlay.classList.remove('is-open'); }));
+
+  document.querySelectorAll('.swatch').forEach(sw => sw.addEventListener('click', () => {
+    if (!sw.dataset.hex) return;
+    navigator.clipboard?.writeText(sw.dataset.hex);
+    sw.classList.add('is-copied'); setTimeout(() => sw.classList.remove('is-copied'), 1400);
+  }));
+</script>
+</body>
+</html>
